@@ -17289,4 +17289,6 @@ def LogIn_process():
 
 	#     return render_template("password.html")
 	return redirect("/")
-app.run(debug="True", port=2000,host="0.0.0.0")
+
+if __name__ == '__main__':
+   app.run()
