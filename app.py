@@ -4,18 +4,14 @@ import PyPDF2
 from werkzeug.utils import secure_filename
 import openpyxl
 from flask import flash
-import tkinter
 import smtplib
 import shutil
 from time import sleep
 import ctypes
 from openpyxl.descriptors.serialisable import Serialisable
 # import PIL
-from tkinter import *
 import ssl
-import tkinter as tk
 import random2 as random
-from tkinter import messagebox
 from openpyxl.styles.borders import Border, Side
 from openpyxl import Workbook
 from openpyxl.cell import cell
@@ -30,7 +26,6 @@ from openpyxl.descriptors.serialisable import Serialisable
 from openpyxl.styles import Color, PatternFill, Font, Border
 from openpyxl.styles import colors
 from openpyxl.styles import Alignment, alignment
-from tkinter import filedialog
 from string import ascii_uppercase
 # import datetime
 # from datetime import datetime
