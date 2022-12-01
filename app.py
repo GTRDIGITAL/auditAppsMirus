@@ -3514,7 +3514,7 @@ def my_form_post():
 
 	return render_template("VAT.html")
 		
-@app.route('/Home')
+@app.route('/')
 def home():
 	# path_output="C:\\Users\\Cristian.Iordache\\Documents\\Automation Projects\\Web apps-v2\\Output"
 	# shutil.rmtree(path_output)
@@ -18418,111 +18418,112 @@ def JET_process():
     return send_from_directory(folderpath, "JET "+clientname1+".xlsx", as_attachment=True)
     # return render_template('JET.html')
 
-@app.route('/password')
-def passw():
+# @app.route('/password')
+# def passw():
 	
 	
 
-	return render_template('password.html')
-@app.route('/password', methods=['POST', 'GET'])
-def pasw_process():
-	# d = var_list.pop()
-	# print(var_list)
-		# var='%'+d+'%'
-		# result = Mylist.query.filter(Mylist.type.like(var)
+# 	return render_template('password.html')
+
+# @app.route('/password', methods=['POST', 'GET'])
+# def pasw_process():
+# 	# d = var_list.pop()
+# 	# print(var_list)
+# 		# var='%'+d+'%'
+# 		# result = Mylist.query.filter(Mylist.type.like(var)
 	
-	if request.method == 'POST':
-		password =request.form['pass']
-		# print(d, "parola")
-		if password in var_list:
-			return redirect(url_for('home', user=password))
-		else:
+# 	if request.method == 'POST':
+# 		password =request.form['pass']
+# 		# print(d, "parola")
+# 		if password in var_list:
+# 			return redirect(url_for('home', user=password))
+# 		else:
 
-			flash("The password you have entered does not match the provided provided one! Please try again!")
-			return render_template("index.html")
-@app.route('/')
-def LogIn():
+# 			flash("The password you have entered does not match the provided provided one! Please try again!")
+# 			return render_template("index.html")
+# @app.route('/home')
+# def home2():
 	
 
 
-	return render_template('login.html')
+# 	return render_template('dashboard.html')
 
-@app.route('/', methods=['POST', 'GET'])
+# @app.route('/', methods=['POST', 'GET'])
 
-def LogIn_process():
-	# folderpath="D:/Projects/Python code-modele/PDF/PDF/"
-	password_char="GT"
-	email =request.form['email']
-	# print(email)
-	if request.method == 'POST':
-		# flash("Please wait!")
-	#     # print("abc")
+# def LogIn_process():
+# 	# folderpath="D:/Projects/Python code-modele/PDF/PDF/"
+# 	password_char="GT"
+# 	email =request.form['email']
+# 	# print(email)
+# 	if request.method == 'POST':
+# 		# flash("Please wait!")
+# 	#     # print("abc")
 		
-		listaApproved=["cristian.iordache@ro.gt.com", "bogdan.constantinescu@ro.gt.com", "alina.boarca@ro.gt.com","andrei.soare@ro.gt.com", "stefan.ciochinaru@ro.gt.com", "anamaria.petrican@ro.gt.com", "stefan.vizireanu@ro.gt.com", "denis.david@ro.gt.com", "robert.dorobantu@ro.gt.com", "andrei.paunescu@ro.gt.com", "liliana.veneticu@ro.gt.com", "anca.bolontoc@ro.gt.com", "catalin.mazilu@ro.gt.com" ]
-		# for i in listaApproved:
-		Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789!@#$%^&*()"
-		if str(email) not in listaApproved:
-			ok=1
+# 		listaApproved=["cristian.iordache@ro.gt.com", "bogdan.constantinescu@ro.gt.com", "alina.boarca@ro.gt.com","andrei.soare@ro.gt.com", "stefan.ciochinaru@ro.gt.com", "anamaria.petrican@ro.gt.com", "stefan.vizireanu@ro.gt.com", "denis.david@ro.gt.com", "robert.dorobantu@ro.gt.com", "andrei.paunescu@ro.gt.com", "liliana.veneticu@ro.gt.com", "anca.bolontoc@ro.gt.com", "catalin.mazilu@ro.gt.com" ]
+# 		# for i in listaApproved:
+# 		Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789!@#$%^&*()"
+# 		if str(email) not in listaApproved:
+# 			ok=1
 			
-			flash("You do not have access to this section! Please contact the Automation Team for further details!")
-			return render_template("index.html")
-		else: 
-			ok=2
-		print(ok)
-		if(ok==2):
-			nume=email.split(".")[0].capitalize()
-			for x in range(0, 5):
-				password_char = password_char+random.choice(Chars)
-			var_list.append(password_char)
-			# password_login=password_char
-			smtp_server = "smtp.office365.com"
-			port = 587  # For starttls
-			sender_email = "GTRDigital@ro.gt.com"
-			password = "g[&vuBR9WQqr=7>D"
+# 			flash("You do not have access to this section! Please contact the Automation Team for further details!")
+# 			return render_template("index.html")
+# 		else: 
+# 			ok=2
+# 		print(ok)
+# 		if(ok==2):
+# 			nume=email.split(".")[0].capitalize()
+# 			for x in range(0, 5):
+# 				password_char = password_char+random.choice(Chars)
+# 			var_list.append(password_char)
+# 			# password_login=password_char
+# 			smtp_server = "smtp.office365.com"
+# 			port = 587  # For starttls
+# 			sender_email = "GTRDigital@ro.gt.com"
+# 			password = "g[&vuBR9WQqr=7>D"
 			
 			
 
-			# Create a secure SSL context
-			context = ssl.create_default_context()
-			message_text = "Dear "+nume+",\n\nYour temporary password is "+password_char+"\n\nIf you did not initiate this request, please ignore this e-mail.\n\nThank you,\nGTRDigital"
-			subj = "Generated Password for GTR Digital"
-			date = datetime.datetime.now().strftime( "%d/%m/%Y %H:%M" )
+# 			# Create a secure SSL context
+# 			context = ssl.create_default_context()
+# 			message_text = "Dear "+nume+",\n\nYour temporary password is "+password_char+"\n\nIf you did not initiate this request, please ignore this e-mail.\n\nThank you,\nGTRDigital"
+# 			subj = "Generated Password for GTR Digital"
+# 			date = datetime.datetime.now().strftime( "%d/%m/%Y %H:%M" )
 
-			msg = "From: %s\nTo: %s\nSubject: %s\nDate: %s\n\n%s" % ( "GTRDigital@ro.gt.com", email, subj, date, message_text )
+# 			msg = "From: %s\nTo: %s\nSubject: %s\nDate: %s\n\n%s" % ( "GTRDigital@ro.gt.com", email, subj, date, message_text )
 
-			# Try to log in to server and send email
-			try:
-				server = smtplib.SMTP(smtp_server,port)
-				server.ehlo() # Can be omitted
-				server.starttls(context=context) # Secure the connection
-				server.ehlo() # Can be omitted
-				server.login(sender_email, password)
-				# TODO: Send email here
-				server.sendmail(
-				sender_email, 
-				email, 
-				msg)
-			except Exception as e:
-				# Print any error messages to stdout
-				print(e)
-			finally:
-				server.quit() 
+# 			# Try to log in to server and send email
+# 			try:
+# 				server = smtplib.SMTP(smtp_server,port)
+# 				server.ehlo() # Can be omitted
+# 				server.starttls(context=context) # Secure the connection
+# 				server.ehlo() # Can be omitted
+# 				server.login(sender_email, password)
+# 				# TODO: Send email here
+# 				server.sendmail(
+# 				sender_email, 
+# 				email, 
+# 				msg)
+# 			except Exception as e:
+# 				# Print any error messages to stdout
+# 				print(e)
+# 			finally:
+# 				server.quit() 
 			
-			# f=open(folderpath+"pass"+str(datetime.now().strftime("%H%M%S"))+".txt","w").write(password_char)
-			# f.close()
-		# flash("Success!")
-		# sleep(3)
+# 			# f=open(folderpath+"pass"+str(datetime.now().strftime("%H%M%S"))+".txt","w").write(password_char)
+# 			# f.close()
+# 		# flash("Success!")
+# 		# sleep(3)
 		
-		# return send_from_directory(folderpath,"SAF-T Reporting GT Romania.xml", as_attachment=True)
-			# session['password_login'] = password_char
+# 		# return send_from_directory(folderpath,"SAF-T Reporting GT Romania.xml", as_attachment=True)
+# 			# session['password_login'] = password_char
 		 
 	
-			return redirect("/password")
-			# return redirect(url_for('pasw_process', password_char=password_char))
+# 			return redirect("/password")
+# 			# return redirect(url_for('pasw_process', password_char=password_char))
 
-			# return render_template("password.html", password_login=password_char)
-	# else:
+# 			# return render_template("password.html", password_login=password_char)
+# 	# else:
 
-	#     return render_template("password.html")
-	return redirect("/")
+# 	#     return render_template("password.html")
+# 	return redirect("/")
 app.run(debug="True", port=2000,host="0.0.0.0")
