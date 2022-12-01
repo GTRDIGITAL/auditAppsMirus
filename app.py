@@ -1,18 +1,18 @@
 from flask import Flask, render_template, request, send_from_directory, after_this_request, redirect, url_for
 import datetime
-import PyPDF2
+# import PyPDF2
 from werkzeug.utils import secure_filename
 import openpyxl
 from flask import flash
-import tkinter
+# import tkinter
 import smtplib
 import shutil
 from time import sleep
-import ctypes
+# import ctypes
 from openpyxl.descriptors.serialisable import Serialisable
 # import PIL
 from tkinter import *
-import ssl
+# import ssl
 import tkinter as tk
 import random2 as random
 from random import randint
