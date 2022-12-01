@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Reconciliation details with TB</title>
+    <title>Split Files</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
@@ -304,7 +304,7 @@ img {
         <div class="container" style="float:center">
             <div class="row">
                 <div class="col">
-                    <button type="button" name="instructions" onclick="location.href = '/Reco/Instructions';" class="btn btn-primary btn-lg" value="all" Style="width: 300px; margin-bottom:10px; background-color: #005961;">  Instructions</button>
+                    <button type="button" name="instructions" onclick="location.href = '/SplitFiles/Instructions';" class="btn btn-primary btn-lg" value="all" Style="width: 300px; margin-bottom:10px; background-color: #005961;">  Instructions</button>
                     <!-- <label class="form-label" for="customFile">Default file input example</label> -->
                     <!-- <input type="file" class="btn btn-primary btn-lg" id="customFile" Style="width: 300px; margin-bottom:10px; background-color: #742D9B;"> Instructions </input> -->
                     <!-- <input id="uploadFile" placeholder="File Name here" disabled="disabled" /> -->
@@ -326,8 +326,8 @@ img {
                 <div class="col">
                     <!-- <button type="button" class="btn btn-primary btn-lg" value="1" Style="width: 300px;margin-bottom:10px; background-color: #742D9B;" input type="file"> Import monthly trial balances</button> -->
                      <div class="fileUpload btn btn-primary btn-lg"  Style="width: 300px; margin-bottom:10px; background-color: #005961;">
-                        <span>Import details of accounts</span>
-                        <input id="uploadBtn" name="detAcc" type="file" class="upload" multiple/>
+                        <span>Import file</span>
+                        <input id="uploadBtn" name="JE" type="file" class="upload" multiple/>
                      </div>
                     
                                    
@@ -335,21 +335,18 @@ img {
             </div>
             <div class="row">
                 <div class="col">
-                    <!-- <button type="file" class="btn btn-primary btn-lg" value="3" Style="width: 300px;margin-bottom:10px; background-color: #742D9B;"> Import TB</button> -->
-                    <div class="fileUpload btn btn-primary btn-lg" Style="width: 300px; margin-bottom:10px; background-color: #005961;">
-                        <span>Import TB</span>
-                        <input id="uploadBtn" type="file" class="upload" name="TB"  />
-                    </div>
-                    
+                    <!-- <input  type="checkbox" name="multipleFiles" value="" id="multipleFiles"> -->
+                    <!-- <label for="multipleFiles" >
+                        Database with multiple sheets </br>
+                        If is not ticked, each file has one sheet.
+                    </label> -->
                 </div>
-            </div>
-           
                     
                     
                     
                     
                 
-            
+            </div>
             <div class="row" >
                 <div class="col">
                     <input type="text" name="client" placeholder="Client name" aria-label="Client name" Style="margin-bottom:10px; width:300px;" >
@@ -357,23 +354,14 @@ img {
                     
                 
             </div>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col">
                     <input class="textbox-n"  name="yearEnd" placeholder="Year End" onfocus="(this.type='date')" aria-label="Year End" Style="margin-bottom:10px; width:300px;">
                 </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <input class="textbox-n"  name="yearEnd2" placeholder="Prepared Date" onfocus="(this.type='date')" aria-label="Year End" Style="margin-bottom:10px; width:300px;">
-                </div>
-            </div>
-            <!-- <div class="row" >
-                <div class="col">
-                    <input type="text" name="reff" placeholder="Refference" aria-label="Refference" Style="margin-bottom:10px; width:300px;" >
-                </div>            
+                    
                     
                 
-            </div> -->
+            </div>
             <div class="row">
                 <div class="col">
                     <input type="text" name="preparedBy" placeholder="Preparer name" aria-label="Preparer name" Style="margin-bottom:10px; width:300px;" >
@@ -381,15 +369,23 @@ img {
                     
                     
                 
-            </div>
-           
+            </div> -->
+            <!-- <div class="row">
+                <div class="col">
+                    <input class="textbox-n" name="preparedDate" placeholder="Prepared date" onfocus="(this.type='date')" aria-label="Prepared date" Style="margin-bottom:10px; width:300px;">
+                </div>
                     
                     
                 
-           
+            </div>   -->
+            <!-- <div class="row">
+                <div class="col">
+                    <input type="text" name="reff" placeholder="Refference" aria-label="Refference" Style="margin-bottom:10px; width:300px;" >
+                </div>
+                    
                     
                 
-                
+            </div>        -->
             <div class="row">
                 <div class="col">
                     <button type="submit" class="btn btn-primary btn-lg" value="4" Style="width: 300px;margin-bottom:10px; background-color: #005961;"> Run and save</button>

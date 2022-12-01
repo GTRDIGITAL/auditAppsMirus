@@ -4,14 +4,21 @@ import PyPDF2
 from werkzeug.utils import secure_filename
 import openpyxl
 from flask import flash
+import tkinter
 import smtplib
 import shutil
 from time import sleep
 import ctypes
 from openpyxl.descriptors.serialisable import Serialisable
 # import PIL
+from tkinter import *
 import ssl
+import tkinter as tk
 import random2 as random
+from random import randint
+from random import random
+from  random import choices, choice
+from tkinter import messagebox
 from openpyxl.styles.borders import Border, Side
 from openpyxl import Workbook
 from openpyxl.cell import cell
@@ -26,8 +33,9 @@ from openpyxl.descriptors.serialisable import Serialisable
 from openpyxl.styles import Color, PatternFill, Font, Border
 from openpyxl.styles import colors
 from openpyxl.styles import Alignment, alignment
+from tkinter import filedialog
 from string import ascii_uppercase
-# import datetime
+import datetime
 # from datetime import datetime
 import os
 app=Flask(__name__)
@@ -43,9 +51,9 @@ var_rute=[]
 #     return render_template("index.html")
 @app.route('/Ageing/Instructions', methods=['GET'])
 def downloadAgeing():
-		filepath = "C:\\Users\\Cristian.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Instructions"
+		filepath = "C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Instructions"
  
-		return send_from_directory(filepath,"Ageing bot instructions_v 1.2.docx", as_attachment=True)
+		return send_from_directory(filepath,"Instructions - Ageing.docx", as_attachment=True)
 @app.route('/Ageing/GTv51bfdGKkuaKo9ggrm7plxbjn')
 def Ageing():
 	return render_template('Ageing.html')
@@ -85,7 +93,7 @@ def Ageing_process():
 		f_testname = Font(name = 'Tahoma', size = 8, bold = True, underline = 'single', italic = True)
 		cap_tabel = Font(name = 'Tahoma', size = 8, color = "FFFFFF", bold = True)
 		cap_tabel_color_PBC = PatternFill(start_color = '808080', end_color ='808080', fill_type = 'solid') #grey
-		cap_tabel_color_GT = PatternFill(start_color = '4B0082', end_color ='4B0082', fill_type = 'solid') #indigo
+		cap_tabel_color_GT = PatternFill(start_color = '00AEAC', end_color ='00AEAC', fill_type = 'solid') #indigo
 		fprocentaj = Font(name = 'Tahoma', size = 8, color = "FF0000", bold = True)
 		font_worksheet = Font(name = 'Tahoma', size = 8)
 		check_font = Font(name = 'Tahoma', size = 8, color = "FF0000", bold = True)
@@ -103,6 +111,7 @@ def Ageing_process():
 		ws = wb.active
 		ws.title = "TR Aging Invoice level"
 		Sheet1 = wb["TR Aging Invoice level"]
+		Sheet1.sheet_view.showGridLines = False
 		# Sheet1.font = ft1
 		
 		# try:
@@ -132,7 +141,7 @@ def Ageing_process():
 		Sheet1.cell(row = 17, column = 4).value = "Due date"
 		Sheet1.cell(row = 17, column = 5).value = "Invoice number"
 		Sheet1.cell(row = 17, column = 6).value = "Amount in LC"
-		Sheet1.cell(row = 16, column = 8).value = "As per GT"
+		Sheet1.cell(row = 16, column = 8).value = "As per Nexia"
 		Sheet1.cell(row = 17, column = 7).value = "Invoice value"
 		Sheet1.cell(row = 17, column = 8).value = "No of days"
 		Sheet1.cell(row = 17, column = 9).value = "Not due"
@@ -143,6 +152,10 @@ def Ageing_process():
 		Sheet1.cell(row = 17, column = 14).value = str(val4)+"-"+str(val5)+" days"
 		Sheet1.cell(row = 17, column = 15).value = "Over "+str(val5)+" days"
 		Sheet1.cell(row = 17, column = 16).value = "Check"
+		# Sheet1.cell(row = 17, column = 17).value = "Random for IPE"
+
+
+
 
 		Sheet1.cell(row = 5, column = 5).value = "Account"
 		Sheet1.cell(row = 5, column = 6).value = "As per Detail"
@@ -268,6 +281,21 @@ def Ageing_process():
 			return render_template("index.html")
 			# messagebox.showerror('Error', 'The "Invoice value" header in details file was not created properly')
 
+
+		# starting_row=18
+		# for i in invoiceNo:
+		# 	Sheet1.cell(row= starting_row, column= 17).value="=CHAR(RANDBETWEEN(87,88))"
+		# 	starting_row=starting_row+1 
+
+
+		# if(len(invoiceNo)<250):
+		# 	starting_row=18
+		# 	for i in range(0,10):
+		# 		Sheet1.cell(row= i+starting_row, column= 17).value=choice(invoiceNo)
+				
+
+			
+
 		for i in range(0, len(clientName)):
 			Sheet1.cell(row = 18 + i, column = 2).value = clientName[i]
 
@@ -329,7 +357,7 @@ def Ageing_process():
 			#reconciliation zone
 			Sheet1.cell(row = 6, column = 5).value = "411"
 			Sheet1.cell(row = 6, column = 6).value = "=P13".format(18 + i)
-			Sheet1.cell(row = 6, column = 7).value ="=SUMIF('TB Python'!A:A,""411"",'TB Python'!H:H)".format(18 + i)
+			Sheet1.cell(row = 6, column = 7).value ="=SUMIF('TB Robot'!A:A,""411"",'TB Robot'!H:H)".format(18 + i)
 			Sheet1.cell(row = 6, column = 8).value ="=F6-G6".format(18 + i)
 
 			Sheet1.cell(row=6, column=6).number_format = '#,##0_);(#,##0)'
@@ -479,9 +507,814 @@ def Ageing_process():
 		Sheet1.cell(row=3, column=15).font = ft1
 		Sheet1.cell(row=3, column=16).font = check_font
 
+		Sheet11 = wb.create_sheet("IPE")
+		Sheet11.sheet_view.showGridLines = False
+		
+		# try:
+		details = openpyxl.load_workbook(file_Details, data_only = True)
+		# except:
+		# 	None
+		ws = details.active
+
+		#header
+		Sheet11.cell(row = 1, column = 1).value = "Client name:"
+		Sheet11.cell(row = 1, column = 2).value = clientname1
+		Sheet11.cell(row = 2, column = 1).value = "Period end:"
+		Sheet11.cell(row = 2, column = 2).value = yearEnd1
+		Sheet11.cell(row = 2, column = 2).number_format = 'mm/dd/yyyy'
+
+		#test name
+		# Sheet11.cell(row = 4, column = 1).value = "Receivables ageing recomputation"
+		# Sheet11.cell(row = 12, column = 1).value = "YE Date"
+		# Sheet11.cell(row = 13, column = 1).value = yearEnd1
+		# Sheet11.cell(row = 13, column = 1).number_format = 'mm/dd/yyyy'
+
+		#testing table
+		# Sheet11.cell(row = 16, column = 1).value = "As per Detail"
+		# Sheet11.cell(row = 17, column = 1).value = "Client code"
+		# Sheet11.cell(row = 17, column = 2).value = "Client"
+		# Sheet11.cell(row = 17, column = 3).value = "Account"
+		# Sheet11.cell(row = 17, column = 4).value = "Due date"
+		# Sheet11.cell(row = 17, column = 5).value = "Invoice number"
+		# Sheet11.cell(row = 17, column = 6).value = "Amount in LC"
+		# Sheet11.cell(row = 16, column = 8).value = "As per Nexia"
+		# Sheet11.cell(row = 17, column = 7).value = "Invoice value"
+		# Sheet11.cell(row = 17, column = 8).value = "No of days"
+		# Sheet11.cell(row = 17, column = 9).value = "Not due"
+		# Sheet11.cell(row = 17, column = 10).value = "<="+str(val1)+" days"
+		# Sheet11.cell(row = 17, column = 11).value = str(val1)+"-"+str(val2)+" days"
+		# Sheet11.cell(row = 17, column = 12).value = str(val2)+"-"+str(val3)+" days"
+		# Sheet11.cell(row = 17, column = 13).value = str(val3)+"-"+str(val4)+" days"
+		# Sheet11.cell(row = 17, column = 14).value = str(val4)+"-"+str(val5)+" days"
+		# Sheet11.cell(row = 17, column = 15).value = "Over "+str(val5)+" days"
+		# Sheet11.cell(row = 17, column = 16).value = "Check"
+		Sheet11.cell(row = 6, column = 1).value = "Random invoice number for IPE"
+		Sheet11.cell(row = 6, column = 2).value = "Client code"
+		Sheet11.cell(row = 6, column = 3).value = "Client"
+		Sheet11.cell(row = 6, column = 4).value = "Account"
+		Sheet11.cell(row = 6, column = 5).value = "Due date"
+		Sheet11.cell(row = 6, column = 6).value = "Amount in LC"
+		Sheet11.cell(row = 6, column = 7).value = "Invoice value"
+		# Sheet11.cell(row = 6, column = 8).value = "Amount in FC"
+
+		Sheet11.cell(row = 6, column = 1).fill=cap_tabel_color_GT
+		Sheet11.cell(row = 6, column = 2).fill=cap_tabel_color_GT
+		Sheet11.cell(row = 6, column = 3).fill=cap_tabel_color_GT
+		Sheet11.cell(row = 6, column = 4).fill=cap_tabel_color_GT
+		Sheet11.cell(row = 6, column = 5).fill=cap_tabel_color_GT
+		Sheet11.cell(row = 6, column = 6).fill=cap_tabel_color_GT
+		Sheet11.cell(row = 6, column = 7).fill=cap_tabel_color_GT
+		# Sheet11.cell(row = 6, column = 8).fill=cap_tabel_color_GT
+
+
+
+		# Sheet11.cell(row = 5, column = 5).value = "Account"
+		# Sheet11.cell(row = 5, column = 6).value = "As per Detail"
+		# Sheet11.cell(row = 5, column = 7).value = "As per TB"
+		# Sheet11.cell(row = 5, column = 8).value = "Difference"
+
+		#bucket zone
+		# Sheet11.cell(row = 12, column = 9).value = "Not due"
+		# Sheet11.cell(row = 12, column = 10).value = "<="+str(val1)+" days"
+		# Sheet11.cell(row = 12, column = 11).value = str(val1)+"-"+str(val2)+" days"
+		# Sheet11.cell(row = 12, column = 12).value = str(val2)+"-"+str(val3)+" days"
+		# Sheet11.cell(row = 12, column = 13).value = str(val3)+"-"+str(val4)+" days"
+		# Sheet11.cell(row = 12, column = 14).value = str(val4)+"-"+str(val5)+" days"
+		# Sheet11.cell(row = 12, column = 15).value = "Over "+str(val5)+" days"
+		# Sheet11.cell(row = 12, column = 16).value = "Total"
+
+		#suma procentelor
+		# Sheet11.cell(row = 13, column = 16).value = "=SUM(I13:O13)".format(18)
+		# Sheet11.cell(row=13, column=16).number_format = '#,##0_);(#,##0)'
+
+		#procent din total
+		# Sheet11.cell(row = 14, column = 9).value = "=I13/P13".format(12)
+		# Sheet11.cell(row = 14, column = 10).value = "=J13/P13".format(12)
+		# Sheet11.cell(row = 14, column = 11).value = "=K13/P13".format(12)
+		# Sheet11.cell(row = 14, column = 12).value = "=L13/P13".format(12)
+		# Sheet11.cell(row = 14, column = 13).value = "=M13/P13".format(12)
+		# Sheet11.cell(row = 14, column = 14).value = "=N13/P13".format(12)
+		# Sheet11.cell(row = 14, column = 15).value = "=O13/P13".format(12)
+
+		#prepared and date
+		Sheet11.cell(row = 1, column = 15).value = "Processed by"
+		Sheet11.cell(row = 1, column = 16).value = preparedBy1
+		Sheet11.cell(row = 2, column = 15).value = "Date"
+		Sheet11.cell(row = 2, column = 16).value = datePrepared1
+		Sheet11.cell(row = 2, column = 16).number_format = 'mm/dd/yyyy'
+		Sheet11.cell(row = 3, column = 15).value = "Refference"
+		Sheet11.cell(row = 3, column = 16).value = refference1
+
+		for row in ws.iter_rows():
+			for cell in row:
+				if cell.value == "Client code":
+					row_customer = cell.row
+					column_client = cell.column
+					lun = len(ws[cell.column])
+		try:
+			clientCode = [b.value for b in ws[column_client][row_customer:lun]]
+		except:
+			flash("Please insert correct header for Client code in Aging file")
+			return render_template("index.html")
+		for row in ws.iter_rows():
+			for cell in row:
+				if cell.value == "Client":
+					row_customer = cell.row
+					column_customer = cell.column
+					lun = len(ws[cell.column])
+		try:
+			clientName = [b.value for b in ws[column_customer][row_customer:lun]]
+		except:
+			flash("Please insert correct header for Client in Aging file")
+			return render_template("index.html")
+		for row in ws.iter_rows():
+			for cell in row:
+				if cell.value == "Account":
+					row_customer = cell.row
+					column_account = cell.column
+					lun = len(ws[cell.column])
+		try:
+			clientAccount = [b.value for b in ws[column_account][row_customer:lun]]
+		except:
+			flash("Please insert correct header for Account in Aging file")
+			return render_template("index.html")
+			# messagebox.showerror('Error', 'The "Account" header in details file was not created properly')
+
+		for row in ws.iter_rows():
+			for cell in row:
+				if cell.value == "Due date":
+					row_customer = cell.row
+					column_due = cell.column
+					lun = len(ws[cell.column])
+		try:
+			dueDate = [b.value for b in ws[column_due][row_customer:lun]]
+		except:
+			flash("Please insert correct header for Due date in Aging file")
+			return render_template("index.html")
+			# messagebox.showerror('Error', 'The "Due date" header in details file was not created properly')
+
+		for row in ws.iter_rows():
+			for cell in row:
+				if cell.value == "Invoice no":
+					row_customer = cell.row
+					column_invno = cell.column
+					lun = len(ws[cell.column])
+		try:
+			invoiceNo = [b.value for b in ws[column_invno][row_customer:lun]]
+		except:
+			flash("Please insert correct header for Invoice no in Aging file")
+			return render_template("index.html")
+			# messagebox.showerror('Error', 'The "Invoice no" header in details file was not created properly')
+
+		for row in ws.iter_rows():
+			for cell in row:
+				if cell.value == "Amount in LC":
+					row_customer = cell.row
+					column_amountinlc = cell.column
+					lun = len(ws[cell.column])
+		try:
+			amtLC = [b.value for b in ws[column_amountinlc][row_customer:lun]]
+		except:
+			flash("Please insert correct header for Amount in LC in Aging file")
+			return render_template("index.html")
+			# messagebox.showerror('Error', 'The "Amount in LC" header in details file was not created properly')
+
+		for row in ws.iter_rows():
+			for cell in row:
+				if cell.value == "Invoice value":
+					row_customer = cell.row
+					column_invoicev = cell.column
+					lun = len(ws[cell.column])
+		try:
+			invoiceVal = [b.value for b in ws[column_invoicev][row_customer:lun]]
+		except:
+			flash("Please insert correct header for Invoice value in Aging file")
+			return render_template("index.html")
+			# messagebox.showerror('Error', 'The "Invoice value" header in details file was not created properly')
+
+
+		# for row in ws.iter_rows():
+		# 	for cell in row:
+		# 		if cell.value == "Amount in FC":
+		# 			row_customer = cell.row
+		# 			column_amountinfc = cell.column
+		# 			lun = len(ws[cell.column])
+		# try:
+		# 	amtFC = [b.value for b in ws[column_amountinfc][row_customer:lun]]
+		# except:
+		# 	flash("Please insert correct header for Amount in FC in Aging file")
+		# 	return render_template("index.html")
+			# messagebox.showerror('Error', 'The "Amount in LC" header in details file was not created properly')
+
+		# starting_row=18
+		# for i in invoiceNo:
+		# 	Sheet1.cell(row= starting_row, column= 17).value="=CHAR(RANDBETWEEN(87,88))"
+		# 	starting_ro	w=starting_row+1 
+
+
+		if(len(invoiceNo)<250):
+			starting_row=7
+			for i in range(0,10):
+				Sheet11.cell(row= i+starting_row, column= 1).value=choice(invoiceNo)
+				Sheet11.cell(row= 7, column= 2).value="=_xlfn.XLOOKUP(A7,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 8, column= 2).value="=_xlfn.XLOOKUP(A8,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 9, column= 2).value="=_xlfn.XLOOKUP(A9,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 10, column= 2).value="=_xlfn.XLOOKUP(A10,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 11, column= 2).value="=_xlfn.XLOOKUP(A11,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 12, column= 2).value="=_xlfn.XLOOKUP(A12,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 13, column= 2).value="=_xlfn.XLOOKUP(A13,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 14, column= 2).value="=_xlfn.XLOOKUP(A14,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 15, column= 2).value="=_xlfn.XLOOKUP(A15,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 16, column= 2).value="=_xlfn.XLOOKUP(A16,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+
+				Sheet11.cell(row= 7, column= 3).value="=_xlfn.XLOOKUP(A7,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 8, column= 3).value="=_xlfn.XLOOKUP(A8,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 9, column= 3).value="=_xlfn.XLOOKUP(A9,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 10, column= 3).value="=_xlfn.XLOOKUP(A10,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 11, column= 3).value="=_xlfn.XLOOKUP(A11,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 12, column= 3).value="=_xlfn.XLOOKUP(A12,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 13, column= 3).value="=_xlfn.XLOOKUP(A13,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 14, column= 3).value="=_xlfn.XLOOKUP(A14,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 15, column= 3).value="=_xlfn.XLOOKUP(A15,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 16, column= 3).value="=_xlfn.XLOOKUP(A16,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+
+				Sheet11.cell(row= 7, column= 4).value="=_xlfn.XLOOKUP(A7,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 8, column= 4).value="=_xlfn.XLOOKUP(A8,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 9, column= 4).value="=_xlfn.XLOOKUP(A9,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 10, column= 4).value="=_xlfn.XLOOKUP(A10,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 11, column= 4).value="=_xlfn.XLOOKUP(A11,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 12, column= 4).value="=_xlfn.XLOOKUP(A12,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 13, column= 4).value="=_xlfn.XLOOKUP(A13,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 14, column= 4).value="=_xlfn.XLOOKUP(A14,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 15, column= 4).value="=_xlfn.XLOOKUP(A15,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 16, column= 4).value="=_xlfn.XLOOKUP(A16,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+
+				Sheet11.cell(row= 7, column= 5).value="=_xlfn.XLOOKUP(A7,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!D:D,0,0,1)"
+				Sheet11.cell(row= 8, column= 5).value="=_xlfn.XLOOKUP(A8,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 9, column= 5).value="=_xlfn.XLOOKUP(A9,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 10, column= 5).value="=_xlfn.XLOOKUP(A10,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 11, column= 5).value="=_xlfn.XLOOKUP(A11,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 12, column= 5).value="=_xlfn.XLOOKUP(A12,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 13, column= 5).value="=_xlfn.XLOOKUP(A13,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 14, column= 5).value="=_xlfn.XLOOKUP(A14,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 15, column= 5).value="=_xlfn.XLOOKUP(A15,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 16, column= 5).value="=_xlfn.XLOOKUP(A16,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+
+				Sheet11.cell(row= 7, column= 6).value="=_xlfn.XLOOKUP(A7,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 8, column= 6).value="=_xlfn.XLOOKUP(A8,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 9, column= 6).value="=_xlfn.XLOOKUP(A9,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 10, column= 6).value="=_xlfn.XLOOKUP(A10,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 11, column= 6).value="=_xlfn.XLOOKUP(A11,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 12, column= 6).value="=_xlfn.XLOOKUP(A12,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 13, column= 6).value="=_xlfn.XLOOKUP(A13,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 14, column= 6).value="=_xlfn.XLOOKUP(A14,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 15, column= 6).value="=_xlfn.XLOOKUP(A15,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 16, column= 6).value="=_xlfn.XLOOKUP(A16,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+
+				Sheet11.cell(row= 7, column= 7).value="=_xlfn.XLOOKUP(A7,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 8, column= 7).value="=_xlfn.XLOOKUP(A8,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 9, column= 7).value="=_xlfn.XLOOKUP(A9,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 10, column= 7).value="=_xlfn.XLOOKUP(A10,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 11, column= 7).value="=_xlfn.XLOOKUP(A11,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 12, column= 7).value="=_xlfn.XLOOKUP(A12,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 13, column= 7).value="=_xlfn.XLOOKUP(A13,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 14, column= 7).value="=_xlfn.XLOOKUP(A14,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 15, column= 7).value="=_xlfn.XLOOKUP(A15,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 16, column= 7).value="=_xlfn.XLOOKUP(A16,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+
+				# Sheet11.cell(row= 7, column= 8).value="=_xlfn.XLOOKUP(A7,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 8, column= 8).value="=_xlfn.XLOOKUP(A8,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 9, column= 8).value="=_xlfn.XLOOKUP(A9,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 10, column= 8).value="=_xlfn.XLOOKUP(A10,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 11, column= 8).value="=_xlfn.XLOOKUP(A11,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 12, column= 8).value="=_xlfn.XLOOKUP(A12,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 13, column= 8).value="=_xlfn.XLOOKUP(A13,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 14, column= 8).value="=_xlfn.XLOOKUP(A14,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 15, column= 8).value="=_xlfn.XLOOKUP(A15,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 16, column= 8).value="=_xlfn.XLOOKUP(A16,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+
+
+				Sheet11.cell(row= 7, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 8, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 9, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 10, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 11, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 12, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 13, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 14, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 15, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 16, column= 6).number_format = '#,##0_);(#,##0)'
+
+				Sheet11.cell(row= 7, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 8, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 9, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 10, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 11, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 12, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 13, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 14, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 15, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 16, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row=13, column=16).number_format = '#,##0_);(#,##0)'
+
+				Sheet11.cell(row= 7, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 8, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 9, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 10, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 11, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 12, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 13, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 14, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 15, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 16, column= 8).number_format = '#,##0_);(#,##0)'
+		else:
+			starting_row=7		
+			for i in range(0,25):
+				Sheet11.cell(row= i+starting_row, column= 1).value=choice(invoiceNo)
+				Sheet11.cell(row= 7, column= 2).value="=_xlfn.XLOOKUP(A7,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 8, column= 2).value="=_xlfn.XLOOKUP(A8,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 9, column= 2).value="=_xlfn.XLOOKUP(A9,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 10, column= 2).value="=_xlfn.XLOOKUP(A10,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 11, column= 2).value="=_xlfn.XLOOKUP(A11,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 12, column= 2).value="=_xlfn.XLOOKUP(A12,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 13, column= 2).value="=_xlfn.XLOOKUP(A13,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 14, column= 2).value="=_xlfn.XLOOKUP(A14,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 15, column= 2).value="=_xlfn.XLOOKUP(A15,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 16, column= 2).value="=_xlfn.XLOOKUP(A16,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 17, column= 2).value="=_xlfn.XLOOKUP(A17,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 18, column= 2).value="=_xlfn.XLOOKUP(A18,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 19, column= 2).value="=_xlfn.XLOOKUP(A19,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 20, column= 2).value="=_xlfn.XLOOKUP(A20,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 21, column= 2).value="=_xlfn.XLOOKUP(A21,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 22, column= 2).value="=_xlfn.XLOOKUP(A22,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 23, column= 2).value="=_xlfn.XLOOKUP(A23,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 24, column= 2).value="=_xlfn.XLOOKUP(A24,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 25, column= 2).value="=_xlfn.XLOOKUP(A25,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 26, column= 2).value="=_xlfn.XLOOKUP(A26,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 27, column= 2).value="=_xlfn.XLOOKUP(A27,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 28, column= 2).value="=_xlfn.XLOOKUP(A28,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 29, column= 2).value="=_xlfn.XLOOKUP(A29,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 30, column= 2).value="=_xlfn.XLOOKUP(A30,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+				Sheet11.cell(row= 31, column= 2).value="=_xlfn.XLOOKUP(A31,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!A:A,0,0,1)"
+
+				Sheet11.cell(row= 7, column= 3).value="=_xlfn.XLOOKUP(A7,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 8, column= 3).value="=_xlfn.XLOOKUP(A8,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 9, column= 3).value="=_xlfn.XLOOKUP(A9,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 10, column= 3).value="=_xlfn.XLOOKUP(A10,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 11, column= 3).value="=_xlfn.XLOOKUP(A11,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 12, column= 3).value="=_xlfn.XLOOKUP(A12,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 13, column= 3).value="=_xlfn.XLOOKUP(A13,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 14, column= 3).value="=_xlfn.XLOOKUP(A14,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 15, column= 3).value="=_xlfn.XLOOKUP(A15,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 16, column= 3).value="=_xlfn.XLOOKUP(A16,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 17, column= 3).value="=_xlfn.XLOOKUP(A17,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 18, column= 3).value="=_xlfn.XLOOKUP(A18,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 19, column= 3).value="=_xlfn.XLOOKUP(A19,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 20, column= 3).value="=_xlfn.XLOOKUP(A20,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 21, column= 3).value="=_xlfn.XLOOKUP(A21,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 22, column= 3).value="=_xlfn.XLOOKUP(A22,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 23, column= 3).value="=_xlfn.XLOOKUP(A23,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 24, column= 3).value="=_xlfn.XLOOKUP(A24,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 25, column= 3).value="=_xlfn.XLOOKUP(A25,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 26, column= 3).value="=_xlfn.XLOOKUP(A26,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 27, column= 3).value="=_xlfn.XLOOKUP(A27,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 28, column= 3).value="=_xlfn.XLOOKUP(A28,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 29, column= 3).value="=_xlfn.XLOOKUP(A29,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 30, column= 3).value="=_xlfn.XLOOKUP(A30,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+				Sheet11.cell(row= 31, column= 3).value="=_xlfn.XLOOKUP(A31,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!b:b,0,0,1)"
+
+				Sheet11.cell(row= 7, column= 4).value="=_xlfn.XLOOKUP(A7,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 8, column= 4).value="=_xlfn.XLOOKUP(A8,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 9, column= 4).value="=_xlfn.XLOOKUP(A9,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 10, column= 4).value="=_xlfn.XLOOKUP(A10,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 11, column= 4).value="=_xlfn.XLOOKUP(A11,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 12, column= 4).value="=_xlfn.XLOOKUP(A12,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 13, column= 4).value="=_xlfn.XLOOKUP(A13,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 14, column= 4).value="=_xlfn.XLOOKUP(A14,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 15, column= 4).value="=_xlfn.XLOOKUP(A15,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 16, column= 4).value="=_xlfn.XLOOKUP(A16,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 17, column= 4).value="=_xlfn.XLOOKUP(A17,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 18, column= 4).value="=_xlfn.XLOOKUP(A18,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 19, column= 4).value="=_xlfn.XLOOKUP(A19,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 20, column= 4).value="=_xlfn.XLOOKUP(A20,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 21, column= 4).value="=_xlfn.XLOOKUP(A21,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 22, column= 4).value="=_xlfn.XLOOKUP(A22,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 23, column= 4).value="=_xlfn.XLOOKUP(A23,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 24, column= 4).value="=_xlfn.XLOOKUP(A24,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 25, column= 4).value="=_xlfn.XLOOKUP(A25,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 26, column= 4).value="=_xlfn.XLOOKUP(A26,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 27, column= 4).value="=_xlfn.XLOOKUP(A27,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 28, column= 4).value="=_xlfn.XLOOKUP(A28,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 29, column= 4).value="=_xlfn.XLOOKUP(A29,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 30, column= 4).value="=_xlfn.XLOOKUP(A30,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+				Sheet11.cell(row= 31, column= 4).value="=_xlfn.XLOOKUP(A31,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!c:c,0,0,1)"
+
+
+				Sheet11.cell(row= 7, column= 5).value="=_xlfn.XLOOKUP(A7,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!D:D,0,0,1)"
+				Sheet11.cell(row= 8, column= 5).value="=_xlfn.XLOOKUP(A8,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 9, column= 5).value="=_xlfn.XLOOKUP(A9,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 10, column= 5).value="=_xlfn.XLOOKUP(A10,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 11, column= 5).value="=_xlfn.XLOOKUP(A11,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 12, column= 5).value="=_xlfn.XLOOKUP(A12,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 13, column= 5).value="=_xlfn.XLOOKUP(A13,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 14, column= 5).value="=_xlfn.XLOOKUP(A14,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 15, column= 5).value="=_xlfn.XLOOKUP(A15,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 16, column= 5).value="=_xlfn.XLOOKUP(A16,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 17, column= 5).value="=_xlfn.XLOOKUP(A17,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!D:D,0,0,1)"
+				Sheet11.cell(row= 18, column= 5).value="=_xlfn.XLOOKUP(A18,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 19, column= 5).value="=_xlfn.XLOOKUP(A19,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 20, column= 5).value="=_xlfn.XLOOKUP(A20,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 21, column= 5).value="=_xlfn.XLOOKUP(A21,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 22, column= 5).value="=_xlfn.XLOOKUP(A22,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 23, column= 5).value="=_xlfn.XLOOKUP(A23,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 24, column= 5).value="=_xlfn.XLOOKUP(A24,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 25, column= 5).value="=_xlfn.XLOOKUP(A25,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 26, column= 5).value="=_xlfn.XLOOKUP(A26,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 27, column= 5).value="=_xlfn.XLOOKUP(A27,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 28, column= 5).value="=_xlfn.XLOOKUP(A28,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 29, column= 5).value="=_xlfn.XLOOKUP(A29,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 30, column= 5).value="=_xlfn.XLOOKUP(A30,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+				Sheet11.cell(row= 31, column= 5).value="=_xlfn.XLOOKUP(A31,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!d:d,0,0,1)"
+
+
+				Sheet11.cell(row= 7, column= 6).value="=_xlfn.XLOOKUP(A7,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 8, column= 6).value="=_xlfn.XLOOKUP(A8,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 9, column= 6).value="=_xlfn.XLOOKUP(A9,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 10, column= 6).value="=_xlfn.XLOOKUP(A10,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 11, column= 6).value="=_xlfn.XLOOKUP(A11,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 12, column= 6).value="=_xlfn.XLOOKUP(A12,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 13, column= 6).value="=_xlfn.XLOOKUP(A13,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 14, column= 6).value="=_xlfn.XLOOKUP(A14,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 15, column= 6).value="=_xlfn.XLOOKUP(A15,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 16, column= 6).value="=_xlfn.XLOOKUP(A16,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 17, column= 6).value="=_xlfn.XLOOKUP(A17,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 18, column= 6).value="=_xlfn.XLOOKUP(A18,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 19, column= 6).value="=_xlfn.XLOOKUP(A19,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 20, column= 6).value="=_xlfn.XLOOKUP(A20,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 21, column= 6).value="=_xlfn.XLOOKUP(A21,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 22, column= 6).value="=_xlfn.XLOOKUP(A22,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 23, column= 6).value="=_xlfn.XLOOKUP(A23,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 24, column= 6).value="=_xlfn.XLOOKUP(A24,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 25, column= 6).value="=_xlfn.XLOOKUP(A25,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 26, column= 6).value="=_xlfn.XLOOKUP(A26,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 27, column= 6).value="=_xlfn.XLOOKUP(A27,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 28, column= 6).value="=_xlfn.XLOOKUP(A28,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 29, column= 6).value="=_xlfn.XLOOKUP(A29,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 30, column= 6).value="=_xlfn.XLOOKUP(A30,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+				Sheet11.cell(row= 31, column= 6).value="=_xlfn.XLOOKUP(A31,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!f:f,0,0,1)"
+
+
+				Sheet11.cell(row= 7, column= 7).value="=_xlfn.XLOOKUP(A7,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 8, column= 7).value="=_xlfn.XLOOKUP(A8,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 9, column= 7).value="=_xlfn.XLOOKUP(A9,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 10, column= 7).value="=_xlfn.XLOOKUP(A10,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 11, column= 7).value="=_xlfn.XLOOKUP(A11,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 12, column= 7).value="=_xlfn.XLOOKUP(A12,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 13, column= 7).value="=_xlfn.XLOOKUP(A13,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 14, column= 7).value="=_xlfn.XLOOKUP(A14,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 15, column= 7).value="=_xlfn.XLOOKUP(A15,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 16, column= 7).value="=_xlfn.XLOOKUP(A16,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 17, column= 7).value="=_xlfn.XLOOKUP(A17,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 18, column= 7).value="=_xlfn.XLOOKUP(A18,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 19, column= 7).value="=_xlfn.XLOOKUP(A19,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 20, column= 7).value="=_xlfn.XLOOKUP(A20,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 21, column= 7).value="=_xlfn.XLOOKUP(A21,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 22, column= 7).value="=_xlfn.XLOOKUP(A22,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 23, column= 7).value="=_xlfn.XLOOKUP(A23,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 24, column= 7).value="=_xlfn.XLOOKUP(A24,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 25, column= 7).value="=_xlfn.XLOOKUP(A25,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 26, column= 7).value="=_xlfn.XLOOKUP(A26,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 27, column= 7).value="=_xlfn.XLOOKUP(A27,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 28, column= 7).value="=_xlfn.XLOOKUP(A28,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 29, column= 7).value="=_xlfn.XLOOKUP(A29,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 30, column= 7).value="=_xlfn.XLOOKUP(A30,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+				Sheet11.cell(row= 31, column= 7).value="=_xlfn.XLOOKUP(A31,'TR Aging Invoice level'!E:E,'TR Aging Invoice level'!g:g,0,0,1)"
+
+				# Sheet11.cell(row= 7, column= 8).value="=_xlfn.XLOOKUP(A7,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 8, column= 8).value="=_xlfn.XLOOKUP(A8,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 9, column= 8).value="=_xlfn.XLOOKUP(A9,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 10, column= 8).value="=_xlfn.XLOOKUP(A10,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 11, column= 8).value="=_xlfn.XLOOKUP(A11,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 12, column= 8).value="=_xlfn.XLOOKUP(A12,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 13, column= 8).value="=_xlfn.XLOOKUP(A13,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 14, column= 8).value="=_xlfn.XLOOKUP(A14,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 15, column= 8).value="=_xlfn.XLOOKUP(A15,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 16, column= 8).value="=_xlfn.XLOOKUP(A16,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 17, column= 8).value="=_xlfn.XLOOKUP(A17,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 18, column= 8).value="=_xlfn.XLOOKUP(A18,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 19, column= 8).value="=_xlfn.XLOOKUP(A19,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 20, column= 8).value="=_xlfn.XLOOKUP(A20,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 21, column= 8).value="=_xlfn.XLOOKUP(A21,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 22, column= 8).value="=_xlfn.XLOOKUP(A22,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 23, column= 8).value="=_xlfn.XLOOKUP(A23,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 24, column= 8).value="=_xlfn.XLOOKUP(A24,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 25, column= 8).value="=_xlfn.XLOOKUP(A25,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 26, column= 8).value="=_xlfn.XLOOKUP(A26,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 27, column= 8).value="=_xlfn.XLOOKUP(A27,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 28, column= 8).value="=_xlfn.XLOOKUP(A28,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 29, column= 8).value="=_xlfn.XLOOKUP(A29,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 30, column= 8).value="=_xlfn.XLOOKUP(A30,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+				# Sheet11.cell(row= 31, column= 8).value="=_xlfn.XLOOKUP(A31,'Details PBC'!E:E,'Details PBC'!H:H,0,0,1)"
+
+
+				Sheet11.cell(row= 7, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 8, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 9, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 10, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 11, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 12, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 13, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 14, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 15, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 16, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 17, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 18, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 19, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 20, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 21, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 22, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 23, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 24, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 25, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 26, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 27, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 28, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 29, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 30, column= 6).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 31, column= 6).number_format = '#,##0_);(#,##0)'
+
+
+				Sheet11.cell(row= 7, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 8, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 9, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 10, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 11, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 12, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 13, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 14, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 15, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 16, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row=13, column=16).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 17, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 18, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 19, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 20, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 21, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 22, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 23, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 24, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 25, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 26, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 27, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 28, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 29, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 30, column= 7).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 31, column= 7).number_format = '#,##0_);(#,##0)'
+			
+
+			
+				Sheet11.cell(row= 7, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 8, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 9, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 10, column=87).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 11, column=8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 12, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 13, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 14, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 15, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 16, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row=13, column=16).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 17, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 18, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 19, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 20, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 21, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 22, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 23, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 24, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 25, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 26, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 27, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 28, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 29, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 30, column= 8).number_format = '#,##0_);(#,##0)'
+				Sheet11.cell(row= 31, column= 8).number_format = '#,##0_);(#,##0)'
+			
+
+		# for i in range(0, len(clientName)):
+		# 	Sheet11.cell(row = 18 + i, column = 2).value = clientName[i]
+
+		# for i in range(0, len(clientCode)):
+		# 	Sheet11.cell(row = 18 + i, column = 1).value = clientCode[i]
+
+		# for i in range(0, len(clientAccount)):
+		# 	Sheet11.cell(row = 18 + i, column = 3).value = clientAccount[i]
+
+		# for i in range(0, len(dueDate)):
+		# 	Sheet11.cell(row = 18 + i, column = 4).value = dueDate[i]
+
+		# for i in range(0, len(invoiceNo)):
+		# 	Sheet11.cell(row = 18 + i, column = 5).value = invoiceNo[i]
+
+		# for i in range(0, len(amtFC)):
+		# 	Sheet11.cell(row = 7 + i, column = 8).value = amtFC[i]
+
+		# for i in range(0, len(invoiceVal)):
+		# 	Sheet11.cell(row = 18 + i, column = 7).value = invoiceVal[i]
+
+		# print("=IF(AND(H{0}<=" + str(val1) + ",H{0}>" + str(val0) + "),F{0},0)")
+
+		# for i in range(0, len(dueDate)):
+		# 	Sheet11.cell(row = 18 + i, column = 8).value = "=$A$13-D"+str(18 + i)
+		# 	Sheet11.cell(row = 18 + i, column = 9).value = "=IF(H"+str(18 + i)+"<="+str(val0)+",F"+str(18 + i)+",0)".format(18 + i)
+		# 	Sheet11.cell(row = 18 + i, column = 10).value = "=IF(AND(H"+str(18 + i)+"<="+str(val1)+",H"+str(18 + i)+">"+str(val0)+"),F"+str(18 + i)+",0)".format(18 + i)
+		# 	Sheet11.cell(row = 18 + i, column = 11).value = "=IF(AND(H"+str(18 + i)+"<="+str(val2)+",H"+str(18 + i)+">"+str(val1)+"),F"+str(18 + i)+",0)".format(18 + i)
+		# 	Sheet11.cell(row = 18 + i, column = 12).value = "=IF(AND(H"+str(18 + i)+"<="+str(val3)+",H"+str(18 + i)+">"+str(val2)+"),F"+str(18 + i)+",0)".format(18 + i)
+		# 	Sheet11.cell(row = 18 + i, column = 13).value = "=IF(AND(H"+str(18 + i)+"<="+str(val4)+",H"+str(18 + i)+">"+str(val3)+"),F"+str(18 + i)+",0)".format(18 + i)
+		# 	Sheet11.cell(row = 18 + i, column = 14).value = "=IF(AND(H"+str(18 + i)+"<="+str(val5)+",H"+str(18 + i)+">"+str(val4)+"),F"+str(18 + i)+",0)".format(18 + i)
+		# 	Sheet11.cell(row = 18 + i, column = 15).value = "=IF(H"+str(18 + i)+">"+str(val5)+",F"+str(18 + i)+",0)".format(18 + i)
+		# 	Sheet11.cell(row = 18 + i, column = 16).value = "=F"+str(18 + i)+"-SUM(I"+str(18+i)+":O"+str(18+i)+")"
+
+		# 	Sheet11.cell(row=18 + i, column=9).number_format = '#,##0_);(#,##0)'
+		# 	Sheet11.cell(row=18 + i, column=10).number_format = '#,##0_);(#,##0)'
+		# 	Sheet11.cell(row=18 + i, column=11).number_format = '#,##0_);(#,##0)'
+		# 	Sheet11.cell(row=18 + i, column=12).number_format = '#,##0_);(#,##0)'
+		# 	Sheet11.cell(row=18 + i, column=13).number_format = '#,##0_);(#,##0)'
+		# 	Sheet11.cell(row=18 + i, column=14).number_format = '#,##0_);(#,##0)'
+		# 	Sheet11.cell(row=18 + i, column=15).number_format = '#,##0_);(#,##0)'
+		# 	Sheet11.cell(row=18 + i, column=16).number_format = '#,##0_);(#,##0)'
+
+			#bucket zone formulas
+			# Sheet11.cell(row = 13, column = 9).value = "=SUM(I18:I{0})".format(18 + i)
+			# Sheet11.cell(row = 13, column = 10).value = "=SUM(J18:J{0})".format(18 + i)
+			# Sheet11.cell(row = 13, column = 11).value = "=SUM(K18:K{0})".format(18 + i)
+			# Sheet11.cell(row = 13, column = 12).value = "=SUM(L18:L{0})".format(18 + i)
+			# Sheet11.cell(row = 13, column = 13).value = "=SUM(M18:M{0})".format(18 + i)
+			# Sheet11.cell(row = 13, column = 14).value = "=SUM(N18:N{0})".format(18 + i)
+			# Sheet11.cell(row = 13, column = 15).value = "=SUM(O18:O{0})".format(18 + i)
+
+			#FORMAT
+			# for row in Sheet11["I13:O13"]:
+			# 	for cell in row:
+			# 		cell.number_format = '#,##0_);(#,##0)'
+			# 		cell.font = font_worksheet
+
+			#reconciliation zone
+		# 	Sheet11.cell(row = 6, column = 5).value = "411"
+		# 	Sheet11.cell(row = 6, column = 6).value = "=P13".format(18 + i)
+		# 	Sheet11.cell(row = 6, column = 7).value ="=SUMIF('TB Robot'!A:A,""411"",'TB Robot'!H:H)".format(18 + i)
+		# 	Sheet11.cell(row = 6, column = 8).value ="=F6-G6".format(18 + i)
+
+		# 	Sheet11.cell(row=6, column=6).number_format = '#,##0_);(#,##0)'
+		# 	Sheet11.cell(row=6, column=7).number_format = '#,##0_);(#,##0)'
+		# 	Sheet11.cell(row=6, column=8).number_format = '#,##0_);(#,##0)'
+
+		# 	Sheet11.cell(row=6, column=5).font = font_worksheet
+		# 	Sheet11.cell(row=6, column=6).font = font_worksheet
+		# 	Sheet11.cell(row=6, column=7).font = font_worksheet
+		# 	Sheet11.cell(row=6, column=8).font = check_font
+
+		# for i in range(0, len(clientName)):
+		# 	Sheet11.cell(row = 18 + i, column = 2).font = font_worksheet
+
+		# for i in range(0, len(clientCode)):
+		# 	Sheet11.cell(row = 18 + i, column = 1).font = font_worksheet
+
+		# for i in range(0, len(clientAccount)):
+		# 	Sheet11.cell(row = 18 + i, column = 3).font = font_worksheet
+
+		# for i in range(0, len(dueDate)):
+		# 	Sheet11.cell(row = 18 + i, column = 4).font = font_worksheet
+
+		# for i in range(0, len(invoiceNo)):
+		# 	Sheet11.cell(row = 18 + i, column = 5).font = font_worksheet
+
+		# for i in range(0, len(amtLC)):
+		# 	Sheet11.cell(row = 18 + i, column = 6).number_format = '#,##0_);(#,##0)'
+
+		# for i in range(0, len(amtLC)):
+		# 	Sheet11.cell(row = 18 + i, column = 6).font = font_worksheet
+
+		# for i in range(0, len(invoiceVal)):
+		# 	Sheet11.cell(row = 18 + i, column = 7).number_format = '#,##0_);(#,##0)'
+
+		# for i in range(0, len(invoiceVal)):
+		# 	Sheet11.cell(row = 18 + i, column = 7).font = font_worksheet
+
+		# for i in range(0, len(dueDate)):
+		# 	Sheet11.cell(row = 18 + i, column = 8).font = font_worksheet
+		# 	Sheet11.cell(row = 18 + i, column = 9).font = font_worksheet
+		# 	Sheet11.cell(row = 18 + i, column = 10).font = font_worksheet
+		# 	Sheet11.cell(row = 18 + i, column = 11).font = font_worksheet
+		# 	Sheet11.cell(row = 18 + i, column = 12).font = font_worksheet
+		# 	Sheet11.cell(row = 18 + i, column = 13).font = font_worksheet
+		# 	Sheet11.cell(row = 18 + i, column = 14).font = font_worksheet
+		# 	Sheet11.cell(row = 18 + i, column = 15).font = font_worksheet
+		# 	Sheet11.cell(row = 18 + i, column = 16).font = font_worksheet
+
+		# Sheet11.freeze_panes = 'C18'
+
+		Sheet11.column_dimensions['A'].width = 10
+		Sheet11.column_dimensions['B'].width = 20
+		Sheet11.column_dimensions['C'].width = 11
+		Sheet11.column_dimensions['D'].width = 12
+		Sheet11.column_dimensions['E'].width = 14
+		Sheet11.column_dimensions['F'].width = 12
+		Sheet11.column_dimensions['G'].width = 12
+		Sheet11.column_dimensions['H'].width = 12
+		Sheet11.column_dimensions['I'].width = 9
+		Sheet11.column_dimensions['J'].width = 9
+		Sheet11.column_dimensions['K'].width = 9
+		Sheet11.column_dimensions['L'].width = 9
+		Sheet11.column_dimensions['M'].width = 9
+		Sheet11.column_dimensions['N'].width = 9
+		Sheet11.column_dimensions['O'].width = 12
+		Sheet11.column_dimensions['P'].width = 15
+
+		for cell in Sheet11["E"]:
+			cell.number_format = "mm/dd/yyyy"
+
+		# Sheet11.auto_filter.ref = "A17:P17"
+
+		#FONT / FORMAT
+		#header
+		Sheet11.cell(row=1, column=1).font = ft1
+		Sheet11.cell(row=1, column=2).font = ft1
+		Sheet11.cell(row=2, column=1).font = ft1
+		Sheet11.cell(row=2, column=2).font = ft1
+
+		# Sheet11.cell(row=1, column=15).font = ft1
+		# Sheet11.cell(row=1, column=16).font = ft1
+		# Sheet11.cell(row=2, column=15).font = ft1
+		# Sheet11.cell(row=2, column=16).font = ft1
+		# Sheet11.cell(row=3, column=15).font = ft1
+		# Sheet11.cell(row=3, column=16).font = check_font
+
+		# Sheet11.cell(row=5, column=5).font = cap_tabel
+		# Sheet11.cell(row=5, column=6).font = cap_tabel
+		# Sheet11.cell(row=5, column=7).font = cap_tabel
+		# Sheet11.cell(row=5, column=8).font = check_font
+
+		# # test name
+		# Sheet11.cell(row=4, column=1).font = f_testname
+		# Sheet11.cell(row=12, column=1).font = f_testname
+		# Sheet11.cell(row=13, column=1).font = ft1
+
+		# Sheet11.cell(row=13, column=16).font = ft1
+
+		# Sheet11.cell(row=16, column=8).font = font_worksheet
+		# Sheet11.cell(row=17, column=16).font = check_font
+
+		# for row in Sheet11["A17:O17"]:
+		# 	for cell in row:
+		# 		cell.font = cap_tabel
+
+		# for row in Sheet11["A17:G17"]:
+		# 	for cell in row:
+		# 		cell.fill = cap_tabel_color_PBC
+
+		# for row in Sheet11["H17:P17"]:
+		# 	for cell in row:
+		# 		cell.fill = cap_tabel_color_GT
+
+		# Sheet11.cell(row=5, column=5).fill = cap_tabel_color_GT
+		# Sheet11.cell(row=5, column=6).fill = cap_tabel_color_GT
+		# Sheet11.cell(row=5, column=7).fill = cap_tabel_color_GT
+		# Sheet11.cell(row=5, column=8).fill = cap_tabel_color_GT
+
+		# bucket zone
+		# for row in Sheet11["I12:P12"]:
+		# 	for cell in row:
+		# 		cell.font = cap_tabel
+
+		# for row in Sheet11["I12:P12"]:
+		# 	for cell in row:
+		# 		cell.fill = cap_tabel_color_GT
+
+		# suma procentelor
+		Sheet11.cell(row=13, column=16).font = ft1
+		Sheet11.cell(row=13, column=16).number_format = '#,##0_);(#,##0)'
+
+		# procent din total
+		# for row in Sheet11['I14:O14']:
+		# 	for cell in row:
+		# 		cell.style='Percent'
+
+		# for row in Sheet11['I14:O14']:
+		# 	for cell in row:
+		# 		cell.font = fprocentaj
+
+		# prepared and date
+		Sheet11.cell(row=1, column=15).font = ft1
+		Sheet11.cell(row=1, column=16).font = ft1
+		Sheet11.cell(row=2, column=15).font = ft1
+		Sheet11.cell(row=2, column=16).font = ft1
+		Sheet11.cell(row=3, column=15).font = ft1
+		Sheet11.cell(row=3, column=16).font = check_font
+
 		ws1 = wb.active
 		Sheet2 = wb.create_sheet("TR Aging Client level")
-
+		Sheet2.sheet_view.showGridLines = False
 		Sheet2.freeze_panes = 'C12'
 		Sheet2.auto_filter.ref = "A11:L11"
 		# Sheet2.auto_filter.ref = "Amount in LC"
@@ -716,149 +1549,11 @@ def Ageing_process():
 		print("a ajuns aici")
 
 		topClients=wb.create_sheet("Top 10 clients")
-		sheetAscuns=wb.create_sheet("Top 10 ")
-	
-
-		
-		# sheetAscuns.cell(row = 1, column = 1).value = "Client name:"
-		# sheetAscuns.cell(row = 1, column = 2).value = clientname1
-		# sheetAscuns.cell(row = 1, column = 2).font =ft1_1
-		# sheetAscuns.cell(row = 2, column = 1).value = "Period end:"
-		# sheetAscuns.cell(row = 2, column = 2).value = yearEnd1
-		# sheetAscuns.cell(row = 2, column = 2).font = ft1_1
-		# sheetAscuns.cell(row = 2, column = 2).number_format = 'mm/dd/yyyy'
-		# sheetAscuns.cell(row = 3, column = 1).value = "Top Clients"
-		# sheetAscuns.cell(row = 3, column = 1).font =ft1_1
-
-		# sheetAscuns.cell(row = 1, column = 10).value = "Processed by"
-		# sheetAscuns.cell(row = 1, column = 11).value = preparedBy1
-		# sheetAscuns.cell(row = 1, column = 11).font = ft1_1
-		# sheetAscuns.cell(row = 2, column = 10).value = "Date"
-		# sheetAscuns.cell(row = 2, column = 11).value = datePrepared1
-		# sheetAscuns.cell(row = 2, column = 11).font =ft1_1
-		# sheetAscuns.cell(row = 2, column = 11).number_format = 'mm/dd/yyyy'
-		# sheetAscuns.cell(row = 3, column = 10).value = "Refference"
-		# sheetAscuns.cell(row = 3, column = 10).font = check_font
-		# sheetAscuns.cell(row = 3, column = 11).value = refference1
-		# sheetAscuns.cell(row = 3, column = 11).font =check_font
-
-		# sheetAscuns.cell(row = 7, column = 1).value = "No crt"
-		# sheetAscuns.cell(row = 7, column = 2).value = "Client code"
-		# sheetAscuns.cell(row = 7, column = 3).value = "Client"
-		# sheetAscuns.cell(row = 7, column = 4).value = "Amount in LC CY"
-		# sheetAscuns.cell(row = 7, column = 5).value = "Amount in PY (manual)"
-		# sheetAscuns.cell(row = 7, column = 6).value = "Variation"
-		# sheetAscuns.cell(row = 7, column = 7).value = "Variation %"
-		# sheetAscuns.cell(row = 7, column = 8).value = "Weight"
-		# # a=0
-		# # for i in range(0, 10):
-		# # 	a=a+1
-		# # 	topClients.cell(row=8+i, column=1).value=a
-		# # 	# print(a,'numar')
-		# sheetAscuns.cell(row = 18, column = 3).value = "Total"
-		# sheetAscuns.cell(row = 19, column = 3).value = "Others"
-
-		# clientNameUni=list(set(clientName))
-		# # print(clientName)
-		# clientCodeUni=list(set(clientCode))
-		
-		# amountTip=[]
-		# amountTips=[]
-		# for i in range(0, len(clientNameUni)):
-		# 	s=0
-		# 	for z in range(0, len(clientName)):
-		# 		if clientNameUni[i] == clientName[z]:
-		# 			s=s+amtLC[z]
-		# 	amountTip.append(s)
-		# 	amountTips.append(s)
-
-		# # # print(len(amountTip))
-		# amountTips.sort(reverse=True)
-		# # # print(amountTip, 'amountTip')			# print(len(amountTipSort))
-		# x=min(len(amountTips),10)
-		
-		# top10am=[]
-		# top10c=[]
-		# for jj in range(0, x):
-		# 	top10am.append(amountTips[jj])
-		# for m in range(0,len(top10am)):
-		# 	sheetAscuns.cell(row = 8+m, column = 4).value = top10am[m]
-		
-		
-		# for k in range(0,len(top10am)):
-		# 	for p in range(0,len(amountTip)):
-		# 		if(top10am[k]==amountTip[p]):
-		# 			top10c.append(clientCodeUni[p])
-		# 			print(top10c[k])
-		# 			sheetAscuns.cell(row = 8+i, column = 4).value = top10c[k]
-		# for n in range(0, len(top10c)):
-		# 	sheetAscuns.cell(row=8+n, column=2).value=top10c[n]
-
-		# for j in range(1, 11):
-		# 	sheetAscuns.cell(row=7+j, column=1).value=j
-
-
-
-		# for i in range(0, 10):
-		# 	sheetAscuns.cell(row = 8+i, column = 3).value = "=_xlfn.XLOOKUP(B"+str(8+i)+",'TR Aging Invoice level'!A:A,'TR Aging Invoice level'!B:B,0,0,1)".format(8+i)
-		# 	sheetAscuns.cell(row = 8+i, column = 6).value ="=D{0}-E{0}".format(8+i)
-		# 	sheetAscuns.cell(row = 8+i, column = 7).value ="=F{0}/E{0}".format(8+i)
-		# 	sheetAscuns.cell(row = 8+i, column = 8).value ="=D{0}/'TR Aging Client level'!$K$7".format(8+i)
-
-		# sheetAscuns.cell(row = 18, column = 4).value ="=SUM(D8:D17)"
-		# sheetAscuns.cell(row = 18, column = 5).value ="=SUM(E8:E17)"
-		# sheetAscuns.cell(row = 18, column = 6).value ="=SUM(F8:F17)"
-		# sheetAscuns.cell(row = 18, column = 7).value ="=F18/E18"
-		# sheetAscuns.cell(row = 18, column = 8).value ="=D18/'TR Aging Client level'!$K$7"
-
-	
-
-		# for row in sheetAscuns["A7:H7"]:
-		# 	for cell in row:
-		# 		cell.font = cap_tabel
-		# 		cell.fill = cap_tabel_color_GT
-		# for row in sheetAscuns['D8:D19']:
-		# 	for cell in row:
-		# 		cell.number_format = '#,##0_);(#,##0)'
-		# for row in sheetAscuns['F8:F19']:
-		# 	for cell in row:
-		# 		cell.number_format = '#,##0_);(#,##0)'
-		# for row in sheetAscuns['H8:H19']:
-		# 	for cell in row:
-		# 		cell.number_format = '0.00%'
-
-		# for row in sheetAscuns['A8:H19']:
-		# 	for cell in row:
-		# 		cell.font = ft1_1
-		
-		# for row in sheetAscuns['C18:H19']:
-		# 	for cell in row:
-		# 		cell.font = ft1_1b
-
-		# for row in sheetAscuns['A17:H17']:
-		# 	for cell in row:
-		# 		cell.border = doubleborder
-
-		
-		
-		# sheetAscuns.cell(row=1, column=1).font=ft1
-		# sheetAscuns.cell(row=2, column=1).font=ft1
-
-		# sheetAscuns.cell(row=1, column=10).font=ft1
-		# sheetAscuns.cell(row=2, column=10).font=ft1
-		
-		# sheetAscuns.cell(row=1, column=1).font=ft1
-		# sheetAscuns.cell(row=2, column=1).font=ft1
-
-		
-		
-		# sheetAscuns.column_dimensions['B'].width = 16
-		# sheetAscuns.column_dimensions['C'].width = 10
-		# sheetAscuns.column_dimensions['D'].width = 15
-		# sheetAscuns.column_dimensions['E'].width = 20
-		# sheetAscuns.column_dimensions['F'].width = 15
-
-		
+		# sheetAscuns=wb.create_sheet("top 10 ")
+		# sheetAscuns.sheet_state = 'hidden'
+		topClients.sheet_view.showGridLines = False
+		# sheetAscuns.cell(row = 1, column = 2).value = "suma"
+		# sheetAscuns.cell(row = 1, column = 1).value = "partener"
 
 		topClients.cell(row = 1, column = 1).value = "Client name:"
 		topClients.cell(row = 1, column = 2).value = clientname1
@@ -883,8 +1578,8 @@ def Ageing_process():
 		topClients.cell(row = 3, column = 11).font =check_font
 
 		topClients.cell(row = 7, column = 1).value = "No crt"
-		topClients.cell(row = 7, column = 2).value = "Client code"
-		topClients.cell(row = 7, column = 3).value = "Client"
+		topClients.cell(row = 7, column = 2).value = "Client"
+		topClients.cell(row = 7, column = 3).value = "Client code"
 		topClients.cell(row = 7, column = 4).value = "Amount in LC CY"
 		topClients.cell(row = 7, column = 5).value = "Amount in PY (manual)"
 		topClients.cell(row = 7, column = 6).value = "Variation"
@@ -896,6 +1591,7 @@ def Ageing_process():
 		# 	topClients.cell(row=8+i, column=1).value=a
 		# 	# print(a,'numar')
 		
+		# topClients.cell(row = 19, column = 3).value = "Others"
 
 		clientNameUni=list(set(clientName))
 		clientCodeUni=list(set(clientCode))
@@ -927,30 +1623,50 @@ def Ageing_process():
 			for p in range(0,len(amountTip)):
 				if(top10am[k]==amountTip[p]):
 					top10c.append(clientNameUni[p])
-					# topClients.cell(row = 8+i, column = 4).value = top10c[k]
+					# topClients.cell(row = 7+i, column = 4).value = top10c[k]
 		for n in range(0, len(top10c)):
-			topClients.cell(row=8+n, column=3).value=top10c[n]
+			topClients.cell(row=8+n, column=2).value=top10c[n]
 
-		for j in range(1, len(clientNameUni)+1):
+		for j in range(1, len(top10am)+1):
 			topClients.cell(row=7+j, column=1).value=j
 
 
 
-		for i in range(0, len(clientNameUni)):
-			topClients.cell(row = 8+i, column = 2).value = "=_xlfn.XLOOKUP(C"+str(8+i)+",'TR Aging Invoice level'!B:B,'TR Aging Invoice level'!A:A,0,0,1)".format(8+i)
+		for i in range(0, len(top10am)):
+			topClients.cell(row = 8+i, column = 3).value = "=_xlfn.XLOOKUP(B"+str(8+i)+",'TR Aging Invoice level'!B:B,'TR Aging Invoice level'!A:A,0,0,1)".format(8+i)
 			topClients.cell(row = 8+i, column = 6).value ="=D{0}-E{0}".format(8+i)
 			topClients.cell(row = 8+i, column = 7).value ="=F{0}/E{0}".format(8+i)
 			topClients.cell(row = 8+i, column = 8).value ="=D{0}/'TR Aging Client level'!$K$7".format(8+i)
 
-		print(len(clientNameUni))
-		topClients.cell(row = (len(clientNameUni)+8), column = 4).value ="=SUM(D8:D"+str(7+len(clientNameUni))+")"
-		topClients.cell(row = len(clientNameUni)+8, column = 5).value ="=SUM(E8:E"+str(7+len(clientNameUni))+")"
-		topClients.cell(row = len(clientNameUni)+8, column = 6).value ="=SUM(F8:F"+str(7+len(clientNameUni))+")"
-		topClients.cell(row = len(clientNameUni)+8, column = 7).value ="=F18/E18"
-		topClients.cell(row = len(clientNameUni)+8, column = 8).value ="=D18/'TR Aging Client level'!$K$7"
+		topClients.cell(row = 8+len(top10am), column = 4).value ="=SUM(D8:D"+str(len(top10am)+7)+")"
+		topClients.cell(row = 8+len(top10am), column = 5).value ="=SUM(E8:E"+str(len(top10am)+7)+")"
+		topClients.cell(row = 8+len(top10am), column = 6).value ="=SUM(F8:F"+str(len(top10am)+7)+")"
+		topClients.cell(row = 8+len(top10am), column = 7).value ="=F"+str(len(top10am)+8)+"/E"+str(len(top10am)+8)
+		# topClients.cell(row = 8+len(top10am), column = 8).value ="=D18/'TR Aging Client level'!$K$7"
 
-		topClients.cell(row = len(clientNameUni)+8, column = 3).value = "Total"
+		topClients.cell(row = 7+len(top10am), column = 1).border = doubleborder
+		topClients.cell(row = 7+len(top10am), column = 2).border = doubleborder
+		topClients.cell(row = 7+len(top10am), column = 3).border = doubleborder
+		topClients.cell(row = 7+len(top10am), column = 4).border = doubleborder
+		topClients.cell(row = 7+len(top10am), column = 5).border = doubleborder
+		topClients.cell(row = 7+len(top10am), column = 6).border = doubleborder
+		topClients.cell(row = 7+len(top10am), column = 7).border = doubleborder
+		topClients.cell(row = 7+len(top10am), column = 8).border = doubleborder
 
+		topClients.cell(row = 7+len(top10am), column = 1).font = ft1_1
+		topClients.cell(row = 7+len(top10am), column = 2).font = ft1_1
+		topClients.cell(row = 7+len(top10am), column = 3).font = ft1_1
+		topClients.cell(row = 7+len(top10am), column = 4).font = ft1_1
+		topClients.cell(row = 7+len(top10am), column = 5).font = ft1_1
+		topClients.cell(row = 7+len(top10am), column = 6).font = ft1_1
+		topClients.cell(row = 7+len(top10am), column = 7).font = ft1_1
+		topClients.cell(row = 7+len(top10am), column = 8).font = ft1_1
+		# topClients.cell(row = 19, column = 4).value ="='TR Aging Client level'!$K$7-'Top 10 Clients'!D18"
+		# topClients.cell(row = 19, column = 5).value ="Manual"
+		# topClients.cell(row = 19, column = 6).value ="=SUM(F9:F18)"
+		# topClients.cell(row = 19, column = 7).value ="=F19/E19"
+		# topClients.cell(row = 19, column = 8).value ="=D19/'TR Aging Client level'!$K$7"
+		topClients.cell(row =  8+len(top10am), column = 3).value = "Total"
 		for row in topClients["A7:H7"]:
 			for cell in row:
 				cell.font = cap_tabel
@@ -958,10 +1674,17 @@ def Ageing_process():
 		for row in topClients['D8:D19']:
 			for cell in row:
 				cell.number_format = '#,##0_);(#,##0)'
+
+		for row in topClients['E8:E19']:
+			for cell in row:
+				cell.number_format = '#,##0_);(#,##0)'
 		for row in topClients['F8:F19']:
 			for cell in row:
 				cell.number_format = '#,##0_);(#,##0)'
 		for row in topClients['H8:H19']:
+			for cell in row:
+				cell.number_format = '0.00%'
+		for row in topClients['G8:G19']:
 			for cell in row:
 				cell.number_format = '0.00%'
 
@@ -973,9 +1696,9 @@ def Ageing_process():
 			for cell in row:
 				cell.font = ft1_1b
 
-		for row in topClients['A14:H14']:
-			for cell in row:
-				cell.border = doubleborder
+		# for row in topClients['A17:H17']:
+		# 	for cell in row:
+		# 		cell.border = doubleborder
 
 		
 		
@@ -993,7 +1716,7 @@ def Ageing_process():
 		topClients.column_dimensions['B'].width = 16
 		topClients.column_dimensions['C'].width = 10
 		topClients.column_dimensions['D'].width = 15
-		topClients.column_dimensions['E'].width = 20
+		topClients.column_dimensions['E'].width = 15
 		topClients.column_dimensions['F'].width = 15
 
 
@@ -1007,7 +1730,7 @@ def Ageing_process():
 		#tb
 		tb = openpyxl.load_workbook(file_TB, data_only = True) #deschidem TB-ul
 		tb1 = tb.active
-		Sheet3 = wb.create_sheet("TB Python")
+		Sheet3 = wb.create_sheet("TB Robot")
 
 		for row in tb1.iter_rows():
 			for cell in row:
@@ -1151,7 +1874,8 @@ def Ageing_process():
 				a = ws.cell(row = i, column = j)
 				Sheet6.cell(row = i, column = j).value = a.value
 
-		folderpath = "C:\\Users\\denis.david\\Work\\IT\\Web apps-v2-login\\Web apps-v2-login\\Output\\Ageing" 
+
+		folderpath = "home/auditappnexia/Output/Ageing" 
 		file_pathFS = os.path.join(folderpath, "Ageing Test"+" "+clientname1+".xlsx")
 		wb.save(file_pathFS)
 		# print("ceva")
@@ -1159,9 +1883,9 @@ def Ageing_process():
 
 @app.route('/VAT/Instructions', methods=['GET'])
 def downloadVAT():
-		filepath = "C:\\Users\\Cristian.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Instructions"
+		filepath = "C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Instructions"
  
-		return send_from_directory(filepath,"VAT bot instructions v2.0.docx", as_attachment=True)
+		return send_from_directory(filepath,"Instructions - VAT.docx", as_attachment=True)
 @app.route('/VAT/GTbJY47MKf1oajfEqntaRFSt8fw')
 def my_formVAT():
 	return render_template('VAT.html')
@@ -1195,7 +1919,7 @@ def my_form_post():
 
 			return attachments
 		# file_TemplateXML = request.files('vatXML')
-		file_TemplateXML = request.files.getlist('vatXML')
+		file_TemplateXML = request.files.getlist('vatXML')      
 		file_TB = request.files["TB"]
 
 		# for i in file_TemplateXML:
@@ -1207,13 +1931,13 @@ def my_form_post():
 		f_info = Font(name='Arial', size=10, color='614C77', bold=True)
 		cap_tabel = Font(name='Arial', size=10, color="FFFFFF", bold=True)
 		cap_tabel_color_PBC = PatternFill(start_color='808080', end_color='808080', fill_type='solid')  # grey
-		cap_tabel_color_GT = PatternFill(start_color='60497A', end_color='60497A', fill_type='solid')  # indigo #B1A0C7
+		cap_tabel_color_GT = PatternFill(start_color='00AEAC', end_color='00AEAC', fill_type='solid')  # indigo #B1A0C7
 		fprocentaj = Font(name='Arial', size=10, color="FF0000", bold=True)
 		font_worksheet = Font(name='Arial', size=10)
 		check_font = Font(name='Arial', size=10, color="FF0000", bold=True)
 		check_font_1 = Font(name='Arial', size=10, color="FF0000", bold=False)
-		cap_tabel_color_GT_movdeschis = PatternFill(start_color='8064A2', end_color='8064A2', fill_type='solid')
-		cap_tabel_color_GT_movinchis = PatternFill(start_color='403151', end_color='403151', fill_type='solid')
+		cap_tabel_color_GT_movdeschis = PatternFill(start_color='00AEAC', end_color='00AEAC', fill_type='solid')
+		cap_tabel_color_GT_movinchis = PatternFill(start_color='3BBCCA', end_color='3BBCCA', fill_type='solid')
 		blue_bold_font = Font(name='Arial', size=10, color="0070C0", bold=True)
 		blue_thin_font = Font(name='Arial', size=10, color="0070C0", bold=False)
 		# TB_font = Font(name='Arial', size=10, color='0070C0', bold=True)
@@ -1310,28 +2034,28 @@ def my_form_post():
 		Sheet1.cell(row=12, column=6).value = "Total"
 
 		#content
-		Sheet1.cell(row=8, column=7).value = "=SUMIF('TB Python'!B:B,4423,'TB Python'!E:E)".format(16)
-		Sheet1.cell(row=9, column=7).value = "=SUMIF('TB Python'!B:B,4426,'TB Python'!E:E)".format(16)
-		Sheet1.cell(row=10, column=7).value = "=SUMIF('TB Python'!B:B,4427,'TB Python'!E:E)".format(16)
-		Sheet1.cell(row=11, column=7).value = "=SUMIF('TB Python'!B:B,4428,'TB Python'!E:E)".format(16)
+		Sheet1.cell(row=8, column=7).value = "=SUMIF('TB Robot'!B:B,4423,'TB Robot'!E:E)".format(16)
+		Sheet1.cell(row=9, column=7).value = "=SUMIF('TB Robot'!B:B,4426,'TB Robot'!E:E)".format(16)
+		Sheet1.cell(row=10, column=7).value = "=SUMIF('TB Robot'!B:B,4427,'TB Robot'!E:E)".format(16)
+		Sheet1.cell(row=11, column=7).value = "=SUMIF('TB Robot'!B:B,4428,'TB Robot'!E:E)".format(16)
 		Sheet1.cell(row=12, column=7).value = "=SUM(G8:G11)".format(16)
 
-		Sheet1.cell(row=8, column=8).value = "=SUMIF('TB Python'!B:B,4423,'TB Python'!F:F)".format(16)
-		Sheet1.cell(row=9, column=8).value = "=SUMIF('TB Python'!B:B,4426,'TB Python'!F:F)".format(16)
-		Sheet1.cell(row=10, column=8).value = "=SUMIF('TB Python'!B:B,4427,'TB Python'!F:F)".format(16)
-		Sheet1.cell(row=11, column=8).value = "=SUMIF('TB Python'!B:B,4428,'TB Python'!F:F)".format(16)
+		Sheet1.cell(row=8, column=8).value = "=SUMIF('TB Robot'!B:B,4423,'TB Robot'!F:F)".format(16)
+		Sheet1.cell(row=9, column=8).value = "=SUMIF('TB Robot'!B:B,4426,'TB Robot'!F:F)".format(16)
+		Sheet1.cell(row=10, column=8).value = "=SUMIF('TB Robot'!B:B,4427,'TB Robot'!F:F)".format(16)
+		Sheet1.cell(row=11, column=8).value = "=SUMIF('TB Robot'!B:B,4428,'TB Robot'!F:F)".format(16)
 		Sheet1.cell(row=12, column=8).value = "=SUM(H8:H11)".format(16)
 
-		Sheet1.cell(row=8, column=9).value = "=SUMIF('TB Python'!B:B,4423,'TB Python'!G:G)".format(16)
-		Sheet1.cell(row=9, column=9).value = "=SUMIF('TB Python'!B:B,4426,'TB Python'!G:G)".format(16)
-		Sheet1.cell(row=10, column=9).value = "=SUMIF('TB Python'!B:B,4427,'TB Python'!G:G)".format(16)
-		Sheet1.cell(row=11, column=9).value = "=SUMIF('TB Python'!B:B,4428,'TB Python'!G:G)".format(16)
+		Sheet1.cell(row=8, column=9).value = "=SUMIF('TB Robot'!B:B,4423,'TB Robot'!G:G)".format(16)
+		Sheet1.cell(row=9, column=9).value = "=SUMIF('TB Robot'!B:B,4426,'TB Robot'!G:G)".format(16)
+		Sheet1.cell(row=10, column=9).value = "=SUMIF('TB Robot'!B:B,4427,'TB Robot'!G:G)".format(16)
+		Sheet1.cell(row=11, column=9).value = "=SUMIF('TB Robot'!B:B,4428,'TB Robot'!G:G)".format(16)
 		Sheet1.cell(row=12, column=9).value = "=SUM(I8:I11)".format(16)
 
-		Sheet1.cell(row=8, column=10).value = "=SUMIF('TB Python'!B:B,4423,'TB Python'!H:H)".format(16)
-		Sheet1.cell(row=9, column=10).value = "=SUMIF('TB Python'!B:B,4426,'TB Python'!H:H)".format(16)
-		Sheet1.cell(row=10, column=10).value = "=SUMIF('TB Python'!B:B,4427,'TB Python'!H:H)".format(16)
-		Sheet1.cell(row=11, column=10).value = "=SUMIF('TB Python'!B:B,4428,'TB Python'!H:H)".format(16)
+		Sheet1.cell(row=8, column=10).value = "=SUMIF('TB Robot'!B:B,4423,'TB Robot'!H:H)".format(16)
+		Sheet1.cell(row=9, column=10).value = "=SUMIF('TB Robot'!B:B,4426,'TB Robot'!H:H)".format(16)
+		Sheet1.cell(row=10, column=10).value = "=SUMIF('TB Robot'!B:B,4427,'TB Robot'!H:H)".format(16)
+		Sheet1.cell(row=11, column=10).value = "=SUMIF('TB Robot'!B:B,4428,'TB Robot'!H:H)".format(16)
 		Sheet1.cell(row=12, column=10).value = "=SUM(J8:J11)".format(16)
 
 		Sheet1.cell(row=8, column=11).value = "=J8-G8".format(16)
@@ -1340,21 +2064,11 @@ def my_form_post():
 		Sheet1.cell(row=11, column=11).value = "=J11-G11".format(16)
 		Sheet1.cell(row=12, column=11).value = "=SUM(K8:K11)".format(16)
 
-		Sheet1.cell(row=8, column=12).value = "=IFERROR(K8/G8,1)"
-		Sheet1.cell(row=8, column=12).style = 'Percent'
-		Sheet1.cell(row=8, column=12).number_format = '0.00%'
+		Sheet1.cell(row=8, column=12).value = "=IFERROR(K8/G8,1)".format(16)
 		Sheet1.cell(row=9, column=12).value = "=IFERROR(K9/G9,1)".format(16)
-		Sheet1.cell(row=9, column=12).style = 'Percent'
-		Sheet1.cell(row=9, column=12).number_format = "#.#0%"
 		Sheet1.cell(row=10, column=12).value = "=IFERROR(K10/G10,1)".format(16)
-		Sheet1.cell(row=10, column=12).style = 'Percent'
-		Sheet1.cell(row=10, column=12).number_format = "#.#0%"
 		Sheet1.cell(row=11, column=12).value = "=IFERROR(K11/G11,1)".format(16)
-		Sheet1.cell(row=11, column=12).style = 'Percent'
-		Sheet1.cell(row=11, column=12).number_format = "#.#0%"
 		Sheet1.cell(row=12, column=12).value = "=IFERROR(K12/G12,1)".format(16)
-		Sheet1.cell(row=12, column=12).style = 'Percent'
-		Sheet1.cell(row=12, column=12).number_format = "#.#0%"
 
 		Sheet1.cell(row = 1, column = 3).value =clientname1
 		Sheet1.cell(row = 1, column = 3).value =clientname1
@@ -1421,45 +2135,45 @@ def my_form_post():
 		Sheet2.cell(row = 16, column = 2).value = "Month"
 		Sheet2.cell(row = 16, column = 3).value = "Refference"
 		Sheet2.cell(row = 16, column = 5).value = "Sales 19% as per VAT Statement"
-		Sheet2.cell(row = 16, column = 6).value = "VAT collected 19% as per GT"
+		Sheet2.cell(row = 16, column = 6).value = "VAT collected 19% as per Nexia"
 		Sheet2.cell(row = 16, column = 7).value = "Sales 9% as per VAT Statement"
-		Sheet2.cell(row = 16, column = 8).value = "VAT collected 9% as per GT"
+		Sheet2.cell(row = 16, column = 8).value = "VAT collected 9% as per Nexia"
 		Sheet2.cell(row = 16, column = 9).value = "Sales 5% as per VAT Statement"
-		Sheet2.cell(row = 16, column = 10).value = "VAT collected 5% as per GT"
+		Sheet2.cell(row = 16, column = 10).value = "VAT collected 5% as per Nexia"
 		Sheet2.cell(row = 16, column = 11).value = "Sales w/o VAT as per VAT Statement"
 		Sheet2.cell(row = 16, column = 12).value = "Reverse Taxation as per VAT Statement"
-		Sheet2.cell(row = 16, column = 13).value = "VAT collected for Reverse Taxation as per GT (19%)"
+		Sheet2.cell(row = 16, column = 13).value = "VAT collected for Reverse Taxation as per Nexia (19%)"
 		Sheet2.cell(row = 16, column = 14).value = "Regularisation as per VAT Statement"
-		Sheet2.cell(row = 16, column = 15).value = "VAT collected for Regularization as per GT (19%/9%/5%)"
+		Sheet2.cell(row = 16, column = 15).value = "VAT collected for Regularization as per Nexia (19%/9%/5%)"
 		Sheet2.cell(row = 16, column = 17).value = "Total sales as per VAT Statement"
-		Sheet2.cell(row = 16, column = 18).value = "Total sales as per GT Calculation"
+		Sheet2.cell(row = 16, column = 18).value = "Total sales as per Nexia Calculation"
 		Sheet2.cell(row = 16, column = 19).value = "Difference on Total Sales"
 		Sheet2.cell(row = 16, column = 21).value ="Total VAT Collected as per VAT Statement"
-		Sheet2.cell(row = 16, column = 22).value ="Total VAT collected as per GT"
-		Sheet2.cell(row = 16, column = 23).value ="Difference on VAT Collected Company vs GT"
+		Sheet2.cell(row = 16, column = 22).value ="Total VAT collected as per Nexia"
+		Sheet2.cell(row = 16, column = 23).value ="Difference on VAT Collected Company vs Nexia"
 		Sheet2.cell(row = 16, column = 25).value ="Purchases  19% as per VAT Statement"
-		Sheet2.cell(row = 16, column = 26).value ="VAT deductible  as per GT"
+		Sheet2.cell(row = 16, column = 26).value ="VAT deductible  as per Nexia"
 		Sheet2.cell(row = 16, column = 27).value ="Purchases 9% as per VAT Statement"
-		Sheet2.cell(row = 16, column = 28).value ="VAT 9% as per GT"
+		Sheet2.cell(row = 16, column = 28).value ="VAT 9% as per Nexia"
 		Sheet2.cell(row = 16, column = 29).value ="Purchases 5% as per VAT Statement"
-		Sheet2.cell(row = 16, column = 30).value ="VAT 5% as per GT"
+		Sheet2.cell(row = 16, column = 30).value ="VAT 5% as per Nexia"
 		Sheet2.cell(row = 16, column = 31).value ="Reverse Taxation as per VAT Statement"
-		Sheet2.cell(row = 16, column = 32).value ="VAT deducted for Reverse Taxation as per GT (19%)"
+		Sheet2.cell(row = 16, column = 32).value ="VAT deducted for Reverse Taxation as per Nexia (19%)"
 		Sheet2.cell(row = 16, column = 33).value ="Total Purchases w/o VAT as VAT per Statement"
 		Sheet2.cell(row = 16, column = 34).value ="Regularisation as per VAT Statement"
-		Sheet2.cell(row = 16, column = 35).value ="VAT deducted for Regularization as per GT (19%/9%/5%)"
+		Sheet2.cell(row = 16, column = 35).value ="VAT deducted for Regularization as per Nexia (19%/9%/5%)"
 		Sheet2.cell(row = 16, column = 37).value ="Total Purchases with VAT as per VAT Statement"
-		Sheet2.cell(row = 16, column = 38).value ="Total Purchases with VAT as per GT"
-		Sheet2.cell(row = 16, column = 39).value ="Difference on Total Purchases with VAT Company vs GT"
+		Sheet2.cell(row = 16, column = 38).value ="Total Purchases with VAT as per Nexia"
+		Sheet2.cell(row = 16, column = 39).value ="Difference on Total Purchases with VAT Company vs Nexia"
 		Sheet2.cell(row = 16, column = 41).value ="Total VAT deductible as per VAT Statement"
-		Sheet2.cell(row = 16, column = 42).value ="Total VAT deductible as per GT"
-		Sheet2.cell(row = 16, column = 43).value ="Difference on Total VAT deductible Company vs GT"
+		Sheet2.cell(row = 16, column = 42).value ="Total VAT deductible as per Nexia"
+		Sheet2.cell(row = 16, column = 43).value ="Difference on Total VAT deductible Company vs Nexia"
 		Sheet2.cell(row = 16, column = 45).value ="VAT (due)/to be recovered per client"
-		Sheet2.cell(row = 16, column = 46).value ="VAT (due)/to be recovered per GT"
-		Sheet2.cell(row = 16, column = 47).value ="Difference Company vs GT"
+		Sheet2.cell(row = 16, column = 46).value ="VAT (due)/to be recovered per Nexia"
+		Sheet2.cell(row = 16, column = 47).value ="Difference Company vs Nexia"
 		Sheet2.cell(row = 16, column = 48).value ="VAT deducted as per statement"
 		Sheet2.cell(row = 16, column = 49).value ="VAT deductible vs VAT deducted"
-		Sheet2.cell(row = 16, column = 50).value ="Remaining difference statement vs GT"
+		Sheet2.cell(row = 16, column = 50).value ="Remaining difference statement vs Nexia"
 		Sheet2.cell(row = 16, column = 52).value ="Payment order/ Request for reimbursement or compensation no/date during the month"
 		Sheet2.cell(row = 16, column = 53).value ="Amount "
 		Sheet2.cell(row = 16, column = 54).value ="VAT balance"
@@ -1522,8 +2236,8 @@ def my_form_post():
 			a=str(*dictionary.values())
 			b=a.replace('\\n','').replace("b'","").replace("></declaratie300>'","></declaratie300>").replace('encoding="utf-8"', "").replace('''"/>''', "</declaratie300>").replace("</declaratie300>'", '"></declaratie300>').replace('\\r', '')
 			# print(b)
-			f=open("C:\\Users\\denis.david\\Work\\IT\\Web apps-v2-login\\Web apps-v2-login\\Output\\VAT\\VATXML"+str(nr)+str(now.year)+str(now.month)+str(now.day)+str(now.hour)+str(now.minute)+str(now.second)+".xml","w").write(b)
-			abc.append("C:\\Users\\denis.david\\Work\\IT\\Web apps-v2-login\\Web apps-v2-login\\Output\\VAT\\VATXML"+str(nr)+str(now.year)+str(now.month)+str(now.day)+str(now.hour)+str(now.minute)+str(now.second)+".xml")
+			f=open("home/auditappnexia/Output/VAT/"+str(nr)+str(now.year)+str(now.month)+str(now.day)+str(now.hour)+str(now.minute)+str(now.second)+".xml","w").write(b)
+			abc.append("home/auditappnexia/Output/VAT/"+str(nr)+str(now.year)+str(now.month)+str(now.day)+str(now.hour)+str(now.minute)+str(now.second)+".xml")
 			
 		fisiere=list(abc)
 		for v in range(0,len(fisiere)):
@@ -1533,8 +2247,8 @@ def my_form_post():
 			print(month)
 			for j in range(1, month+1):
 				Sheet2.cell(row=16 + j, column=2).value = j
-				Sheet2.cell(row=36 + j, column=2).value = j
-				Sheet2.cell(row=54 + j, column=2).value = j
+				# Sheet2.cell(row=36 + j, column=2).value = j
+				# Sheet2.cell(row=54 + j, column=2).value = j
 			# a=0
 			# try:
 			# 	a = a + int(root.attrib['R9_1'])
@@ -1830,23 +2544,23 @@ def my_form_post():
 
 			Sheet2.cell(row=43, column=7).value = "=Q30-L30".format(16 + month)
 			Sheet2.cell(row=44, column=7).value = "=SUM(G45:G49)".format(16 + month)
-			Sheet2.cell(row=45, column=7).value = "=-SUMIF('TB Python'!I:I,70,'TB Python'!H:H)".format(16 + month)
-			Sheet2.cell(row=46, column=7).value = "=SUMIF('TB Python'!A:A,419,'TB Python'!G:G)-SUMIF('TB Python'!A:A,419,'TB Python'!F:F)".format(16 + month)
-			Sheet2.cell(row=47, column=7).value = "=SUMIF('TB Python'!A:A,418,'TB Python'!G:G)-SUMIF('TB Python'!A:A,418,'TB Python'!F:F)".format(16 + month)
-			Sheet2.cell(row=48, column=7).value = "=SUMIF('TB Python'!A:A,472,'TB Python'!G:G)-SUMIF('TB Python'!A:A,472,'TB Python'!F:F)".format(16 + month)
-			Sheet2.cell(row=49, column=7).value = "=SUMIF('TB Python'!A:A,758,'TB Python'!H:H)".format(16 + month)
+			Sheet2.cell(row=45, column=7).value = "=-SUMIF('TB Robot'!I:I,70,'TB Robot'!H:H)".format(16 + month)
+			Sheet2.cell(row=46, column=7).value = "=SUMIF('TB Robot'!A:A,419,'TB Robot'!G:G)-SUMIF('TB Robot'!A:A,419,'TB Robot'!F:F)".format(16 + month)
+			Sheet2.cell(row=47, column=7).value = "=SUMIF('TB Robot'!A:A,418,'TB Robot'!G:G)-SUMIF('TB Robot'!A:A,418,'TB Robot'!F:F)".format(16 + month)
+			Sheet2.cell(row=48, column=7).value = "=SUMIF('TB Robot'!A:A,472,'TB Robot'!G:G)-SUMIF('TB Robot'!A:A,472,'TB Robot'!F:F)".format(16 + month)
+			Sheet2.cell(row=49, column=7).value = "=SUMIF('TB Robot'!A:A,758,'TB Robot'!H:H)".format(16 + month)
 			Sheet2.cell(row=50, column=7).value = "=SUM(G45:G49)".format(16 + month)
 			Sheet2.cell(row=52, column=7).value = "=G43-G44".format(16 + month)
 			Sheet2.cell(row=53, column=7).value = "=G52*19%".format(16 + month)
 
 			Sheet2.cell(row=58, column=7).value = "=AL30".format(16 + month)
 			Sheet2.cell(row=59, column=7).value = "=SUM(G60:G65)".format(16 + month)
-			Sheet2.cell(row=60, column=7).value = "=-SUMIF('TB Python'!I:I,60,'TB Python'!H:H)".format(16 + month)
-			Sheet2.cell(row=61, column=7).value = "=SUMIF('TB Python'!J:J,3,'TB Python'!H:H)-SUMIF('TB Python'!I:I,39,'TB Python'!H:H)".format(16 + month)
+			Sheet2.cell(row=60, column=7).value = "=-SUMIF('TB Robot'!I:I,60,'TB Robot'!H:H)".format(16 + month)
+			Sheet2.cell(row=61, column=7).value = "=SUMIF('TB Robot'!J:J,3,'TB Robot'!H:H)-SUMIF('TB Robot'!I:I,39,'TB Robot'!H:H)".format(16 + month)
 			Sheet2.cell(row=62, column=7).value = "0".format(16 + month)
-			Sheet2.cell(row=63, column=7).value = "=SUMIF('TB Python'!I:I,61,'TB Python'!H:H)".format(16 + month)
-			Sheet2.cell(row=64, column=7).value = "=SUMIF('TB Python'!I:I,62,'TB Python'!H:H)".format(16 + month)
-			Sheet2.cell(row=65, column=7).value = "=SUMIF('TB Python'!A:A,658,'TB Python'!H:H)".format(16 + month)
+			Sheet2.cell(row=63, column=7).value = "=SUMIF('TB Robot'!I:I,61,'TB Robot'!H:H)".format(16 + month)
+			Sheet2.cell(row=64, column=7).value = "=SUMIF('TB Robot'!I:I,62,'TB Robot'!H:H)".format(16 + month)
+			Sheet2.cell(row=65, column=7).value = "=SUMIF('TB Robot'!A:A,658,'TB Robot'!H:H)".format(16 + month)
 			# Sheet2.cell(row=66, column=7).value = "Total"
 
 			Sheet2.cell(row=68, column=7).value = "=G58-G59".format(16 + month)
@@ -2038,7 +2752,7 @@ def my_form_post():
 		Sheet2.cell(row=38, column=41).number_format = '#,##0_);(#,##0)'
 
 		#column dimensions
-		Sheet2.column_dimensions['C'].hidden = True
+		Sheet2.column_dimensions['C'].width = 20
 		Sheet2.column_dimensions['E'].width = 20
 		Sheet2.column_dimensions['F'].width = 20
 		Sheet2.column_dimensions['G'].width = 20
@@ -2608,7 +3322,7 @@ def my_form_post():
 		Sheet3.column_dimensions['O'].width = 13
 		Sheet3.column_dimensions['Q'].width = 13
 
-		Sheet4 = wb.create_sheet("TB Python")
+		Sheet4 = wb.create_sheet("TB Robot")
 		Sheet4.sheet_view.showGridLines = False
 
 		tb = openpyxl.load_workbook(file_TB, data_only = 'True') #deschidem TB-ul
@@ -2742,7 +3456,7 @@ def my_form_post():
 
 		std = wb["Sheet"]
 		wb.remove(std)
-		folderpath = "C:\\Users\\denis.david\\Work\\IT\\Web apps-v2-login\\Web apps-v2-login\\Output\\VAT"
+		folderpath = "home/auditappnexia/Output/VAT"
 		file_pathFS = os.path.join(folderpath, "VAT test"+" "+clientname1+".xlsx")
 		wb.save(file_pathFS)
 		# out.save(folderpath + "/" + "T10 - VAT Test" + ".xlsx")
@@ -2761,9 +3475,9 @@ def Monthly():
 	return render_template('MonthlyPL.html')
 @app.route('/MonthlyPL/Instructions', methods=['GET'])
 def downloadMonthly():
-		filepath = "C:\\Users\\Cristian.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Instructions"
+		filepath = "C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Instructions"
  
-		return send_from_directory(filepath,"Monthly P&L instructions.docx", as_attachment=True)
+		return send_from_directory(filepath,"Instructions - Monthly P&L.docx", as_attachment=True)
 @app.route('/MonthlyPL/GTbSJ64rDiFqoNeQyowqNh9pzcE', methods=['POST', 'GET'])
 def Monthly_process():
    
@@ -2780,9 +3494,9 @@ def Monthly_process():
 	isChecked1=request.form.get("tbSubtotals")
 	print(isChecked1)
 	if isChecked1=="": #daca e bifat
-		isChecked=1
-	else:
 		isChecked=0
+	else:
+		isChecked=1
 	
 
 
@@ -2802,7 +3516,7 @@ def Monthly_process():
 		f_testname = Font(name = 'Tahoma', size = 8, bold = True, underline = 'single', italic = True)
 		cap_tabel = Font(name = 'Tahoma', size = 8, color = "FFFFFF", bold = True)
 		cap_tabel_color_PBC = PatternFill(start_color = '808080', end_color ='808080', fill_type = 'solid') #grey
-		cap_tabel_color_GT = PatternFill(start_color = '4B0082', end_color ='4B0082', fill_type = 'solid') #indigo
+		cap_tabel_color_GT = PatternFill(start_color = '00AEAC', end_color ='00AEAC', fill_type = 'solid') #indigo
 		fprocentaj = Font(name = 'Tahoma', size = 8, color = "FF0000", bold = True)
 		font_worksheet = Font(name = 'Tahoma', size = 8)
 		check_font = Font(name = 'Tahoma', size = 8, color = "FF0000", bold = True)
@@ -2927,25 +3641,25 @@ def Monthly_process():
 			return render_template("index.html")
 		for row in details1.iter_rows():
 			for cell in row:
-				if cell.value == "Sold curent debitor":
+				if cell.value == "Sold final debitor":
 					row_det = cell.row
 					column_scd = cell.column
 					lun = len(details1[cell.column])
 		try:
 			DB_curr_sold = [b.value for b in details1[column_scd][row_det:lun]]
 		except:
-			flash("Please insert the correct header for Sold curent debitor in first file monthly trial balance")
+			flash("Please insert the correct header for Sold final debitor in first file monthly trial balance")
 			return render_template("index.html")
 		for row in details1.iter_rows():
 			for cell in row:
-				if cell.value == "Sold curent creditor":
+				if cell.value == "Sold final creditor":
 					row_det = cell.row
 					column_scc = cell.column
 					lun = len(details1[cell.column])
 		try:
 			DR_curr_sold = [b.value for b in details1[column_scc][row_det:lun]]
 		except:
-			flash("Please insert the correct header for Sold curent creditor in first file monthly trial balance")
+			flash("Please insert the correct header for Sold final creditor in first file monthly trial balance")
 			return render_template("index.html")
 
 		denNo = 0
@@ -2998,8 +3712,8 @@ def Monthly_process():
 			Sheet1.cell(row=1, column=8).value ="Sold creditor luna curenta"
 			Sheet1.cell(row=1, column=9).value ="Sold total debitor"
 			Sheet1.cell(row=1, column=10).value ="Sold total creditor"
-			Sheet1.cell(row=1, column=11).value ="Sold curent debitor"
-			Sheet1.cell(row=1, column=12).value ="Sold curent creditor"
+			Sheet1.cell(row=1, column=11).value ="Sold final debitor"
+			Sheet1.cell(row=1, column=12).value ="Sold final creditor"
 
 			for i in range(0, len(account)):
 				Sheet1.cell(row=2 + i, column=1).value = account[i]
@@ -3083,7 +3797,7 @@ def Monthly_process():
 		# import TB general
 		tb = openpyxl.load_workbook(file_TB, data_only='True')  # deschidem TB-ul
 		tb1 = tb.active
-		Sheet2 = wb.create_sheet("TB Python")
+		Sheet2 = wb.create_sheet("TB Robot")
 
 		list2=[]
 		for row in tb1.iter_rows():
@@ -3206,6 +3920,7 @@ def Monthly_process():
 		Sheet2.column_dimensions['H'].width = 20
 
 		Sheet3 = wb.create_sheet('Monthly P&L')
+		Sheet3.sheet_view.showGridLines = False
 
 		#building the worksheet
 		Sheet3.cell(row = 1, column = 1).value = "Client name"
@@ -3300,7 +4015,7 @@ def Monthly_process():
 		Sheet3.cell(row=9, column=15).value = "=SUMIF('11'!N:N,121,'11'!Q:Q)"
 		Sheet3.cell(row=9, column=16).value = "=SUMIF('12'!N:N,121,'12'!Q:Q)"
 		Sheet3.cell(row=9, column=17).value ="=SUM(E9:P9)"
-		Sheet3.cell(row=9, column=18).value ="=SUMIF('TB Python'!A:A,121,'TB Python'!H:H)"
+		Sheet3.cell(row=9, column=18).value ="=SUMIF('TB Robot'!A:A,121,'TB Robot'!H:H)"
 		Sheet3.cell(row=9, column=19).value ="=Q9-R9"
 
 		# [0 if v is None else v for v in list2]
@@ -3531,7 +4246,7 @@ def Monthly_process():
 			for i in range(0, len(list2nou)):
 				Sheet3.cell(row=14+i,column=1).value='=left(C'+str(14+i)+',1)'
 				Sheet3.cell(row=14+i,column=2).value='=left(C'+str(14+i)+',3)'
-				Sheet3.cell(row=14+i,column=4).value="=vlookup(C"+str(14+i)+",'TB Python'!C:D,2,0)"
+				Sheet3.cell(row=14+i,column=4).value="=vlookup(C"+str(14+i)+",'TB Robot'!C:D,2,0)"
 				Sheet3.cell(row=14+i, column=5).value = '=SUMIF(INDIRECT(E$12&"!$A:$A"),C'+str(14+i)+',INDIRECT(E12&"!$Q:$Q"))'
 				Sheet3.cell(row=14+i, column=6).value = '=SUMIF(INDIRECT(F$12&"!$A:$A"),$C'+str(14+i)+',INDIRECT(F$12&"!$Q:$Q"))'
 				Sheet3.cell(row=14 + i, column=7).value = '=SUMIF(INDIRECT(G$12&"!$A:$A"),$C'+str(14+i)+',INDIRECT(G$12&"!$Q:$Q"))'
@@ -3546,9 +4261,9 @@ def Monthly_process():
 				Sheet3.cell(row=14 + i, column=16).value = '=SUMIF(INDIRECT(P$12&"!$A:$A"),$C'+str(14+i)+',INDIRECT(P$12&"!$Q:$Q"))'
 				Sheet3.cell(row=14 + i, column=17).value = '=SUM(E'+str(14+i)+':P'+str(14+i)+')'
 				if(str(list2[i])[:1]=="6"):
-					Sheet3.cell(row=14 + i, column=18).value ="=SUMIF('TB Python'!C:C,'Monthly P&L'!C"+str(14+i)+",'TB Python'!H:H)"
+					Sheet3.cell(row=14 + i, column=18).value ="=SUMIF('TB Robot'!C:C,'Monthly P&L'!C"+str(14+i)+",'TB Robot'!H:H)"
 				else:
-					Sheet3.cell(row=14 + i, column=18).value ="=SUMIF('TB Python'!C:C,'Monthly P&L'!C"+str(14+i)+",'TB Python'!H:H)"
+					Sheet3.cell(row=14 + i, column=18).value ="=SUMIF('TB Robot'!C:C,'Monthly P&L'!C"+str(14+i)+",'TB Robot'!H:H)"
 				Sheet3.cell(row=14 + i, column=19).value ='=Q'+str(14+i)+'-R'+str(14+i)+''
 
 		else:
@@ -3580,7 +4295,7 @@ def Monthly_process():
 			for i in range(0, len(listanoua)):
 				Sheet3.cell(row=14+i,column=1).value='=left(C'+str(14+i)+',1)'
 				Sheet3.cell(row=14+i,column=2).value='=left(C'+str(14+i)+',3)'
-				Sheet3.cell(row=14+i,column=4).value="=vlookup(C"+str(14+i)+",'TB Python'!C:D,2,0)"
+				Sheet3.cell(row=14+i,column=4).value="=vlookup(C"+str(14+i)+",'TB Robot'!C:D,2,0)"
 				Sheet3.cell(row=14+i, column=5).value = '=SUMIF(INDIRECT(E12&"!$A:$A"),C'+str(14+i)+',INDIRECT(E12&"!$Q:$Q"))'
 				Sheet3.cell(row=14+i, column=6).value = '=SUMIF(INDIRECT(F$12&"!$A:$A"),$C'+str(14+i)+',INDIRECT(F$12&"!$Q:$Q"))'
 				Sheet3.cell(row=14 + i, column=7).value = '=SUMIF(INDIRECT(G$12&"!$A:$A"),$C'+str(14+i)+',INDIRECT(G$12&"!$Q:$Q"))'
@@ -3595,9 +4310,9 @@ def Monthly_process():
 				Sheet3.cell(row=14 + i, column=16).value = '=SUMIF(INDIRECT(P$12&"!$A:$A"),$C'+str(14+i)+',INDIRECT(P$12&"!$Q:$Q"))'
 				Sheet3.cell(row=14 + i, column=17).value = '=SUM(E'+str(14+i)+':P'+str(14+i)+')'
 				if(int(listanoua[i][:1])==6):
-					Sheet3.cell(row=14 + i, column=18).value ="=SUMIF('TB Python'!C:C,'Monthly P&L'!C"+str(14+i)+",'TB Python'!H:H)"
+					Sheet3.cell(row=14 + i, column=18).value ="=SUMIF('TB Robot'!C:C,'Monthly P&L'!C"+str(14+i)+",'TB Robot'!H:H)"
 				else:
-					Sheet3.cell(row=14 + i, column=18).value ="=SUMIF('TB Python'!C:C,'Monthly P&L'!C"+str(14+i)+",'TB Python'!H:H)"
+					Sheet3.cell(row=14 + i, column=18).value ="=SUMIF('TB Robot'!C:C,'Monthly P&L'!C"+str(14+i)+",'TB Robot'!H:H)"
 				Sheet3.cell(row=14 + i, column=19).value ='=Q'+str(14+i)+'-R'+str(14+i)+''
 				# Sheet1.cell(row=2 + i, column=2).value = str(account_tb[i])[:4]
 				# Sheet1.cell(row=2 + i, column=2).value = denumire[i]
@@ -3614,7 +4329,7 @@ def Monthly_process():
 
 		std = wb["Sheet"]
 		wb.remove(std)
-		folderpath="C:\\Users\\denis.david\\Work\\IT\\Web apps-v2-login\Web apps-v2-login\\Output\\MonthlyPL"
+		folderpath="home/auditappnexia/Output/MonthlyPL"
 		file_pathFS = os.path.join(folderpath, "Monthly P&L" + " " + clientname1 + ".xlsx")
 		wb.save(file_pathFS)
 		
@@ -3639,618 +4354,621 @@ def Monthly_process():
 	return render_template('MonthlyPL.html')
 @app.route('/Reco/Instructions', methods=['GET'])
 def downloadReco():
-		filepath = "C:\\Users\\Cristian.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Instructions"
+        filepath = "C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Instructions"
  
-		return send_from_directory(filepath,"Instructions-Reconciliation details vs TB.docx", as_attachment=True)
+        return send_from_directory(filepath,"Instructions - Reconciliation details vs TB.docx", as_attachment=True)
 @app.route('/Reco/GT2ls9r79v3pr7L844am9wHNPCp')
 def Reco():
-	return render_template('Reco.html')
+    return render_template('Reco.html')
 @app.route('/Reco/GT2ls9r79v3pr7L844am9wHNPCp', methods=['POST', 'GET'])
 def Reco_process():
-	
-	def make_archive(source, destination):
-		base = os.path.basename(destination)
-		name = base.split('.')[0]
-		format = base.split('.')[1]
-		archive_from = os.path.dirname(source)
-		archive_to = os.path.basename(source.strip(os.sep))
-		shutil.make_archive(name, format, archive_from, archive_to)
-		shutil.move('%s.%s'%(name,format), destination)
-
-	clientname1 = request.form['client']
-	filename="C:\\Users\\Cristian.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Output\\Reco\\"
-	os.mkdir(filename+str(clientname1))
-	yearEnd1= datetime.datetime.strptime(
-					 request.form['yearEnd'],
-					 '%Y-%m-%d')
-	preparedBy1=request.form['preparedBy']
-	if request.method == 'POST':
-		ft2=Font(name='Tahoma',size=8,bold=True)
-		ft1=Font(name='KPMG Logo',size=8)
-		solidborder = Border(bottom=Side(style='thick'))
-		blueFill = PatternFill(start_color='ccd9ff',
-						end_color='ccd9ff',
-						fill_type='solid')
-		headersblue= PatternFill(start_color='CCC0DA',
-						end_color='CCC0DA',
-						fill_type='solid')
-		thin_border2 = Border(top=Side(style='double'))
-		fontRed = Font(name='Tahoma', size=8, bold=True, color= 'FF0000')
-		tah=Font(name='Tahoma',size=8)
-		fontRedDiff=Font(color='FF0000', name='Tahoma', size=8)
-		file_Details = request.files.getlist('detAcc')
-		file_TB=request.files["TB"]
-		
-		
-		for i in file_Details:
-	
-			i.save(secure_filename(i.filename))
-		fisiere=list(file_Details)
-
-		y=0
-		start="/"
-
-		y=str(fisiere[0]).count(start)
-
-		fisiere2=[]
-		for i in range(0,len(fisiere)):
-			fisiere2.append(str(fisiere[i]).replace("/","",y-1))
-
-		fisiere3=[]
-		for i in range(0,len(fisiere)):
-			fisiere3.append(fisiere2[i][fisiere2[i].find("/")+len("/"):fisiere2[i].rfind(".")]) 
-
-		for z in range(0, len(fisiere)):
-			
-			wb=openpyxl.load_workbook(fisiere[z], data_only="True")
-			ws=wb.active
-			ws.title="PBC"
-			for row in ws.iter_rows():
-				for cell in row:
-					if cell.value=="Account":
-						raa=cell.row
-						caa=cell.column
-			lun=len(ws[caa])
-
-
-
-
-			for row in ws.iter_rows():
-				for cell in row:
-					if cell.value=="Date":
-						rdate=cell.row
-						cdate=cell.column
-
-			for row in ws.iter_rows():
-				for cell in row:
-					if cell.value=="Document Number":
-						rdoc=cell.row
-						cdoc=cell.column
-
-			ramount=None
-			camount=None
-			for row in ws.iter_rows():
-				for cell in row:
-					if cell.value=="Amount in FX":
-						ramount=cell.row
-						camount=cell.column
-
-			for row in ws.iter_rows():
-				for cell in row:
-					if cell.value=="Amount":
-						rsold=cell.row
-						csold=cell.column
-
-			for row in ws.iter_rows():
-				for cell in row:
-					if cell.value=="Description":
-						rdesc=cell.row
-						cdesc=cell.column
-			ccur=None
-			rcur=None         
-			for row in ws.iter_rows():
-				for cell in row:
-					if cell.value=="Currency":
-						rcur=cell.row
-						ccur=cell.column
-			cpart=None
-			rpart=None         
-			for row in ws.iter_rows():
-				for cell in row:
-					if cell.value=="Partner Name":
-						rpart=cell.row
-						cpart=cell.column
-					
-
-
-
-			altaccount=[b.value for b in ws[caa][raa:lun]]
-			listaunica=[]
-			listaunica=list(set(altaccount))
-			#listaunica.sort()
-			curr=[]
-			part=[]
-			amountfx=[]
-			documentno=[b.value for b in ws[cdoc][rdoc:lun]]
-			date=[b.value for b in ws[cdate][rdate:lun]]
-			if camount is not None:
-				amountfx=[b.value for b in ws[camount][ramount:lun]]
-			amount=[b.value for b in ws[csold][rsold:lun]]
-			desc=[b.value for b in ws[cdesc][rdesc:lun]]
-			if ccur is not None:
-				curr=[b.value for b in ws[ccur][rcur:lun]]
-			if cpart is not None:
-				part=[b.value for b in ws[cpart][rpart:lun]]
-
-
-			ws7=wb.create_sheet("Reconciliation")
-			
-			ws7.cell(row=1, column=1).value="Client:"
-			ws7.cell(row=1, column=2).value=clientname1
-			ws7.cell(row=1, column=1).font=ft2
-			ws7.cell(row=1, column=2).font=ft2
-			
-			ws7.cell(row=2, column=1).value="Period end:"
-			ws7.cell(row=2, column=2).value=yearEnd1
-			ws7.cell(row=2, column=2).number_format='mm/dd/yyyy'
-			ws7.cell(row=2, column=1).font=ft2
-			ws7.cell(row=2, column=2).font=ft2
-			ws7.cell(row=1, column=6).value="Prepared by:"
-			ws7.cell(row=1, column=7).value=preparedBy1
-			ws7.cell(row=1, column=6).font=ft2
-			ws7.cell(row=1, column=7).font=ft2
-			ws7.cell(row=2, column=6).value="Date:"
-			ws7.cell(row=2, column=7).value =datetime.date.today()
-			ws7.cell(row=2, column=6).font=ft2
-			ws7.cell(row=2, column=7).font=ft2
-			ws7.cell(row=2, column=7).alignment = Alignment (horizontal='left')
-			ws7.cell(row=2, column=7).number_format='mm/dd/yyyy'
-			ws7.cell(row=3, column=6).value="Ref: "
-			ws7.cell(row=3, column=6).font=fontRed
-			ws7.cell(row=3, column=7).font=fontRed
-			ws7.cell(row=5, column=3).value="Reconciliation of accounts with TB"
-
-			ws7.cell(row=5, column=3).font=ft2
-			ws7.cell(row=12, column=1).value="As per detail "
-			ws7.cell(row=12, column=1).font=ft2
-			ws7.cell(row=12, column=5).value="As per TB"
-			ws7.cell(row=12, column=5).font=ft2
-			ws7.cell(row=14, column=1).value="Account no."
-			ws7.cell(row=14, column=1).font=ft2
-			ws7.cell(row=14, column=1).border=solidborder
-			ws7.cell(row=14, column=1).fill=headersblue
-			ws7.cell(row=14, column=2).value="Description "
-			ws7.cell(row=14, column=2).border=solidborder
-			ws7.cell(row=14, column=2).font=ft2
-			ws7.cell(row=14, column=2).fill=headersblue
-			ws7.cell(row=14, column=3).value="Amount (As per Detail)"
-			ws7.cell(row=14, column=3).fill=headersblue
-			ws7.cell(row=14, column=3).border=solidborder
-			ws7.cell(row=14, column=3).font=ft2
-			ws7.cell(row=14, column=4).value="Amount (As per TB)"
-			ws7.cell(row=14, column=4).fill=headersblue
-			ws7.cell(row=14, column=4).border=solidborder
-			ws7.cell(row=14, column=4).font=ft2
-			ws7.cell(row=14, column=5).value="Check/Difference"
-			ws7.cell(row=14, column=5).fill=headersblue
-			ws7.cell(row=14, column=5).border=solidborder
-			ws7.cell(row=14, column=5).font=fontRed
-			"Adjust Column Width---------------------------------------------------------------------------------------------------------------------------------."
-			
-
-			for col in ws7.columns:
-				max_length=20
-				for cell in col:
-					if cell.coordinate in ws7.merged_cells:
-						continue
-					try:
-						if len(str(cell.value))>max_length:
-							max_length=len(cell.value)
-					except:
-						pass
-				adjusted_width=(max_length-1)
-
-			listaAdjusted=['H', 'C', 'F', 'I', 'D']
-			for column in listaAdjusted:
-				for i in listaAdjusted:
-					if (column==i):
-						ws7.column_dimensions[column].width=adjusted_width		
-
-
-			for i in range(0, len(listaunica)):
-				for j in range(1,9):
-					ws7.cell(row=i+15, column=1).value=listaunica[i]
-					ws7.cell(row=i+15,column=j).font=tah
-			for row in ws7.iter_rows():
-				for cell in row:
-					if cell.value=="Account no.":
-						raccountno=cell.row
-						caccountno=cell.column
-
-			ws7.cell(row=15+len(listaunica), column = 2).value="Total"
-			ws7.cell(row=15+len(listaunica), column = 2).font=ft2
-			ws7.cell(row=15+len(listaunica), column=2).border=thin_border2
-			ws7.cell(row=15+len(listaunica), column=1).border=thin_border2
-			ws7.cell(row=15+len(listaunica), column=3).border=thin_border2
-			ws7.cell(row=15+len(listaunica), column=4).border=thin_border2
-			ws7.cell(row=15+len(listaunica), column=5).border=thin_border2
-
-			for i in range(15,15+len(listaunica)):
-				for j in range (3,30):
-						ws7.cell(row=i, column=j).number_format='#,##0_);(#,##0)'
-
-			x=str(len(listaunica)+14)
-			ws7.cell(row=len(listaunica)+15, column=3).value="=sum(C15:C"+x+")"
-			ws7.cell(row=len(listaunica)+15, column=3).font=ft2
-			ws7.cell(row=len(listaunica)+15, column=3).number_format="#,##0"
-			ws7.cell(row=len(listaunica)+15, column=4).value="=sum(D15:D"+x+")"
-			ws7.cell(row=len(listaunica)+15, column=4).font=ft2
-			ws7.cell(row=len(listaunica)+15, column=4).number_format="#,##0"
-			ws7.cell(row=len(listaunica)+15, column=5).value="=sum(E15:E"+x+")"
-			ws7.cell(row=len(listaunica)+15, column=5).font=fontRed
-			ws7.cell(row=len(listaunica)+15, column=5).number_format="#,##0"
-
-			ws8=wb.create_sheet("Detail of account")
-			ws8.cell(row=9, column=1).value="Account"
-
-
-			ws8.cell(row=9, column=4).value="Date"
-			ws8.cell(row=9, column=3).value="Description"
-			ws8.cell(row=9, column=5).value="Amount"
-			ws8.cell(row=9, column=2).value="Document Number"
-			ws8.cell(row=9, column=6).value="Month"
-			
-
-			for j in range(1,7):
-				ws8.cell(row=9, column=j).font=ft2
-				ws8.cell(row=9,column=j).fill=headersblue
-				ws8.cell(row=9, column=j).border=solidborder
-
-			
-
-
-
-			for i in range(0, len(listaunica)):
-				ws7.cell(row=i+15, column=2).value="=VLOOKUP(A{0},'Trial Balance'!A:B,2,TRUE)".format(i+15)
-				ws7.cell(row=i+15, column=3).value="=SUMIF('Detail of account'!A:A,A{0},'Detail of Account'!E:E)".format(i+15)
-				ws7.cell(row=i+15, column=4).value="=SUMIF('Trial Balance'!A:A,Reconciliation!A{0},'Trial Balance'!C:C)".format(i+15)
-				ws7.cell(row=i+15, column=5).value="=C{0}-D{0}".format(i+15)
-				ws7.cell(row=i+15, column=5).font=fontRedDiff
-
-			ws7.cell(row=44+len(listaunica), column=1).value="Findings:"
-			ws7.cell(row=44+len(listaunica), column=1).font=ft2
-
-			ws7.cell(row=20, column=1).value="Account"
-			ws7.cell(row=20, column=2).value="January"
-			ws7.cell(row=20, column=3).value="February"
-			ws7.cell(row=20, column=4).value="March"
-			ws7.cell(row=20, column=5).value="April"
-			ws7.cell(row=20, column=6).value="May"
-			ws7.cell(row=20, column=7).value="June"
-			ws7.cell(row=20, column=8).value="July"
-			ws7.cell(row=20, column=9).value="August"
-			ws7.cell(row=20, column=10).value="September"
-			ws7.cell(row=20, column=11).value="October"
-			ws7.cell(row=20, column=12).value="November"
-			ws7.cell(row=20, column=13).value="December"
-			ws7.cell(row=20, column=14).value="Total"
-
-			ws7.cell(row=21, column=1).value="=A15"
-			ws7.cell(row=21, column=2).value="=SUMIF('Detail of account'!F:F,1,'Detail of account'!E:E)"
-			ws7.cell(row=21, column=3).value="=SUMIF('Detail of account'!F:F,2,'Detail of account'!E:E)"
-			ws7.cell(row=21, column=4).value="=SUMIF('Detail of account'!F:F,3,'Detail of account'!E:E)"
-			ws7.cell(row=21, column=5).value="=SUMIF('Detail of account'!F:F,4,'Detail of account'!E:E)"
-			ws7.cell(row=21, column=6).value="=SUMIF('Detail of account'!F:F,5,'Detail of account'!E:E)"
-			ws7.cell(row=21, column=7).value="=SUMIF('Detail of account'!F:F,6,'Detail of account'!E:E)"
-			ws7.cell(row=21, column=8).value="=SUMIF('Detail of account'!F:F,7,'Detail of account'!E:E)"
-			ws7.cell(row=21, column=9).value="=SUMIF('Detail of account'!F:F,8,'Detail of account'!E:E)"
-			ws7.cell(row=21, column=10).value="=SUMIF('Detail of account'!F:F,9,'Detail of account'!E:E)"
-			ws7.cell(row=21, column=11).value="=SUMIF('Detail of account'!F:F,10,'Detail of account'!E:E)"
-			ws7.cell(row=21, column=12).value="=SUMIF('Detail of account'!F:F,11,'Detail of account'!E:E)"
-			ws7.cell(row=21, column=13).value="=SUMIF('Detail of account'!F:F,12,'Detail of account'!E:E)"
-			ws7.cell(row=21, column=14).value="=SUM(B21:M21)"
-
-			for i in range(1,15):
-				ws7.cell(row=20, column=i).font=ft2
-				ws7.cell(row=20,column=i).fill=headersblue
-				ws7.cell(row=20, column=i).border=solidborder
-
-			for ii in range(2, 15):
-				ws7.cell(row=21, column=ii).number_format="#,##0"
-
-
-				# y = str(len(listaunica)+19)
-				# ws7.cell(row=20+len(listaunica), column=2).value="=LEFT(A"+y+",A"+")"
-
-			# incep=ws7.max_row+5
-			# for i in range(0,len(listaunica)):
-			# 		ws7.cell(row=incep+i, column=1).value=listaunica[i]
-			
-			listaMihai=[]
-			for i in range(0,len(listaunica)):
-					listaMihai.append(str(listaunica[i]))
-			
-			listaMihai2=[]
-			for i in range(0, len(listaunica)):listaMihai2.append((listaMihai[i][0:3]))
-			#print(listaMihai2)
-
-			listaMihai3=[]
-			#for i in range(0, len(listaMihai2)):listaMihai3.append(set(listaMihai2))
-			listaMihai3=list(set(listaMihai2))
-			print(listaMihai3)
-			listaMihai4=[] 
-			for i in range(0, len(listaMihai3)):listaMihai4.append(int(listaMihai3[i]))
-			#for i in range(0, len(listaMihai3)):ws7.cell(row=4, column=8+i).value=listaMihai4[i]
-			string = '; '.join(map(str, listaMihai4))
-
-			ws7.cell(row=8, column=1).value="Work done:"
-			ws7.cell(row=8, column=1).font=ft2
-			# ws7.cell(row=8, column=2).value="We reconciliated the detail of account " +string+" with TB @ "+str(yearEnd1)+"."
-			ws7.cell(row=8, column=2).value="We reconciliated the detail of account " +string+" with TB@ 31.12.20XX."
-			ws7.cell(row=9, column=2).value="Please see the work below:"
-			
-
-					#ws7.cell(row=incep+i, column=1).value=listaMihai[i][0:3]
-
-			# my = [1234, 3456, 6789]
-			# mylist = my
-
-
-				
-			# listaMihai=[]
-			# for i in range(0, len(mylist)):
-			# 	listaMihai.append(str(mylist[i]))
-
-			# print(listaMihai)
-			# for i in range(0, len(listaMihai)):
-			# 	print(listaMihai[i][0:3])
-
-
-			# for i in range(incep, incep+len(listaunica)):
-			# 	listaMihai.append(ws7.cell(row=i,column=2).value)
-
-			# print(listaMihai)
-
-			ws8.cell(row=5, column=3).value="Total as per detail:"
-			ws8.cell(row=5,column=3).font=ft2
-			ws8.cell(row=6, column=3).value="Total as per TB:"
-			ws8.cell(row=6,column=3).font=ft2
-			ws8.cell(row=7, column=3).value="Total Diff:"
-			ws8.cell(row=7,column=3).font=fontRed
-			ws8.cell(row=6,column=3).border=solidborder
-			ws8.cell(row=6,column=4).border=solidborder
-
-			ws8.cell(row=5, column=4).value="=SUM(E10:E"+str(10+len(altaccount))+")"
-			ws8.cell(row=5, column=4).font=tah
-			ws8.cell(row=6, column=4).value="=Reconciliation!D"+str(len(listaunica)+15)
-			ws8.cell(row=6, column=4).font=tah
-			ws8.cell(row=7, column=4).value="=D6-D5"
-			ws8.cell(row=7, column=4).font=fontRed
-
-			ws8.cell(row=1, column=1).font=ft2
-			ws8.cell(row=1, column=1).value="Client:"
-			ws8.cell(row=1, column=2).font=ft2
-			ws8.cell(row=1, column=2).value=clientname1
-
-			ws8.cell(row=2, column=2).font=ft2
-			ws8.cell(row=2, column=1).value="PE:"
-			ws8.cell(row=2, column=1).font=ft2
-			ws8.cell(row=2, column=2).value=yearEnd1
-			ws8.cell(row=2, column=2).number_format='mm/dd/yyyy'
-			
-			ws8.cell(row=3, column=2).font=ft2
-			ws8.cell(row=1, column=6).value="Prepared by:"
-			ws8.cell(row=1, column=6).font=ft2
-			ws8.cell(row=1, column=7).value=preparedBy1
-			ws8.cell(row=1, column=7).font=tah
-			ws8.cell(row=1, column=7).font=ft2
-			ws8.cell(row=2, column=6).value="Date:"
-			ws8.cell(row=2, column=6).font=ft2
-			ws8.cell(row=2, column=7).value=datetime.date.today()
-			ws8.cell(row=2, column=7).font=ft2
-			ws8.cell(row=2, column=7).number_format='mm/dd/yyyy'
-			ws8.cell(row=2, column=7).alignment = Alignment (horizontal='left')
-			ws8.cell(row=3, column=6).value="Ref:"
-			ws8.cell(row=3, column=6).font=fontRed
-			ws8.cell(row=3, column=7).font=fontRed
-
-			for i in range(10,len(altaccount)+11):
-				for j in range(1,9):
-					ws8.cell(row=i,column=j).font=tah
-
-			for i in range(5,8):
-				ws8.cell(row=i,column=5).number_format="#,##0_);(#,##0)"      
-			for i in range(10,len(altaccount)+11):
-				ws8.cell(row=i,column=5).number_format="#,##0_);(#,##0)"
-				ws8.cell(row=i,column=6).number_format="#,##0_);(#,##0)"
-			
-
-			
-			for i in range(0, len(altaccount)):
-				ws8.cell(row=i+10, column=1).value=altaccount[i]
-				ws8.cell(row=i+10, column=4).value=date[i]
-				ws8.cell(row=i+10, column=4).number_format='mm/dd/yyyy'
-				ws8.cell(row=i+10, column=6).value='=MONTH(D{0})'.format(i+10)
-				ws8.cell(row=i+10, column=3).value=desc[i]
-				ws8.cell(row=i+10, column=5).value=amount[i]
-				ws8.cell(row=i+10, column=2).value=documentno[i]
-				if len(amountfx)>0:
-					ws8.cell(row=9,column=6).value="Amount in Doc Currency"
-					ws8.cell(row=i+10, column=6).value=amountfx[i]
-					ws8.cell(row=9,column=6).font=ft2
-					ws8.cell(row=9,column=6).fill=headersblue
-					ws8.cell(row=9,column=6).border=solidborder
-						
-
-					if len(curr)>0:
-						ws8.cell(row=9,column=7).value="Currency"
-						ws8.cell(row=9,column=7).font=ft2
-						ws8.cell(row=9,column=7).fill=headersblue
-						ws8.cell(row=9,column=7).border=solidborder
-						
-						ws8.cell(row=i+10, column=7).value=curr[i]
-						if len(part)>0:
-							ws8.cell(row=9,column=8).value="Partner name"
-							ws8.cell(row=9,column=8).font=ft2
-							ws8.cell(row=9,column=8).fill=headersblue
-							ws8.cell(row=9,column=8).border=solidborder
-							ws8.cell(row=i+10,column=8).value=part[i]
-				else:
-					if len(part)>0:
-						ws8.cell(row=9,column=6).value="Partner name"
-						ws8.cell(row=9,column=6).font=ft2
-						ws8.cell(row=9,column=6).fill=headersblue
-						ws8.cell(row=9,column=6).border=solidborder
-						ws8.cell(row=i+10, column=6).value=part[i]
-				
-			column_count=ws7.max_row	
-
-
-			tb=openpyxl.load_workbook(file_TB, data_only=True)
-			wstb=tb.active
-			wstt=wb.create_sheet("Trial Balance")
-			wstt.cell(row=1, column=1).value="Account"
-			wstt.cell(row=1, column=2).value="Description"
-			wstt.cell(row=1, column=3).value="CB"
-			wstt.cell(row=1, column=4).value="Synth(3)"
-
-			for i in range(1, 5):
-				wstt.cell(row=1,column=i).font=ft2
-				wstt.cell(row=1,column=i).fill=headersblue
-				wstt.cell(row=1,column=i).border=solidborder
-
-
-			for row in wstb.iter_rows():
-				for cell in row:
-					if cell.value=="Account":
-						raaa=cell.row
-						caaa=cell.column
-
-			for row in wstb.iter_rows():
-				for cell in row:
-					if cell.value=="Description":
-						rdesc=cell.row
-						cdesc=cell.column
-
-			for  row in wstb.iter_rows():
-				for cell in row:
-					if cell.value=="CB":
-						rclos=cell.row
-						cclos=cell.column
-
-			luntb=len(wstb[caaa])
-			account=[c.value for c in wstb[caaa][raaa:luntb]]
-			desc=[c.value for c in wstb[cdesc][rdesc:luntb]]
-			closing=[c.value for c in wstb[cclos][rclos:luntb]]
-
-			for i in range(0,len(account)):
-				wstt.cell(row=i+2, column=1).value=account[i]
-				wstt.cell(row=i+2, column=2).value=desc[i]
-				wstt.cell(row=i+2, column=3).value=closing[i]
-				wstt.cell(row=i+2, column=4).value=str(account[i])[:3]
-
-			rand_max=wstt.max_row
-			for i in range(2,rand_max):
-				for j in range (3,4):
-					wstt.cell(row=i, column=j).number_format='#,##0_);(#,##0)'
-
-			Sheet = "Sheet"
-			ws7.cell(row=ws7.max_row,column=3).number_format="#,##0_);(#,##0)"
-			ws7.cell(row=ws7.max_row,column=5).number_format="#,##0_);(#,##0)"
-			ws7.cell(row=ws7.max_row,column=7).number_format="#,##0_);(#,##0)"  
-
-			myorder=[1,2,3,0]
-			wb._sheets=[wb._sheets[i] for i in myorder]
-			c=ws7['A15']
-			ws7.freeze_panes = c
-
-			c=ws8['A10']
-			ws8.freeze_panes = c
-
-
-			
-			ws8.cell(row=5,column=4).number_format="#,##0"
-			ws8.cell(row=5,column=4).font=ft2
-			ws8.cell(row=6,column=4).number_format="#,##0"
-			ws8.cell(row=6, column=4).font=ft2
-			ws8.cell(row=7, column=4).number_format="#,##0"
-			ws8.column_dimensions['B'].width=17
-			ws8.column_dimensions['C'].width=20
-			ws8.column_dimensions['D'].width=15
-			ws7.column_dimensions['A'].width=16
-			ws7.column_dimensions['B'].width=16
-			ws7.column_dimensions['G'].width=18
-			ws7.column_dimensions['E'].width=18
-
-			ws9 = wb.create_sheet("Transpose")
-			ws9.sheet_state = 'hidden'
-
-			ws9.cell(row=1, column=1).value="Month"
-			ws9.cell(row=2, column=1).value="January"
-			ws9.cell(row=3, column=1).value="February"
-			ws9.cell(row=4, column=1).value="March"
-			ws9.cell(row=5, column=1).value="April"
-			ws9.cell(row=6, column=1).value="May"
-			ws9.cell(row=7, column=1).value="June"
-			ws9.cell(row=8, column=1).value="July"
-			ws9.cell(row=9, column=1).value="August"
-			ws9.cell(row=10, column=1).value="September"
-			ws9.cell(row=11, column=1).value="October"
-			ws9.cell(row=12, column=1).value="November"
-			ws9.cell(row=13, column=1).value="December"
-
-			# ws9.cell(row=1, column=2).value="Monthly Trend"
-			ws9.cell(row=2, column=2).value="=Reconciliation!B21"
-			ws9.cell(row=3, column=2).value="=Reconciliation!C21"
-			ws9.cell(row=4, column=2).value="=Reconciliation!D21"
-			ws9.cell(row=5, column=2).value="=Reconciliation!E21"
-			ws9.cell(row=6, column=2).value="=Reconciliation!F21"
-			ws9.cell(row=7, column=2).value="=Reconciliation!G21"
-			ws9.cell(row=8, column=2).value="=Reconciliation!H21"
-			ws9.cell(row=9, column=2).value="=Reconciliation!I21"
-			ws9.cell(row=10, column=2).value="=Reconciliation!J21"
-			ws9.cell(row=11, column=2).value="=Reconciliation!K21"
-			ws9.cell(row=12, column=2).value="=Reconciliation!L21"
-			ws9.cell(row=13, column=2).value="=Reconciliation!M21"
-
-			values = Reference(ws9,
-					min_col=2,  # I
-					max_col=2,  # T
-					min_row=1,
-					max_row=13)
-			labels=Reference(ws9,
-					min_col=1,  # I
-					max_col=1,  # T
-					min_row=2,
-					max_row=13)
-
-			chart = LineChart()
-			chart.add_data(values, titles_from_data=True)
-			chart.set_categories(labels)
-
-			chart.title = "Monthly Variation of Account " +str(altaccount[0])[:3]
-			chart.x_axis.title = ""
-			chart.y_axis.title = "" 
-			ws7.add_chart(chart, "A25")
-
-			file_path=os.path.join(filename+str(clientname1), "Detail of account "+str(altaccount[0])[:3]+".xlsx")
-			wb.save(file_path)
-		make_archive(filename+str(clientname1),filename+str(clientname1)+".zip")
-		# return send_from_directory("C:\\Users\\Cristin.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Output\\Reco\\",clientname1+".zip",as_attachment=True)
-		return send_from_directory("C:\\Users\\Cristian.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Output\\Reco\\",clientname1+".zip",as_attachment=True)
-	return render_template('Reco.html')
-
-		# 	filename="C:\\Users\\Cristian.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Output\\Reco"
-			
-		# 	file_path=os.path.join(filename, "Reconciliation with TB "+fisiere3[z]+".xlsx")
-		# 	wb.save(file_path)
-		# return send_from_directory(file_path, "Reconciliation with TB "+fisiere3[z]+".xlsx",as_attachment=True)
+    
+    def make_archive(source, destination):
+        base = os.path.basename(destination)
+        name = base.split('.')[0]
+        format = base.split('.')[1]
+        archive_from = os.path.dirname(source)
+        archive_to = os.path.basename(source.strip(os.sep))
+        shutil.make_archive(name, format, archive_from, archive_to)
+        shutil.move('%s.%s'%(name,format), destination)
+
+    clientname1 = request.form['client']
+    filename="home/auditappnexia/Output/Reco/"
+    os.mkdir(filename+str(clientname1))
+    yearEnd1= datetime.datetime.strptime(
+                     request.form['yearEnd'],
+                     '%Y-%m-%d')
+    preparedBy1=request.form['preparedBy']
+    if request.method == 'POST':
+        ft2=Font(name='Tahoma',size=8,bold=True)
+        ft1=Font(name='KPMG Logo',size=8)
+        solidborder = Border(bottom=Side(style='thick'))
+        blueFill = PatternFill(start_color='09b4ae',
+                        end_color='ccd9ff',
+                        fill_type='solid')
+        headersblue= PatternFill(start_color='09b4ae',
+                        end_color='09b4ae',
+                        fill_type='solid')
+        thin_border2 = Border(top=Side(style='double'))
+        fontRed = Font(name='Tahoma', size=8, bold=True, color= 'FF0000')
+        tah=Font(name='Tahoma',size=8)
+        fontRedDiff=Font(color='FF0000', name='Tahoma', size=8)
+        file_Details = request.files.getlist('detAcc')
+        file_TB=request.files["TB"]
+        
+        
+        for i in file_Details:
+    
+            i.save(secure_filename(i.filename))
+        fisiere=list(file_Details)
+
+        y=0
+        start="/"
+
+        y=str(fisiere[0]).count(start)
+
+        fisiere2=[]
+        for i in range(0,len(fisiere)):
+            fisiere2.append(str(fisiere[i]).replace("/","",y-1))
+
+        fisiere3=[]
+        for i in range(0,len(fisiere)):
+            fisiere3.append(fisiere2[i][fisiere2[i].find("/")+len("/"):fisiere2[i].rfind(".")]) 
+
+        for z in range(0, len(fisiere)):
+            
+            wb=openpyxl.load_workbook(fisiere[z], data_only="True")
+            ws=wb.active
+            ws.title="PBC"
+            for row in ws.iter_rows():
+                for cell in row:
+                    if cell.value=="Account":
+                        raa=cell.row
+                        caa=cell.column
+            lun=len(ws[caa])
+
+
+
+
+            for row in ws.iter_rows():
+                for cell in row:
+                    if cell.value=="Date":
+                        rdate=cell.row
+                        cdate=cell.column
+
+            for row in ws.iter_rows():
+                for cell in row:
+                    if cell.value=="Document Number":
+                        rdoc=cell.row
+                        cdoc=cell.column
+
+            ramount=None
+            camount=None
+            for row in ws.iter_rows():
+                for cell in row:
+                    if cell.value=="Amount in FX":
+                        ramount=cell.row
+                        camount=cell.column
+
+            for row in ws.iter_rows():
+                for cell in row:
+                    if cell.value=="Amount":
+                        rsold=cell.row
+                        csold=cell.column
+
+            for row in ws.iter_rows():
+                for cell in row:
+                    if cell.value=="Description":
+                        rdesc=cell.row
+                        cdesc=cell.column
+            ccur=None
+            rcur=None         
+            for row in ws.iter_rows():
+                for cell in row:
+                    if cell.value=="Currency":
+                        rcur=cell.row
+                        ccur=cell.column
+            cpart=None
+            rpart=None         
+            for row in ws.iter_rows():
+                for cell in row:
+                    if cell.value=="Partner Name":
+                        rpart=cell.row
+                        cpart=cell.column
+                    
+
+
+
+            altaccount=[b.value for b in ws[caa][raa:lun]]
+            listaunica=[]
+            listaunica=list(set(altaccount))
+            #listaunica.sort()
+            curr=[]
+            part=[]
+            amountfx=[]
+            documentno=[b.value for b in ws[cdoc][rdoc:lun]]
+            date=[b.value for b in ws[cdate][rdate:lun]]
+            if camount is not None:
+                amountfx=[b.value for b in ws[camount][ramount:lun]]
+            amount=[b.value for b in ws[csold][rsold:lun]]
+            desc=[b.value for b in ws[cdesc][rdesc:lun]]
+            if ccur is not None:
+                curr=[b.value for b in ws[ccur][rcur:lun]]
+            if cpart is not None:
+                part=[b.value for b in ws[cpart][rpart:lun]]
+
+
+            ws7=wb.create_sheet("Reconciliation")
+            ws7.sheet_view.showGridLines = False
+
+            ws7.cell(row=1, column=1).value="Client:"
+            ws7.cell(row=1, column=2).value=clientname1
+            ws7.cell(row=1, column=1).font=ft2
+            ws7.cell(row=1, column=2).font=ft2
+            
+            ws7.cell(row=2, column=1).value="Period end:"
+            ws7.cell(row=2, column=2).value=yearEnd1
+            ws7.cell(row=2, column=2).number_format='mm/dd/yyyy'
+            ws7.cell(row=2, column=1).font=ft2
+            ws7.cell(row=2, column=2).font=ft2
+            ws7.cell(row=1, column=6).value="Prepared by:"
+            ws7.cell(row=1, column=7).value=preparedBy1
+            ws7.cell(row=1, column=6).font=ft2
+            ws7.cell(row=1, column=7).font=ft2
+            ws7.cell(row=2, column=6).value="Date:"
+            ws7.cell(row=2, column=7).value =datetime.date.today()
+            ws7.cell(row=2, column=6).font=ft2
+            ws7.cell(row=2, column=7).font=ft2
+            ws7.cell(row=2, column=7).alignment = Alignment (horizontal='left')
+            ws7.cell(row=2, column=7).number_format='mm/dd/yyyy'
+            ws7.cell(row=3, column=6).value="Ref: "
+            ws7.cell(row=3, column=6).font=fontRed
+            ws7.cell(row=3, column=7).font=fontRed
+            ws7.cell(row=5, column=3).value="Reconciliation of accounts with TB"
+
+            ws7.cell(row=5, column=3).font=ft2
+            ws7.cell(row=12, column=1).value="As per detail "
+            ws7.cell(row=12, column=1).font=ft2
+            ws7.cell(row=12, column=5).value="As per TB"
+            ws7.cell(row=12, column=5).font=ft2
+            ws7.cell(row=14, column=1).value="Account no."
+            ws7.cell(row=14, column=1).font=ft2
+            ws7.cell(row=14, column=1).border=solidborder
+            ws7.cell(row=14, column=1).fill=headersblue
+            ws7.cell(row=14, column=2).value="Description "
+            ws7.cell(row=14, column=2).border=solidborder
+            ws7.cell(row=14, column=2).font=ft2
+            ws7.cell(row=14, column=2).fill=headersblue
+            ws7.cell(row=14, column=3).value="Amount (As per Detail)"
+            ws7.cell(row=14, column=3).fill=headersblue
+            ws7.cell(row=14, column=3).border=solidborder
+            ws7.cell(row=14, column=3).font=ft2
+            ws7.cell(row=14, column=4).value="Amount (As per TB)"
+            ws7.cell(row=14, column=4).fill=headersblue
+            ws7.cell(row=14, column=4).border=solidborder
+            ws7.cell(row=14, column=4).font=ft2
+            ws7.cell(row=14, column=5).value="Check/Difference"
+            ws7.cell(row=14, column=5).fill=headersblue
+            ws7.cell(row=14, column=5).border=solidborder
+            ws7.cell(row=14, column=5).font=fontRed
+            "Adjust Column Width---------------------------------------------------------------------------------------------------------------------------------."
+            
+
+            for col in ws7.columns:
+                max_length=20
+                for cell in col:
+                    if cell.coordinate in ws7.merged_cells:
+                        continue
+                    try:
+                        if len(str(cell.value))>max_length:
+                            max_length=len(cell.value)
+                    except:
+                        pass
+                adjusted_width=(max_length-1)
+
+            listaAdjusted=['H', 'C', 'F', 'I', 'D']
+            for column in listaAdjusted:
+                for i in listaAdjusted:
+                    if (column==i):
+                        ws7.column_dimensions[column].width=adjusted_width		
+
+
+            for i in range(0, len(listaunica)):
+                for j in range(1,9):
+                    ws7.cell(row=i+15, column=1).value=listaunica[i]
+                    ws7.cell(row=i+15,column=j).font=tah
+            for row in ws7.iter_rows():
+                for cell in row:
+                    if cell.value=="Account no.":
+                        raccountno=cell.row
+                        caccountno=cell.column
+
+            ws7.cell(row=15+len(listaunica), column = 2).value="Total"
+            ws7.cell(row=15+len(listaunica), column = 2).font=ft2
+            ws7.cell(row=15+len(listaunica), column=2).border=thin_border2
+            ws7.cell(row=15+len(listaunica), column=1).border=thin_border2
+            ws7.cell(row=15+len(listaunica), column=3).border=thin_border2
+            ws7.cell(row=15+len(listaunica), column=4).border=thin_border2
+            ws7.cell(row=15+len(listaunica), column=5).border=thin_border2
+
+            for i in range(15,15+len(listaunica)):
+                for j in range (3,30):
+                        ws7.cell(row=i, column=j).number_format='#,##0_);(#,##0)'
+
+            x=str(len(listaunica)+14)
+            ws7.cell(row=len(listaunica)+15, column=3).value="=sum(C15:C"+x+")"
+            ws7.cell(row=len(listaunica)+15, column=3).font=ft2
+            ws7.cell(row=len(listaunica)+15, column=3).number_format="#,##0"
+            ws7.cell(row=len(listaunica)+15, column=4).value="=sum(D15:D"+x+")"
+            ws7.cell(row=len(listaunica)+15, column=4).font=ft2
+            ws7.cell(row=len(listaunica)+15, column=4).number_format="#,##0"
+            ws7.cell(row=len(listaunica)+15, column=5).value="=sum(E15:E"+x+")"
+            ws7.cell(row=len(listaunica)+15, column=5).font=fontRed
+            ws7.cell(row=len(listaunica)+15, column=5).number_format="#,##0"
+
+            ws8=wb.create_sheet("Detail of account")
+			# ws8.sheet_view.showGridLines = False
+            ws8.cell(row=9, column=1).value="Account"
+			# ws8.sheet_view.showGridLines = False
+
+            ws8.cell(row=9, column=4).value="Date"
+            ws8.cell(row=9, column=3).value="Description"
+            ws8.cell(row=9, column=5).value="Amount"
+            ws8.cell(row=9, column=2).value="Document Number"
+            ws8.cell(row=9, column=9).value="Month"
+            
+
+            for j in range(1,10):
+                ws8.cell(row=9, column=j).font=ft2
+                ws8.cell(row=9,column=j).fill=headersblue
+                ws8.cell(row=9, column=j).border=solidborder
+
+            
+
+
+
+            for i in range(0, len(listaunica)):
+                ws7.cell(row=i+15, column=2).value="=VLOOKUP(A{0},'Trial Balance'!A:B,2,TRUE)".format(i+15)
+                ws7.cell(row=i+15, column=3).value="=SUMIF('Detail of account'!A:A,A{0},'Detail of Account'!E:E)".format(i+15)
+                ws7.cell(row=i+15, column=4).value="=SUMIF('Trial Balance'!A:A,Reconciliation!A{0},'Trial Balance'!C:C)".format(i+15)
+                ws7.cell(row=i+15, column=5).value="=C{0}-D{0}".format(i+15)
+                ws7.cell(row=i+15, column=5).font=fontRedDiff
+
+            ws7.cell(row=44+len(listaunica), column=1).value="Findings:"
+            ws7.cell(row=44+len(listaunica), column=1).font=ft2
+
+            ws7.cell(row=len(listaunica)+17, column=1).value="Account"
+            ws7.cell(row=len(listaunica)+17, column=2).value="January"
+            ws7.cell(row=len(listaunica)+17, column=3).value="February"
+            ws7.cell(row=len(listaunica)+17, column=4).value="March"
+            ws7.cell(row=len(listaunica)+17, column=5).value="April"
+            ws7.cell(row=len(listaunica)+17, column=6).value="May"
+            ws7.cell(row=len(listaunica)+17, column=7).value="June"
+            ws7.cell(row=len(listaunica)+17, column=8).value="July"
+            ws7.cell(row=len(listaunica)+17, column=9).value="August"
+            ws7.cell(row=len(listaunica)+17, column=10).value="September"
+            ws7.cell(row=len(listaunica)+17, column=11).value="October"
+            ws7.cell(row=len(listaunica)+17, column=12).value="November"
+            ws7.cell(row=len(listaunica)+17, column=13).value="December"
+            ws7.cell(row=len(listaunica)+17, column=14).value="Total"
+
+
+            ws7.cell(row=len(listaunica)+18, column=2).value="=SUMIF('Detail of account'!F:F,1,'Detail of account'!E:E)"
+            ws7.cell(row=len(listaunica)+18, column=3).value="=SUMIF('Detail of account'!F:F,2,'Detail of account'!E:E)"
+            ws7.cell(row=len(listaunica)+18, column=4).value="=SUMIF('Detail of account'!F:F,3,'Detail of account'!E:E)"
+            ws7.cell(row=len(listaunica)+18, column=5).value="=SUMIF('Detail of account'!F:F,4,'Detail of account'!E:E)"
+            ws7.cell(row=len(listaunica)+18, column=6).value="=SUMIF('Detail of account'!F:F,5,'Detail of account'!E:E)"
+            ws7.cell(row=len(listaunica)+18, column=7).value="=SUMIF('Detail of account'!F:F,6,'Detail of account'!E:E)"
+            ws7.cell(row=len(listaunica)+18, column=8).value="=SUMIF('Detail of account'!F:F,7,'Detail of account'!E:E)"
+            ws7.cell(row=len(listaunica)+18, column=9).value="=SUMIF('Detail of account'!F:F,8,'Detail of account'!E:E)"
+            ws7.cell(row=len(listaunica)+18, column=10).value="=SUMIF('Detail of account'!F:F,9,'Detail of account'!E:E)"
+            ws7.cell(row=len(listaunica)+18, column=11).value="=SUMIF('Detail of account'!F:F,10,'Detail of account'!E:E)"
+            ws7.cell(row=len(listaunica)+18, column=12).value="=SUMIF('Detail of account'!F:F,11,'Detail of account'!E:E)"
+            ws7.cell(row=len(listaunica)+18, column=13).value="=SUMIF('Detail of account'!F:F,12,'Detail of account'!E:E)"
+            ws7.cell(row=len(listaunica)+18, column=14).value="=SUM(B"+str(len(listaunica)+18)+":M"+str(len(listaunica)+18)+")"
+
+            for i in range(1,15):
+                ws7.cell(row=len(listaunica)+17, column=i).font=ft2
+                ws7.cell(row=len(listaunica)+17,column=i).fill=headersblue
+                ws7.cell(row=len(listaunica)+17, column=i).border=solidborder
+
+            for ii in range(2, 15):
+                ws7.cell(row=len(listaunica)+17, column=ii).number_format="#,##0"
+
+
+                # y = str(len(listaunica)+19)
+                # ws7.cell(row=20+len(listaunica), column=2).value="=LEFT(A"+y+",A"+")"
+
+            # incep=ws7.max_row+5
+            # for i in range(0,len(listaunica)):
+            # 		ws7.cell(row=incep+i, column=1).value=listaunica[i]
+            
+            listaMihai=[]
+            for i in range(0,len(listaunica)):
+                    listaMihai.append(str(listaunica[i]))
+            
+            listaMihai2=[]
+            for i in range(0, len(listaunica)):listaMihai2.append((listaMihai[i][0:3]))
+            #print(listaMihai2)
+
+            listaMihai3=[]
+            #for i in range(0, len(listaMihai2)):listaMihai3.append(set(listaMihai2))
+            listaMihai3=list(set(listaMihai2))
+            print(listaMihai3)
+            listaMihai4=[] 
+            for i in range(0, len(listaMihai3)):listaMihai4.append(int(listaMihai3[i]))
+            #for i in range(0, len(listaMihai3)):ws7.cell(row=4, column=8+i).value=listaMihai4[i]
+            string = '; '.join(map(str, listaMihai4))
+
+            ws7.cell(row=8, column=1).value="Work done:"
+            ws7.cell(row=8, column=1).font=ft2
+            # ws7.cell(row=8, column=2).value="We reconciliated the detail of account " +string+" with TB @ "+str(yearEnd1)+"."
+            ws7.cell(row=8, column=2).value="We reconciliated the detail of account " +string+" with TB@ 31.12.20XX."
+            ws7.cell(row=9, column=2).value="Please see the work below:"
+			# ws7.cell(row=len(listaunica)+18, column=1).value=string
+            ws7.cell(row=len(listaunica)+18, column=1).value=string            
+
+                    #ws7.cell(row=incep+i, column=1).value=listaMihai[i][0:3]
+
+            # my = [1234, 3456, 6789]
+            # mylist = my
+
+
+                
+            # listaMihai=[]
+            # for i in range(0, len(mylist)):
+            # 	listaMihai.append(str(mylist[i]))
+
+            # print(listaMihai)
+            # for i in range(0, len(listaMihai)):
+            # 	print(listaMihai[i][0:3])
+
+
+            # for i in range(incep, incep+len(listaunica)):
+            # 	listaMihai.append(ws7.cell(row=i,column=2).value)
+
+            # print(listaMihai)
+
+            ws8.cell(row=5, column=3).value="Total as per detail:"
+            ws8.cell(row=5,column=3).font=ft2
+            ws8.cell(row=6, column=3).value="Total as per TB:"
+            ws8.cell(row=6,column=3).font=ft2
+            ws8.cell(row=7, column=3).value="Total Diff:"
+            ws8.cell(row=7,column=3).font=fontRed
+            ws8.cell(row=6,column=3).border=solidborder
+            ws8.cell(row=6,column=4).border=solidborder
+
+            ws8.cell(row=5, column=4).value="=SUM(E10:E"+str(10+len(altaccount))+")"
+            ws8.cell(row=5, column=4).font=tah
+            ws8.cell(row=6, column=4).value="=Reconciliation!D"+str(len(listaunica)+15)
+            ws8.cell(row=6, column=4).font=tah
+            ws8.cell(row=7, column=4).value="=D6-D5"
+            ws8.cell(row=7, column=4).font=fontRed
+
+            ws8.cell(row=1, column=1).font=ft2
+            ws8.cell(row=1, column=1).value="Client:"
+            ws8.cell(row=1, column=2).font=ft2
+            ws8.cell(row=1, column=2).value=clientname1
+
+            ws8.cell(row=2, column=2).font=ft2
+            ws8.cell(row=2, column=1).value="PE:"
+            ws8.cell(row=2, column=1).font=ft2
+            ws8.cell(row=2, column=2).value=yearEnd1
+            ws8.cell(row=2, column=2).number_format='mm/dd/yyyy'
+            
+            ws8.cell(row=3, column=2).font=ft2
+            ws8.cell(row=1, column=6).value="Prepared by:"
+            ws8.cell(row=1, column=6).font=ft2
+            ws8.cell(row=1, column=7).value=preparedBy1
+            ws8.cell(row=1, column=7).font=tah
+            ws8.cell(row=1, column=7).font=ft2
+            ws8.cell(row=2, column=6).value="Date:"
+            ws8.cell(row=2, column=6).font=ft2
+            ws8.cell(row=2, column=7).value=datetime.date.today()
+            ws8.cell(row=2, column=7).font=ft2
+            ws8.cell(row=2, column=7).number_format='mm/dd/yyyy'
+            ws8.cell(row=2, column=7).alignment = Alignment (horizontal='left')
+            ws8.cell(row=3, column=6).value="Ref:"
+            ws8.cell(row=3, column=6).font=fontRed
+            ws8.cell(row=3, column=7).font=fontRed
+
+            for i in range(10,len(altaccount)+11):
+                for j in range(1,9):
+                    ws8.cell(row=i,column=j).font=tah
+
+            for i in range(5,8):
+                ws8.cell(row=i,column=5).number_format="#,##0_);(#,##0)"      
+            for i in range(10,len(altaccount)+11):
+                ws8.cell(row=i,column=5).number_format="#,##0_);(#,##0)"
+                ws8.cell(row=i,column=6).number_format="#,##0_);(#,##0)"
+            
+
+            
+            for i in range(0, len(altaccount)):
+                ws8.cell(row=i+10, column=1).value=altaccount[i]
+                ws8.cell(row=i+10, column=4).value=date[i]
+                ws8.cell(row=i+10, column=4).number_format='mm/dd/yyyy'
+                ws8.cell(row=i+10, column=6).value='=MONTH(D{0})'.format(i+10)
+                ws8.cell(row=i+10, column=3).value=desc[i]
+                ws8.cell(row=i+10, column=5).value=amount[i]
+                ws8.cell(row=i+10, column=2).value=documentno[i]
+                if len(amountfx)>0:
+                    ws8.cell(row=9,column=7).value="Amount in Doc Currency"
+                    ws8.cell(row=i+10, column=7).value=amountfx[i]
+                    ws8.cell(row=9,column=7).font=ft2
+                    ws8.cell(row=9,column=7).fill=headersblue
+                    ws8.cell(row=9,column=7).border=solidborder
+                        
+
+                    if len(curr)>0:
+                        ws8.cell(row=9,column=8).value="Currency"
+                        ws8.cell(row=9,column=8).font=ft2
+                        ws8.cell(row=9,column=8).fill=headersblue
+                        ws8.cell(row=9,column=8).border=solidborder
+                        
+                        ws8.cell(row=i+10, column=8).value=curr[i]
+                        if len(part)>0:
+                            ws8.cell(row=9,column=9).value="Partner name"
+                            ws8.cell(row=9,column=9).font=ft2
+                            ws8.cell(row=9,column=9).fill=headersblue
+                            ws8.cell(row=9,column=9).border=solidborder
+                            ws8.cell(row=i+10,column=9).value=part[i]
+                else:
+                    if len(part)>0:
+                        ws8.cell(row=9,column=10).value="Partner name"
+                        ws8.cell(row=9,column=10).font=ft2
+                        ws8.cell(row=9,column=10).fill=headersblue
+                        ws8.cell(row=9,column=10).border=solidborder
+                        ws8.cell(row=i+10, column=10).value=part[i]
+                
+            column_count=ws7.max_row	
+
+
+            tb=openpyxl.load_workbook(file_TB, data_only=True)
+            wstb=tb.active
+            wstt=wb.create_sheet("Trial Balance")
+            wstt.cell(row=1, column=1).value="Account"
+            wstt.cell(row=1, column=2).value="Description"
+            wstt.cell(row=1, column=3).value="CB"
+            wstt.cell(row=1, column=4).value="Synth(3)"
+
+            for i in range(1, 5):
+                wstt.cell(row=1,column=i).font=ft2
+                wstt.cell(row=1,column=i).fill=headersblue
+                wstt.cell(row=1,column=i).border=solidborder
+
+
+            for row in wstb.iter_rows():
+                for cell in row:
+                    if cell.value=="Account":
+                        raaa=cell.row
+                        caaa=cell.column
+
+            for row in wstb.iter_rows():
+                for cell in row:
+                    if cell.value=="Description":
+                        rdesc=cell.row
+                        cdesc=cell.column
+
+            for  row in wstb.iter_rows():
+                for cell in row:
+                    if cell.value=="CB":
+                        rclos=cell.row
+                        cclos=cell.column
+
+            luntb=len(wstb[caaa])
+            account=[c.value for c in wstb[caaa][raaa:luntb]]
+            desc=[c.value for c in wstb[cdesc][rdesc:luntb]]
+            closing=[c.value for c in wstb[cclos][rclos:luntb]]
+
+            for i in range(0,len(account)):
+                wstt.cell(row=i+2, column=1).value=account[i]
+                wstt.cell(row=i+2, column=2).value=desc[i]
+                wstt.cell(row=i+2, column=3).value=closing[i]
+                wstt.cell(row=i+2, column=4).value=str(account[i])[:3]
+
+            rand_max=wstt.max_row
+            for i in range(2,rand_max):
+                for j in range (3,4):
+                    wstt.cell(row=i, column=j).number_format='#,##0_);(#,##0)'
+
+            Sheet = "Sheet"
+            ws7.cell(row=ws7.max_row,column=3).number_format="#,##0_);(#,##0)"
+            ws7.cell(row=ws7.max_row,column=5).number_format="#,##0_);(#,##0)"
+            ws7.cell(row=ws7.max_row,column=7).number_format="#,##0_);(#,##0)"  
+
+            myorder=[1,2,3,0]
+            wb._sheets=[wb._sheets[i] for i in myorder]
+            c=ws7['A15']
+            ws7.freeze_panes = c
+
+            c=ws8['A10']
+            ws8.freeze_panes = c
+
+
+            
+            ws8.cell(row=5,column=4).number_format="#,##0"
+            ws8.cell(row=5,column=4).font=ft2
+            ws8.cell(row=6,column=4).number_format="#,##0"
+            ws8.cell(row=6, column=4).font=ft2
+            ws8.cell(row=7, column=4).number_format="#,##0"
+            ws8.column_dimensions['B'].width=17
+            ws8.column_dimensions['C'].width=20
+            ws8.column_dimensions['D'].width=15
+            ws7.column_dimensions['A'].width=16
+            ws7.column_dimensions['B'].width=16
+            ws7.column_dimensions['G'].width=18
+            ws7.column_dimensions['E'].width=18
+
+            ws9 = wb.create_sheet("Transpose")
+            ws9.sheet_state = 'hidden'
+
+            ws9.cell(row=1, column=1).value="Month"
+            ws9.cell(row=2, column=1).value="January"
+            ws9.cell(row=3, column=1).value="February"
+            ws9.cell(row=4, column=1).value="March"
+            ws9.cell(row=5, column=1).value="April"
+            ws9.cell(row=6, column=1).value="May"
+            ws9.cell(row=7, column=1).value="June"
+            ws9.cell(row=8, column=1).value="July"
+            ws9.cell(row=9, column=1).value="August"
+            ws9.cell(row=10, column=1).value="September"
+            ws9.cell(row=11, column=1).value="October"
+            ws9.cell(row=12, column=1).value="November"
+            ws9.cell(row=13, column=1).value="December"
+
+            # ws9.cell(row=1, column=2).value="Monthly Trend"
+            ws9.cell(row=2, column=2).value="=Reconciliation!B"+str(len(listaunica)+18)
+            ws9.cell(row=3, column=2).value="=Reconciliation!C"+str(len(listaunica)+18)
+            ws9.cell(row=4, column=2).value="=Reconciliation!D"+str(len(listaunica)+18)
+            ws9.cell(row=5, column=2).value="=Reconciliation!E"+str(len(listaunica)+18)
+            ws9.cell(row=6, column=2).value="=Reconciliation!F"+str(len(listaunica)+18)
+            ws9.cell(row=7, column=2).value="=Reconciliation!G"+str(len(listaunica)+18)
+            ws9.cell(row=8, column=2).value="=Reconciliation!H"+str(len(listaunica)+18)
+            ws9.cell(row=9, column=2).value="=Reconciliation!I"+str(len(listaunica)+18)
+            ws9.cell(row=10, column=2).value="=Reconciliation!J"+str(len(listaunica)+18)
+            ws9.cell(row=11, column=2).value="=Reconciliation!K"+str(len(listaunica)+18)
+            ws9.cell(row=12, column=2).value="=Reconciliation!L"+str(len(listaunica)+18)
+            ws9.cell(row=13, column=2).value="=Reconciliation!M"+str(len(listaunica)+18)
+
+            values = Reference(ws9,
+                    min_col=2,  # I
+                    max_col=2,  # T
+                    min_row=1,
+                    max_row=13)
+            labels=Reference(ws9,
+                    min_col=1,  # I
+                    max_col=1,  # T
+                    min_row=2,
+                    max_row=13)
+
+            chart = LineChart()
+            chart.add_data(values, titles_from_data=True)
+            chart.set_categories(labels)
+
+            chart.title = "Monthly Variation of Account " +str(altaccount[0])[:3]
+            chart.x_axis.title = ""
+            chart.y_axis.title = "" 
+            ws7.add_chart(chart, "A"+str(len(listaunica)+20))
+
+            file_path=os.path.join(filename+str(clientname1), "Detail of account "+str(altaccount[0])[:3]+".xlsx")
+            wb.save(file_path)
+        make_archive(filename+str(clientname1),filename+str(clientname1)+".zip")
+        # return send_from_directory("C:\\Users\\Cristin.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Output\\Reco\\",clientname1+".zip",as_attachment=True)
+        return send_from_directory("home/auditappnexia/Output/Reco/",clientname1+".zip",as_attachment=True)
+    return render_template('Reco.html')
+
+        # 	filename="C:\\Users\\Cristian.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Output\\Reco"
+            
+        # 	file_path=os.path.join(filename, "Reconciliation with TB "+fisiere3[z]+".xlsx")
+        # 	wb.save(file_path)
+        # return send_from_directory(file_path, "Reconciliation with TB "+fisiere3[z]+".xlsx",as_attachment=True)
 
 @app.route('/TrialBalances/Instructions', methods=['GET'])
 def downloadTB():
-		filepath = "C:\\Users\\Cristian.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Instructions"
+		filepath = "C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Instructions"
  
-		return send_from_directory(filepath,"Instructions Trial Balance, Leadsheet and FS.docx", as_attachment=True)
+		return send_from_directory(filepath,"Instructions - Trial Balance.docx", as_attachment=True)
 @app.route('/TrialBalances/GT3SjGyxpbcxV35PeSUpKJQIOgY')
 def TB():
 	return render_template('TB.html')
@@ -4262,6 +4980,7 @@ def TB_process():
 					 request.form['yearEnd'],
 					 '%Y-%m-%d')
 	threshol = request.form['threshold']
+	preparedBy1 = request.form['preparedBy']
 	isChecked1=request.form.get("Stdmapp")
 	isChecked2=request.form.get("forml")
 	isChecked3=request.form.get("forms")
@@ -4273,7 +4992,7 @@ def TB_process():
 	# else:
 	#     isChecked=0
 	
-	folderpath="C:\\Users\\denis.david\\Work\\IT\\Web apps-v2-login\\Web apps-v2-login\\Output\\TB"
+	folderpath="home/auditappnexia/Output/TB"
 
 	def make_archive(source, destination):
 		base = os.path.basename(destination)
@@ -4293,8 +5012,8 @@ def TB_process():
 							fill_type='solid')
 		grifill=PatternFill(start_color='c4d79b',end_color='c4d79b',fill_type='solid')
 		yellow=PatternFill(start_color='ffff00',end_color='ffff00',fill_type='solid')
-		blueFill = PatternFill(start_color='ccd9ff',
-							end_color='ccd9ff',
+		blueFill = PatternFill(start_color='00AEAC',
+							end_color='00AEAC',
 							fill_type='solid')
 		doubleborder = Border(bottom=Side(style='double'))
 		solidborder = Border(bottom=Side(style='thick'))
@@ -4307,17 +5026,17 @@ def TB_process():
 		fontitalic = Font(name='Tahoma', size=8, bold=True, italic=True)
 		font = Font(name='Tahoma', size=8, bold=True)
 		font1 = Font(name='Tahoma', size=8)
-		font2 = Font(name='Calibri', size=10, bold=True)
-		fontRed = Font(name='Calibri', size=10, bold=True, color= 'FF0000')
-		fontRedDiff=Font(name="Calibri", color='FF0000', size=11, )
+		font2 = Font(name='Tahoma', size=10, bold=True)
+		fontRed = Font(name='Tahoma', size=10, bold=True, color= 'FF0000')
+		fontRedDiff=Font(name="Tahoma", color='FF0000', size=11, )
 		fontGT = Font (name='GT Logo', size=8)
 		workingsblue = Font(color='2F75B5', bold=True, name='Tahoma', size=8 )
 		headers= Font(bold=True, italic=True, name='Tahoma', size=8,color='FFFFFF') 
 		headersblue = PatternFill(start_color='7030A0',
 						end_color='7030A0',
 						fill_type='solid')
-		headerspurple= PatternFill(start_color='CCC0DA',
-							end_color='CCC0DA',
+		headerspurple= PatternFill(start_color='65CDCC',
+							end_color='65CDCC',
 							fill_type='solid')
 		total=PatternFill(start_color='DDD9C4',
 						end_color='DDD9C4',
@@ -4512,9 +5231,9 @@ def TB_process():
 			output=openpyxl.load_workbook(mapp,data_only=True)
 		else:
 			if isChecked2=="":
-				output=openpyxl.load_workbook("C:\\Users\\denis.david\\Work\\IT\\Web apps-v2-login\\Web apps-v2-login\\Output\\Other files\\TB\\Mapping\\Mapping Forma Lunga.xlsx",data_only=True)
+				output=openpyxl.load_workbook("home/auditappnexia/Output/Other files/TB/Mapping/Mapping Forma Lunga.xlsx",data_only=True)
 			else:
-				output=openpyxl.load_workbook("C:\\Users\\denis.david\\Work\\IT\\Web apps-v2-login\\Web apps-v2-login\\Output\\Other files\\TB\\Mapping\\Mapping Forma Scurta.xlsx",data_only=True)
+				output=openpyxl.load_workbook("home/auditappnexia/Output/Other files/TB/Mapping/Mapping Forma Scurta.xlsx",data_only=True)
 
 		PBC_CY =output.create_sheet("PBC_CY")
 
@@ -4627,20 +5346,24 @@ def TB_process():
 		"Define F10 Worksheet"
 
 		F10TB=output.create_sheet("F_10_Trial_Balance")
+		F10TB.sheet_view.showGridLines = False
 		F10TB.cell(row=1, column=1).value="Client:"
 		F10TB.cell(row=1, column=1).font=font
-		F10TB.cell(row=1, column=2).value = namec
+		F10TB.cell(row=1, column=2).value=namec
 		F10TB.cell(row=1, column=2).font=font
 
 
 		F10TB.cell(row=2, column=1).value="Period end:"
 		F10TB.cell(row=2, column=1).font=font
-		F10TB.cell(row=2, column=2).value = ant
-		F10TB.cell(row=2, column=2).font = font
-		F10TB.cell(row=2, column=2).number_format='mm/dd/yyyy'
+		F10TB.cell(row=2, column=2).value=ant
+		F10TB.cell(row=2, column=2).font=font
+		F10TB.cell(row=2, column=2).number_format="mm/dd/yyyy"
+
 
 		F10TB.cell(row=1, column=11).value="Prepared by:"
 		F10TB.cell(row=1, column=11).font=font
+		F10TB.cell(row=1, column=12).value=preparedBy1
+		F10TB.cell(row=1, column=12).font=font
 
 		F10TB.cell(row=2, column=11).value="Date:"
 		F10TB.cell(row=2, column=11).font=font
@@ -4680,7 +5403,7 @@ def TB_process():
 		F10TB.cell(row=14, column=9).value="CM"
 		F10TB.cell(row=14, column=10).value="CB"
 		F10TB.cell(row=14, column=11).value="Check"
-		F10TB.cell(row=14, column=13).value="VAR Abs CB-OB"
+		F10TB.cell(row=14, column=13).value="Abs CB-OB"
 		F10TB.cell(row=14, column=14).value="VAR %"
 
 		F10TB.cell(row=14, column=16).value="OMF Row"
@@ -4871,7 +5594,7 @@ def TB_process():
 			F10TB.cell(row=i+14, column=11).font=fontRed
 
 		for i in range(1, len(mylist)+1):
-			F10TB.cell(row=i+14, column=13).value='=IF(A{0}="BS",J{0}-G{0},0)'.format(i+14)
+			F10TB.cell(row=i+14, column=13).value='=IF(A{0}="BS",J{0}-G{0},"")'.format(i+14)
 			F10TB.cell(row=i+14,column=13).number_format='#,##0_);(#,##0)'
 
 		F10TB.cell(row=13, column=12).number_format='#,##0_);(#,##0)'
@@ -5002,7 +5725,7 @@ def TB_process():
 		file_path=os.path.join(folderpath, "F100 Trial Balance.xlsx")
 		myorder=[4,0,1,2,3]
 		output._sheets =[output._sheets[i] for i in myorder]
-		output.save(folderpath+"/Trial Balance.xlsx")
+		output.save(folderpath+"\Trial Balance.xlsx")
 		return send_from_directory(folderpath,"Trial Balance.xlsx",as_attachment=True)
 
 		# print(text)
@@ -5010,9 +5733,9 @@ def TB_process():
 
 @app.route('/LSFS/Instructions', methods=['GET'])
 def downloadLSFS():
-		filepath = "C:\\Users\\Cristian.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Instructions"
+		filepath = "C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Instructions"
  
-		return send_from_directory(filepath,"Instructions Trial Balance, Leadsheet and FS.docx", as_attachment=True)
+		return send_from_directory(filepath,"Instructions - Leadsheets.docx", as_attachment=True)
 
 @app.route('/LSFS/GTdjA2adxpt6S8HHJtDhJ2dvPWS')
 def LSFS():
@@ -5025,81 +5748,90 @@ def LSFS_process():
 					 request.form['yearEnd'],
 					 '%Y-%m-%d')
 	threshol = request.form['threshold']
-	
-	isChecked2=request.form.get("gls")
-	isChecked3=request.form.get("gfs")
-	isChecked4=request.form.get("forml")
-	isChecked5=request.form.get("forms")
+	preparedBy1 = request.form['preparedBy']
+	datePrepared1 = datetime.datetime.strptime(
+		request.form['preparedDate'],
+		'%Y-%m-%d')
+	# isChecked2=request.form.get("gls")
+	# isChecked3=request.form.get("gfs")
+	# isChecked4=request.form.get("forml")
+	# isChecked5=request.form.get("forms")
 	isChecked6=request.form.get("mctb")
-		# if isChecked1=="": #daca e bifat
-	#     isChecked=1
-	# else:
-	#     isChecked=0
 	
-	folderpath="C:\\Users\\denis.david\\Work\\IT\\Web apps-v2-login\\Web apps-v2-login\\Output\\LSFS" #aici era inainte fara LSFS
-	os.mkdir(folderpath+"LSFS "+namec)
-	
+	if isChecked6=="": #daca e bifat
+		isChecked6=1
+		print("e bine")
 
-	def make_archive(source, destination):
-		base = os.path.basename(destination)
-		name = base.split('.')[0]
-		format = base.split('.')[1]
-		archive_from = os.path.dirname(source)
-		archive_to = os.path.basename(source.strip(os.sep))
-		shutil.make_archive(name, format, archive_from, archive_to)
-		shutil.move('%s.%s'%(name,format), destination)
-	# yearEnd = str(request.form['yearEnd'])
-	# processed_text = client.upper()
-	# fisier=request.files.get('monthlyTB')
-	if request.method == 'POST':
-		workingsblue2= Font(bold=True, italic=True, name='Tahoma', size=8,color='FFFFFF')
-		lbluefill = PatternFill(start_color='7030A0',
+	else:
+	    isChecked6=0
+
+	
+	if(isChecked6==1):
+
+		folderpath="home/auditappnexia/Output/LSFS" #aici era inainte fara LSFS
+		os.mkdir(folderpath+"LSFS "+namec)
+		
+
+		def make_archive(source, destination):
+			base = os.path.basename(destination)
+			name = base.split('.')[0]
+			format = base.split('.')[1]
+			archive_from = os.path.dirname(source)
+			archive_to = os.path.basename(source.strip(os.sep))
+			shutil.make_archive(name, format, archive_from, archive_to)
+			shutil.move('%s.%s'%(name,format), destination)
+		# yearEnd = str(request.form['yearEnd'])
+		# processed_text = client.upper()
+		# fisier=request.files.get('monthlyTB')
+		if request.method == 'POST':
+			workingsblue2= Font(bold=True, italic=True, name='Tahoma', size=8,color='FFFFFF')
+			lbluefill = PatternFill(start_color='7030A0',
+								end_color='7030A0',
+								fill_type='solid')
+			grifill=PatternFill(start_color='c4d79b',end_color='c4d79b',fill_type='solid')
+			yellow=PatternFill(start_color='ffff00',end_color='ffff00',fill_type='solid')
+			blueFill = PatternFill(start_color='00AEAC',
+								end_color='00AEAC',
+								fill_type='solid')
+			doubleborder = Border(bottom=Side(style='double'))
+			solidborder = Border(bottom=Side(style='thick'))
+			solidborderstanga = Border(left=Side(style='thin'))
+			rightborder = Border(right=Side(style='thin'))
+			rightdouble = Border (right=Side(style='thin'), bottom=Side(style='double'))
+			rightmedium = Border (right=Side(style='thin'), bottom=Side(style='medium'))
+			solidborderdreapta = Border(right=Side(style='thin'))
+			solidbordersus = Border(top=Side(style='thin'))
+			fontitalic = Font(name='Tahoma', size=8, bold=True, italic=True)
+			font = Font(name='Tahoma', size=8, bold=True)
+			font1 = Font(name='Tahoma', size=8)
+			font2 = Font(name='Tahoma', size=10, bold=True)
+			fontRed = Font(name='Tahoma', size=10, bold=True, color= 'FF0000')
+			fontRedDiff=Font(name="Tahoma", color='FF0000', size=11, )
+			fontGT = Font (name='GT Logo', size=8)
+			workingsblue = Font(color='2F75B5', bold=True, name='Tahoma', size=8 )
+			headers= Font(bold=True, italic=True, name='Tahoma', size=8,color='FFFFFF') 
+			headersblue = PatternFill(start_color='7030A0',
 							end_color='7030A0',
 							fill_type='solid')
-		grifill=PatternFill(start_color='c4d79b',end_color='c4d79b',fill_type='solid')
-		yellow=PatternFill(start_color='ffff00',end_color='ffff00',fill_type='solid')
-		blueFill = PatternFill(start_color='ccd9ff',
-							end_color='ccd9ff',
+			headerspurple= PatternFill(start_color='65CDCC',
+								end_color='65CDCC',
+								fill_type='solid')
+			total=PatternFill(start_color='DDD9C4',
+							end_color='DDD9C4',
 							fill_type='solid')
-		doubleborder = Border(bottom=Side(style='double'))
-		solidborder = Border(bottom=Side(style='thick'))
-		solidborderstanga = Border(left=Side(style='thin'))
-		rightborder = Border(right=Side(style='thin'))
-		rightdouble = Border (right=Side(style='thin'), bottom=Side(style='double'))
-		rightmedium = Border (right=Side(style='thin'), bottom=Side(style='medium'))
-		solidborderdreapta = Border(right=Side(style='thin'))
-		solidbordersus = Border(top=Side(style='thin'))
-		fontitalic = Font(name='Tahoma', size=8, bold=True, italic=True)
-		font = Font(name='Tahoma', size=8, bold=True)
-		font1 = Font(name='Tahoma', size=8)
-		font2 = Font(name='Calibri', size=10, bold=True)
-		fontRed = Font(name='Calibri', size=10, bold=True, color= 'FF0000')
-		fontRedDiff=Font(name="Calibri", color='FF0000', size=11, )
-		fontGT = Font (name='GT Logo', size=8)
-		workingsblue = Font(color='2F75B5', bold=True, name='Tahoma', size=8 )
-		headers= Font(bold=True, italic=True, name='Tahoma', size=8,color='FFFFFF') 
-		headersblue = PatternFill(start_color='7030A0',
-						end_color='7030A0',
-						fill_type='solid')
-		headerspurple= PatternFill(start_color='CCC0DA',
-							end_color='CCC0DA',
-							fill_type='solid')
-		total=PatternFill(start_color='DDD9C4',
-						end_color='DDD9C4',
-						fill_type='solid')
-		greenbolditalic= Font(bold=True, italic=True,  color='C0504D', name='Tahoma', size=8)
-		greenbolditalic= Font(bold=True, italic=True,  color='00af50')
-		fontalb = Font(italic=True, color="bfbfbf", size=8, name='Tahoma')
-		
-		if isChecked2=="":
-
+			greenbolditalic= Font(bold=True, italic=True,  color='C0504D', name='Tahoma', size=8)
+			greenbolditalic= Font(bold=True, italic=True,  color='00af50')
+			fontalb = Font(italic=True, color="bfbfbf", size=8, name='Tahoma')
 			
+			# if isChecked2=="":
+
+				
 			blueFill = PatternFill(start_color='4F2D7F',
-							   end_color='ccd9ff',
-							   fill_type='solid')
+								end_color='00AEAC',
+								fill_type='solid')
 
 			greenfill=PatternFill(start_color='92D050',end_color='92D050',fill_type='solid')
-			gtfill=PatternFill(start_color='7030A0',end_color='7030A0',fill_type='solid')
+			gtfill=PatternFill(start_color='00AEAC',end_color='00AEAC',fill_type='solid')
 			doubleborder = Border(bottom=Side(style='double'))
 			font = Font(name='Tahoma', size=8, bold=True)
 			normal = Font(name='Tahoma', size=8)
@@ -5110,7 +5842,8 @@ def LSFS_process():
 			triald=request.files["leadsheets"]
 			
 			TBls = openpyxl.load_workbook(triald,data_only=True)
-			TBls1 = TBls['F_10_Trial_Balance']
+			TBls1 = TBls.active
+			TBls1.title="Trial Balance" 
 
 			Sumlead=TBls.create_sheet("LS Summary")
 
@@ -5234,7 +5967,10 @@ def LSFS_process():
 					if cell.value=="LS":
 						omfls=cell.column
 
-
+			for row in TBls1.iter_rows():
+				for cell in row:
+					if cell.value=="Type":
+						omftype=cell.column
 			
 			luntb=len(TBls1[Acc])
 
@@ -5246,14 +5982,20 @@ def LSFS_process():
 			CM=[b.value for b in TBls1[acm][acr:luntb+1]]
 			CB=[b.value for b in TBls1[acb][acr:luntb+1]]
 			
-			if isChecked6=="":				
+			if(isChecked6==1):				
 				print("is checked")
+				# OMFrow=[b.value for b in TBls1[omfr][acr:luntb+1]]
+				# OMFdescrip=[b.value for b in TBls1[omfd][acr:luntb+1]]
+				# OMFType=[b.value for b in TBls1[omftype][acr:luntb+1]]
 			else:
 				OMFrow=[b.value for b in TBls1[omfr][acr:luntb+1]]
 				OMFdescrip=[b.value for b in TBls1[omfd][acr:luntb+1]]
+				OMFType=[b.value for b in TBls1[omftype][acr:luntb+1]]
 			Lead=[b.value for b in TBls1[omfls][acr:luntb+1]]
+			# Type=[b.value for b in TBls1[omftype][acr:luntb+1]]
 			Sumlead.sheet_view.showGridLines = False
 			maplead=list(set(Lead))
+			# maptype=list(set(Type))
 
 			for i in range(0,len(maplead)):
 				try:
@@ -5271,6 +6013,11 @@ def LSFS_process():
 				work.cell(row=2,column=2).number_format='mm/dd/yyyy'
 				work.cell(row=2,column=2).font=font
 				work.cell(row=1,column=11).value="Prepared by:"
+				work.cell(row = 1, column = 12).value = preparedBy1
+				work.cell(row = 2, column = 12).value = datePrepared1
+				work.cell(row = 2, column = 12).number_format = 'mm/dd/yyyy'
+				work.cell(row = 1, column = 12).font = font
+				work.cell(row = 2, column = 12).font = font
 				work.cell(row=1,column=11).font=font
 				work.cell(row=2,column=11).value="Date:"
 				work.cell(row=2,column=11).font=font
@@ -5313,8 +6060,10 @@ def LSFS_process():
 						work.cell(row=8+count,column=7).value=CB[j]
 						work.cell(row=8+count,column=7).number_format='#,##0_);(#,##0)'
 						work.cell(row=8+count,column=7).font=normal
-						if isChecked6=="":
+						if(isChecked6==1):
 							print("nada")
+							# work.cell(row=8+count,column=8).value=OMFrow[j]
+							# work.cell(row=8+count,column=8).font=normal
 						else:
 							work.cell(row=8+count,column=8).value=OMFrow[j]
 							work.cell(row=8+count,column=8).font=normal
@@ -5357,12 +6106,12 @@ def LSFS_process():
 				for k in range(9,9+count):
 					work.cell(row=k,column=9).font=fontRed
 					work.cell(row=k,column=10).font=fontRed
-				link="#'"+str(maplead[i][:31])+"'!A4"
+				link="#'"+str(str(maplead[i])[:31])+"'!A4"
 				try:
 					Sumlead.cell(row=15+i,column=3).value=str(maplead[i][:31])
 					Sumlead.cell(row=15+i,column=3).font=normal
 					Sumlead.cell(row=15+i,column=3).hyperlink=link
-					Sumlead.cell(row=15+i,column=2).value="=left(C{0},2)".format(15+i)  
+					Sumlead.cell(row=15+i,column=2).value="=VLOOKUP(C{0},'Trial Balance'!G:H,2,0)".format(i+15)
 					Sumlead.cell(row=15+i,column=4).value="='"+str(maplead[i][:31])+"'!D"+str(count+9)
 					Sumlead.cell(row=15+i,column=4).font=normal
 					Sumlead.cell(row=15+i,column=4).number_format='#,##0_);(#,##0)'
@@ -5375,7 +6124,450 @@ def LSFS_process():
 					Sumlead.cell(row=15+i,column=7).value="=IFErROR(F{0}/D{0},0)".format(i+15)
 					Sumlead.cell(row=15+i,column=7).font=fontRed
 					Sumlead.cell(row=15+i,column=7).number_format='0.00%'
-					Sumlead.cell(row=15+i,column=8).value='=IF($E$10<abs(E{0}),"Above threshold","Below Threshold")'.format(i+15)
+					Sumlead.cell(row=15+i,column=8).value='=IF(abs($E$10)<E{0},"Above threshold","Below Threshold")'.format(i+15)
+					Sumlead.cell(row=15+i,column=8).font=normal
+				except:
+					Sumlead.cell(row=15+i,column=3).value="NA"  
+					Sumlead.cell(row=15+i,column=4).value='=NA!D'+str(count+9)
+					Sumlead.cell(row=15+i,column=5).value='=NA!G'+str(count+9)
+				Sumlead.cell(row=5,column=4).value='=SUMIF(B:B,"BS",D:D)'
+				Sumlead.cell(row=5,column=4).font=normal
+				Sumlead.cell(row=5,column=4).number_format='#,##0_);(#,##0)'
+				Sumlead.cell(row=6,column=4).value='=SUMIF(B:B,"PL",D:D)'
+				Sumlead.cell(row=6,column=4).font=normal
+				Sumlead.cell(row=6,column=4).number_format='#,##0_);(#,##0)'
+				Sumlead.cell(row=7,column=4).value="=VLOOKUP(121,'Trial Balance'!a:f,3,0)".format(i+15)
+				Sumlead.cell(row=7,column=4).font=normal
+				Sumlead.cell(row=7,column=4).number_format='#,##0_);(#,##0)'
+				Sumlead.cell(row=8,column=4).value='=D7-D6'
+				Sumlead.cell(row=8,column=4).font=fontRed
+				Sumlead.cell(row=8,column=4).number_format='#,##0_);(#,##0)'
+				Sumlead.cell(row=5,column=5).value='=SUMIF(B:B,"BS",E:E)'
+				Sumlead.cell(row=5,column=5).font=normal
+				Sumlead.cell(row=5,column=5).number_format='#,##0_);(#,##0)'
+				Sumlead.cell(row=6,column=5).value='=SUMIF(B:B,"PL",E:E)'
+				Sumlead.cell(row=6,column=5).font=normal
+				Sumlead.cell(row=6,column=5).number_format='#,##0_);(#,##0)'
+				Sumlead.cell(row=7,column=5).value="=VLOOKUP(121,'Trial Balance'!a:f,6,0)".format(i+15)
+				Sumlead.cell(row=7,column=5).font=normal
+				Sumlead.cell(row=7,column=5).number_format='#,##0_);(#,##0)'
+				Sumlead.cell(row=8,column=5).value='=E7-E6'
+				Sumlead.cell(row=8,column=5).font=fontRed
+				Sumlead.cell(row=8,column=5).number_format='#,##0_);(#,##0)'
+
+			# for j in range(0,len(maptype)):
+			# 	if(maptype[j]=="Banca"):
+			# 		Sumlead.cell(row=15+j,column=2).value=str(maptype[j][:31])
+			# 	else:
+			# 		Sumlead.cell(row=15+j,column=2).value="Na"
+			
+			Sumlead.column_dimensions['A'].width=10
+			Sumlead.column_dimensions['B'].width=30
+			Sumlead.column_dimensions['C'].width=15
+			Sumlead.column_dimensions['D'].width=15
+			Sumlead.column_dimensions['E'].width=15
+			Sumlead.column_dimensions['F'].width=15
+			Sumlead.column_dimensions['G'].width=15
+			Sumlead.column_dimensions['H'].width=15
+			Sumlead.column_dimensions['I'].width=15
+
+			if(isChecked6==1):				
+				print("is checked")
+				# cy=TBls["PBC_CY"]
+				# py=TBls["PBC_PY"]
+				# bs=TBls['BS Mapping']
+				# pl=TBls['PL Mapping']
+			else:
+				cy=TBls["PBC_CY"]
+				py=TBls["PBC_PY"]
+				bs=TBls['BS Mapping']
+				pl=TBls['PL Mapping']
+			
+			if(isChecked6==1):				
+				print("is checked")
+				# cy.sheet_state = 'hidden'
+				# py.sheet_state = 'hidden'
+				# bs.sheet_state = 'hidden'
+				# pl.sheet_state = 'hidden'
+			else:
+				cy.sheet_state = 'hidden'
+				py.sheet_state = 'hidden'
+				bs.sheet_state = 'hidden'
+				pl.sheet_state = 'hidden'
+			Sumlead.auto_filter.ref = 'B14:H14'
+
+			c = Sumlead['B15']
+			Sumlead.freeze_panes = c
+
+			
+
+			file_pathLS=os.path.join(folderpath+"LSFS "+namec, "Leadsheets.xlsx")
+
+			TBls.save(file_pathLS)
+			
+	else:
+		
+		folderpath="home/auditappnexia/Output/LSFS" #aici era inainte fara LSFS
+		os.mkdir(folderpath+"LSFS "+namec)
+		
+
+		def make_archive(source, destination):
+			base = os.path.basename(destination)
+			name = base.split('.')[0]
+			format = base.split('.')[1]
+			archive_from = os.path.dirname(source)
+			archive_to = os.path.basename(source.strip(os.sep))
+			shutil.make_archive(name, format, archive_from, archive_to)
+			shutil.move('%s.%s'%(name,format), destination)
+		# yearEnd = str(request.form['yearEnd'])
+		# processed_text = client.upper()
+		# fisier=request.files.get('monthlyTB')
+		if request.method == 'POST':
+			workingsblue2= Font(bold=True, italic=True, name='Tahoma', size=8,color='FFFFFF')
+			lbluefill = PatternFill(start_color='7030A0',
+								end_color='7030A0',
+								fill_type='solid')
+			grifill=PatternFill(start_color='c4d79b',end_color='c4d79b',fill_type='solid')
+			yellow=PatternFill(start_color='ffff00',end_color='ffff00',fill_type='solid')
+			blueFill = PatternFill(start_color='00AEAC',
+								end_color='00AEAC',
+								fill_type='solid')
+			doubleborder = Border(bottom=Side(style='double'))
+			solidborder = Border(bottom=Side(style='thick'))
+			solidborderstanga = Border(left=Side(style='thin'))
+			rightborder = Border(right=Side(style='thin'))
+			rightdouble = Border (right=Side(style='thin'), bottom=Side(style='double'))
+			rightmedium = Border (right=Side(style='thin'), bottom=Side(style='medium'))
+			solidborderdreapta = Border(right=Side(style='thin'))
+			solidbordersus = Border(top=Side(style='thin'))
+			fontitalic = Font(name='Tahoma', size=8, bold=True, italic=True)
+			font = Font(name='Tahoma', size=8, bold=True)
+			font1 = Font(name='Tahoma', size=8)
+			font2 = Font(name='Tahoma', size=10, bold=True)
+			fontRed = Font(name='Tahoma', size=10, bold=True, color= 'FF0000')
+			fontRedDiff=Font(name="Tahoma", color='FF0000', size=11, )
+			fontGT = Font (name='GT Logo', size=8)
+			workingsblue = Font(color='2F75B5', bold=True, name='Tahoma', size=8 )
+			headers= Font(bold=True, italic=True, name='Tahoma', size=8,color='FFFFFF') 
+			headersblue = PatternFill(start_color='7030A0',
+							end_color='7030A0',
+							fill_type='solid')
+			headerspurple= PatternFill(start_color='65CDCC',
+								end_color='65CDCC',
+								fill_type='solid')
+			total=PatternFill(start_color='DDD9C4',
+							end_color='DDD9C4',
+							fill_type='solid')
+			greenbolditalic= Font(bold=True, italic=True,  color='C0504D', name='Tahoma', size=8)
+			greenbolditalic= Font(bold=True, italic=True,  color='00af50')
+			fontalb = Font(italic=True, color="bfbfbf", size=8, name='Tahoma')
+			
+			# if isChecked2=="":
+
+				
+			blueFill = PatternFill(start_color='4F2D7F',
+								end_color='00AEAC',
+								fill_type='solid')
+
+			greenfill=PatternFill(start_color='92D050',end_color='92D050',fill_type='solid')
+			gtfill=PatternFill(start_color='00AEAC',end_color='00AEAC',fill_type='solid')
+			doubleborder = Border(bottom=Side(style='double'))
+			font = Font(name='Tahoma', size=8, bold=True)
+			normal = Font(name='Tahoma', size=8)
+			font2 = Font(name='Tahoma', size=8,bold=True,color='ffffff')
+			fontRed = Font(name='Tahoma', size=8, bold=True, color= 'FF0000')
+			doubleborder = Border(bottom=Side(style='double'))
+
+			triald=request.files["leadsheets"]
+			
+			TBls = openpyxl.load_workbook(triald,data_only=True)
+			TBls1 = TBls.active
+
+			Sumlead=TBls.create_sheet("LS Summary")
+
+			Sumlead.cell(row=1,column=1).value="Client:"
+			Sumlead.cell(row=1,column=1).font=font
+			Sumlead.cell(row=1,column=2).value=namec
+			Sumlead.cell(row=1,column=2).font=font
+			Sumlead.cell(row=2,column=1).value="Period end:"
+			Sumlead.cell(row=2,column=1).font=font
+			Sumlead.cell(row=2,column=2).value=ant
+			Sumlead.cell(row=2,column=2).number_format='mm/dd/yyyy'
+			Sumlead.cell(row=2,column=2).font=font
+			Sumlead.cell(row=1,column=7).value="Prepared by:"
+			Sumlead.cell(row = 1, column = 8).value = preparedBy1
+			Sumlead.cell(row = 2, column = 8).value = datePrepared1
+			Sumlead.cell(row = 2, column = 8).number_format = 'mm/dd/yyyy'
+			Sumlead.cell(row = 1, column = 8).font = font
+			Sumlead.cell(row = 2, column = 8).font = font
+			Sumlead.cell(row=1,column=7).font=font
+			Sumlead.cell(row=2,column=7).value="Date:"
+			Sumlead.cell(row=2,column=7).font=font
+			Sumlead.cell(row=4,column=1).value="LS Summary"
+			Sumlead.cell(row=4,column=1).font=font
+			Sumlead.cell(row=4,column=4).value="OB"
+			Sumlead.cell(row=4,column=4).border=doubleborder
+			Sumlead.cell(row=4,column=4).fill=gtfill
+			Sumlead.cell(row=4,column=4).font=font2
+			Sumlead.cell(row=4,column=5).value="CB"
+			Sumlead.cell(row=4,column=5).border=doubleborder
+			Sumlead.cell(row=4,column=5).fill=gtfill
+			Sumlead.cell(row=4,column=5).font=font2
+			Sumlead.cell(row=5,column=3).value="Check BS"
+			Sumlead.cell(row=5,column=3).font=font
+			Sumlead.cell(row=6,column=3).value="Result"
+			Sumlead.cell(row=6,column=3).font=font
+			Sumlead.cell(row=7,column=3).value="Acc 121"
+			Sumlead.cell(row=7,column=4).border=doubleborder
+			Sumlead.cell(row=7,column=5).border=doubleborder
+			Sumlead.cell(row=7,column=3).font=font
+			Sumlead.cell(row=8,column=3).value="Check Result"
+			Sumlead.cell(row=8,column=3).font=font
+
+			Sumlead.cell(row=13,column=3).value="Note that every description from below is an hyperlink to their respective sheet"
+			Sumlead.cell(row=13,column=3).font=fontRed
+			Sumlead.cell(row=10,column=4).value="Threshold value:"
+			Sumlead.cell(row=10,column=4).font=font
+			Sumlead.cell(row=10,column=5).value=threshol
+			Sumlead.cell(row=10,column=5).font=fontRed
+			Sumlead.cell(row=10,column=5).number_format='#,##0_);(#,##0)'
+			Sumlead.cell(row=14,column=2).value="Type"
+			Sumlead.cell(row=14,column=3).value="LS Description"
+			Sumlead.cell(row=14,column=4).value="Total as per LS PY"
+			Sumlead.cell(row=14,column=5).value="Total as per LS CY"
+			Sumlead.cell(row=14,column=6).value="Var."
+			Sumlead.cell(row=14,column=6).fill=greenfill
+			Sumlead.cell(row=14,column=6).font=fontRed
+			Sumlead.cell(row=14,column=7).value="Var. %"
+			Sumlead.cell(row=14,column=7).fill=greenfill
+			Sumlead.cell(row=14,column=7).font=fontRed
+			Sumlead.cell(row=14,column=8).value="Threshold flag"
+			Sumlead.cell(row=14,column=8).fill=greenfill
+			Sumlead.cell(row=14,column=8).font=fontRed
+			Sumlead.cell(row=14,column=9).value="Assigned to:"
+			Sumlead.cell(row=14,column=9).fill=gtfill
+			Sumlead.cell(row=14,column=9).font=font2
+
+
+			for o in range(2,9):
+				Sumlead.cell(row=14,column=o).border=doubleborder
+			for o in range(2,6):
+				Sumlead.cell(row=14,column=o).fill=gtfill
+				Sumlead.cell(row=14,column=o).font=font2
+
+
+
+			"Iterate from imported PBC's:"
+
+
+			'Iterate from CY TB'
+
+			for row in TBls1.iter_rows():
+					for cell in row:
+						if cell.value=="Account":
+							Acc=cell.column
+							acr=cell.row
+
+			for row in TBls1.iter_rows():
+				for cell in row:
+					if cell.value=="Description":
+						desc=cell.column
+
+			for row in TBls1.iter_rows():
+				for cell in row:
+					if cell.value=="OB":
+						aob=cell.column
+
+			for row in TBls1.iter_rows():
+
+				for cell in row:
+					if cell.value=="DM":
+						adm=cell.column
+					
+			for row in TBls1.iter_rows():
+				for cell in row:
+					if cell.value=="CM":
+						acm=cell.column
+
+			for row in TBls1.iter_rows():
+				for cell in row:
+					if cell.value=="CB":
+						acb=cell.column
+
+			for row in TBls1.iter_rows():
+				for cell in row:
+					if cell.value=="OMF Row":
+						omfr=cell.column
+
+
+			for row in TBls1.iter_rows():
+				for cell in row:
+					if cell.value=="OMF Description":
+						omfd=cell.column
+
+			for row in TBls1.iter_rows():
+				for cell in row:
+					if cell.value=="LS":
+						omfls=cell.column
+
+			for row in TBls1.iter_rows():
+				for cell in row:
+					if cell.value=="Type":
+						omftype=cell.column
+			
+			luntb=len(TBls1[Acc])
+
+			
+			Account=[b.value for b in TBls1[Acc][acr:luntb+1]]
+			Description=[b.value for b in TBls1[desc][acr:luntb+1]]
+			OB=[b.value for b in TBls1[aob][acr:luntb+1]]
+			DM=[b.value for b in TBls1[adm][acr:luntb+1]]
+			CM=[b.value for b in TBls1[acm][acr:luntb+1]]
+			CB=[b.value for b in TBls1[acb][acr:luntb+1]]
+			
+			if(isChecked6==0):				
+				print("is checked")
+				# OMFrow=[b.value for b in TBls1[omfr][acr:luntb+1]]
+				# OMFdescrip=[b.value for b in TBls1[omfd][acr:luntb+1]]
+				# OMFType=[b.value for b in TBls1[omftype][acr:luntb+1]]
+			else:
+				OMFrow=[b.value for b in TBls1[omfr][acr:luntb+1]]
+				OMFdescrip=[b.value for b in TBls1[omfd][acr:luntb+1]]
+				OMFType=[b.value for b in TBls1[omftype][acr:luntb+1]]
+			Lead=[b.value for b in TBls1[omfls][acr:luntb+1]]
+			# Type=[b.value for b in TBls1[omftype][acr:luntb+1]]
+			Sumlead.sheet_view.showGridLines = False
+			maplead=list(set(Lead))
+			# maptype=list(set(Type))
+
+			for i in range(0,len(maplead)):
+				try:
+					work=TBls.create_sheet(str(maplead[i][:31]))
+				except:
+					work=TBls.create_sheet("NA")
+				work.sheet_view.showGridLines = False
+				work.cell(row=1,column=1).value="Client:"
+				work.cell(row=1,column=1).font=font
+				work.cell(row=1,column=2).value=namec
+				work.cell(row=1,column=2).font=font
+				work.cell(row=2,column=1).value="Period end:"
+				work.cell(row=2,column=1).font=font
+				work.cell(row=2,column=2).value=ant
+				work.cell(row=2,column=2).number_format='mm/dd/yyyy'
+				work.cell(row=2,column=2).font=font
+				work.cell(row=1,column=11).value="Prepared by:"
+				work.cell(row = 1, column = 12).value = preparedBy1
+				work.cell(row = 2, column = 12).value = datePrepared1
+				work.cell(row = 2, column = 12).number_format = 'mm/dd/yyyy'
+				work.cell(row = 1, column = 12).font = font
+				work.cell(row = 2, column = 12).font = font
+				work.cell(row=1,column=11).font=font
+				work.cell(row=2,column=11).value="Date:"
+				work.cell(row=2,column=11).font=font
+				work.cell(row=4,column=1).value=str(maplead[i])
+				work.cell(row=4,column=1).font=font
+				work.cell(row=8,column=2).value="Account"
+				work.cell(row=8,column=3).value="Description"
+				work.cell(row=8,column=4).value="OB"
+				work.cell(row=8,column=5).value="DM"
+				work.cell(row=8,column=6).value="CM"
+				work.cell(row=8,column=7).value="CB"
+				work.cell(row=8,column=8).value="OMF row"
+				work.cell(row=8,column=9).value="Var."
+				work.cell(row=8,column=10).value="Var. %"
+				work.cell(row=8,column=11).value="Ref Wp"
+				for m in range(2,9):
+					work.cell(row=8,column=m).fill=gtfill
+					work.cell(row=8,column=m).font=font2
+				for m in range(9,12):
+					work.cell(row=8,column=m).fill=greenfill
+					work.cell(row=8,column=m).font=fontRed
+				count=0
+				for j in range(0,len(Lead)):
+					if(Lead[j]==maplead[i]):
+						count=count+1
+						work.cell(row=8+count,column=2).value=Account[j]
+						work.cell(row=8+count,column=2).font=normal
+						work.cell(row=8+count,column=3).value=Description[j]
+						work.cell(row=8+count,column=3).font=normal
+						work.cell(row=8+count,column=4).value=OB[j]
+						work.cell(row=8+count,column=4).number_format='#,##0_);(#,##0)'
+
+						work.cell(row=8+count,column=4).font=normal
+						work.cell(row=8+count,column=5).value=DM[j]
+						work.cell(row=8+count,column=5).number_format='#,##0_);(#,##0)'
+						work.cell(row=8+count,column=5).font=normal
+						work.cell(row=8+count,column=6).value=CM[j]
+						work.cell(row=8+count,column=6).number_format='#,##0_);(#,##0)'
+						work.cell(row=8+count,column=6).font=normal
+						work.cell(row=8+count,column=7).value=CB[j]
+						work.cell(row=8+count,column=7).number_format='#,##0_);(#,##0)'
+						work.cell(row=8+count,column=7).font=normal
+						if(isChecked6==0):
+							print("nada")
+							# work.cell(row=8+count,column=8).value=OMFrow[j]
+							# work.cell(row=8+count,column=8).font=normal
+						else:
+							work.cell(row=8+count,column=8).value=OMFrow[j]
+							work.cell(row=8+count,column=8).font=normal
+						work.cell(row=8+count,column=9).value="=G{0}-D{0}".format(count+8)
+						work.cell(row=8+count,column=9).number_format='#,##0_);(#,##0)'
+						work.cell(row=8+count,column=10).value="=IFERROR(I{0}/D{0},0)".format(count+8)
+						work.cell(row=8+count,column=10).number_format='0.00%'
+
+				work.cell(row=8+count+1,column=3).value="Total"
+				work.cell(row=8+count+1,column=3).font=font
+				work.cell(row=8+count+1,column=4).value="=sum(D9:D"+str(8+count)+")"
+				work.cell(row=8+count+1,column=4).number_format='#,##0_);(#,##0)'
+				work.cell(row=8+count+1,column=4).font=font
+				work.cell(row=8+count+1,column=5).value="=sum(E9:E"+str(8+count)+")"
+				work.cell(row=8+count+1,column=5).font=font
+				work.cell(row=8+count+1,column=5).number_format='#,##0_);(#,##0)'
+				work.cell(row=8+count+1,column=6).value="=sum(F9:F"+str(8+count)+")"
+				work.cell(row=8+count+1,column=6).font=font
+				work.cell(row=8+count+1,column=6).number_format='#,##0_);(#,##0)'
+				work.cell(row=8+count+1,column=7).value="=sum(G9:G"+str(8+count)+")"
+				work.cell(row=8+count+1,column=7).font=font
+				work.cell(row=8+count+1,column=7).number_format='#,##0_);(#,##0)'
+				
+				work.column_dimensions['A'].width=10
+				work.column_dimensions['B'].width=20
+				work.column_dimensions['C'].width=15
+				work.column_dimensions['D'].width=15
+				work.column_dimensions['E'].width=15
+				work.column_dimensions['F'].width=15
+				work.column_dimensions['G'].width=15
+				work.column_dimensions['H'].width=15
+				work.column_dimensions['I'].width=15
+				work.column_dimensions['J'].width=15 
+
+
+				for p in range(2,12):
+					work.cell(row=8,column=p).border=doubleborder
+					work.cell(row=8+count,column=p).border=doubleborder
+
+				for k in range(9,9+count):
+					work.cell(row=k,column=9).font=fontRed
+					work.cell(row=k,column=10).font=fontRed
+				link="#'"+str(str(maplead[i])[:31])+"'!A4"
+				try:
+					Sumlead.cell(row=15+i,column=3).value=str(maplead[i][:31])
+					Sumlead.cell(row=15+i,column=3).font=normal
+					Sumlead.cell(row=15+i,column=3).hyperlink=link
+					Sumlead.cell(row=15+i,column=2).value="=left(C{0},2)".format(15+i)
+					Sumlead.cell(row=15+i,column=4).value="='"+str(maplead[i][:31])+"'!D"+str(count+9)
+					Sumlead.cell(row=15+i,column=4).font=normal
+					Sumlead.cell(row=15+i,column=4).number_format='#,##0_);(#,##0)'
+					Sumlead.cell(row=15+i,column=5).value="='"+str(maplead[i][:31])+"'!G"+str(count+9)
+					Sumlead.cell(row=15+i,column=5).font=normal
+					Sumlead.cell(row=15+i,column=5).number_format='#,##0_);(#,##0)'
+					Sumlead.cell(row=15+i,column=6).value="=E{0}-D{0}".format(i+15)
+					Sumlead.cell(row=15+i,column=6).font=fontRed
+					Sumlead.cell(row=15+i,column=6).number_format='#,##0_);(#,##0)'
+					Sumlead.cell(row=15+i,column=7).value="=IFErROR(F{0}/D{0},0)".format(i+15)
+					Sumlead.cell(row=15+i,column=7).font=fontRed
+					Sumlead.cell(row=15+i,column=7).number_format='0.00%'
+					Sumlead.cell(row=15+i,column=8).value='=IF(abs($E$10)<E{0},"Above threshold","Below Threshold")'.format(i+15)
 					Sumlead.cell(row=15+i,column=8).font=normal
 				except:
 					Sumlead.cell(row=15+i,column=3).value="NA"  
@@ -5406,6 +6598,12 @@ def LSFS_process():
 				Sumlead.cell(row=8,column=5).font=fontRed
 				Sumlead.cell(row=8,column=5).number_format='#,##0_);(#,##0)'
 
+			# for j in range(0,len(maptype)):
+			# 	if(maptype[j]=="Banca"):
+			# 		Sumlead.cell(row=15+j,column=2).value=str(maptype[j][:31])
+			# 	else:
+			# 		Sumlead.cell(row=15+j,column=2).value="Na"
+			
 			Sumlead.column_dimensions['A'].width=10
 			Sumlead.column_dimensions['B'].width=30
 			Sumlead.column_dimensions['C'].width=15
@@ -5416,16 +6614,24 @@ def LSFS_process():
 			Sumlead.column_dimensions['H'].width=15
 			Sumlead.column_dimensions['I'].width=15
 
-			if isChecked6=="":				
+			if(isChecked6==0):				
 				print("is checked")
+				# cy=TBls["PBC_CY"]
+				# py=TBls["PBC_PY"]
+				# bs=TBls['BS Mapping']
+				# pl=TBls['PL Mapping']
 			else:
 				cy=TBls["PBC_CY"]
 				py=TBls["PBC_PY"]
 				bs=TBls['BS Mapping']
 				pl=TBls['PL Mapping']
 			
-			if isChecked6=="":				
+			if(isChecked6==0):				
 				print("is checked")
+				# cy.sheet_state = 'hidden'
+				# py.sheet_state = 'hidden'
+				# bs.sheet_state = 'hidden'
+				# pl.sheet_state = 'hidden'
 			else:
 				cy.sheet_state = 'hidden'
 				py.sheet_state = 'hidden'
@@ -5441,3738 +6647,3475 @@ def LSFS_process():
 			file_pathLS=os.path.join(folderpath+"LSFS "+namec, "Leadsheets.xlsx")
 
 			TBls.save(file_pathLS)
-			
+	
+	
+	make_archive(folderpath+"LSFS "+namec,folderpath+"LSFS "+namec+"/LS+ "+namec+".zip")
+	# make_archive(folderpath+"/LSFS",folderpath+"/LSFS/LS+FS"+namec+".zip") ASA ERA INAINTE
+					
+	return send_from_directory(folderpath+"LSFS "+namec,"LS+ "+ namec+".zip",as_attachment=True)
+	return render_template('TBLS.html')
 
-		if isChecked3=="":
+@app.route('/FAR/Instructions', methods=['GET'])
+def downloadFAR():
+		filepath = "C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Instructions"
+ 
+		return send_from_directory(filepath,"Instructions - FAR-Reconciliation.docx", as_attachment=True)  
+@app.route('/FAR/GTlM4R8dQS5LxdPkpfkPphvCgjq')
+def FAR():
+	return render_template('FAR.html')
 
-			
-			blueFill = PatternFill(start_color='4F2D7F',
-							   end_color='ccd9ff',
+@app.route('/FAR/GTlM4R8dQS5LxdPkpfkPphvCgjq', methods=['POST', 'GET'])
+def FAR_process():
+	namec=request.form['client']
+	ant=datetime.datetime.strptime(
+		request.form['yearEnd'],
+		'%Y-%m-%d')
+	postdate = datetime.datetime.strptime(
+		request.form['endDep'],
+		'%Y-%m-%d')
+	yearentry = datetime.datetime.strptime(
+		request.form['startDep'],
+		'%Y-%m-%d')
+	def make_archive(source, destination):
+		base = os.path.basename(destination)
+		name = base.split('.')[0]
+		format = base.split('.')[1]
+		archive_from = os.path.dirname(source)
+		archive_to = os.path.basename(source.strip(os.sep))
+		shutil.make_archive(name, format, archive_from, archive_to)
+		shutil.move('%s.%s'%(name,format), destination)
+	if request.method == 'POST':
+		print("pas 1")
+		file_location_FAR=request.files['far']
+		file_location_TB=request.files['TB']
+		file_location_ad=request.files['additionsFile']
+		file_location_dis=request.files['disposalsFile']
+		# file_location_CIP=request.files['cipDetails']
+		val1 = request.form.get('Reco')
+		val2 = request.form.get('DepReco')
+		val3 = request.form.get('tom')
+		if val1=="":
+			print("Da")  # daca e bifat
+			val1 = 1
+		else:
+			print(val1)            
+			val1 = 0
+			print("Nu")
+
+		if val2=="":  # daca e bifat
+			val2 = 1
+		else:
+			print(val2)            
+			val2 = 0
+
+		if val3=="":  # daca e bifat
+			val3 = 1
+		else:
+			print(val3)            
+			val3 = 0
+
+
+		# appfar.mainloop()
+		workingsblue2= Font(bold=True, italic=True, name='Tahoma', size=8,color='FFFFFF')
+		lbluefill = PatternFill(start_color='00AEAC',
+							   end_color='00AEAC',
 							   fill_type='solid')
+		grifill=PatternFill(start_color='c4d79b',end_color='c4d79b',fill_type='solid')
+		yellow=PatternFill(start_color='ffff00',end_color='ffff00',fill_type='solid')
+		blueFill = PatternFill(start_color='00AEAC',
+							   end_color='00AEAC',
+							   fill_type='solid')
+		doubleborder = Border(bottom=Side(style='double'))
+		solidborder = Border(bottom=Side(style='thick'))
+		solidborderstanga = Border(left=Side(style='thin'))
+		rightborder = Border(right=Side(style='thin'))
+		rightdouble = Border (right=Side(style='thin'), bottom=Side(style='double'))
+		rightmedium = Border (right=Side(style='thin'), bottom=Side(style='medium'))
+		solidborderdreapta = Border(right=Side(style='thin'))
+		solidbordersus = Border(top=Side(style='thin'))
+		fontitalic = Font(name='Tahoma', size=8, bold=True, italic=True)
+		font1 = Font(name='Tahoma', size=8)
+		font2 = Font(name='Tahoma', size=8, bold=True)
+		fontRed = Font(name='Tahoma', size=8, bold=True, color= 'FF0000')
+		fontRedDiff=Font(name="Tahoma", color='FF0000', size=8, )
+		fontGT = Font (name='GT Logo', size=8)
+		workingsblue = Font(color='2F75B5', bold=True, name='Tahoma', size=8 )
+		headers= Font(bold=True, italic=True, name='Tahoma', size=8,color='FFFFFF')
+		headersblue = PatternFill(start_color='00AEAC',
+						   end_color='00AEAC',
+						   fill_type='solid')
+		headerspurple= PatternFill(start_color='CCC0DA',
+							 end_color='CCC0DA',
+							 fill_type='solid')
+		total=PatternFill(start_color='DDD9C4',
+						   end_color='DDD9C4',
+						   fill_type='solid')
+		greenbolditalic= Font(bold=True, italic=True,  color='C0504D', name='Tahoma', size=8)
+		greenbolditalic= Font(bold=True, italic=True,  color='00af50')
+		fontalb = Font(italic=True, color="bfbfbf", size=8, name='Tahoma')
 
-			greenfill=PatternFill(start_color='92D050',end_color='92D050',fill_type='solid')
-			gtfill=PatternFill(start_color='7030A0',end_color='7030A0',fill_type='solid')
-			doubleborder = Border(bottom=Side(style='double'))
-			font = Font(name='Tahoma', size=8, bold=True)
-			normal = Font(name='Tahoma', size=8)
-			font2 = Font(name='Tahoma', size=8,bold=True,color='ffffff')
-			fontRed = Font(name='Tahoma', size=8, bold=True, color= 'FF0000')
-			doubleborder = Border(bottom=Side(style='double'))
+		FAR = openpyxl.load_workbook(file_location_FAR,data_only=True)
+		FAR1 = FAR.active
+		FAR1.title='FAR'
+		TB = openpyxl.load_workbook(file_location_TB,data_only=True)
+		TB1 = TB.active
 
-			triald=request.files["leadsheets"]
+
+		try:
+			Add = openpyxl.load_workbook(file_location_ad,data_only=True)
+			Add1 = Add.active
+		except:
+			pass
+			# messagebox.showinfo("Information", "File: Addition detail. Please note that the Addition detail cannot be found or opened, the application will continue work without this detail.If a Addition detail is not available, press ok and ignore this message. If a Addition detail is available, please make sure that the file follows the instructions and re-run the application.")
+			a=1
+		aaaa=0
+		try:
+			Dis = openpyxl.load_workbook(file_location_dis,data_only=True)
+			Disp1 = Dis.active
+		except:
+			pass
+			# messagebox.showinfo("Information", "File: Disposal detail. Please note that the Disposal detail cannot be found or opened, the application will continue work without this detail.If a Disposal detail is not available, press ok and ignore this message. If a Disposal detail is available, please make sure that the file follows the instructions and re-run the application.")
+			aaaa=1
+
+		'Iterate from FAR ----------------------------------------------------'
+
+
+
+
+		'Iterate from TB ----------------------------------------------------'
+
+
+		FAR1.cell(row=1, column=1).fill=blueFill
+		FAR1.cell(row=1, column=2).fill=blueFill
+		FAR1.cell(row=1, column=3).fill=blueFill
+		FAR1.cell(row=1, column=4).fill=blueFill
+		FAR1.cell(row=1, column=5).fill=blueFill		
+		FAR1.cell(row=1, column=6).fill=blueFill
+		FAR1.cell(row=1, column=7).fill=blueFill
+		FAR1.cell(row=1, column=8).fill=blueFill
+		FAR1.cell(row=1, column=9).fill=blueFill
+		FAR1.cell(row=1, column=10).fill=blueFill		
+		FAR1.cell(row=1, column=11).fill=blueFill
+		FAR1.cell(row=1, column=12).fill=blueFill
+		FAR1.cell(row=1, column=13).fill=blueFill
+		FAR1.cell(row=1, column=14).fill=blueFill
+		FAR1.cell(row=1, column=15).fill=blueFill
+		FAR1.cell(row=1, column=16).fill=blueFill			
+
+		
+		for row in TB1.iter_rows():
+			for cell in row :
+				if cell.value=="Account":
+					tbacc=cell.column
+					tbrow=cell.row
+
+		for row in TB1.iter_rows():
+			for cell in row :
+				if cell.value=="Description" :
+
+					tbdesc=cell.column
+
+		for row in TB1.iter_rows():
+			 for cell in row :
+				 if cell.value=="DM" :
+
+					 tbdrm=cell.column
+
+		for row in TB1.iter_rows():
+			for cell in row :
+				if cell.value=="CM" :
+
+					tbcrm=cell.column
+
+
+		for row in TB1.iter_rows():
+			 for cell in row :
+				 if cell.value=="CB" :
+
+					 tbcb=cell.column
+
+		for row in TB1.iter_rows():
+			 for cell in row:
+				 if cell.value=="OB" :
+
+					 tbob=cell.column
+		try:
+			for row in Add1.iter_rows():
+						for cell in row:
+							if cell.value=="Item":
+								AddItem=cell.column
+								Addrow=cell.row
+
+			for row in Add1.iter_rows():
+					for cell in row:
+						if cell.value=="Account Add":
+							AddAcount=cell.column
+							Addrow=cell.row
+
+			for row in Add1.iter_rows():
+				for cell in row:
+					if cell.value=="GBV":
+						AddGBV=cell.column
+
+			for row in Add1.iter_rows():
+				for cell in row:
+					if cell.value=="Depreciation Charge":
+						AddCharge=cell.column
+
+			for row in Add1.iter_rows():
+				for cell in row:
+					if cell.value=="Accumulated Depreciation":
+						AddAccDepr=cell.column
+
+			for row in Add1.iter_rows():
+				for cell in row:
+					if cell.value=="PIF Date":
+						AddPif=cell.column
+
+			for row in Add1.iter_rows():
+				for cell in row:
+					if cell.value=="Type":
+						AddType=cell.column
+		except:
+			q=1
+
+
+
+		'Iterate from Disposals detail ----------------------------------------------------'
+		if(aaaa==0):
+			for row in Disp1.iter_rows():
+			  for cell in row:
+				  if cell.value=="Account Disposals":
+				  	DispAcount=cell.column
+				  	Disprow=cell.row
+
+			for row in Disp1.iter_rows():
+			  for cell in row:
+				  if cell.value=="Item":
+					  DispItem=cell.column
+
+			for row in Disp1.iter_rows():
+			  for cell in row:
+				  if cell.value=="Description":
+					  DispDesc=cell.column
+
+			for row in Disp1.iter_rows():
+			  for cell in row:
+				  if cell.value=="UL":
+					  DispUL=cell.column
+
+
+			for row in Disp1.iter_rows():
+			  for cell in row:
+				  if cell.value=="Disposal Date":
+				  	DispDate=cell.column
+
+			for row in Disp1.iter_rows():
+			  for cell in row:
+				  if cell.value=="GBV":
+					  DispGBV=cell.column
+
+			for row in Disp1.iter_rows():
+			  for cell in row:
+				  if cell.value=="Accumulated Depreciation":
+					  DispAccDepr=cell.column
+
+			for row in Disp1.iter_rows():
+			  for cell in row:
+				  if cell.value=="Disposals Charge":
+					  DispDeprCh=cell.column
+
+			for row in Disp1.iter_rows():
+			 for cell in row:
+			  if cell.value=="PIF Date":
+				  DispPIF=cell.column
+			for row in Disp1.iter_rows():
+			 for cell in row:
+			  if cell.value=="Type":
+				  DispType=cell.column
+
+		'Iterate from Transfer detail ----------------------------------------------------'
+		# try:
+		#   for row in CIP1.iter_rows():
+		#     for cell in row:
+		#       if cell.value=="Item":
+		#         CIPItem=cell.column
+		#         CIProw=cell.row
+		#
+		#   for row in CIP1.iter_rows():
+		#     for cell in row:
+		#       if cell.value=="Account":
+		#         CIPAccount=cell.column
+		#
+		#   for row in CIP1.iter_rows():
+		#     for cell in row:
+		#       if cell.value=="CIP Addition":
+		#         CIPAddition=cell.column
+		#
+		#   for row in CIP1.iter_rows():
+		#     for cell in row:
+		#       if cell.value=="CIP Disposal":
+		#         CIPDisposal=cell.column
+		#
+		#   for row in CIP1.iter_rows():
+		#     for cell in row:
+		#       if cell.value=="CIP Type":
+		#         CIPType=cell.column
+		# except:
+		#   a=1
+
+		for row in FAR1.iter_rows():
+			for cell in row:
+				if cell.value=="Item":
+						FARItem=cell.column
+						FARrow=cell.row
+
+
+
+
+
+
+		for row in FAR1.iter_rows():
+				for cell in row:
+					if cell.value=="Account FAR":
+						FARAcount=cell.column
+						FARrow=cell.row
+
+		for row in FAR1.iter_rows():
+			for cell in row:
+				if cell.value=="GBV":
+					FARDescription=cell.column
+
+		for row in FAR1.iter_rows():
+			for cell in row:
+				if cell.value=="Accumulated Depreciation":
+					FARAccDepr=cell.column
+
+
+		for row in FAR1.iter_rows():
+			for cell in row:
+				if cell.value=="Depreciation Charge":
+					FARCharge=cell.column
+
+		for row in FAR1.iter_rows():
+			  for cell in row:
+				  if cell.value=="PIF Date":
+					  FARPif=cell.column
+
+		for row in FAR1.iter_rows():
+		  for cell in row:
+			  if cell.value=="UL":
+				  FARUL=cell.column
+		for row in FAR1.iter_rows():
+				  for cell in row:
+					  if cell.value=="Description":
+						  FARDesc=cell.column
+
+		try:
+			lunfar=len(FAR1[FARAcount])
+		except:
+			flash("Please insert the correct header for Account FAR in FAR file")
+			return render_template("index.html")
+		try:
+		  ItemFAR=[b.value for b in FAR1[FARItem][FARrow:lunfar+1]]
+		except:
+			flash("Please insert the correct header for Item in FAR file")
+			return render_template("index.html")
+		try:
+		  AccountFAR=[b.value for b in FAR1[FARAcount][FARrow:lunfar+1]]
+		except:
+			flash("Please insert the correct header for Account FAR in FAR file")
+			return render_template("index.html")
+		try:
+		  GBVFAR=[b.value for b in FAR1[FARDescription][FARrow:lunfar+1]]
+		except:
+			flash("Please insert the correct header for GBV in FAR file")
+			return render_template("index.html")
+		try:
+		  ChargeFAR=[b.value for b in FAR1[FARCharge][FARrow:lunfar+1]]
+		except:
+			flash("Please insert the correct header for Depreciation Charge in FAR file")
+			return render_template("index.html")
+		try:
+		  AccDeprFAR=[b.value for b in FAR1[FARAccDepr][FARrow:lunfar+1]]
+		except:
+			flash("Please insert the correct header for Accumulated Depreciation in FAR file")
+			return render_template("index.html")
+
+		
+		try:
+			DescriptionFAR=[b.value for b in FAR1[FARDesc][FARrow:lunfar+1]]
+		except:
+			flash("Please insert the correct header for Description in FAR file")
+			return render_template("index.html")
+		try:
+			PIFDate=[b.value for b in FAR1[FARPif][FARrow:lunfar+1]]
+		except:
+			flash("Please insert the correct header for PIF Date in FAR file")
+			return render_template("index.html")
+		try:
+			UL=[b.value for b in FAR1[FARUL][FARrow:lunfar+1]]
+		except:
+			flash("Please insert the correct header for UL in FAR file")
+			return render_template("index.html")
+
+		try:
+			lunAdd=len(Add1[AddAcount])
+			ItemAdd=[b.value for b in Add1[AddItem][Addrow:lunAdd+1]]
+			AccountAdd=[b.value for b in Add1[AddAcount][Addrow:lunAdd+1]]
+			GBVAdd=[b.value for b in Add1[AddGBV][Addrow:lunAdd+1]]
+			AccumulatedDepreciation=[b.value for b in Add1[AddAccDepr][Addrow:lunAdd+1]]
+			PIFDateadd=[b.value for b in Add1[AddPif][Addrow:lunAdd+1]]
+			Charge=[b.value for b in Add1[AddCharge][Addrow:lunAdd+1]]
+			TypeAdd=[b.value for b in Add1[AddType][Addrow:lunAdd+1]]
+		except:
+			a=1
+
+		pur=0
+		trans=0
+		try:
+			for i in range(0,len(TypeAdd)):
+			  if(TypeAdd[i]=='Pure'):
+				  pur=pur+1
+			  elif(TypeAdd[i]=='Transfer'):
+				  trans=trans+1
+			  # else:
+				# messagebox.showerror("Error", "File: Additions detail. Please verify the column Type and make sure that all the rows have one of values: Pure or Transfer!")
+				#sys.exit()
+		except:
+			p=1
+		if(aaaa==0):
+			try:
+			  lundisp=len(Disp1[DispAcount])
+			except:
+				flash("Please insert the correct header for Account in Disposal file")
+				return render_template("index.html")
+			  #sys.exit()
+
+			try:
+			  ItemDisp=[b.value for b in Disp1[DispItem][Disprow:lundisp+1]]
+			except:
+				flash("Please insert the correct header for Item in Disposal file")
+				return render_template("index.html")
+			#   messagebox.showerror("Error", "File: Disposals detail. Please insert the correct header for 'Item'")
+			  #sys.exit()
+			try:
+			  TypeDisp=[b.value for b in Disp1[DispType][Disprow:lundisp+1]]
+			except:
+				flash("Please insert the correct header for Disposal Type in Disposal file")
+				return render_template("index.html")
+			#   messagebox.showerror("Error", "File: Disposals detail. Please insert the correct header for 'Item'")
+			  #sys.exit()
+			try:
+			  AccountDisp=[b.value for b in Disp1[DispAcount][Disprow:lundisp+1]]
+			except:
+				flash("Please insert the correct header for Account Disposals in Disposal file")
+				return render_template("index.html")
+			#   messagebox.showerror("Error", "File: Disposals detail. Please insert the correct header for 'Account Disposals'")
+			  #sys.exit()
+			try:
+			  DescriptionDisp=[b.value for b in Disp1[DispDesc][Disprow:lundisp+1]]
+			except:
+				flash("Please insert the correct header for Description in Disposal file")
+				return render_template("index.html")
+			#   messagebox.showerror("Error", "File: Disposals detail. Please insert the correct header for 'Description'")
+			  #sys.exit()
+			try:
+			  DispDate=[b.value for b in Disp1[DispDate][Disprow:lundisp+1]]
+			except:
+				flash("Please insert the correct header for Disposal Date in Disposal file")
+				return render_template("index.html")
+			#   messagebox.showerror("Error", "File: Disposals detail. Please insert the correct header for 'Disposal Date'")
+			  #sys.exit()
+			try:
+			  ULDisp=[b.value for b in Disp1[DispUL][Disprow:lundisp+1]]
+			except:
+				flash("Please insert the correct header for UL in Disposal file")
+				return render_template("index.html")
+			#   messagebox.showerror("Error", "File: Disposals detail. Please insert the correct header for 'UL'")
+			  #sys.exit()
+			try:
+			  DeprChDisp=[b.value for b in Disp1[DispDeprCh][Disprow:lundisp+1]]
+			except:
+				flash("Please insert the correct header for Depreciation Charge in Disposal file")
+				return render_template("index.html")
+			#   messagebox.showerror("Error", "File: Disposals detail. Please insert the correct header for 'Disposals Charge'")
+			  #sys.exit()
+			try:
+			  PIFDisp=[b.value for b in Disp1[DispPIF][Disprow:lundisp+1]]
+			except:
+				flash("Please insert the correct header for PIF in Disposal file")
+				return render_template("index.html")
+			#   messagebox.showerror("Error", "File: Disposals detail. Please insert the correct header for 'PIF'")
+			  #sys.exit()
+			try:
+			  GBVDisp=[b.value for b in Disp1[DispGBV][Disprow:lundisp+1]]
+			except:
+				flash("Please insert the correct header for GBV in Disposal file")
+				return render_template("index.html")
+			#   messagebox.showerror("Error", "File: Disposals detail. Please insert the correct header for 'GBV'")
+			  #sys.exit()
+			try:
+			  AccumulatedDepreciationDisp=[b.value for b in Disp1[DispAccDepr][Disprow:lundisp+1]]
+			except:
+				flash("Please insert the correct header for Accumulated Depreciation in Disposal file")
+				return render_template("index.html")
+			#   messagebox.showerror("Error", "File: Disposals detail. Please insert the correct header for 'Accumulated Depreciation'")
+			  #sys.exit()
+
+		# sale=0
+		# scrap=0
+		# for i in range(0,len(TypeDis)):
+		#   if(TypeDis[i]=='Sale'):
+		#     sale=sale+1
+		#   elif(TypeDis[i]=='Scrap'):
+		#     scrap=scrap+1
+		  # else:
+		  #   messagebox.showerror("Error", "File: Disposals detail. Please verify the column Type and make sure that all the rows have one of values: Sale or Scrap!")
+		  #   #sys.exit()
+
+		# try:
+		#   lunCIP=len(CIP1[CIPAccount])
+		#
+		#   ItemCIP=[b.value for b in CIP1[CIPItem][CIProw:lunCIP+1]]
+		#   AccountCIP=[b.value for b in CIP1[CIPAccount][CIProw:lunCIP+1]]
+		#   AdditionCIP=[b.value for b in CIP1[CIPAddition][CIProw:lunCIP+1]]
+		#   DisposalCIP=[b.value for b in CIP1[CIPDisposal][CIProw:lunCIP+1]]
+		#   TypeCIP=[b.value for b in CIP1[CIPType][CIProw:lunCIP+1]]
+		#
+		#   purCIP=0
+		#   transCIP=0
+		#   saleCIP=0
+		#   scrapCIP=0
+		#   for i in range(0,len(TypeCIP)):
+		#     if(TypeCIP[i]=='Pure'):
+		#       purCIP=purCIP+1
+		#     elif(TypeCIP[i]=='Transfer'):
+		#       transCIP=transCIP+1
+		#     elif(TypeCIP[i]=='Sales'):
+		#       saleCIP=saleCIP+1
+		#     elif(TypeCIP[i]=='Scrapped'):
+		#       scrapCIP=scrapCIP+1
+		#     else:
+		#       messagebox.showerror("Error", "File: CIP detail. Please verify the column Type and make sure that all the rows have one of values: Pure for Additions or Transfer/Sales/Scrapped for Disposals!")
+		#       #sys.exit()
+		# except:
+		#   a=1
+		#   messagebox.showinfo("Information","File: CIP detail. Please note that CIP detail cannot be found or opened, the application will continue work without this detail.If a CIP detail is not available, press ok and ignore this message. If a CIP detail is available, please make sure that the file follows the instructions and re-run the application. ")
+		luntb=len(TB1[tbacc])
+		try:
+		  AccountTB=[b.value for b in TB1[tbacc][tbrow:luntb+1]]
+		  DescriptionTB=[b.value for b in TB1[tbdesc][tbrow:luntb+1]]
+		  OBTB=[b.value for b in TB1[tbob][tbrow:luntb+1]]
+		  DMTB=[b.value for b in TB1[tbdrm][tbrow:luntb+1]]
+		  CMTB=[b.value for b in TB1[tbcrm][tbrow:luntb+1]]
+		  CBTB=[b.value for b in TB1[tbcb][tbrow:luntb+1]]
+		except:
+			pass
+		#   messagebox.showerror("Error", "File: TB. Please rename the headers following instructions. One or more headers could not be found. Be careful at spaces or key-sensitivity!")
+
+		PBC_FAR =FAR.create_sheet("PBC_FAR")
+
+		F10_TB =FAR.create_sheet("F10_TB")
+		PBC_FAR.cell(row=1, column=1).value="Item"
+		PBC_FAR.cell(row=1, column=2).value="Account"
+		PBC_FAR.cell(row=1, column=3).value="GBV"
+		PBC_FAR.cell(row=1, column=4).value="Accumulated Depreciation"
+		PBC_FAR.cell(row=1, column=5).value="Accumulated Impairment"
+		PBC_FAR.cell(row=1, column=6).value="Depr Account"
+		PBC_FAR.cell(row=1, column=7).value="Synt Fixed Assets Accounts"
+		PBC_FAR.cell(row=1, column=8).value="Impairment Account"
+		PBC_FAR.cell(row=1, column=9).value="Depreciation Charge"
+		PBC_FAR.cell(row=1, column=10).value="Impairment Charge"
+
+		for i in range (1,11):
+			PBC_FAR.cell(row=1, column= i).border=doubleborder
+			PBC_FAR.cell(row=1, column= i).font=font2
+			PBC_FAR.cell(row=1, column= i).fill=headersblue
+
+		for i in range (12, 14):
+			PBC_FAR.cell(row=1, column= i).border=doubleborder
+			PBC_FAR.cell(row=1, column= i).font=font2
+			PBC_FAR.cell(row=1, column= i).fill=headersblue
+
+
+
+		for i in range(2, 18):
+			PBC_FAR.cell(row=i, column=12).alignment = Alignment (horizontal='right')
+
+		for i in range(2, 18):
+			PBC_FAR.cell(row=i, column=13).number_format='#,##0_);(#,##0)'
+
+		for i in range (1, len(ItemFAR)+1):
+			PBC_FAR.cell(row=i+1, column=1).value=ItemFAR[i-1]
+
+
+		for i in range (1, len(AccountFAR)+1):
+			PBC_FAR.cell(row=i+1, column=2).value=AccountFAR[i-1]
+
+		for i in range (1, len(GBVFAR)+1):
+			PBC_FAR.cell(row=i+1, column=3).value=GBVFAR[i-1]
+
+		for i in range (1, len(AccDeprFAR)+1):
+			PBC_FAR.cell(row=i+1, column=4).value=AccDeprFAR[i-1]
+
+
+		for i in range (1, len(AccountFAR)+1):
+			PBC_FAR.cell(row=i+1, column=6).value='=IF(G{0}="201",2801,IF(G{0}="203",2803,IF(G{0}="205",2805,IF(G{0}="208",2808,IF(G{0}="206",2806,IF(G{0}="207",2807,IF(G{0}="211",2811,IF(G{0}="212",2812,IF(G{0}="213",2813,IF(G{0}="223",2813,IF(G{0}="214",2814,IF(G{0}="224",2814,IF(G{0}="215",2815,IF(G{0}="216",2816,IF(G{0}="217",2817,0)))))))))))))))'.format(i+1)
+
+		for i in range (1,len(AccountFAR)+1):
+			PBC_FAR.cell(row=i+1, column=7).value='=Left(B{0},3)'.format(i+1)
+
+		for i in range (1,len(AccountFAR)+1):
+			PBC_FAR.cell(row=i+1, column=8).value='=IF(G{0}="203",2903,IF(G{0}="205",2905,IF(G{0}="206",2906,IF(G{0}="208",2908,IF(G{0}="211",2911,IF(G{0}="212",2912,IF(G{0}="213",2913,IF(G{0}="223",2913,IF(G{0}="214",2914,IF(G{0}="224",2914,IF(G{0}="215",2915,IF(G{0}="216",2916,IF(G{0}="217",2917,IF(G{0}="227",2917,0))))))))))))))'.format(i+1)
+
+		for i in range (1, len(AccountFAR)+1):
+			for j in range (3, 6):
+				PBC_FAR.cell(row=i+1, column=j).number_format='#,##0_);(#,##0)'
+
+		for i in range (1, len(AccountFAR)+1):
+			for j in range (9, 11):
+				PBC_FAR.cell(row=i+1, column=j).number_format='#,##0_);(#,##0)'
+
+		for i in range(1, len(ChargeFAR)+1):
+			PBC_FAR.cell(row=i+1, column=9).value=ChargeFAR[i-1]
+
+
+
+		PBC_FAR.cell(row=14, column=12).font=font2
+		PBC_FAR.cell(row=14, column=13).font=fontRed
+
+		PBC_FAR.cell(row=5, column=12).font=font2
+		PBC_FAR.cell(row=5, column=13).font=fontRed
+
+		for i in range(2, 5):
+			PBC_FAR.cell(row=i, column=13).font=fontRedDiff
+
+		for i in range(7, 14):
+			PBC_FAR.cell(row=i, column=13).font=fontRedDiff
+
+		PBC_FAR.cell(row=13, column=12).border=doubleborder
+		PBC_FAR.cell(row=13, column=13).border=doubleborder
+
+		PBC_FAR.cell(row=4, column=12).border=doubleborder
+		PBC_FAR.cell(row=4, column=13).border=doubleborder
+
+
+
+		for i in range(12, 14):
+			PBC_FAR.cell(row=16, column=i).fill=total
+		PBC_FAR.cell(row=16, column=13).font=fontRed
+		PBC_FAR.cell(row=16, column=12).font=font2
+
+		"Adjust Column Width---------------------------------------------------------------------------------------------------------------------------------."
+
+		PBC_FAR.column_dimensions['A'].width=25
+		PBC_FAR.column_dimensions['B'].width=33
+		PBC_FAR.column_dimensions['C'].width=25
+		PBC_FAR.column_dimensions['D'].width=35
+		PBC_FAR.column_dimensions['E'].width=25
+		PBC_FAR.column_dimensions['F'].width=25
+		PBC_FAR.column_dimensions['G'].width=25
+		PBC_FAR.column_dimensions['H'].width=25
+		PBC_FAR.column_dimensions['I'].width=25
+		PBC_FAR.column_dimensions['J'].width=25
+
+		PBC_FAR.column_dimensions['L'].width=35
+		PBC_FAR.column_dimensions['M'].width=25
+
+
+		"Create PBC TB ---------------------------------------------------------------------"
+
+		F10_TB.cell(row=1, column=1).value="Class"
+		F10_TB.cell(row=1, column=2).value="Synt 3"
+		F10_TB.cell(row=1, column=3).value="Account"
+		F10_TB.cell(row=1, column=4).value="Description"
+		F10_TB.cell(row=1, column=5).value="OB"
+		F10_TB.cell(row=1, column=6).value="DM"
+		F10_TB.cell(row=1, column=7).value="CM"
+		F10_TB.cell(row=1, column=8).value="CB"
+		F10_TB.cell(row=1, column=9).value="Check"
+		F10_TB.cell(row=1, column=10).value="Synt 4"
+
+		for i in range (1,11):
+			F10_TB.cell(row=1, column= i).border=doubleborder
+			F10_TB.cell(row=1, column= i).font=font2
+			F10_TB.cell(row=1, column= i).fill=headersblue
+
+		for i in range (1,len(AccountTB)):
+			F10_TB.cell(row=i+1, column=3).value=AccountTB[i-1]
+
+		for i in range (1,len(DescriptionTB)):
+			F10_TB.cell(row=i+1, column=4).value=DescriptionTB[i-1]
+
+		for i in range (1, len(OBTB)):
+			F10_TB.cell(row=i+1, column=5).value=OBTB[i-1]
+
+		for i in range (1, len(DMTB)):
+			F10_TB.cell(row=i+1, column=6).value=DMTB[i-1]
+
+		for i in range (1, len(CMTB)):
+			F10_TB.cell(row=i+1, column=7).value=CMTB[i-1]
+
+		for i in range (1, len(CBTB)):
+			F10_TB.cell(row=i+1, column=8).value=CBTB[i-1]
+
+		for i in range (1, len(AccountTB)):
+			F10_TB.cell(row=i+1, column= 9).value='=IF(A{0}<"6",E{0}+F{0}-G{0}-H{0},F{0}-G{0})'.format(i+1)
+
+		for i in range (1, len(AccountTB)+1):
+			for j in range (5, 10):
+				F10_TB.cell(row=i+1, column=j).number_format='#,##0_);(#,##0)'
+
+		for i in range (1,len(AccountTB)):
+			F10_TB.cell(row=i+1, column=2).value='=Left(C{0},3)'.format(i+1)
+
+		for i in range (1,len(AccountTB)):
+			F10_TB.cell(row=i+1, column=1).value='=Left(C{0},1)'.format(i+1)
+
+		for i in range(1, len(AccountTB)):
+			F10_TB.cell(row=i+1, column=10).value="=LEFT(C{0},4)".format(i+1)
+
+		"Adjust Column Width---------------------------------------------------------------------------------------------------------------------------------."
+
+		F10_TB.column_dimensions['A'].width=25
+		F10_TB.column_dimensions['B'].width=25
+		F10_TB.column_dimensions['C'].width=25
+		F10_TB.column_dimensions['D'].width=35
+		F10_TB.column_dimensions['E'].width=25
+		F10_TB.column_dimensions['F'].width=25
+		F10_TB.column_dimensions['G'].width=25
+		F10_TB.column_dimensions['H'].width=25
+		F10_TB.column_dimensions['I'].width=25
+		F10_TB.column_dimensions['J'].width=25
+
+
+
+		PBC_Disposals=FAR.create_sheet("PBC_Disposals")
+		PBC_Disposals.cell(row=1, column=1).value="Synt 3"
+		PBC_Disposals.cell(row=1, column=2).value="Account"
+		PBC_Disposals.cell(row=1, column=3).value="Item"
+		PBC_Disposals.cell(row=1, column=4).value="Description"
+		PBC_Disposals.cell(row=1, column=5).value="PIF Date"
+		PBC_Disposals.cell(row=1, column=6).value="Disposals Date"
+		PBC_Disposals.cell(row=1, column=7).value="UL"
+		PBC_Disposals.cell(row=1, column=8).value="GBV"
+		PBC_Disposals.cell(row=1, column=9).value="Depreciation Charge"
+		PBC_Disposals.cell(row=1, column=10).value="Accumulated Depreciation"
+		PBC_Disposals.cell(row=1, column=11).value="Type"
+		PBC_Disposals.cell(row=1, column=12).value="Depreciation Account"
+
+
+		for i in range (1,12):
+		  PBC_Disposals.cell(row=1, column= i).border=doubleborder
+		  PBC_Disposals.cell(row=1, column= i).font=font2
+		  PBC_Disposals.cell(row=1, column= i).fill=blueFill
+		if(aaaa==0):
+		  for i in range(1, len(AccountDisp)+1):
+			  PBC_Disposals.cell(row=i+1, column=1).value="=LEFT(TRIM(B{0}),3)".format(i+1)
+
+		  for i in range (1, len(AccountDisp)+1):
+
+			  PBC_Disposals.cell(row=i+1, column=2).value=AccountDisp[i-1]
+
+
+		  for i in range (1, len(ItemDisp)+1):
+			  PBC_Disposals.cell(row=i+1, column=3).value=ItemDisp[i-1]
+
+		  for i in range (1, len(DescriptionDisp)+1):
+			  PBC_Disposals.cell(row=i+1, column=4).value=DescriptionDisp[i-1]
+
+
+		  
+		#   if(aa==False):
+		#         messagebox.showerror("Error", "File: Disposal detail. Please make sure that the format for PIF Disposals is DATE!")
+		#         #sys.exit()
+
+		  for i in range (1, len(PIFDisp)+1):
+			  PBC_Disposals.cell(row=i+1, column=5).value=PIFDisp[i-1]
+			  PBC_Disposals.cell(row=i+1, column=5).number_format='mm/dd/yyyy'
+
+
+		#   if(bb==False):
+			#     messagebox.showerror("Error", "File: Disposal detail. Please make sure that the format for Disposal Date is DATE!")
+				#sys.exit()
+
+		  for i in range (1, len(DispDate)+1):
+			  PBC_Disposals.cell(row=i+1, column=6).value=DispDate[i-1]
+			  PBC_Disposals.cell(row=i+1, column=6).number_format='mm/dd/yyyy'
+
+		  for i in range (1, len(ULDisp)+1):
+			  PBC_Disposals.cell(row=i+1, column=7).value=ULDisp[i-1]
+
+		  for i in range (1, len(GBVDisp)+1):
+			  PBC_Disposals.cell(row=i+1, column=8).value=GBVDisp[i-1]
+			  PBC_Disposals.cell(row=i+1, column=8).number_format='#,##0_);(#,##0)'
+			  PBC_Disposals.cell(row=i+1,column=11).value=TypeDisp[i-1]
+
+		  for i in range (1, len(DeprChDisp)+1):
+			  PBC_Disposals.cell(row=i+1, column=9).value=DeprChDisp[i-1]
+			  PBC_Disposals.cell(row=i+1,column=9).number_format='#,##0_);(#,##0)'
+
+		  for i in range (1, len(AccumulatedDepreciationDisp)+1):
+			  PBC_Disposals.cell(row=i+1, column=10).value=AccumulatedDepreciationDisp[i-1]
+			  PBC_Disposals.cell(row=i+1,column=10).number_format='#,##0_);(#,##0)'
+		  for i in range (1,len(AccountDisp)+1):
+			  PBC_Disposals.cell(row=i+1, column=12).value='=IF(A{0}="201",2801,IF(A{0}="203",2803,IF(A{0}="205",2805,IF(A{0}="208",2808,IF(A{0}="206",2806,IF(A{0}="2071",2807,IF(A{0}="211",2811,IF(A{0}="212",2812,IF(A{0}="213",2813,IF(A{0}="223",2813,IF(A{0}="214",2814,IF(A{0}="224",2814,IF(A{0}="215",2815,IF(A{0}="216",2816,IF(A{0}="217",2817,0)))))))))))))))'.format(i+1)
+
+		PBC_Disposals.column_dimensions['A'].width=25
+		PBC_Disposals.column_dimensions['B'].width=25
+		PBC_Disposals.column_dimensions['C'].width=25
+		PBC_Disposals.column_dimensions['D'].width=35
+		PBC_Disposals.column_dimensions['E'].width=25
+		PBC_Disposals.column_dimensions['F'].width=25
+		PBC_Disposals.column_dimensions['G'].width=25
+		PBC_Disposals.column_dimensions['H'].width=25
+		PBC_Disposals.column_dimensions['I'].width=25
+		PBC_Disposals.column_dimensions['J'].width=25
+
+		for i in range(1,11):
+		  for j in range(2,PBC_Disposals.max_row+1):
+			  PBC_Disposals.cell(row=j,column=i).font=font1
+
+		if(val1==1):
+			G100FAR=FAR.create_sheet("G10 FAR Recon")
 			
-			TBls = openpyxl.load_workbook(triald,data_only=True)
-			TBls1 = TBls.active
-			if isChecked3=="":
-				FinSt1= openpyxl.load_workbook("C:\\Users\\Cristian.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Output\\Other files\\TB\\Mapping\\Bilant &CPP Forma lunga 2020.xlsx")
-			else:
-				FinSt1= openpyxl.load_workbook("C:\\Users\\Cristian.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Output\\Other files\\TB\\Mapping\\Bilant &CPP Forma scurta 2020.xlsx")
-			fintb=FinSt1.create_sheet("Trial Balance")
 
-			finbs=FinSt1[' BS 2020']
-			finpl=FinSt1['P&L 2020']
-			mr = TBls1.max_row
-			mc = TBls1.max_column
-			for i in range (1, mr + 1):
-				for j in range (1, mc + 1):
-				# reading cell value from source excel file
-					c = TBls1.cell(row = i, column = j)
+			G100FAR.title="G10 FAR Recon"
 
-				# writing the read value to destination excel file
-					fintb.cell(row = i, column = j).value = c.value
-			fintb.cell(row=1, column=11).font=font
+			for i in range(1, 114):
+				for j in range(1, 10):
+					G100FAR.cell(row=i, column=j).font=font1
 
-			fintb.cell(row=2, column=11).font=font
-			fintb.cell(row=2, column=12).value=datetime.datetime.now()
-			fintb.cell(row=2, column=12).number_format="mm/dd/yyyy"
-			fintb.cell(row=2, column=12).alignment=Alignment(horizontal='left')
 
-			fintb.cell(row=3, column=11).font=font
-			fintb.cell(row=3, column=12).font=fontRed
+			G100FAR.cell(row=1, column=1).value="Client:"
+			G100FAR.cell(row=1, column=1).font=font2
+
+			G100FAR.cell(row=1, column=2).value=namec
+			G100FAR.cell(row=1, column=2).font=font2
+
+			G100FAR.cell(row=2, column=1).value="Period end:"
+			G100FAR.cell(row=2, column=1).font=font2
+
+			G100FAR.cell(row=2, column=2).value=ant
+			G100FAR.cell(row=2, column=2).number_format='mm/dd/yyyy'
+			G100FAR.cell(row=2, column=2).font=font2
+
+			# G100FAR.cell(row=1, column=6).value="Prepared by:"
+			# G100FAR.cell(row=1, column=6).font=font2
+
+			G100FAR.cell(row=2, column=6).value="Date:"
+			G100FAR.cell(row=2, column=6).font=font2
+			G100FAR.cell(row=2, column=7).value=datetime.datetime.now().date()
+			G100FAR.cell(row=2, column=7).number_format="mm/dd/yyyy"
+			G100FAR.cell(row=2, column=7).alignment = Alignment (horizontal='left')
+
+			for i in range(1, 4):
+				G100FAR.cell(row=i, column=6).alignment=Alignment(horizontal='right')
+
+			G100FAR.cell(row=3, column=6).value="Ref:"
+			G100FAR.cell(row=3, column=6).font=font2
+			G100FAR.cell(row=3, column=7).value="G10"
+			G100FAR.cell(row=3, column=7).font=fontRed
 
 			for i in range(1,4):
-				fintb.cell(row=i, column=11).alignment=Alignment(horizontal='right')
+				G100FAR.cell(row=i, column=8).alignment = Alignment(horizontal='right')
 
-			fintb.cell(row=4, column=2).font=font
+			G100FAR.cell(row=4, column=3).value="Fixed Assets Register Reconciliation"
+			G100FAR.cell(row=4, column=3).font=font2
 
-			fintb.cell(row=6, column=1).font=font
+			G100FAR.cell(row=7, column=1).value="Procedure:"
+			G100FAR.cell(row=7, column=1).alignment=Alignment(horizontal='right')
+			G100FAR.cell(row=7, column=2).value="Obtain the FAR as at period end and perform the following: "
+			G100FAR.cell(row=8, column=2).value="- perform reconciliation for FA GBV, accumulated depreciation, accumulated impairement, depreciation and impairement charge with the TB: "
+			G100FAR.cell(row=9, column=2).value="- recompute the NBV  as per FAR and reconcile it with TB"
+			G100FAR.cell(row=10, column=1).value="Work done:"
+			G100FAR.cell(row=10, column=1).alignment=Alignment(horizontal='right')
+			G100FAR.cell(row=10, column=2).value="Please see the work below:"
+			G100FAR.cell(row=7, column=1).font=font2
+			G100FAR.cell(row=10, column=1).font=font2
 
+			G100FAR.cell(row=12, column=1).value="Working 1: GBV"
+			G100FAR.cell(row=12, column=1).font=workingsblue
 
-			fintb.cell(row=8, column=1).font=Font(name='Tahoma', size=8, italic=True)
+			G100FAR.cell(row=14,column=1).value="Synt Account"
+			G100FAR.cell(row=14,column=2).value="Description"
+			G100FAR.cell(row=14,column=3).value="As per FAR(PBC_FAR)"
+			G100FAR.cell(row=14,column=4).value="As per TB(F10_TB)"
+			G100FAR.cell(row=14,column=5).value="Check"
 
-
-
-
-			
-
-			for i in range(1,12):
-				# fintb.cell(row=14, column=i).font=font2
-				# fintb.cell(row=14, column=i).fill=blueFill
-				# fintb.cell(row=14, column=i).border=doubleborder
-				# fintb.cell(row=14, column=i).alignment=Alignment(horizontal='left')
-				fintb.cell(row=11, column=i).font=font2
-				fintb.cell(row=11, column=i).fill=blueFill
-				fintb.cell(row=11, column=i).border=doubleborder
-				fintb.cell(row=11, column=i).alignment=Alignment(horizontal='left')
-
-			for i in range(13,15):
-				# fintb.cell(row=14, column=i).font=font2
-				# fintb.cell(row=14, column=i).fill=blueFill
-				# fintb.cell(row=14, column=i).border=doubleborder
-				# fintb.cell(row=14, column=i).alignment=Alignment(horizontal='left')
-				fintb.cell(row=11, column=i).font=font2
-				fintb.cell(row=11, column=i).fill=blueFill
-				fintb.cell(row=11, column=i).border=doubleborder
-				fintb.cell(row=11, column=i).alignment=Alignment(horizontal='left')
-
-			fintb.cell(row=11, column=16).font=font2
-			fintb.cell(row=11, column=16).fill=blueFill
-			fintb.cell(row=11, column=16).border=doubleborder
-			fintb.cell(row=11, column=16).alignment=Alignment(horizontal='left')
-
-			fintb.cell(row=11, column=6).border=doubleborder
-			
-			for i in range (8,13):
-				fintb.cell(row=i, column=6).font=font
-				fintb.cell(row=i, column=6).alignment=Alignment(horizontal='right')
-
-			fintb.cell(row=11, column=7).border=doubleborder
-
-			for i in range (8,14):
-				fintb.cell(row=i, column=7).number_format='#,##0_);(#,##0)'
+			for i in range (1,6):
+				G100FAR.cell(row=14, column=i).font=headers
+				G100FAR.cell(row=14, column=i).border=solidborder
+				G100FAR.cell(row=14, column=i).fill=headersblue
 
 
-			fintb.cell(row=11, column=10).border=doubleborder
-			fintb.cell(row=12, column=10).font=fontRed
+			for i in range (1,6):
+				G100FAR.cell(row=23, column=i).font=headers
+				G100FAR.cell(row=23, column=i).border=solidborder
+				G100FAR.cell(row=23, column=i).fill=headersblue
 
-			fintb.cell(row=13, column=12).font=fontRed
 
-			fintb.cell(row=13,column=11).alignment=Alignment(horizontal='right')
+			for i in range (1,6):
+				G100FAR.cell(row=47, column=i).font=headers
+				G100FAR.cell(row=47, column=i).border=solidborder
+				G100FAR.cell(row=47, column=i).fill=headersblue
 
-			for i in range (8,13):
-				fintb.cell(row=i, column=10).number_format='#,##0_);(#,##0)'
+			"Adjust Column Width---------------------------------------------------------------"
+
+			G100FAR.column_dimensions['A'].width=25
+			G100FAR.column_dimensions['B'].width=33
+			G100FAR.column_dimensions['C'].width=25
+			G100FAR.column_dimensions['D'].width=35
+			G100FAR.column_dimensions['E'].width=25
+			G100FAR.column_dimensions['F'].width=25
+			G100FAR.column_dimensions['G'].width=25
+			G100FAR.column_dimensions['H'].width=25
+			G100FAR.column_dimensions['I'].width=25
 
 
 
-			for i in range (1,10):
-				fintb.cell(row=i, column=15).number_format='#,##0_);(#,##0)'
+			G100FAR.cell(row=13, column=1).value="'-Intangible Assets-"
+			G100FAR.cell(row=13, column=1).font=greenbolditalic
 
-			for i in range(14,16):
-				fintb.cell(row=1, column=i).font=font2
-				fintb.cell(row=1, column=i).fill=blueFill
-				fintb.cell(row=1, column=i).border=doubleborder
-				fintb.cell(row=1, column=i).alignment=Alignment(horizontal='left')
+			G100FAR.cell(row=15, column=1).value="201"
+			G100FAR.cell(row=16, column=1).value="203"
+			G100FAR.cell(row=17, column=1).value="205 & 208"
+			G100FAR.cell(row=18, column=1).value="206"
+			G100FAR.cell(row=19, column=1).value="2071"
+			G100FAR.cell(row=20, column=1).value="Total Intangibles Assets"
+			for i in range(15, 20):
+				G100FAR.cell(row=i, column=1).alignment=Alignment(horizontal='right')
 
-			"Importing Data"
+			G100FAR.cell(row=15, column=2).value="Set-up costs"
+			G100FAR.cell(row=16, column=2).value="Development costs"
+			G100FAR.cell(row=17, column=2).value="Licenses, Trademarks"
+			G100FAR.cell(row=18, column=2).value="Intangible assets for mineral resources"
+			G100FAR.cell(row=19, column=2).value="Goodwill"
 
 
-			 
+			G100FAR.cell(row=15, column=3).value='=SUMIF(PBC_FAR!G:G,"201",PBC_FAR!C:C)'
+			G100FAR.cell(row=16, column=3).value='=SUMIF(PBC_FAR!G:G,"203",PBC_FAR!C:C)'
+			G100FAR.cell(row=17, column=3).value='=SUMIF(PBC_FAR!G:G,"205",PBC_FAR!C:C)+SUMIF(PBC_FAR!G:G,"208",PBC_FAR!C:C)'
+			G100FAR.cell(row=18, column=3).value='=SUMIF(PBC_FAR!G:G,"206",PBC_FAR!C:C)'
+			G100FAR.cell(row=19, column=3).value='=SUMIF(PBC_FAR!G:G,"207",PBC_FAR!C:C)'
 
-			"Calculation"
+			G100FAR.cell(row=15, column=4).value='=SUMIF(F10_TB!B:B,"201",F10_TB!H:H)'
+			G100FAR.cell(row=16, column=4).value='=SUMIF(F10_TB!B:B,"203",F10_TB!H:H)'
+			G100FAR.cell(row=17, column=4).value='=SUMIF(F10_TB!B:B,"205",F10_TB!H:H)+SUMIF(F10_TB!B:B,"208",F10_TB!H:H)'
+			G100FAR.cell(row=18, column=4).value='=SUMIF(F10_TB!B:B,"206",F10_TB!H:H)'
+			G100FAR.cell(row=19, column=4).value='=SUMIF(F10_TB!B:B,"207",F10_TB!H:H)'
 
-				# F10TB.cell(row=i+14,column=16).value='=if('+x[:1]+'<6,iferror(vlookup('+str(x[0:4])+",'BS Mapping std'!A:E,5,0),vlookup("+str(x[0:3])+",'BS Mapping std'!A:E,5,0)),iferror(vlookup("+str(x[0:4])+",'PL mapping Std'!A:E,5,0),vlookup("+str(x[0:3])+",'PL mapping Std'!A:E,5,0))"
-			"Closing 711"
+			for i in range(14, 20):
+				G100FAR.cell(row=i+1, column=5).value="=C{0}-D{0}".format(i+1)
 
-			fintb.cell(row=1, column=14).font=font2
-			fintb.cell(row=1, column=14).alignment=Alignment(horizontal='right')
+			for i in range(15,20):
+				G100FAR.cell(row=i,column=5).font=fontRedDiff
 
-			
-			fintb.cell(row=6, column=14).font=font
-			fintb.cell(row=6, column=14).alignment=Alignment(horizontal='right' )
+			G100FAR.cell(row=20, column=5).font=fontRed
 
-			fintb.cell(row=8, column=14).value="332" 
-			fintb.cell(row=8, column=14).font=font
+			for i in range (1,6):
+				G100FAR.cell(row=19, column=i).border=doubleborder
 
-			for i in range(14,18):
-				fintb.cell(row=1, column=i).font=font
-				fintb.cell(row=1, column=i).fill=blueFill
-				fintb.cell(row=1, column=i).border=doubleborder
-				fintb.cell(row=1, column=i).alignment=Alignment(horizontal='left')
+			G100FAR.cell(row=20, column=3).value='=SUM(C15:C19)'
+			G100FAR.cell(row=20, column=4).value='=SUM(D15:D19)'
+			G100FAR.cell(row=20, column=5).value='=SUM(E15:E19)'
 
-			for i in range (2,9):
-				fintb.cell(row=i, column=14).font=font
-				fintb.cell(row=i, column=14).alignment=Alignment(horizontal='right')
-
-			for i in range (14,18):
-				fintb.cell(row=5, column=i).border=doubleborder
-
-			
-
-			fintb.cell(row=6, column=17).font=font2
-			fintb.cell(row=6, column=17).fill=blueFill
-
-			for i in range (15,18):
-				fintb.cell(row=6, column=i).font=font2
-
-			for i in range(2,14):
-				for j in range(15,18):  
-					fintb.cell(row=i, column=j).number_format='#,##0_);(#,##0)'
-
-			fintb.cell(row=7, column=14).font=font2
-			fintb.cell(row=7, column=14).alignment=Alignment(horizontal='right')
-
-			fintb.cell(row=8, column=17).fill=blueFill
-			fintb.cell(row=8, column=17).font=font2
-
-			for i in range (6,10):
-				fintb.cell(row=11, column=i).border=doubleborder
+			for i in range (1,5):
+				G100FAR.cell(row=20, column=i).font=font2
 
 
 
+			for i in range(15,99):
+				for j in range (3,7):
+					G100FAR.cell(row=i, column=j).number_format='#,##0_);(#,##0)'
+
+			G100FAR.cell (row=22, column=1).value="'-Tangible Assets-"
+			G100FAR.cell(row=22, column=1).font=greenbolditalic
+
+			G100FAR.cell(row=23,column=1).value="Synt Account"
+			G100FAR.cell(row=23,column=2).value="Description"
+			G100FAR.cell(row=23,column=3).value="As per FAR(PBC_FAR)"
+			G100FAR.cell(row=23,column=4).value="As per TB(F10_TB)"
+			G100FAR.cell(row=23,column=5).value="Check"
 
 
-			
-			"Adjust Column Width."
+			G100FAR.cell(row=24, column=1).value="211"
+			G100FAR.cell(row=25, column=1).value="212"
+			G100FAR.cell(row=26, column=1).value="213 & 223"
+			G100FAR.cell(row=27, column=1).value="214 & 224"
+			G100FAR.cell(row=28, column=1).value="215"
+			G100FAR.cell(row=29, column=1).value="216"
+			G100FAR.cell(row=29, column=1).value="217 & 227"
+			G100FAR.cell(row=30, column=1).value='Total Tangibles Assets'
 
-			for col in fintb.columns:
-				max_length = 0
+			for i in range(24, 31):
+				G100FAR.cell(row=i, column=1).alignment=Alignment(horizontal='right')
+
+			G100FAR.cell(row=24, column=2).value="Land"
+			G100FAR.cell(row=25, column=2).value="Buildings"
+			G100FAR.cell(row=26, column=2).value="Equipments and Machines"
+			G100FAR.cell(row=27, column=2).value="Furniture, office equipments"
+			G100FAR.cell(row=28, column=2).value="Investment properties"
+			G100FAR.cell(row=29, column=2).value="Tangible assets for mineral resources"
+			G100FAR.cell(row=30, column=2).value="Biological assets"
+
+			G100FAR.cell(row=24, column=3).value='=SUMIF(PBC_FAR!G:G,"211",PBC_FAR!C:C)'
+			G100FAR.cell(row=25, column=3).value='=SUMIF(PBC_FAR!G:G,"212",PBC_FAR!C:C)'
+			G100FAR.cell(row=26, column=3).value='=SUMIF(PBC_FAR!G:G,"213",PBC_FAR!C:C)+SUMIF(PBC_FAR!G:G,"223",PBC_FAR!C:C)'
+			G100FAR.cell(row=27, column=3).value='=SUMIF(PBC_FAR!G:G,"214",PBC_FAR!C:C)+SUMIF(PBC_FAR!G:G,"224",PBC_FAR!C:C)'
+			G100FAR.cell(row=28, column=3).value='=SUMIF(PBC_FAR!G:G,"215",PBC_FAR!C:C)'
+			G100FAR.cell(row=29, column=3).value='=SUMIF(PBC_FAR!G:G,"216",PBC_FAR!C:C)'
+			G100FAR.cell(row=30, column=3).value='=SUMIF(PBC_FAR!G:G,"217",PBC_FAR!C:C)+SUMIF(PBC_FAR!G:G,"227",PBC_FAR!C:C)'
+
+			G100FAR.cell(row=24, column=4).value='=SUMIF(F10_TB!B:B,"211",F10_TB!H:H)'
+			G100FAR.cell(row=25, column=4).value='=SUMIF(F10_TB!B:B,"212",F10_TB!H:H)'
+			G100FAR.cell(row=26, column=4).value='=SUMIF(F10_TB!B:B,"213",F10_TB!H:H)+SUMIF(F10_TB!B:B,"223",F10_TB!H:H)'
+			G100FAR.cell(row=27, column=4).value='=SUMIF(F10_TB!B:B,"214",F10_TB!H:H)+SUMIF(F10_TB!B:B,"224",F10_TB!H:H)'
+			G100FAR.cell(row=28, column=4).value='=SUMIF(F10_TB!B:B,"215",F10_TB!H:H)'
+			G100FAR.cell(row=29, column=4).value='=SUMIF(F10_TB!B:B,"216",F10_TB!H:H)'
+			G100FAR.cell(row=30, column=4).value='=SUMIF(F10_TB!B:B,"217",F10_TB!H:H)'
+
+			for i in range(23, 30):
+				G100FAR.cell(row=i+1, column=5).value="=C{0}-D{0}".format(i+1)
+
+			G100FAR.cell(row=31,column=3).value='=SUM(C24:C30)'
+			G100FAR.cell(row=31,column=4).value='=SUM(D24:D30)'
+			G100FAR.cell(row=31,column=5).value='=SUM(E24:E30)'
+
+			for i in range (1,5):
+				G100FAR.cell(row=31,column=i).font=font2
+
+			G100FAR.cell(row=31, column=5).font=fontRed
+
+			for i in range (1,6):
+				G100FAR.cell(row=29, column=i).border=doubleborder
+
+			for i in range (24,31):
+				G100FAR.cell(row=i, column=5).font=fontRedDiff
+
+			G100FAR.cell(row=31, column=1).value="Total Tangible Assets"
+
+			G100FAR.cell(row=33, column=1).value='Total FA GBV'
+			G100FAR.cell(row=33, column=3).value='=C31+C20'
+			G100FAR.cell(row=33, column=4).value='=D31+D20'
+			G100FAR.cell(row=33, column=5).value='=E31+E20'
+
+			for i in range(1, 6):
+				G100FAR.cell(row=33, column=i).fill=total
+
+			for i in range(1,5):
+				G100FAR.cell(row=33, column=i).font=font2
+
+			G100FAR.cell(row=33, column=5).font=fontRed
+
+			G100FAR.cell(row=36, column=1).value='Working 2: Acculumated Depreciation'
+			G100FAR.cell(row=36, column=1).font=workingsblue
+
+
+			G100FAR.cell(row=38,column=1).value="Synt Account"
+			G100FAR.cell(row=38,column=2).value="Description"
+			G100FAR.cell(row=38,column=3).value="As per FAR(PBC_FAR)"
+			G100FAR.cell(row=38,column=4).value="As per TB(F10_TB)"
+			G100FAR.cell(row=38,column=5).value="Check"
+
+			for i in range (1,6):
+				G100FAR.cell(row=38, column=i).font=headers
+				G100FAR.cell(row=38, column=i).border=solidborder
+				G100FAR.cell(row=38, column=i).fill=headersblue
+
+			G100FAR.cell(row=37, column=1).value="'-Depreciation of Intangible Assets-"
+			G100FAR.cell(row=37, column=1).font=greenbolditalic
+
+			G100FAR.cell(row=39, column=1).value="2801"
+			G100FAR.cell(row=40, column=1).value="2803"
+			G100FAR.cell(row=41, column=1).value="2805 & 2808"
+			G100FAR.cell(row=42, column=1).value="2806"
+			G100FAR.cell(row=43, column=1).value="2807"
+
+			for i in range(38, 44):
+				G100FAR.cell(row=i, column=1).alignment=Alignment(horizontal='right')
+
+			G100FAR.cell(row=39, column=2).value="Depreciation of Set-up costs"
+			G100FAR.cell(row=40, column=2).value="Depreciation of development costs"
+			G100FAR.cell(row=41, column=2).value="Depreciation of licenses and trademarks"
+			G100FAR.cell(row=42, column=2).value="Depreciation of intangible assets for mineral resources"
+			G100FAR.cell(row=43, column=2).value="Depreciation of goodwill"
+
+			G100FAR.cell(row=39, column=3).value='=SUMIF(PBC_FAR!F:F,"2801",PBC_FAR!D:D)'
+			G100FAR.cell(row=40, column=3).value='=SUMIF(PBC_FAR!F:F,"2803",PBC_FAR!D:D)'
+			G100FAR.cell(row=41, column=3).value='=SUMIF(PBC_FAR!F:F,"2805",PBC_FAR!D:D)+SUMIF(PBC_FAR!F:F,"2808",PBC_FAR!D:D)'
+			G100FAR.cell(row=42, column=3).value='=SUMIF(PBC_FAR!F:F,"2806",PBC_FAR!D:D)'
+			G100FAR.cell(row=43, column=3).value='=SUMIF(PBC_FAR!F:F,"2807",PBC_FAR!D:D)'
+
+			G100FAR.cell(row=39, column=4).value='=SUMIF(F10_TB!J:J,"2801",F10_TB!H:H)'
+			G100FAR.cell(row=40, column=4).value='=SUMIF(F10_TB!J:J,"2803",F10_TB!H:H)'
+			G100FAR.cell(row=41, column=4).value='=SUMIF(F10_TB!J:J,"2805",F10_TB!H:H)+SUMIF(F10_TB!J:J,"2808",F10_TB!H:H)'
+			G100FAR.cell(row=42, column=4).value='=SUMIF(F10_TB!J:J,"2806",F10_TB!H:H)'
+			G100FAR.cell(row=43, column=4).value='=SUMIF(F10_TB!J:J,"2807",F10_TB!H:H)'
+
+			for i in range(38, 43):
+				G100FAR.cell(row=i+1, column=5).value='=IF(C{0}<0,C{0}-D{0},C{0}+D{0})'.format(i+1)
+
+			G100FAR.cell(row=44, column=1).value="Total Depreciation of Intangible Assets"
+			G100FAR.cell(row=44, column=3).value="=SUM(C39:C43)"
+			G100FAR.cell(row=44, column=4).value="=SUM(D39:D43)"
+			G100FAR.cell(row=44, column=5).value="=SUM(E39:E43)"
+
+			for i in range (1,5):
+				G100FAR.cell(row=44,column=i).font=font2
+
+			G100FAR.cell(row=44, column=5).font=fontRed
+
+			for i in range (1,6):
+				G100FAR.cell(row=44, column=i).border=doubleborder
+
+			for i in range (39,45):
+				G100FAR.cell(row=i, column=5).font=fontRedDiff
+
+
+			G100FAR.cell(row=46, column=1).value="'-Depreciation of Tangible Assets-"
+			G100FAR.cell(row=46, column=1).font=greenbolditalic
+
+
+			G100FAR.cell(row=47,column=1).value="Synt Account"
+			G100FAR.cell(row=47,column=2).value="Description"
+			G100FAR.cell(row=47,column=3).value="As per FAR(PBC_FAR)"
+			G100FAR.cell(row=47,column=4).value="As per TB(F10_TB)"
+			G100FAR.cell(row=47,column=5).value="Check"
+
+
+			G100FAR.cell(row=48, column=1).value="2812"
+			G100FAR.cell(row=49, column=1).value="2813"
+			G100FAR.cell(row=50, column=1).value="2814"
+			G100FAR.cell(row=51, column=1).value="2815"
+			G100FAR.cell(row=52, column=1).value="2816"
+			G100FAR.cell(row=53, column=1).value="2817"
+
+			for i in range(48, 54):
+				G100FAR.cell(row=i, column=1).alignment=Alignment(horizontal='right')
+
+			G100FAR.cell(row=48, column=2).value="Depreciation of buildings"
+			G100FAR.cell(row=49, column=2).value="Depreciation of equipments and machines"
+			G100FAR.cell(row=50, column=2).value="Depreciation of furniture and office equipments"
+			G100FAR.cell(row=51, column=2).value="Depreciation of investment properties"
+			G100FAR.cell(row=52, column=2).value="Depreciation of tangible assets for mineral resources"
+			G100FAR.cell(row=53, column=2).value="Depreciation for biological assets"
+
+			G100FAR.cell(row=48, column=3).value='=SUMIF(PBC_FAR!F:F,"2812",PBC_FAR!D:D)'
+			G100FAR.cell(row=49, column=3).value='=SUMIF(PBC_FAR!F:F,"2813",PBC_FAR!D:D)'
+			G100FAR.cell(row=50, column=3).value='=SUMIF(PBC_FAR!F:F,"2814",PBC_FAR!D:D)'
+			G100FAR.cell(row=51, column=3).value='=SUMIF(PBC_FAR!F:F,"2815",PBC_FAR!D:D)'
+			G100FAR.cell(row=52, column=3).value='=SUMIF(PBC_FAR!F:F,"2816",PBC_FAR!D:D)'
+			G100FAR.cell(row=53, column=3).value='=SUMIF(PBC_FAR!F:F,"2817",PBC_FAR!D:D)'
+
+			G100FAR.cell(row=48, column=4).value='=SUMIF(F10_TB!J:J,"2812",F10_TB!H:H)'
+			G100FAR.cell(row=49, column=4).value='=SUMIF(F10_TB!J:J,"2813",F10_TB!H:H)'
+			G100FAR.cell(row=50, column=4).value='=SUMIF(F10_TB!J:J,"2814",F10_TB!H:H)'
+			G100FAR.cell(row=51, column=4).value='=SUMIF(F10_TB!J:J,"2815",F10_TB!H:H)'
+			G100FAR.cell(row=52, column=4).value='=SUMIF(F10_TB!J:J,"2816",F10_TB!H:H)'
+			G100FAR.cell(row=53, column=4).value='=SUMIF(F10_TB!J:J,"2817",F10_TB!H:H)'
+
+			for i in range(47, 53):
+				G100FAR.cell(row=i+1, column=5).value="=IF(C{0}<0,C{0}-D{0},C{0}+D{0})".format(i+1)
+
+			G100FAR.cell(row=54, column=1).value="Total Depreciation of Tangible Assets"
+			G100FAR.cell(row=54, column=3).value="=SUM(C48:C53)"
+			G100FAR.cell(row=54, column=4).value="=SUM(D48:D53)"
+			G100FAR.cell(row=54, column=5).value="=SUM(E48:E53)"
+
+
+			G100FAR.cell(row=56, column=1).value="Total FA Depreciation "
+			G100FAR.cell(row=56, column=3).value="=C54+C44"
+			G100FAR.cell(row=56, column=4).value="=D54+D44"
+			G100FAR.cell(row=56, column=5).value="=E54+E44"
+
+			for i in range (1,5):
+				G100FAR.cell(row=54,column=i).font=font2
+				G100FAR.cell(row=56,column=i).font=font2
+
+
+			G100FAR.cell(row=54, column=5).font=fontRed
+			G100FAR.cell(row=56, column=5).font=fontRed
+
+			for i in range (1,6):
+				G100FAR.cell(row=54, column=i).border=doubleborder
+
+			for i in range (48,54):
+				G100FAR.cell(row=i, column=5).font=fontRedDiff
+
+			for i in range(1, 6):
+				G100FAR.cell(row=56, column=i).fill=total
+
+
+			G100FAR.cell(row=60,column=1).value="Working 3: NBV"
+			G100FAR.cell(row=60,column=1).font=workingsblue
+
+			G100FAR.cell(row=62,column=1).value="Account"
+			G100FAR.cell(row=62,column=2).value="Description"
+			G100FAR.cell(row=62,column=3).value="GBV"
+
+			G100FAR.cell(row=62,column=4).value="Accumulated Depreciation"
+			G100FAR.cell(row=62,column=5).value="NBV"
+
+
+			for i in range (1,6):
+				G100FAR.cell(row=62, column=i).font=headers
+				G100FAR.cell(row=62, column=i).border=solidborder
+				G100FAR.cell(row=62, column=i).fill=headersblue
+
+			for i in range (1,6):
+				G100FAR.cell(row=71, column=i).font=headers
+				G100FAR.cell(row=71, column=i).border=solidborder
+				G100FAR.cell(row=71, column=i).fill=headersblue
+
+
+			G100FAR.cell(row=61, column=1).value="'-Intangible Assets-"
+			G100FAR.cell(row=61, column=1).font=greenbolditalic
+
+			G100FAR.cell(row=63, column=1).value="201"
+			G100FAR.cell(row=64, column=1).value="203"
+			G100FAR.cell(row=65, column=1).value="205 & 208"
+			G100FAR.cell(row=66, column=1).value="206"
+			G100FAR.cell(row=67, column=1).value="2071"
+
+			for i in range(63, 68):
+				G100FAR.cell(row=i, column=1).alignment=Alignment(horizontal='right')
+
+			G100FAR.cell(row=63, column=2).value="Set-up costs"
+			G100FAR.cell(row=64, column=2).value="Development costs"
+			G100FAR.cell(row=65, column=2).value="Licenses, Trademarks"
+			G100FAR.cell(row=66, column=2).value="Intangible assets for mineral resources"
+			G100FAR.cell(row=67, column=2).value="Goodwill"
+
+			G100FAR.cell(row=63, column=3).value="=C15"
+			G100FAR.cell(row=64, column=3).value="=C16"
+			G100FAR.cell(row=65, column=3).value="=C17"
+			G100FAR.cell(row=66, column=3).value="=C18"
+			G100FAR.cell(row=67, column=3).value="=C19"
+
+			G100FAR.cell(row=63, column=4).value="=IF(C39<0,C39,-C39)"
+			G100FAR.cell(row=64, column=4).value="=IF(C40<0,C40,-C40)"
+			G100FAR.cell(row=65, column=4).value="=IF(C41<0,C41,-C41)"
+			G100FAR.cell(row=66, column=4).value="=IF(C42<0,C42,-C42)"
+			G100FAR.cell(row=67, column=4).value="=IF(C43<0,C43,-C43)"
+
+			for i in range(62, 67):
+				G100FAR.cell(row=i+1, column=5).value="=C{0}+D{0}".format(i+1)
+
+
+			G100FAR.cell(row=68, column=1).value="Total Intangible Assets"
+			G100FAR.cell(row=68, column=3).value="=SUM(C63:C67)"
+			G100FAR.cell(row=68, column=4).value="=SUM(D63:D67)"
+			G100FAR.cell(row=68, column=5).value="=SUM(E63:E67)"
+
+
+			for i in range (1,6):
+				G100FAR.cell(row=68,column=i).font=font2
+
+			for i in range (1,6):
+				G100FAR.cell(row=67, column=i).border=doubleborder
+
+
+			G100FAR.cell(row=70, column=1).value="'-Tangible Assets-"
+			G100FAR.cell(row=70, column=1).font=greenbolditalic
+
+			G100FAR.cell(row=71,column=1).value="Account"
+			G100FAR.cell(row=71,column=2).value="Description"
+			G100FAR.cell(row=71,column=3).value="GBV"
+
+			G100FAR.cell(row=71,column=4).value="Accumulated Depreciation"
+			G100FAR.cell(row=71,column=5).value="NBV"
+
+
+			G100FAR.cell(row=72, column=1).value="211"
+			G100FAR.cell(row=73, column=1).value="212"
+			G100FAR.cell(row=74, column=1).value="213 & 223"
+			G100FAR.cell(row=75, column=1).value="214 & 224"
+			G100FAR.cell(row=76, column=1).value="215"
+			G100FAR.cell(row=77, column=1).value="216"
+			G100FAR.cell(row=78, column=1).value="217 & 227"
+
+			for i in range(72, 79):
+				G100FAR.cell(row=i, column=1).alignment=Alignment(horizontal='right')
+
+			G100FAR.cell(row=72, column=2).value="Land"
+			G100FAR.cell(row=73, column=2).value="Buildings"
+			G100FAR.cell(row=74, column=2).value="Equipments and Machines"
+			G100FAR.cell(row=75, column=2).value="Furniture, office equipments"
+			G100FAR.cell(row=76, column=2).value="Investment properties"
+			G100FAR.cell(row=77, column=2).value="Tangible assets for mineral resources"
+			G100FAR.cell(row=78, column=2).value="Biological assets"
+
+			G100FAR.cell(row=72, column=3).value="=C24"
+			G100FAR.cell(row=73, column=3).value="=C25"
+			G100FAR.cell(row=74, column=3).value="=C26"
+			G100FAR.cell(row=75, column=3).value="=C27"
+			G100FAR.cell(row=76, column=3).value="=C28"
+			G100FAR.cell(row=77, column=3).value="=C29"
+			G100FAR.cell(row=78, column=3).value="=C30"
+
+			G100FAR.cell(row=72, column=4).value=0
+			G100FAR.cell(row=73, column=4).value="=IF(C48<0,C48,-C48)"
+			G100FAR.cell(row=74, column=4).value="=IF(C49<0,C49,-C49)"
+			G100FAR.cell(row=75, column=4).value="=IF(C50<0,C50,-C50)"
+			G100FAR.cell(row=76, column=4).value="=IF(C51<0,C51,-C51)"
+			G100FAR.cell(row=77, column=4).value="=IF(C52<0,C52,-C52)"
+			G100FAR.cell(row=78, column=4).value="=IF(C53<0,C53,-C53)"
+
+
+			for i in range(72, 78):
+				G100FAR.cell(row=i+1, column=5).value="=C{0}+D{0}".format(i+1)
+
+			G100FAR.cell(row=79, column=1).value="Total Tangible Assets"
+			G100FAR.cell(row=79, column=3).value="=SUM(C72:C78)"
+			G100FAR.cell(row=79, column=4).value="=SUM(D72:D78)"
+			G100FAR.cell(row=79, column=5).value="=SUM(E72:E78)"
+
+			G100FAR.cell(row=81, column=1).value="Total FA NBV"
+			G100FAR.cell(row=81, column=3).value="=SUM(C68,C79)"
+			G100FAR.cell(row=81, column=4).value="=SUM(D68,D79)"
+			G100FAR.cell(row=81, column=5).value="=SUM(E68,E79)"
+
+			for i in range (1,6):
+				G100FAR.cell(row=79,column=i).font=font2
+				G100FAR.cell(row=81,column=i).font=font2
+
+
+			for i in range (1,6):
+				G100FAR.cell(row=78, column=i).border=doubleborder
+
+
+			for i in range(1, 6):
+				G100FAR.cell(row=81, column=i).fill=total
+
+			if (len(ChargeFAR)==0):
+				print("list is empty")
+			else:
+
+				G100FAR.cell(row=83, column=1).value="Working 4: Depreciation charge reconciliation"
+				G100FAR.cell(row=83, column=1).font=workingsblue
+
+				G100FAR.cell(row=84, column=1).value="As per FAR(PBC_FAR)"
+				G100FAR.cell(row=84, column=2).value="As per TB(PBC_TB)"
+				G100FAR.cell(row=84, column=3).value="Check"
+
+				for i in range(1, 4):
+					G100FAR.cell(row=84, column=i).font=headers
+					G100FAR.cell(row=84, column=i).fill=headersblue
+					G100FAR.cell(row=84, column=i).border=solidborder
+
+				G100FAR.cell(row=85, column=1).value="=SUM(PBC_FAR!I:I)"
+				G100FAR.cell(row=85, column=2).value='=SUMIF(F10_TB!J:J,"6811",F10_TB!H:H)'
+				G100FAR.cell(row=85, column=3).value='=IF(A85<0,B85+A85,A85-B85)'
+
+			G100FAR.sheet_view.showGridLines = False
+
+		if(val2==1):
+			  G20=FAR.create_sheet("G20 Depr Recomp")
+
+
+			  G20.column_dimensions['A'].width=15
+			  G20.column_dimensions['B'].width=15
+			  G20.column_dimensions['C'].width=30
+			  G20.column_dimensions['D'].width=15
+			  G20.column_dimensions['E'].width=15
+			  G20.column_dimensions['F'].width=25
+			  G20.column_dimensions['G'].width=25
+			  G20.column_dimensions['H'].width=15
+			  G20.column_dimensions['I'].width=20
+			  G20.column_dimensions['J'].width=15
+			  G20.column_dimensions['K'].width=15
+			  G20.column_dimensions['L'].width=15
+			  G20.column_dimensions['M'].width=15
+			  G20.column_dimensions['N'].width=25
+			  G20.column_dimensions['O'].width=15
+			  G20.column_dimensions['P'].width=35
+			  G20.column_dimensions['Q'].width=25
+			  G20.column_dimensions['R'].width=15
+			  G20.column_dimensions['S'].width=25
+			  G20.column_dimensions['T'].width=15
+			  G20.column_dimensions['U'].width=15
+			  G20.column_dimensions['V'].width=25
+			  G20.column_dimensions['W'].width=15
+			  G20.column_dimensions['X'].width=25
+
+
+			  G20.cell(row=1, column=1).value="Client:"
+			  G20.cell(row=1, column=1).font=font2
+			  G20.cell(row=1, column=2).value=namec
+			  G20.cell(row=1, column=2).font=font2
+			  G20.cell(row=2, column=1).value="Period end:"
+			  G20.cell(row=2, column=1).font=font2
+			  G20.cell(row=2, column=2).value=ant
+			  G20.cell(row=2, column=2).number_format='mm/dd/yyyy'
+			  G20.cell(row=2, column=2).font=font2
+			  postdate = str(postdate)
+			  anp = postdate[0]+postdate[1]+postdate[2]+postdate[3]
+			  lunap = postdate[5]+postdate[6]
+			  ziip = postdate[8]+postdate[9]
+
+			  yearentry = str(yearentry)
+			  print(yearentry)
+			  an = yearentry[0]+yearentry[1]+yearentry[2]+yearentry[3]
+			  luna = yearentry[5]+yearentry[6]
+			  zi = yearentry[8]+yearentry[9]
+			  an = int(an)
+			  zi = int(zi)
+			  luna=int(luna)
+
+			  #yearentry=datetime.date(int(an),int(luna),int(zi))
+			  #print(type(yearentry))
+			  #yearentry=str(yearentry)
+			  ##yearentry = yearentry.strftime('%m/%d/%Y')
+			  ##yearentry = datetime.datetime.strptime(yearentry,'%m/%d/%Y')
+			  #yearentry = yearentry.date('%m/%d/%Y')
+			  #print(type(yearentry))
+			  #print("qwjdnqwibdqw", yearentry)
+
+			  G20.cell(row=1, column=8).value="Prepared by:"
+			  G20.cell(row=1, column=8).font=font2
+
+			  G20.cell(row=2, column=8).value="Date:"
+			  G20.cell(row=2, column=8).font=font2
+			  G20.cell(row=2, column=9).value=datetime.datetime.now().date()
+			  G20.cell(row=2, column=9).number_format="mm/dd/yyyy"
+			  G20.cell(row=2, column=9).alignment = Alignment (horizontal='left')
+			  G20.cell(row=2, column=9).font=font1
+
+
+			  G20.cell(row=3, column=8).value="Ref:"
+			  G20.cell(row=3, column=8).font=font2
+			  G20.cell(row=3, column=9).value="G20"
+			  G20.cell(row=3, column=9).font=fontRed
+
+			  for i in range(1,4):
+				  G20.cell(row=i, column=8).alignment = Alignment(horizontal='right')
+
+			  G20.cell(row=4, column=4).value="Tangible and Intangible Assets Depreciation Recomputation"
+			  G20.cell(row=4, column=4).font=font2
+
+			  G20.cell(row=7, column=1).value="Procedure:"
+			  G20.cell(row=7, column=1).alignment=Alignment(horizontal='right')
+			  G20.cell(row=7, column=2).value="Obtain the Fixed asset Register and list of tangible and intangible assets and detail of disposals for the period and recompute the depreciation charge in the period and accumulated depreciation at period end."
+			  G20.cell(row=9, column=1).value="Work done:"
+			  G20.cell(row=9, column=1).alignment=Alignment(horizontal='right')
+			  G20.cell(row=8, column=2).value="Agree the recomputed depreciation charge and accumulated depreciation with the FAR and Disposal list and with TB."
+
+			  G20.cell(row=7, column=2).font=font1
+			  G20.cell(row=9, column=1).font=font1
+			  G20.cell(row=8, column=2).font=font1
+
+			  G20.cell(row=9, column=2).value="Please see the work below:"
+			  G20.cell(row=7, column=1).font=font2
+			  G20.cell(row=9, column=1).font=font2
+
+			  G20.cell(row=9, column=2).font=font1
+
+
+			  G20.cell(row=40,column=1).value="Synt"
+			  G20.cell(row=40,column=2).value="Account"
+			  G20.cell(row=40,column=3).value="Item"
+			  G20.cell(row=40, column=4).value="Description"
+			  G20.cell(row=40,column=5).value="PIF Year"
+			  G20.cell(row=40,column=6).value="PIF Date"
+			  G20.cell(row=40,column=7).value="Disposal Date"
+			  G20.cell(row=40,column=8).value="UL in months"
+			  G20.cell(row=40,column=9).value="GBV"
+			  G20.cell(row=40,column=10).value="Depr Charge"
+			  G20.cell(row=40,column=11).value="Acc Depreciation"
+
+
+			  for i in range (1,12):
+				  G20.cell(row=40, column=i).font=headers
+				  G20.cell(row=40, column=i).border=solidborder
+				  G20.cell(row=40, column=i).fill=headersblue
+
+
+			  "Adjust Column Width---------------------------------------------------------------"
+
+			  G20.cell(row=11, column=4).value="As per Client(FAR and Disposal list)"
+			  G20.cell(row=11, column=4).font=font2
+
+			  G20.cell(row=11, column=2).value="Summary:"
+			  G20.cell(row=11, column=2).font=fontitalic
+
+			  G20.cell(row=12, column=2).value="Account"
+			  G20.cell(row=12, column=3).value="Description"
+			  G20.cell(row=12, column=4).value="GBV (FAR)"
+			  G20.cell(row=12, column=5).value="Depreciation charge (FAR and Disposal list)"
+			  G20.cell(row=12, column=6).value="Accumulated depreciation (FAR)"
+			  G20.cell(row=12, column=7).value="Accumulated depreciation (Disposals)"
+
+
+
+			  for i in range(2, 8):
+				  G20.cell(row=12, column=i).font=headers
+				  G20.cell(row=12, column=i).fill=headersblue
+				  G20.cell(row=12, column=i).border=solidborder
+			  G20.cell(row=13, column=7).border=solidbordersus
+
+			  G20.cell(row=13, column=2).value=201
+			  G20.cell(row=14, column=2).value=203
+			  G20.cell(row=15, column=2).value=205
+			  G20.cell(row=16, column=2).value=208
+			  G20.cell(row=17, column=2).value=206
+			  G20.cell(row=18, column=2).value=2071
+
+
+			  G20.cell(row=13, column=3).value="Set-up costs"
+			  G20.cell(row=14, column=3).value="Development costs"
+			  G20.cell(row=15, column=3).value="Licenses, Trademarks"
+			  G20.cell(row=16, column=3).value="Other Intangibles"
+			  G20.cell(row=17, column=3).value="Intangible assets for mineral resources"
+			  G20.cell(row=18, column=3).value="Goodwill"
+
+			  G20.cell(row=13, column=4).value='=SUMIF(A:A,"201",I:I)'
+			  G20.cell(row=14, column=4).value='=SUMIF(A:A,"203",I:I)'
+			  G20.cell(row=15, column=4).value='=SUMIF(A:A,"205",I:I)'
+			  G20.cell(row=16, column=4).value='=SUMIF(A:A,"208",I:I)'
+			  G20.cell(row=17, column=4).value='=SUMIF(A:A,"206",I:I)'
+			  G20.cell(row=18, column=4).value='=SUMIF(A:A,"207",I:I)'
+
+			  G20.cell(row=13, column=5).value='=SUMIF(A:A,"201",J:J)+SUMIF(A:A,"201D",J:J)'
+			  G20.cell(row=14, column=5).value='=SUMIF(A:A,"203",J:J)+SUMIF(A:A,"203D",J:J)'
+			  G20.cell(row=15, column=5).value='=SUMIF(A:A,"205",J:J)+SUMIF(A:A,"205D",J:J)'
+			  G20.cell(row=16, column=5).value='=SUMIF(A:A,"208",J:J)+SUMIF(A:A,"208D",J:J)'
+			  G20.cell(row=17, column=5).value='=SUMIF(A:A,"206",J:J)+SUMIF(A:A,"206D",J:J)'
+			  G20.cell(row=18, column=5).value='=SUMIF(A:A,"207",J:J)+SUMIF(A:A,"207D",J:J)'
+
+			  G20.cell(row=13, column=6).value='=SUMIF(A:A,"201",K:K)'
+			  G20.cell(row=14, column=6).value='=SUMIF(A:A,"203",K:K)'
+			  G20.cell(row=15, column=6).value='=SUMIF(A:A,"205",K:K)'
+			  G20.cell(row=16, column=6).value='=SUMIF(A:A,"208",K:K)'
+			  G20.cell(row=17, column=6).value='=SUMIF(A:A,"206",K:K)'
+			  G20.cell(row=18, column=6).value='=SUMIF(A:A,"207",K:K)'
+
+			  G20.cell(row=13, column=7).value='=SUMIF(A:A,"201D",K:K)'
+			  G20.cell(row=14, column=7).value='=SUMIF(A:A,"203D",K:K)'
+			  G20.cell(row=15, column=7).value='=SUMIF(A:A,"205D",K:K)'
+			  G20.cell(row=16, column=7).value='=SUMIF(A:A,"208D",K:K)'
+			  G20.cell(row=17, column=7).value='=SUMIF(A:A,"206D",K:K)'
+			  G20.cell(row=18, column=7).value='=SUMIF(A:A,"207D",K:K)'
+
+			  G20.cell(row=19, column=2).value="Total Intangibles Assets"
+			  G20.cell(row=19, column=4).value="=SUM(D13:D18)"
+			  G20.cell(row=19, column=5).value="=SUM(E13:E18)"
+			  G20.cell(row=19, column=6).value="=SUM(F13:F18)"
+			  G20.cell(row=19, column=7).value="=SUM(G13:G18)"
+
+
+			  for i in range(2,8):
+				  G20.cell(row=19, column=i).font=font2
+
+			  #G20.cell(row=20, column=2).value='=IF(SUMIF(PBC_FAR!G:G,"211",PBC_FAR!E:E)+SUMIF(PBC_FAR!G:G,"211",PBC_FAR!J:J)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!J:J)=0,"","211")'
+			  G20.cell(row=21, column=2).value=212
+			  G20.cell(row=22, column=2).value=213
+			  G20.cell(row=23, column=2).value=214
+			  G20.cell(row=24, column=2).value=215
+			  G20.cell(row=25, column=2).value=216
+			  G20.cell(row=26, column=2).value=217
+
+			  #G20.cell(row=20, column=3).value='=IF(SUMIF(PBC_FAR!G:G,"211",PBC_FAR!E:E)+SUMIF(PBC_FAR!G:G,"211",PBC_FAR!J:J)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!J:J)=0,"","Land")'
+			  G20.cell(row=21, column=3).value="Buildings"
+			  G20.cell(row=22, column=3).value="Equipments and Machines"
+			  G20.cell(row=23, column=3).value="Furniture, office equipments"
+			  G20.cell(row=24, column=3).value="Investment properties"
+			  G20.cell(row=25, column=3).value="Tangible assets for mineral resources"
+			  G20.cell(row=26, column=3).value="Biological assets"
+
+
+			  #G20.cell(row=20, column=4).value='=IF(SUMIF(PBC_FAR!G:G,"211",PBC_FAR!E:E)+SUMIF(PBC_FAR!G:G,"211",PBC_FAR!J:J)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!J:J)=0,"",SUMIF(A:A,"211",I:I))'
+			  G20.cell(row=21, column=4).value='=SUMIF(A:A,"212",I:I)'
+			  G20.cell(row=22, column=4).value='=SUMIF(A:A,"213",I:I)'
+			  G20.cell(row=23, column=4).value='=SUMIF(A:A,"214",I:I)'
+			  G20.cell(row=24, column=4).value='=SUMIF(A:A,"215",I:I)'
+			  G20.cell(row=25, column=4).value='=SUMIF(A:A,"216",I:I)'
+			  G20.cell(row=26, column=4).value='=SUMIF(A:A,"217",I:I)'
+
+			  #G20.cell(row=20, column=5).value='=IF(SUMIF(PBC_FAR!G:G,"211",PBC_FAR!E:E)+SUMIF(PBC_FAR!G:G,"211",PBC_FAR!J:J)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!J:J)=0,"",SUMIF(A:A,"211",J:J)+SUMIF(A:A,"211D",J:J))'
+			  G20.cell(row=21, column=5).value='=SUMIF(A:A,"212",J:J)+SUMIF(A:A,"212D",J:J)'
+			  G20.cell(row=22, column=5).value='=SUMIF(A:A,"213",J:J)+SUMIF(A:A,"213D",J:J)'
+			  G20.cell(row=23, column=5).value='=SUMIF(A:A,"214",J:J)+SUMIF(A:A,"214D",J:J)'
+			  G20.cell(row=24, column=5).value='=SUMIF(A:A,"215",J:J)+SUMIF(A:A,"215D",J:J)'
+			  G20.cell(row=25, column=5).value='=SUMIF(A:A,"216",J:J)+SUMIF(A:A,"216D",J:J)'
+			  G20.cell(row=26, column=5).value='=SUMIF(A:A,"217",J:J)+SUMIF(A:A,"217D",J:J)'
+
+			  #G20.cell(row=20, column=6).value='=IF(SUMIF(PBC_FAR!G:G,"211",PBC_FAR!E:E)+SUMIF(PBC_FAR!G:G,"211",PBC_FAR!J:J)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!J:J)=0,"",SUMIF(A:A,"211",K:K))'
+			  G20.cell(row=21, column=6).value='=SUMIF(A:A,"212",K:K)'
+			  G20.cell(row=22, column=6).value='=SUMIF(A:A,"213",K:K)'
+			  G20.cell(row=23, column=6).value='=SUMIF(A:A,"214",K:K)'
+			  G20.cell(row=24, column=6).value='=SUMIF(A:A,"215",K:K)'
+			  G20.cell(row=25, column=6).value='=SUMIF(A:A,"216",K:K)'
+			  G20.cell(row=26, column=6).value='=SUMIF(A:A,"217",K:K)'
+
+			  #G20.cell(row=20, column=7).value='=IF(SUMIF(PBC_FAR!G:G,"211",PBC_FAR!E:E)+SUMIF(PBC_FAR!G:G,"211",PBC_FAR!J:J)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!J:J)=0,"",SUMIF(A:A,"211D",K:K))'
+			  G20.cell(row=21, column=7).value='=SUMIF(A:A,"212D",K:K)'
+			  G20.cell(row=22, column=7).value='=SUMIF(A:A,"213D",K:K)'
+			  G20.cell(row=23, column=7).value='=SUMIF(A:A,"214D",K:K)'
+			  G20.cell(row=24, column=7).value='=SUMIF(A:A,"215D",K:K)'
+			  G20.cell(row=25, column=7).value='=SUMIF(A:A,"216D",K:K)'
+			  G20.cell(row=26, column=7).value='=SUMIF(A:A,"217D",K:K)'
+
+			  G20.cell(row=27, column=2).value="Total Tangible Assets"
+
+			  G20.cell(row=27, column=4).value="=SUM(D20:D26)"
+			  G20.cell(row=27, column=5).value="=SUM(E20:E26)"
+			  G20.cell(row=27, column=6).value="=SUM(F20:F26)"
+			  G20.cell(row=27, column=7).value="=SUM(G20:G26)"
+
+			  G20.cell(row=29, column=2).value="Total Tangible and Intangible Assets"
+			  G20.cell(row=29, column=4).value="=D19+D27"
+			  G20.cell(row=29, column=5).value='=E19+E27'
+			  G20.cell(row=29, column=6).value='=F19+F27'
+
+			  G20.cell(row=29, column=7).value="=G19+G27"
+
+			  G20.cell(row=30,column=2).value="As per TB"
+			  G20.cell(row=30,column=4).value='=SUMIF(F10_TB!B:B,"201",F10_TB!H:H)+SUMIF(F10_TB!B:B,"203",F10_TB!H:H)+SUMIF(F10_TB!B:B,"205",F10_TB!H:H)+SUMIF(F10_TB!B:B,"208",F10_TB!H:H)+SUMIF(F10_TB!B:B,"206",F10_TB!H:H)+SUMIF(F10_TB!B:B,"207",F10_TB!H:H)+SUMIF(F10_TB!B:B,"212",F10_TB!H:H)+SUMIF(F10_TB!B:B,"213",F10_TB!H:H)+SUMIF(F10_TB!B:B,"214",F10_TB!H:H)+SUMIF(F10_TB!B:B,"215",F10_TB!H:H)+SUMIF(F10_TB!B:B,"216",F10_TB!H:H)+SUMIF(F10_TB!B:B,"217",F10_TB!H:H)'
+			  G20.cell(row=30,column=5).value="=Q14"
+			  G20.cell(row=30,column=6).value='=SUMIF(F10_TB!B:B,"280",F10_TB!H:H)+SUMIF(F10_TB!B:B,"281",F10_TB!H:H)'
+
+			  G20.cell(row=31,column=2).value="Check"
+			  G20.cell(row=31,column=4).value="=D29-D30"
+			  G20.cell(row=31,column=5).value="=IF(E29<0,E29+E30,E29-E30)"
+			  G20.cell(row=31,column=6).value="=IF(F29<0,F29-F30,F29+F30)"
+
+
+
+			  G20.cell(row=21,column=13).font=font2
+
+			  for i in range(2, 8):
+				  G20.cell(row=27, column=i).font=font2
+				  G20.cell(row=29, column=i).font=font2
+				  G20.cell(row=30, column=i).font=font2
+				  G20.cell(row=31, column=i).font=fontRed
+				  G20.cell(row=29,column=i).number_format='#,##0_);(#,##0)'
+				  G20.cell(row=30,column=i).number_format='#,##0_);(#,##0)'
+				  G20.cell(row=31,column=i).number_format='#,##0_);(#,##0)'
+
+			  for i in range(2, 8):
+				  G20.cell(row=18, column=i).border=doubleborder
+				  G20.cell(row=26, column=i).border=doubleborder
+
+
+			  G20.cell(row=33, column=2).value="As per Disposal list"
+			  G20.cell(row=33, column=2).font=font2
+			  G20.cell(row=34, column=2).value="Check"
+			  G20.cell(row=34, column=2).font=fontRed
+			  G20.cell(row=36, column=1).value="Recomputation:"
+			  G20.cell(row=36, column=1).font=fontitalic
+
+
+			  G20.cell(row=33, column=7).value="=SUM(PBC_Disposals!J:J)"
+			  G20.cell(row=33, column=7).font=font2
+			  G20.cell(row=34, column=7).value="=G29-G33"
+			  G20.cell(row=34, column=7).font=fontRed
+
+
+			  G20.cell(row=40,column=13).value="Cost"
+			  G20.cell(row=40,column=14).value="UL"
+
+			  G20.cell(row=40,column=15).value="Start Depr"
+			  G20.cell(row=40,column=16).value="End Depr"
+			  G20.cell(row=40,column=17).value="Month in year"
+			  G20.cell(row=40,column=18).value="Monthly depr"
+			  G20.cell(row=40,column=19).value="Depreciation charge"
+			  G20.cell(row=40,column=20).value="Diff"
+
+			  G20.cell(row=40,column=22).value="Accumulated depr"
+			  G20.cell(row=40,column=23).value="Diff"
+			  G20.cell(row=40,column=24).value="Check if accumulated depr < GBV"
+
+			  for i in range (13,21):
+				  G20.cell(row=40, column=i).font=headers
+				  G20.cell(row=40, column=i).border=solidborder
+				  G20.cell(row=40, column=i).fill=headerspurple
+
+			  for i in range (22,25):
+				  G20.cell(row=40, column=i).font=headers
+				  G20.cell(row=40, column=i).border=solidborder
+				  G20.cell(row=40, column=i).fill=headerspurple
+
+			  "noul tabel-------------------------------------------------------------------------------------------------"
+
+			  G20.cell(row=11, column=9).value="As per Nexia"
+			  G20.cell(row=11, column=9).font=font2
+			  G20.cell(row=12, column=9).value="Depreciation charge"
+			  G20.cell(row=12, column=10).value="Diff"
+			  G20.cell(row=12, column=10).font=fontRed
+			  G20.cell(row=12, column=11).value="Accumulated depreciation"
+			  G20.cell(row=12, column=12).value="Diff"
+			  G20.cell(row=12, column=12).font=fontRed
+			  G20.cell(row=12, column=13).value="Accumulated Depreciation (Disposals)"
+			  G20.cell(row=12, column=14).value="Diff"
+
+			  for i in range (9,15):
+				  G20.cell(row=12, column=i).font=headers
+				  G20.cell(row=12, column=i).border=solidborder
+				  G20.cell(row=12, column=i).fill=headersblue
+
+			  for i in range(9, 15):
+				  G20.cell(row=18, column=i).border=doubleborder
+
+			  for i in range(9, 15):
+				  G20.cell(row=26, column=i).border=doubleborder
+
+
+
+			  G20.cell(row=13, column=9).value='=SUMIF(A:A,"201",S:S)+SUMIF(A:A,"201D",S:S)'
+			  G20.cell(row=14, column=9).value='=SUMIF(A:A,"203",S:S)+SUMIF(A:A,"203D",S:S)'
+			  G20.cell(row=15, column=9).value='=SUMIF(A:A,"205",S:S)+SUMIF(A:A,"205D",S:S)'
+			  G20.cell(row=16, column=9).value='=SUMIF(A:A,"208",S:S)+SUMIF(A:A,"208D",S:S)'
+			  G20.cell(row=17, column=9).value='=SUMIF(A:A,"206",S:S)+SUMIF(A:A,"206D",S:S)'
+			  G20.cell(row=18, column=9).value='=SUMIF(A:A,"207",S:S)+SUMIF(A:A,"207D",S:S)'
+
+			  G20.cell(row=13, column=11).value='=SUMIF(A:A,"201",V:V)'
+			  G20.cell(row=14, column=11).value='=SUMIF(A:A,"203",V:V)'
+			  G20.cell(row=15, column=11).value='=SUMIF(A:A,"205",V:V)'
+			  G20.cell(row=16, column=11).value='=SUMIF(A:A,"208",V:V)'
+			  G20.cell(row=17, column=11).value='=SUMIF(A:A,"206",V:V)'
+			  G20.cell(row=18, column=11).value='=SUMIF(A:A,"207",V:V)'
+
+			  G20.cell(row=13, column=13).value='=SUMIF(A:A,"201D",V:V)'
+			  G20.cell(row=14, column=13).value='=SUMIF(A:A,"203D",V:V)'
+			  G20.cell(row=15, column=13).value='=SUMIF(A:A,"205D",V:V)'
+			  G20.cell(row=16, column=13).value='=SUMIF(A:A,"208D",V:V)'
+			  G20.cell(row=17, column=13).value='=SUMIF(A:A,"206D",V:V)'
+			  G20.cell(row=18, column=13).value='=SUMIF(A:A,"207D",V:V)'
+
+			  #G20.cell(row=20, column=9).value='=IF(SUMIF(PBC_FAR!G:G,"211",PBC_FAR!E:E)+SUMIF(PBC_FAR!G:G,"211",PBC_FAR!J:J)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!J:J)=0,"",SUMIF(A:A,"211",S:S)+SUMIF(A:A,"211D",S:S))'
+			  G20.cell(row=21, column=9).value='=SUMIF(A:A,"212",S:S)+SUMIF(A:A,"212D",S:S)'
+			  G20.cell(row=22, column=9).value='=SUMIF(A:A,"213",S:S)+SUMIF(A:A,"213D",S:S)'
+			  G20.cell(row=23, column=9).value='=SUMIF(A:A,"214",S:S)+SUMIF(A:A,"214D",S:S)'
+			  G20.cell(row=24, column=9).value='=SUMIF(A:A,"215",S:S)+SUMIF(A:A,"215D",S:S)'
+			  G20.cell(row=25, column=9).value='=SUMIF(A:A,"216",S:S)+SUMIF(A:A,"216D",S:S)'
+			  G20.cell(row=26, column=9).value='=SUMIF(A:A,"217",S:S)+SUMIF(A:A,"217D",S:S)'
+
+			  #G20.cell(row=20, column=13).value='=IF(SUMIF(PBC_FAR!G:G,"211",PBC_FAR!E:E)+SUMIF(PBC_FAR!G:G,"211",PBC_FAR!J:J)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!J:J)=0,"",SUMIF(A:A,"211D",V:V))'
+			  G20.cell(row=21, column=13).value='=SUMIF(A:A,"212D",V:V)'
+			  G20.cell(row=22, column=13).value='=SUMIF(A:A,"213D",V:V)'
+			  G20.cell(row=23, column=13).value='=SUMIF(A:A,"214D",V:V)'
+			  G20.cell(row=24, column=13).value='=SUMIF(A:A,"215D",V:V)'
+			  G20.cell(row=25, column=13).value='=SUMIF(A:A,"216D",V:V)'
+			  G20.cell(row=26, column=13).value='=SUMIF(A:A,"217D ",V:V)'
+
+			  #G20.cell(row=20, column=11).value='=IF(SUMIF(PBC_FAR!G:G,"211",PBC_FAR!E:E)+SUMIF(PBC_FAR!G:G,"211",PBC_FAR!J:J)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!J:J)=0,"",SUMIF(A:A,"211",V:V))'
+			  G20.cell(row=21, column=11).value='=SUMIF(A:A,"212",V:V)'
+			  G20.cell(row=22, column=11).value='=SUMIF(A:A,"213",V:V)'
+			  G20.cell(row=23, column=11).value='=SUMIF(A:A,"214",V:V)'
+			  G20.cell(row=24, column=11).value='=SUMIF(A:A,"215",V:V)'
+			  G20.cell(row=25, column=11).value='=SUMIF(A:A,"216",V:V)'
+			  G20.cell(row=26, column=11).value='=SUMIF(A:A,"217",V:V)'
+
+			  #G20.cell(row=20, column=10).value='=IF(SUMIF(PBC_FAR!G:G,"211",PBC_FAR!E:E)+SUMIF(PBC_FAR!G:G,"211",PBC_FAR!J:J)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!J:J)=0,"",I20-E20)'
+			  #G20.cell(row=20, column=12).value='=IF(SUMIF(PBC_FAR!G:G,"211",PBC_FAR!E:E)+SUMIF(PBC_FAR!G:G,"211",PBC_FAR!J:J)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!J:J)=0,"",K20-F20)'
+			  #G20.cell(row=20, column=14).value='=IF(SUMIF(PBC_FAR!G:G,"211",PBC_FAR!E:E)+SUMIF(PBC_FAR!G:G,"211",PBC_FAR!J:J)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!J:J)=0,"",M20-G20)'
+
+			  "PARTEA NUUA"
+			  G20.cell(row=19, column=13).value="=SUM(M13:M18)"
+			  G20.cell(row=27, column=13).value="=SUM(M20:M26)"
+			  G20.cell(row=29, column=13).value="=M19+M27"
+			  G20.cell(row=33, column=13).value="=SUM(PBC_Disposals!J:J)"
+			  G20.cell(row=34, column=13).value="=M29-M33"
+
+			  for i in range(12, 18):
+				  G20.cell(row=i+1, column=14).value='=M{0}-G{0}'.format(i+1)
+
+			  for i in range(20, 26):
+				  G20.cell(row=i+1, column=14).value='=M{0}-G{0}'.format(i+1)
+
+			  G20.cell(row=19, column=14).value="=SUM(N13:N18)"
+			  G20.cell(row=27, column=14).value="=SUM(N20:N26)"
+			  G20.cell(row=29, column=14).value="=M29-G29"
+
+			  for i in range(13, 19):
+				  for j in range(13, 14):
+					  G20.cell(row=i, column=j).font=font1
+
+			  for i in range(21, 27):
+				  for j in range(13, 14):
+					  G20.cell(row=i, column=j).font=font1
+
+			  for i in range(13, 35):
+				  for j in range(13, 15):
+					  G20.cell(row=i, column=j).number_format='#,##0_);(#,##0)'
+
+			  G20.cell(row=19, column=13).font=font2
+			  G20.cell(row=27, column=13).font=font2
+			  G20.cell(row=29, column=13).font=font2
+			  G20.cell(row=33, column=13).font=font2
+			  G20.cell(row=34, column=13).font=fontRed
+
+			  for i in range(13, 19):
+				  G20.cell(row=i, column=14).font=fontRedDiff
+
+			  G20.cell(row=19, column=19).font=fontRed
+
+
+			  for i in range(21, 27):
+				  G20.cell(row=i, column=14).font=fontRedDiff
+
+			  G20.cell(row=27, column=14).font=fontRed
+			  G20.cell(row=29, column=14).font=fontRed
+			  "PARTEA NOUA"
+
+			  G20.cell(row=19, column=9).value='=SUM(I13:I18)'
+			  G20.cell(row=27, column=9).value='=SUM(I20:I26)'
+
+			  G20.cell(row=19, column=10).value='=SUM(J13:J18)'
+			  G20.cell(row=27, column=10).value='=SUM(J20:J26)'
+
+			  G20.cell(row=19, column=11).value='=SUM(K13:K18)'
+			  G20.cell(row=27, column=11).value='=SUM(K20:K26)'
+
+			  G20.cell(row=19, column=12).value='=SUM(L13:L18)'
+			  G20.cell(row=27, column=12).value='=SUM(L20:L26)'
+
+			  for i in range(12, 18):
+				  G20.cell(row=i+1, column=10).value='=if($E$29=0,"N/A – no depr expense in FAR PBC",I{0}-E{0})'.format(i+1)
+				  G20.cell(row=i+1, column=10).font=fontRedDiff
+
+			  for i in range(20, 26):
+				  G20.cell(row=i+1, column=10).value='=if($E$29=0,"N/A – no depr expense in FAR PBC",I{0}-E{0})'.format(i+1)
+				  G20.cell(row=i+1, column=10).font=fontRedDiff
+
+			  for i in range(12, 18):
+				  G20.cell(row=i+1, column=12).value='=if(F{0}>=0,K{0}-F{0},K{0}+F{0})'.format(i+1)
+				  G20.cell(row=i+1, column=12).font=fontRedDiff
+
+			  for i in range(20, 26):
+				  G20.cell(row=i+1, column=12).value='=if(F{0}>=0,K{0}-F{0},K{0}+F{0})'.format(i+1)
+				  G20.cell(row=i+1, column=12).font=fontRedDiff
+
+			  G20.cell(row=19, column=10).font=fontRed
+			  G20.cell(row=19, column=12).font=fontRed
+
+			  G20.cell(row=27, column=10).font=fontRed
+			  G20.cell(row=27, column=12).font=fontRed
+
+			  for i in range(27, 30):
+				  G20.cell(row=i, column=9).font=font2
+
+			  for i in range(27, 31):
+				  G20.cell(row=i, column=11).font=font2
+
+			  for i in range(13, 20):
+				  for j in range(9, 13):
+					  G20.cell(row=i, column=j).number_format='#,##0_);(#,##0)'
+
+			  for i in range(21, 32):
+				  for j in range(9, 13):
+					  G20.cell(row=i, column=j).number_format='#,##0_);(#,##0)'
+
+			  for i in range(13, 20):
+				  G20.cell(row=i, column=9).font=font1
+
+			  for i in range(13, 20):
+				  G20.cell(row=i, column=11).font=font1
+
+			  for i in range(21, 27):
+				  G20.cell(row=i, column=9).font=font1
+
+			  for i in range(21, 27):
+				  G20.cell(row=i, column=11).font=font1
+
+			  G20.cell(row=29, column=9).value='=I19+I27'
+			  G20.cell(row=29, column=11).value='=K19+K27'
+
+			  G20.cell(row=29, column=10).value='=E29-I29'
+			  G20.cell(row=29, column=12).value='=F29-K29'
+
+			  G20.cell(row=30, column=9).value='=Q14'
+			  G20.cell(row=30, column=11).value='=SUMIF(F10_TB!B:B,"280",F10_TB!H:H)+SUMIF(F10_TB!B:B,"281",F10_TB!H:H)'
+
+			  G20.cell(row=31, column=9).value='=IF(I29<0,I29+I30,I29-I30)'
+			  G20.cell(row=31, column=9).font=fontRed
+			  G20.cell(row=31, column=11).value='=IF(K29<0,K29-K30,K29+K30)'
+			  G20.cell(row=31, column=11).font=fontRed
+
+			  G20.cell(row=29, column=10).font=fontRed
+			  G20.cell(row=29, column=12).font=fontRed
+
+			  G20.cell(row=30, column=9).border=solidborder
+			  G20.cell(row=30, column=11).border=solidborder
+
+			  for i in range(4, 8):
+				  G20.cell(row=30, column=i).border=solidborder
+				  G20.cell(row=33, column=i).border=solidborder
+			  for i in range(9, 14):
+				  G20 .cell(row=33, column=i).border=solidborder
+			  G20.cell(row=29 ,column=15).value='=IF(ISERROR(L29),"One of the FAR PIF Dates exceed the period end date, therefore the fixed assets should not be presented in FAR","")'
+
+			  G20.cell(row=12, column=16).value="Reconciliation #28x vs #68x as per TB"
+			  G20.cell(row=13, column=16).value="Depreciation CM #28x"
+			  G20.cell(row=14, column=16).value="Depreciation charge 681"
+			  G20.cell(row=15, column=16).value="Diff"
+
+			  G20.cell(row=12, column=16).font=font2
+
+			  for i in range (12,16):
+				  G20.cell(row=i, column=16).font=font2
+
+			  for i in range(12,16):
+				  G20.cell(row=i, column=16).alignment=Alignment(horizontal='center', vertical='center')
+
+			  for i in range(18,21):
+				  G20.cell(row=i, column=16).alignment=Alignment(horizontal='center', vertical='center')
+
+			  for i in range(16,18):
+				  G20.cell(row=12, column=i).font=headers
+				  G20.cell(row=13, column=i).border=solidbordersus
+				  G20.cell(row=12, column=i).fill=headersblue
+
+			  G20.cell(row=13, column=17).value='=SUMIF(F10_TB!B:B,"280",F10_TB!G:G)+SUMIF(F10_TB!B:B,"281",F10_TB!G:G)'
+			  G20.cell(row=14, column=17).value='=SUMIF(F10_TB!J:J,"6811",F10_TB!H:H)+SUMIF(F10_TB!J:J,"6817",F10_TB!H:H)'
+			  G20.cell(row=15, column=17).value='=IF(AND(Q13<0,Q14<0),Q13-Q14,IF(OR(Q13<0,Q14<0),Q13+Q14,Q13-Q14))'
+			  G20.cell(row=15, column=16).font=fontRed
+			  G20.cell(row=15, column=17).font=fontRed
+
+			  G20.cell(row=13, column=17).font=font1
+			  G20.cell(row=14, column=17).font=font1
+
+			  for i in range(16, 18):
+				  G20.cell(row=14, column=i).border=doubleborder
+
+
+			  for i in range (13,17):
+				  G20.cell(row=i, column=17).number_format='#,##0_);(#,##0)'
+
+
+			  G20.cell(row=36, column=13).value=datetime.date(int(anp), int(lunap), int(ziip))
+			  G20.cell(row=37, column=13).value=datetime.date(an, luna, zi)
+			  G20.cell(row=36, column=13).number_format="mm/dd/yyyy"
+			  G20.cell(row=37, column=13).number_format="mm/dd/yyyy"
+			  G20.cell(row=36, column=13).font=fontalb
+			  G20.cell(row=37, column=13).font=fontalb
+
+			  G20.cell(row=38, column=1).value="As per Client (FAR and Disposal list)"
+			  G20.cell(row=38, column=1).font=font2
+
+			  G20.cell(row=38, column=13).value="As per Nexia Recomputation"
+			  G20.cell(row=38, column=13).font=font2
+			  print(len(AccountDisp))			  
+
+			  lenTotal=len(AccountFAR)+len(AccountDisp)
+			  for i in range (1,lenTotal+1):
+				  G20.cell(row=i+40, column=1).value='=Left(TRIM(B{0}),3)'.format(i+40)
+
+			  print(lenTotal)
+			  print(len(AccountDisp))
+			  # print(len(AccountFar))
+			  h = lenTotal - len(AccountDisp)
+			  print(h)
+
+			  for i in range(1, len(AccountDisp)+1):
+				  G20.cell(row=i+h+40, column=1).value='=Left(TRIM(B{0}),3)&"D"'.format(i+h+40)
+
+			  for i in range (1, len(AccountFAR)+1):
+				  G20.cell(row=i+40, column=2).value=AccountFAR[i-1]
+			  ###
+			  for i in range(1,len(AccountDisp)+1):
+				  G20.cell(row=i+40+len(AccountFAR),column=2).value=AccountDisp[i-1]
+			  ##
+			  for i in range (1, len(ItemFAR)+1):
+				  G20.cell(row=i+40, column=3).value=ItemFAR[i-1]
+
+			  for i in range(1, len(DescriptionFAR)+1):
+				  G20.cell(row=i+40, column=4).value=DescriptionFAR[i-1]
+
+			  for i in range(1,len(DescriptionDisp)+1):
+				  G20.cell(row=i+40+len(AccountFAR),column=4).value=DescriptionDisp[i-1]
+
+			  for i in range (1,lenTotal+1):
+				  G20.cell(row=i+40, column=5).value='=Year(F{0})'.format(i+40)
+
+			  for i in range(1,len(PIFDate)+1):
+				  G20.cell(row=i+40, column=6).value=PIFDate[i-1]
+
+			  for i in range(1,len(PIFDisp)+1):
+				  G20.cell(row=i+40+len(AccountFAR),column=6).value=PIFDisp[i-1]
+
+			  for i in range(1,lenTotal+1):
+				  G20.cell(row=i+40, column=6).number_format='mm/dd/yyyy'
+
+			  for i in range(1,len(PIFDate)+len(DispDate)+2):
+				  G20.cell(row=i+40, column=7).number_format='mm/dd/yyyy'
+
+			  for i in range (1,len (UL)+1):
+				  G20.cell(row=i+40, column=8).value=UL[i-1]
+
+			  for i in range(1,len(ULDisp)+1):
+				  G20.cell(row=i+40+len(AccountFAR),column=8).value=ULDisp[i-1]
+
+			  for i in range (1, len(GBVFAR)+1):
+				  G20.cell(row=i+40, column=9).value=GBVFAR[i-1]
+
+			  for i in range(1,len(GBVDisp)+1):
+				  G20.cell(row=i+40+len(AccountFAR),column=9).value=GBVDisp[i-1]
+
+			  for i in range (1,len(ChargeFAR)+1):
+				  G20.cell(row=i+40, column=10).value=ChargeFAR[i-1]
+
+			  for i in range(1,len(DeprChDisp)+1):
+				  G20.cell(row=i+40+len(AccountFAR),column=10).value=DeprChDisp[i-1]
+
+			  for i in range (1, len(AccDeprFAR)+1):
+				  G20.cell(row=i+40, column=11).value=AccDeprFAR[i-1]
+
+			  for i in range(1,len(AccumulatedDepreciationDisp)+1):
+				  G20.cell(row=i+40+len(AccountFAR),column=11).value=AccumulatedDepreciationDisp[i-1]
+
+			  for i in range(1, len(AccDeprFAR)+len(AccumulatedDepreciationDisp)+2):
+				  for j in range(8, 12):
+					  G20.cell(row=i+40, column=j).number_format='#,##0_);(#,##0)'
+
+
+			  for i in range (1,lenTotal+1):
+				  G20.cell(row=i+40, column=13).value='=I{0}'.format(i+40)
+
+			  for i in range (1,lenTotal+1):
+				  G20.cell(row=i+40, column=14).value='=H{0}'.format(i+40)
+
+
+			  # for i in range (1,len(PIFDate)+1):
+			  #   G20.cell(row=i+33, column=6).number_format='mm/dd/yyyy'
+
+			  # for i in range (1,len(DispDate)+1):
+			  #   G20.cell(row=i+33, column=7).number_format='mm/dd/yyyy'
+
+			  for i in range (1,lenTotal+1):
+				  G20.cell(row=i+40, column=15).value='=DATE(YEAR(F{0}),MONTH(F{0})+1,1)'.format(i+40)
+
+			  for i in range (1,lenTotal+1):
+				  G20.cell(row=i+40, column=15).number_format='mm/dd/yyyy'
+
+			  #=IF(DAY(E{0})=1,E{0},DATE(YEAR(N{0}),MONTH(N{0})+1,1))
+
+			  for i in range (1,lenTotal+1):
+				  G20.cell(row=i+40, column=16).value='=IF(MID(A{0},4,1)="D",MIN(G{0},DATE(YEAR(O{0}),MONTH(O{0})+N{0},DAY(O{0}))),(DATE(YEAR(O{0}),MONTH(O{0})+N{0},1)))'.format(i+40)
+
+			  for i in range (1,lenTotal+1):
+				  G20.cell(row=i+40, column=16).number_format='mm/dd/yyyy'
+
+
+			  # for i in range (1,len(PIFDate)+1):
+			  #   G20.cell(row=i+33, column=17).number_format='mm/dd/yyyy'
+
+			  # for i in range (1,len(PIFDate)+1):
+			  #   G20.cell(row=i+33, column=16).number_format='mm/dd/yyyy'
+
+			  for i in range (1,lenTotal+1):
+				  G20.cell(row=i+40, column=17).value='=DATEDIF(IF(MAX(O{0},$M$37)>$M$36+1,$M$36+1,MAX(O{0},$M$37)),MAX($M$37,MIN($M$36+1,P{0})),"m")'.format(i+40)
+
+			  for i in range (1,lenTotal+1):
+				  G20.cell(row=i+40, column=18).value='=IF(N{0}>0,M{0}/N{0},0)'.format(i+40)
+
+			  # for i in range (1,len(PIFDate)+1):
+			  #   G20.cell(row=i+33, column=18).number_format='#,##0_);(#,##0)'
+
+			  for i in range (1,lenTotal+1):
+				  G20.cell(row=i+40, column=19).value='=Q{0}*R{0}'.format(i+40)
+
+
+
+			  for i in range (1,lenTotal+1):
+				  G20.cell(row=i+40, column=20).value='=if($e$29=0,"N/A – no depr expense in FAR PBC",IF(J{0}<0,J{0}+S{0},J{0}-S{0}))'.format(i+40)
+
+
+
+			  for i in range (1,lenTotal+1):
+				  G20.cell(row=i+40, column=20).font=fontRedDiff
+
+			  for i in range (1,lenTotal+1):
+				  G20.cell(row=i+40, column=22).value='=iferror(DATEDIF(O{0},MIN(P{0},MAX($M$37,MIN($M$36+1,P{0}))),"m")*R{0},0)'.format(i+40)
+
+			  for i in range (1,lenTotal+1):
+				  G20.cell(row=i+40, column=23).value='=IF(K{0}<0,K{0}+V{0},K{0}-V{0})'.format(i+40)
+			  for i in range(41,lenTotal+42):
+				  G20.cell(row=i,column=13).number_format='#,##0_);(#,##0)'
+
+			  for i in range (1,lenTotal+1):
+				  G20.cell(row=i+40, column=23).font=fontRedDiff
+
+			  for i in range(1,len(PIFDate)+len(AccumulatedDepreciationDisp)+2):
+				  for j in range(17, 24):
+				    G20.cell(row=i+40, column=j).number_format='#,##0_);(#,##0)'
+
+			  for i in range(1, len(ItemDisp)+1):
+				  G20.cell(row=i+len(ItemFAR)+40, column=3).value=ItemDisp[i-1]
+
+			  for i in range(1, len(DispDate)+1):
+				  G20.cell(row=i+len(ItemFAR)+40, column=7).value=DispDate[i-1]
+
+			  # for i in range(1, len(AccumulatedDepreciationDisp)+1):
+			  #   G20.cell(row=i+len(ItemFAR)+32, column=19).value=AccumulatedDepreciationDisp[i-1]
+
+			  for i in range(4,7):
+				  for j in range(15, 30):
+				    G20.cell(row=j, column=i).number_format='#,##0_);(#,##0)'
+
+			  # c=G20['A33']
+			  # G20.freeze_panes = c
+
+			  for i in range(2,7):
+				  for j in range(13,19):
+				    G20.cell(row=j,column=i).font=font1
+
+			  for i in range(2,7):
+				  for j in range(21,27):
+				    G20.cell(row=j,column=i).font=font1
+
+
+			  for i in range(1,20):
+				  for j in range(41,G20.max_row):
+				    G20.cell(row=j,column=i).font=font1
+
+			  for j in range(41,G20.max_row):
+				  G20.cell(row=j,column=22).font=font1
+
+			  for i in range(41,G20.max_row):
+				  G20.cell(row=i,column=24).value='=IF(V{0}<=I{0},"OK","Not OK")'.format(i)
+				  G20.cell(row=i,column=24).font=font1
+
+
+
+			  G20.cell(row=17, column=16).value="Reconciliation of Disposals with FA CM"
+			  G20.cell(row=18, column=16).value="Disposals as per detail"
+			  G20.cell(row=19, column=16).value="As per TB"
+			  for i in range(18, 20):
+				  G20.cell(row=i, column=16).font=font2
+			  G20.cell(row=20, column=16).value="Diff"
+			  G20.cell(row=20, column=16).alignment=Alignment(horizontal='center')
+			  for i in range(16, 18):
+				  G20.cell(row=20, column=i).font=fontRed
+
+			  for i in range(16, 18):
+				  G20.cell(row=17, column=i).font=headers
+				  G20.cell(row=18, column=i).border=solidbordersus
+				  G20.cell(row=17, column=i).fill=headersblue
+				  G20.cell(row=19, column=i).border=doubleborder
+
+			  G20.cell(row=18, column=17).value='=SUM(PBC_Disposals!H:H)'
+			  G20.cell(row=19, column=17).value='=SUMIF(F10_TB!B:B,"201",F10_TB!G:G)+SUMIF(F10_TB!B:B,"203",F10_TB!G:G)+SUMIF(F10_TB!B:B,"205",F10_TB!G:G)+SUMIF(F10_TB!B:B,"208",F10_TB!G:G)+SUMIF(F10_TB!B:B,"206",F10_TB!G:G)+SUMIF(F10_TB!B:B,"207",F10_TB!G:G)+SUMIF(F10_TB!B:B,"212",F10_TB!G:G)+SUMIF(F10_TB!B:B,"213",F10_TB!G:G)+SUMIF(F10_TB!B:B,"214",F10_TB!G:G)+SUMIF(F10_TB!B:B,"215",F10_TB!G:G)+SUMIF(F10_TB!B:B,"216",F10_TB!G:G)+SUMIF(F10_TB!B:B,"217",F10_TB!G:G)'
+			  G20.cell(row=20, column=17).value='=IF(AND(Q18<0,Q19<0),Q18-Q19,IF(OR(Q18<0,Q19<0),Q18+Q19,Q18-Q19))'
+
+			  for i in range(18, 21):
+				  G20.cell(row=i, column=17).number_format='#,##0_);(#,##0)'
+				  G20.cell(row=i, column=17).font=font1
+
+			  # for i in range(4, 7):
+			  #   for j in range(13, 16):
+			  #     G20.cell(row=j, column=i).number_format='#,##0_);(#,##0)'
+
+			  G20.cell(row=20, column=17).font=fontRed
+
+			  for i in range(13, 15):
+				  G20.cell(row=i, column=14).font=font2
+
+			  for i in range(13, 35):
+				  G20.cell(row=i, column=7).number_format='#,##0_);(#,##0)'
+
+			  G20.cell(row=30, column=9).font=font2
+			  G20.cell(row=19, column=9).font=font2
+			  G20.cell(row=19, column=11).font=font2
+
+			  for i in range(2,8):
+				  G20.cell(row=12, column=i).alignment=Alignment(horizontal='center', vertical='center', wrap_text=True)
+
+			  for i in range(9,15):
+				  G20.cell(row=12, column=i).alignment=Alignment(horizontal='center', vertical='center', wrap_text=True)
+
+			  for i in range(1, 25):
+				  G20.cell(row=40, column=i).alignment=Alignment(horizontal='center', vertical='center', wrap_text=True)
+
+
+			  G20.row_dimensions[39].height = 4
+			  G20.row_dimensions[28].height = 4
+
+			  G20.merge_cells('P12:Q12')
+			  G20.merge_cells('P17:Q17')
+			  G20.merge_cells('D11:G11')
+			  G20.merge_cells('I11:N11')
+
+			  G20.cell(row=11, column=4).alignment=Alignment(horizontal='center', vertical='center')
+			  G20.cell(row=11, column=9).alignment=Alignment(horizontal='center', vertical='center')
+			  G20.cell(row=12, column=16).alignment=Alignment(horizontal='center', vertical='center')
+			  G20.cell(row=17, column=16).alignment=Alignment(horizontal='center', vertical='center')
+
+			  for i in range(4, 8):
+				  G20.cell(row=11, column=i).border=solidborder
+
+			  for i in range(4, 8):
+				  G20.cell(row=10, column=i).border=solidborder
+
+			  for i in range(9, 15):
+				  G20.cell(row=11, column=i).border=solidborder
+
+			  for i in range(11, 15):
+				  G20.cell(row=10, column=i).border=solidborder
+
+			  G20.cell(row=11, column=3).border=solidborderdreapta
+			  G20.cell(row=11, column=7).border=solidborderdreapta
+			  G20.cell(row=10, column=9).border=solidborder
+			  G20.cell(row=10, column=10).border=solidborder
+			  G20.cell(row=11, column=7).border=solidborder
+			  G20.cell(row=11, column=7).border=solidborderdreapta
+
+			  G20.cell(row=11, column=8).border=solidborderdreapta
+			  G20.cell(row=12, column=7).border=solidbordersus
+			  G20.cell(row=11, column=15).border=solidborderstanga
+			  G20.cell(row=13, column=14).font=fontRedDiff
+			  G20.cell(row=14, column=14).font=fontRedDiff
+			  G20.cell(row=19, column=14).font=fontRed
+
+			  for i in range(13, 19):
+				  G20.cell(row=i ,column=7).font=font1
+
+			  for i in range(21, 27):
+				  G20.cell(row=i ,column=7).font=font1
+
+			  for i in range(9, 14):
+				  G20.cell(row=30, column=i).border=solidborder
+
+			  for i in range(2, 14):
+				  G20.cell(row=20, column=i).font=font1
+			  for i in range(4, 14):
+				  G20.cell(row=20, column=i).number_format='#,##0_);(#,##0)'
+
+			  G20.cell(row=20, column=10).font=fontRedDiff
+			  G20.cell(row=20, column=12).font=fontRedDiff
+			  G20.cell(row=20, column=14).font=fontRedDiff
+
+			  for i in range(4, 7):
+				  for j in range(13, 15):
+				    G20.cell(row=j, column=i).number_format='#,##0_);(#,##0)'
+
+			  G20.cell(row=20, column=2).alignment = Alignment (horizontal='right')
+			  G20.sheet_view.showGridLines = False
+
+		if(val3==1):
+			G30=FAR.create_sheet("G30 FA TOM")
+
+			# G30.title="G30 FA TOM"
+
+
+			PBC_Addition =FAR.create_sheet("PBC_Add")
+
+			# PBC_CIP =FAR.create_sheet("PBC_CIP")
+
+
+
+			"Create PBC FAR ---------------------------------------------------------------------"
+
+
+
+
+			"Create Add Detail ---------------------------------------------------------------------"
+
+
+			PBC_Addition.cell(row=1, column=1).value="Item"
+			PBC_Addition.cell(row=1, column=2).value="Account"
+			PBC_Addition.cell(row=1, column=3).value="GBV"
+			PBC_Addition.cell(row=1, column=4).value="Depreciation Charge"
+			PBC_Addition.cell(row=1, column=5).value="Accumulated Depreciation"
+			PBC_Addition.cell(row=1, column=6).value="PIF Date"
+			PBC_Addition.cell(row=1, column=7).value="Synt Account"
+			PBC_Addition.cell(row=1, column=8).value="Type"
+			PBC_Addition.cell(row=1, column=9).value="Depr Account"
+			PBC_Addition.cell(row=1,column=10).value="Synt 4"
+			try:
+				for i in range (1,11):
+				  PBC_Addition.cell(row=1, column= i).border=doubleborder
+				  PBC_Addition.cell(row=1, column= i).font=font2
+				  PBC_Addition.cell(row=1, column= i).fill=blueFill
+
+				for i in range (1,len(ItemAdd)+1):
+				  PBC_Addition.cell(row=i+1, column=1).value=ItemAdd[i-1]
+
+				for i in range (1,len(AccountAdd)+1):
+				  PBC_Addition.cell(row=i+1, column=2).value=AccountAdd[i-1]
+
+				for i in range (1,len(GBVAdd)+1):
+				  PBC_Addition.cell(row=i+1, column=3).value=GBVAdd[i-1]
+
+				for i in range (1,len(AccumulatedDepreciation)+1):
+				  PBC_Addition.cell(row=i+1, column=5).value=AccumulatedDepreciation[i-1]
+
+
+				for i in range (1,len(Charge)+1):
+				  PBC_Addition.cell(row=i+1, column=4).value=Charge[i-1]
+
+				for i in range (1,len(PIFDateadd)+1):
+				  PBC_Addition.cell(row=i+1, column=6).value=PIFDateadd[i-1]
+
+				for i in range (1,len(PIFDateadd)+1):
+				  for j in range (3,6):
+					  PBC_Addition.cell(row=i+1, column=j).number_format='#,##0_);(#,##0)'
+
+				for i in range (1,len(PIFDateadd)+1):
+				  PBC_Addition.cell(row=i+1, column=6).number_format='mm/dd/yyyy'
+
+				for i in range (1,len(PIFDateadd)+1):
+				  PBC_Addition.cell(row=i+1, column=7).value='=left(B{0},3)'.format(i+1)
+
+				for i in range (1,len(AccountAdd)+1):
+				  PBC_Addition.cell(row=i+1, column=8).value=TypeAdd[i-1]
+
+				for i in range (1,len(AccountAdd)+1):
+				  PBC_Addition.cell(row=i+1, column=9).value='=IF(G{0}<"210","280","281")'.format(i+1)
+
+				for i in range (1,len(AccountAdd)+1):
+				  PBC_Addition.cell(row=i+1, column=10).value='=left(B{0},4)'.format(i+1)
+			except:
+				l=1
+
+			"Adjust Column Width---------------------------------------------------------------------------------------------------------------------------------."
+
+			for col in PBC_Addition.columns:
+				max_length = 10
 				for cell in col:
-					if cell.coordinate in fintb.merged_cells:
+					if cell.coordinate in PBC_Addition.merged_cells:
 						continue
 					try:
 						if len(str(cell.value)) > max_length:
 							max_length = len(cell.value)
 					except:
 						pass
-				adjusted_width=(max_length-5)
+
+				adjusted_width = (max_length + 5)
 
 
-			listanoua=['F','G','H','I','J','K','M','N','O','L']
-			for column in ascii_uppercase:
+			listanoua=['A','B','C','D','E','F','G']
+
+			for column in listanoua:
+			  for i in listanoua:
+				  if (column==i):
+				    PBC_Addition.column_dimensions[column].width = adjusted_width
+
+
+
+
+
+
+
+			"Create CIP Detail ---------------------------------------------------------------------"
+
+			# PBC_CIP.cell(row=1, column=1).value="Item"
+			# PBC_CIP.cell(row=1, column=2).value="Account"
+			# PBC_CIP.cell(row=1, column=3).value="Addition"
+			# PBC_CIP.cell(row=1, column=4).value="Disposals"
+			# PBC_CIP.cell(row=1, column=5).value="Type"
+			# PBC_CIP.cell(row=1, column=6).value="Synt"
+
+
+			# for i in range (1,7):
+			#   PBC_CIP.cell(row=1, column= i).border=doubleborder
+			#   PBC_CIP.cell(row=1, column= i).font=font2
+			#   PBC_CIP.cell(row=1, column= i).fill=blueFill
+
+			# try:
+			#   for i in range (1,len(ItemCIP)+1):
+			#     PBC_CIP.cell(row=i+1, column=1).value=ItemCIP[i-1]
+			#
+			#   for i in range (1,len(AccountCIP)+1):
+			#     PBC_CIP.cell(row=i+1, column=2).value=AccountCIP[i-1]
+			#
+			#   for i in range (1,len(AdditionCIP)+1):
+			#     PBC_CIP.cell(row=i+1, column=3).value=AdditionCIP[i-1]
+			#
+			#   for i in range (1,len(DisposalCIP)+1):
+			#     PBC_CIP.cell(row=i+1, column=4).value=DisposalCIP[i-1]
+			#
+			#   for i in range (1,len(TypeCIP)+1):
+			#     PBC_CIP.cell(row=i+1, column=5).value=TypeCIP[i-1]
+			#
+			#   for i in range (1,len(AccountCIP)+1):
+			#     PBC_CIP.cell(row=i+1, column=6).value='=left(B{0},3)'.format(i+1);
+			#
+			#   for i in range (1,len(AccountCIP)+1):
+			#     for j in range (3,5):
+			#       PBC_CIP.cell(row=i+1,column=j).number_format='#,##0_);(#,##0)'
+			#
+			# except:
+			#   a=1
+			"Adjust Column Width---------------------------------------------------------------------------------------------------------------------------------."
+
+			# for col in PBC_CIP.columns:
+			# 	max_length = 10
+			# 	for cell in col:
+			# 		if cell.coordinate in PBC_CIP.merged_cells:
+			# 			continue
+			# 		try:
+			# 			if len(str(cell.value)) > max_length:
+			# 				max_length = len(cell.value)
+			# 		except:
+			# 			pass
+
+			# 	adjusted_width = (max_length + 5)
+
+
+			# listanoua=['A','B','C','D','E','F','G']
+
+			# for column in listanoua:
+			#   for i in listanoua:
+			# 	  if (column==i):
+			# 	    PBC_CIP.column_dimensions[column].width = adjusted_width
+
+			"Create Advances Detail ---------------------------------------------------------------------"
+
+			"Adjust Column Width---------------------------------------------------------------------------------------------------------------------------------."
+
+
+			"Adjust Column Width---------------------------------------------------------------------------------------------------------------------------------."
+
+			# for col in F10_TB.columns:
+			#     max_length = 0
+			#     for cell in col:
+			#         if cell.coordinate in F10_TB.merged_cells:
+			#             continue
+			#         try:
+			#             if len(str(cell.value)) > max_length:
+			#                 max_length = len(cell.value)
+			#         except:
+			#             pass
+			#     adjusted_width = (max_length - 20)
+
+
+
+
+			G30.cell(row=1, column=1).value="Client:"
+			G30.cell(row=1, column=1).font=font2
+			G30.cell(row=1, column=2).value=namec
+			G30.cell(row=1, column=2).font=font2
+			G30.cell(row=2, column=1).value="Period end:"
+			G30.cell(row=2, column=1).font=font2
+			G30.cell(row=2, column=2).value=ant
+			G30.cell(row=2, column=2).number_format='mm/dd/yyyy'
+			G30.cell(row=2, column=2).font=font2
+			G30.cell(row=1, column=11).value="Prepared by:"
+			G30.cell(row=1, column=11).font=font2
+
+			G30.cell(row=2, column=11).value="Date:"
+			G30.cell(row=2, column=11).font=font2
+			G30.cell(row=2, column=12).value=datetime.datetime.now().date()
+			G30.cell(row=2, column=12).number_format="mm/dd/yyyy"
+			G30.cell(row=2, column=12).font=font1
+			G30.cell(row=2, column=12).alignment = Alignment (horizontal='left')
+
+			G30.cell(row=3, column=11).value="Ref:"
+			G30.cell(row=3, column=11).font=font2
+			G30.cell(row=3, column=12).value="G30"
+			G30.cell(row=3, column=12).font=fontRed
+
+			for i in range(1,4):
+				G30.cell(row=i, column=11).alignment = Alignment(horizontal='right')
+
+			G30.cell(row=4, column=3).value="Tangible and Intangible Assets Table of Movement"
+			G30.cell(row=4, column=3).font=font2
+
+			G30.cell(row=6, column=1).value="Procedure:"
+			G30.cell(row=6, column=1).alignment=Alignment(horizontal='right')
+			G30.cell(row=6, column=2).value="Based on the Tangible and Intangible Movement Details from the period received from client (Additions, Disposals, Assets in progress, including identification of Transfers and Advances) and the Fixed Asset Register (FAR), perform the following:"
+			G30.cell(row=7, column=2).value="- prepare table of movement of tangible and intangible assets for GBV, Accumulated depreciation and Impairment(based on TB) and reconcile the closing amount with the TB"
+			G30.cell(row=8, column=2).value="- compute the closing NBV of tangible and intangible assets and reconcile it with TB"
+			G30.cell(row=9, column=2).value="- prepare a summary of opening and closing NBV"
+			G30.cell(row=6, column=1).font=font2
+
+			G30.cell(row=6, column=2).font=font1
+			G30.cell(row=7, column=2).font=font1
+			G30.cell(row=8, column=2).font=font1
+			G30.cell(row=9, column=2).font=font1
+
+			G30.cell(row=11, column=1).value="Work done"
+			G30.cell(row=11, column=1).alignment=Alignment(horizontal='right')
+			G30.cell(row=11, column=1).font=font2
+			G30.cell(row=11, column=2).value="Please see work below:"
+			G30.cell(row=11, column=2).font=font1
+
+			for i in range(14,21):
+				G30.cell(row=i,column=3).border=rightborder
+				G30.cell(row=i,column=6).border=rightborder
+				G30.cell(row=i,column=9).border=rightborder
+			for i in range(1,7):
+			  G30.cell(row=79,column=i).border=doubleborder
+			  G30.cell(row=91,column=i).border=doubleborder
+
+			for i in range(25,32):
+			  G30.cell(row=i,column=3).border=rightborder
+			  G30.cell(row=i,column=6).border=rightborder
+			  G30.cell(row=i,column=9).border=rightborder
+			for i in range(37,41):
+			  G30.cell(row=i,column=3).border=rightborder
+			  G30.cell(row=i,column=6).border=rightborder
+			  G30.cell(row=i,column=9).border=rightborder
+			for i in range(49,55):
+			  G30.cell(row=i,column=3).border=rightborder
+			  G30.cell(row=i,column=6).border=rightborder
+			  G30.cell(row=i,column=9).border=rightborder
+			for i in range(58,66):
+			  G30.cell(row=i,column=3).border=rightborder
+			  G30.cell(row=i,column=6).border=rightborder
+			  G30.cell(row=i,column=9).border=rightborder
+
+
+			for i in range(1,13):
+			  G30.cell(row=20,column=i).border=doubleborder
+			  G30.cell(row=31,column=i).border=doubleborder
+			  G30.cell(row=40,column=i).border=doubleborder
+			  G30.cell(row=54,column=i).border=doubleborder
+			  G30.cell(row=65,column=i).border=doubleborder
+
+
+			G30.cell(row=13, column=1).value="Working 1: GBV"
+			G30.cell(row=13, column=1).font=workingsblue
+
+			G30.cell(row=14,column=1).value="'-Intangible assets-"
+			G30.cell(row=14,column=1).font=greenbolditalic
+			G30.cell(row=14, column=6).value="Additions(PBC_Add)"
+			G30.cell(row=14, column=9).value="Disposals(PBC_Disposals)"
+
+			# for i in range (4,7):
+			#     G30.cell(row=14,column=i).alignment=Alignment (horizontal='centerContinuous')
+
+
+			# for i in range (7,10):
+			#     G30.cell(row=14,column=i).alignment=Alignment (horizontal='centerContinuous')
+
+			"Adjust Column Width---------------------------------------------------------------"
+
+			for col in G30.columns:
+				max_length = 20
+				for cell in col:
+					if cell.coordinate in G30.merged_cells:
+						continue
+					try:
+						if len(str(cell.value)) > max_length:
+							max_length = len(cell.value)
+					except:
+						pass
+				adjusted_width = (max_length - 2)
+
+			listanoua=['A','B','C','D','E','F','G','H','J','I','K']
+			for column in listanoua:
 				for i in listanoua:
 					if (column==i):
-						fintb.column_dimensions[column].width =15
-
-			listanoua2=['A']
-			for column in ascii_uppercase:
-				for i in listanoua2:
-					if (column==i):
-						fintb.column_dimensions[column].width = 10
-			
-			if isChecked4=="":    
-				for i in range(10,21):
-					if(finbs.cell(row=i,column=4).value==0):
-						finbs.cell(row=i,column=4).value="=SUMIF('Trial Balance'!P:P,M{0},'Trial Balance'!J:J)".format(i)
-
-				for i in range(23,54):
-					if(finbs.cell(row=i,column=4).value==0):
-						finbs.cell(row=i,column=4).value="=-SUMIF('Trial Balance'!P:P,M{0},'Trial Balance'!J:J)".format(i)
-				for i in range(54,59):
-					if(finbs.cell(row=i,column=4).value==0):
-						finbs.cell(row=i,column=4).value="=abs(SUMIF('Trial Balance'!P:P,M{0},'Trial Balance'!J:J))".format(i)
-				for i in range(60,62):
-					if(finbs.cell(row=i,column=4).value==0):
-						finbs.cell(row=i,column=4).value="=-SUMIF('Trial Balance'!P:P,M{0},'Trial Balance'!J:J)".format(i)
-				for i in range(11,84):
-					if(finpl.cell(row=i,column=4).value==0):
-						finpl.cell(row=i,column=4).value="=abs(SUMIF('Trial Balance'!P:P,M{0},'Trial Balance'!J:J))".format(i)
-				finpl.cell(row=16,column=4).value="=if(SUMIF('Trial Balance'!P:P,M16,'Trial Balance'!J:J)<0,ABS(SUMIF('Trial Balance'!P:P,M16,'Trial Balance'!J:J)),0)".format(i)
-				finpl.cell(row=17,column=4).value="=if(SUMIF('Trial Balance'!P:P,M16,'Trial Balance'!J:J)>0,0,ABS(SUMIF('Trial Balance'!P:P,M16,'Trial Balance'!J:J)))".format(i)
-				
-			else:
-				for i in range(10,63):
-					if(finbs.cell(row=i,column=4).value==0):
-						finbs.cell(row=i,column=4).value="=SUMIF('Trial Balance'!P:P,M{0},'Trial Balance'!J:J)".format(i)
-
-				for i in range(63,120):
-					if(finbs.cell(row=i,column=4).value==0):
-						finbs.cell(row=i,column=4).value="=-SUMIF('Trial Balance'!P:P,M{0},'Trial Balance'!J:J)".format(i)
-				for i in range(120,125):
-					if(finbs.cell(row=i,column=4).value==0):
-						finbs.cell(row=i,column=4).value="=abs(SUMIF('Trial Balance'!P:P,M{0},'Trial Balance'!J:J))".format(i)
-				for i in range(127,129):
-					if(finbs.cell(row=i,column=4).value==0):
-						finbs.cell(row=i,column=4).value="=-SUMIF('Trial Balance'!P:P,M{0},'Trial Balance'!J:J)".format(i)
-				for i in range(10,84):
-					if(finpl.cell(row=i,column=4).value==0):
-						finpl.cell(row=i,column=4).value="=abs(SUMIF('Trial Balance'!P:P,M{0},'Trial Balance'!J:J))".format(i)
-				finpl.cell(row=16,column=4).value="=if(SUMIF('Trial Balance'!P:P,M16,'Trial Balance'!J:J)<0,ABS(SUMIF('Trial Balance'!P:P,M16,'Trial Balance'!J:J)),0)".format(i)
-				finpl.cell(row=17,column=4).value="=if(SUMIF('Trial Balance'!P:P,M16,'Trial Balance'!J:J)>0,0,ABS(SUMIF('Trial Balance'!P:P,M16,'Trial Balance'!J:J)))".format(i)
-
-
-			try:
-				xmlfs=request.files["leadsheets"]
-				tree=ET.parse(xmlfs)
-				root=tree.getroot()
-				for i in range(11,130):
-					for child in root:
-						if("F10" in child.tag):
-							try:
-								finbs.cell(row=i,column=6).value=int(child.attrib[str(finbs.cell(row=i,column=14).value)])
-							except:
-								print("None")
-							try:
-								finbs.cell(row=i,column=8).value=int(child.attrib[str(finbs.cell(row=i,column=15).value)])
-							except:
-								print("None")
-				for i in range(10,84):
-					for child in root:
-						if("F20" in child.tag):
-							try:
-								finpl.cell(row=i,column=6).value=int(child.attrib[str(finpl.cell(row=i,column=14).value)])
-							except:
-								print("None")
-							try:
-								finpl.cell(row=i,column=8).value=int(child.attrib[str(finpl.cell(row=i,column=15).value)])
-							except:
-								print("None")
-			except:
-				print("None")
-
-
-
-			file_pathFS=os.path.join(folderpath+"LSFS "+namec, "Financial Statements.xlsx")
-
-
-			FinSt1.save(file_pathFS)
-		make_archive(folderpath+"LSFS "+namec,folderpath+"LSFS "+namec+"/LS+FS"+namec+".zip")
-		# make_archive(folderpath+"/LSFS",folderpath+"/LSFS/LS+FS"+namec+".zip") ASA ERA INAINTE
-						
-		return send_from_directory(folderpath+"LSFS "+namec,"LS+FS"+ namec+".zip",as_attachment=True)
-	return render_template('TBLS.html')
-
-# @app.route('/FAR/Instructions', methods=['GET'])
-# def downloadFAR():
-# 		filepath = "C:\\Users\\Cristian.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Instructions"
- 
-# 		return send_from_directory(filepath,"Instructions-FAR-Reconciliation.docx", as_attachment=True)  
-# @app.route('/FAR/GTlM4R8dQS5LxdPkpfkPphvCgjq')
-# def FAR():
-# 	return render_template('FAR.html')
-
-# @app.route('/FAR/GTlM4R8dQS5LxdPkpfkPphvCgjq', methods=['POST', 'GET'])
-# def FAR_process():
-# 	namec=request.form['client']
-# 	ant=datetime.datetime.strptime(
-# 		request.form['yearEnd'],
-# 		'%Y-%m-%d')
-# 	postdate = datetime.datetime.strptime(
-# 		request.form['endDep'],
-# 		'%Y-%m-%d')
-# 	yearentry = datetime.datetime.strptime(
-# 		request.form['startDep'],
-# 		'%Y-%m-%d')
-# 	def make_archive(source, destination):
-# 		base = os.path.basename(destination)
-# 		name = base.split('.')[0]
-# 		format = base.split('.')[1]
-# 		archive_from = os.path.dirname(source)
-# 		archive_to = os.path.basename(source.strip(os.sep))
-# 		shutil.make_archive(name, format, archive_from, archive_to)
-# 		shutil.move('%s.%s'%(name,format), destination)
-# 	if request.method == 'POST':
-# 		print("pas 1")
-# 		file_location_FAR=request.files['far']
-# 		file_location_TB=request.files['TB']
-# 		file_location_ad=request.files['additionsFile']
-# 		file_location_dis=request.files['disposalsFile']
-# 		# file_location_CIP=request.files['cipDetails']
-# 		val1 = request.form.get('Reco')
-# 		val2 = request.form.get('DepReco')
-# 		val3 = request.form.get('tom')
-# 		if val1=="":
-# 			print("Da")  # daca e bifat
-# 			val1 = 1
-# 		else:
-# 			print(val1)            
-# 			val1 = 0
-# 			print("Nu")
-
-# 		if val2=="":  # daca e bifat
-# 			val2 = 1
-# 		else:
-# 			print(val2)            
-# 			val2 = 0
-
-# 		if val3=="":  # daca e bifat
-# 			val3 = 1
-# 		else:
-# 			print(val3)            
-# 			val3 = 0
-
-
-# 		# appfar.mainloop()
-# 		workingsblue2= Font(bold=True, italic=True, name='Tahoma', size=8,color='FFFFFF')
-# 		lbluefill = PatternFill(start_color='7030A0',
-# 							   end_color='7030A0',
-# 							   fill_type='solid')
-# 		grifill=PatternFill(start_color='c4d79b',end_color='c4d79b',fill_type='solid')
-# 		yellow=PatternFill(start_color='ffff00',end_color='ffff00',fill_type='solid')
-# 		blueFill = PatternFill(start_color='ccd9ff',
-# 							   end_color='ccd9ff',
-# 							   fill_type='solid')
-# 		doubleborder = Border(bottom=Side(style='double'))
-# 		solidborder = Border(bottom=Side(style='thick'))
-# 		solidborderstanga = Border(left=Side(style='thin'))
-# 		rightborder = Border(right=Side(style='thin'))
-# 		rightdouble = Border (right=Side(style='thin'), bottom=Side(style='double'))
-# 		rightmedium = Border (right=Side(style='thin'), bottom=Side(style='medium'))
-# 		solidborderdreapta = Border(right=Side(style='thin'))
-# 		solidbordersus = Border(top=Side(style='thin'))
-# 		fontitalic = Font(name='Tahoma', size=8, bold=True, italic=True)
-# 		font1 = Font(name='Tahoma', size=8)
-# 		font2 = Font(name='Tahoma', size=8, bold=True)
-# 		fontRed = Font(name='Tahoma', size=8, bold=True, color= 'FF0000')
-# 		fontRedDiff=Font(name="Tahoma", color='FF0000', size=8, )
-# 		fontGT = Font (name='GT Logo', size=8)
-# 		workingsblue = Font(color='2F75B5', bold=True, name='Tahoma', size=8 )
-# 		headers= Font(bold=True, italic=True, name='Tahoma', size=8,color='FFFFFF')
-# 		headersblue = PatternFill(start_color='7030A0',
-# 						   end_color='7030A0',
-# 						   fill_type='solid')
-# 		headerspurple= PatternFill(start_color='CCC0DA',
-# 							 end_color='CCC0DA',
-# 							 fill_type='solid')
-# 		total=PatternFill(start_color='DDD9C4',
-# 						   end_color='DDD9C4',
-# 						   fill_type='solid')
-# 		greenbolditalic= Font(bold=True, italic=True,  color='C0504D', name='Tahoma', size=8)
-# 		greenbolditalic= Font(bold=True, italic=True,  color='00af50')
-# 		fontalb = Font(italic=True, color="bfbfbf", size=8, name='Tahoma')
-
-# 		FAR = openpyxl.load_workbook(file_location_FAR,data_only=True)
-# 		FAR1 = FAR.active
-# 		FAR1.title='FAR'
-# 		TB = openpyxl.load_workbook(file_location_TB,data_only=True)
-# 		TB1 = TB.active
-
-
-# 		try:
-# 			Add = openpyxl.load_workbook(file_location_ad,data_only=True)
-# 			Add1 = Add.active
-# 		except:
-# 			pass
-# 			# messagebox.showinfo("Information", "File: Addition detail. Please note that the Addition detail cannot be found or opened, the application will continue work without this detail.If a Addition detail is not available, press ok and ignore this message. If a Addition detail is available, please make sure that the file follows the instructions and re-run the application.")
-# 			a=1
-# 		aaaa=0
-# 		try:
-# 			Dis = openpyxl.load_workbook(file_location_dis,data_only=True)
-# 			Disp1 = Dis.active
-# 		except:
-# 			pass
-# 			# messagebox.showinfo("Information", "File: Disposal detail. Please note that the Disposal detail cannot be found or opened, the application will continue work without this detail.If a Disposal detail is not available, press ok and ignore this message. If a Disposal detail is available, please make sure that the file follows the instructions and re-run the application.")
-# 			aaaa=1
-
-# 		'Iterate from FAR ----------------------------------------------------'
-
-
-
-
-# 		'Iterate from TB ----------------------------------------------------'
-
-
-# 		for row in TB1.iter_rows():
-# 			for cell in row :
-# 				if cell.value=="Account":
-# 					tbacc=cell.column
-# 					tbrow=cell.row
-
-# 		for row in TB1.iter_rows():
-# 			for cell in row :
-# 				if cell.value=="Description" :
-
-# 					tbdesc=cell.column
-
-# 		for row in TB1.iter_rows():
-# 			 for cell in row :
-# 				 if cell.value=="DM" :
-
-# 					 tbdrm=cell.column
-
-# 		for row in TB1.iter_rows():
-# 			for cell in row :
-# 				if cell.value=="CM" :
-
-# 					tbcrm=cell.column
-
-
-# 		for row in TB1.iter_rows():
-# 			 for cell in row :
-# 				 if cell.value=="CB" :
-
-# 					 tbcb=cell.column
-
-# 		for row in TB1.iter_rows():
-# 			 for cell in row:
-# 				 if cell.value=="OB" :
-
-# 					 tbob=cell.column
-# 		try:
-# 			for row in Add1.iter_rows():
-# 						for cell in row:
-# 							if cell.value=="Item":
-# 								AddItem=cell.column
-# 								Addrow=cell.row
-
-# 			for row in Add1.iter_rows():
-# 					for cell in row:
-# 						if cell.value=="Account Add":
-# 							AddAcount=cell.column
-# 							Addrow=cell.row
-
-# 			for row in Add1.iter_rows():
-# 				for cell in row:
-# 					if cell.value=="GBV":
-# 						AddGBV=cell.column
-
-# 			for row in Add1.iter_rows():
-# 				for cell in row:
-# 					if cell.value=="Depreciation Charge":
-# 						AddCharge=cell.column
-
-# 			for row in Add1.iter_rows():
-# 				for cell in row:
-# 					if cell.value=="Accumulated Depreciation":
-# 						AddAccDepr=cell.column
-
-# 			for row in Add1.iter_rows():
-# 				for cell in row:
-# 					if cell.value=="PIF Date":
-# 						AddPif=cell.column
-
-# 			for row in Add1.iter_rows():
-# 				for cell in row:
-# 					if cell.value=="Type":
-# 						AddType=cell.column
-# 		except:
-# 			q=1
-
-
-
-# 		'Iterate from Disposals detail ----------------------------------------------------'
-# 		if(aaaa==0):
-# 			for row in Disp1.iter_rows():
-# 			  for cell in row:
-# 				  if cell.value=="Account Disposals":
-# 				  	DispAcount=cell.column
-# 				  	Disprow=cell.row
-
-# 			for row in Disp1.iter_rows():
-# 			  for cell in row:
-# 				  if cell.value=="Item":
-# 					  DispItem=cell.column
-
-# 			for row in Disp1.iter_rows():
-# 			  for cell in row:
-# 				  if cell.value=="Description":
-# 					  DispDesc=cell.column
-
-# 			for row in Disp1.iter_rows():
-# 			  for cell in row:
-# 				  if cell.value=="UL":
-# 					  DispUL=cell.column
-
-
-# 			for row in Disp1.iter_rows():
-# 			  for cell in row:
-# 				  if cell.value=="Disposal Date":
-# 				  	DispDate=cell.column
-
-# 			for row in Disp1.iter_rows():
-# 			  for cell in row:
-# 				  if cell.value=="GBV":
-# 					  DispGBV=cell.column
-
-# 			for row in Disp1.iter_rows():
-# 			  for cell in row:
-# 				  if cell.value=="Accumulated Depreciation":
-# 					  DispAccDepr=cell.column
-
-# 			for row in Disp1.iter_rows():
-# 			  for cell in row:
-# 				  if cell.value=="Disposals Charge":
-# 					  DispDeprCh=cell.column
-
-# 			for row in Disp1.iter_rows():
-# 			 for cell in row:
-# 			  if cell.value=="PIF Date":
-# 				  DispPIF=cell.column
-# 			for row in Disp1.iter_rows():
-# 			 for cell in row:
-# 			  if cell.value=="Type":
-# 				  DispType=cell.column
-
-# 		'Iterate from Transfer detail ----------------------------------------------------'
-# 		# try:
-# 		#   for row in CIP1.iter_rows():
-# 		#     for cell in row:
-# 		#       if cell.value=="Item":
-# 		#         CIPItem=cell.column
-# 		#         CIProw=cell.row
-# 		#
-# 		#   for row in CIP1.iter_rows():
-# 		#     for cell in row:
-# 		#       if cell.value=="Account":
-# 		#         CIPAccount=cell.column
-# 		#
-# 		#   for row in CIP1.iter_rows():
-# 		#     for cell in row:
-# 		#       if cell.value=="CIP Addition":
-# 		#         CIPAddition=cell.column
-# 		#
-# 		#   for row in CIP1.iter_rows():
-# 		#     for cell in row:
-# 		#       if cell.value=="CIP Disposal":
-# 		#         CIPDisposal=cell.column
-# 		#
-# 		#   for row in CIP1.iter_rows():
-# 		#     for cell in row:
-# 		#       if cell.value=="CIP Type":
-# 		#         CIPType=cell.column
-# 		# except:
-# 		#   a=1
-
-# 		for row in FAR1.iter_rows():
-# 			for cell in row:
-# 				if cell.value=="Item":
-# 						FARItem=cell.column
-# 						FARrow=cell.row
-
-
-
-
-
-
-# 		for row in FAR1.iter_rows():
-# 				for cell in row:
-# 					if cell.value=="Account FAR":
-# 						FARAcount=cell.column
-# 						FARrow=cell.row
-
-# 		for row in FAR1.iter_rows():
-# 			for cell in row:
-# 				if cell.value=="GBV":
-# 					FARDescription=cell.column
-
-# 		for row in FAR1.iter_rows():
-# 			for cell in row:
-# 				if cell.value=="Accumulated Depreciation":
-# 					FARAccDepr=cell.column
-
-
-# 		for row in FAR1.iter_rows():
-# 			for cell in row:
-# 				if cell.value=="Depreciation Charge":
-# 					FARCharge=cell.column
-
-# 		for row in FAR1.iter_rows():
-# 			  for cell in row:
-# 				  if cell.value=="PIF Date":
-# 					  FARPif=cell.column
-
-# 		for row in FAR1.iter_rows():
-# 		  for cell in row:
-# 			  if cell.value=="UL":
-# 				  FARUL=cell.column
-# 		for row in FAR1.iter_rows():
-# 				  for cell in row:
-# 					  if cell.value=="Description":
-# 						  FARDesc=cell.column
-
-# 		try:
-# 			lunfar=len(FAR1[FARAcount])
-# 		except:
-# 			flash("Please insert the correct header for Account FAR in FAR file")
-# 			return render_template("index.html")
-# 		try:
-# 		  ItemFAR=[b.value for b in FAR1[FARItem][FARrow:lunfar+1]]
-# 		except:
-# 			flash("Please insert the correct header for Item in FAR file")
-# 			return render_template("index.html")
-# 		try:
-# 		  AccountFAR=[b.value for b in FAR1[FARAcount][FARrow:lunfar+1]]
-# 		except:
-# 			flash("Please insert the correct header for Account FAR in FAR file")
-# 			return render_template("index.html")
-# 		try:
-# 		  GBVFAR=[b.value for b in FAR1[FARDescription][FARrow:lunfar+1]]
-# 		except:
-# 			flash("Please insert the correct header for GBV in FAR file")
-# 			return render_template("index.html")
-# 		try:
-# 		  ChargeFAR=[b.value for b in FAR1[FARCharge][FARrow:lunfar+1]]
-# 		except:
-# 			flash("Please insert the correct header for Depreciation Charge in FAR file")
-# 			return render_template("index.html")
-# 		try:
-# 		  AccDeprFAR=[b.value for b in FAR1[FARAccDepr][FARrow:lunfar+1]]
-# 		except:
-# 			flash("Please insert the correct header for Accumulated Depreciation in FAR file")
-# 			return render_template("index.html")
-
-		
-# 		try:
-# 			DescriptionFAR=[b.value for b in FAR1[FARDesc][FARrow:lunfar+1]]
-# 		except:
-# 			flash("Please insert the correct header for Description in FAR file")
-# 			return render_template("index.html")
-# 		try:
-# 			PIFDate=[b.value for b in FAR1[FARPif][FARrow:lunfar+1]]
-# 		except:
-# 			flash("Please insert the correct header for PIF Date in FAR file")
-# 			return render_template("index.html")
-# 		try:
-# 			UL=[b.value for b in FAR1[FARUL][FARrow:lunfar+1]]
-# 		except:
-# 			flash("Please insert the correct header for UL in FAR file")
-# 			return render_template("index.html")
-
-# 		try:
-# 			lunAdd=len(Add1[AddAcount])
-# 			ItemAdd=[b.value for b in Add1[AddItem][Addrow:lunAdd+1]]
-# 			AccountAdd=[b.value for b in Add1[AddAcount][Addrow:lunAdd+1]]
-# 			GBVAdd=[b.value for b in Add1[AddGBV][Addrow:lunAdd+1]]
-# 			AccumulatedDepreciation=[b.value for b in Add1[AddAccDepr][Addrow:lunAdd+1]]
-# 			PIFDateadd=[b.value for b in Add1[AddPif][Addrow:lunAdd+1]]
-# 			Charge=[b.value for b in Add1[AddCharge][Addrow:lunAdd+1]]
-# 			TypeAdd=[b.value for b in Add1[AddType][Addrow:lunAdd+1]]
-# 		except:
-# 			a=1
-
-# 		pur=0
-# 		trans=0
-# 		try:
-# 			for i in range(0,len(TypeAdd)):
-# 			  if(TypeAdd[i]=='Pure'):
-# 				  pur=pur+1
-# 			  elif(TypeAdd[i]=='Transfer'):
-# 				  trans=trans+1
-# 			  # else:
-# 				# messagebox.showerror("Error", "File: Additions detail. Please verify the column Type and make sure that all the rows have one of values: Pure or Transfer!")
-# 				#sys.exit()
-# 		except:
-# 			p=1
-# 		if(aaaa==0):
-# 			try:
-# 			  lundisp=len(Disp1[DispAcount])
-# 			except:
-# 				flash("Please insert the correct header for Account in Disposal file")
-# 				return render_template("index.html")
-# 			  #sys.exit()
-
-# 			try:
-# 			  ItemDisp=[b.value for b in Disp1[DispItem][Disprow:lundisp+1]]
-# 			except:
-# 				flash("Please insert the correct header for Item in Disposal file")
-# 				return render_template("index.html")
-# 			#   messagebox.showerror("Error", "File: Disposals detail. Please insert the correct header for 'Item'")
-# 			  #sys.exit()
-# 			try:
-# 			  TypeDisp=[b.value for b in Disp1[DispType][Disprow:lundisp+1]]
-# 			except:
-# 				flash("Please insert the correct header for Disposal Type in Disposal file")
-# 				return render_template("index.html")
-# 			#   messagebox.showerror("Error", "File: Disposals detail. Please insert the correct header for 'Item'")
-# 			  #sys.exit()
-# 			try:
-# 			  AccountDisp=[b.value for b in Disp1[DispAcount][Disprow:lundisp+1]]
-# 			except:
-# 				flash("Please insert the correct header for Account Disposals in Disposal file")
-# 				return render_template("index.html")
-# 			#   messagebox.showerror("Error", "File: Disposals detail. Please insert the correct header for 'Account Disposals'")
-# 			  #sys.exit()
-# 			try:
-# 			  DescriptionDisp=[b.value for b in Disp1[DispDesc][Disprow:lundisp+1]]
-# 			except:
-# 				flash("Please insert the correct header for Description in Disposal file")
-# 				return render_template("index.html")
-# 			#   messagebox.showerror("Error", "File: Disposals detail. Please insert the correct header for 'Description'")
-# 			  #sys.exit()
-# 			try:
-# 			  DispDate=[b.value for b in Disp1[DispDate][Disprow:lundisp+1]]
-# 			except:
-# 				flash("Please insert the correct header for Disposal Date in Disposal file")
-# 				return render_template("index.html")
-# 			#   messagebox.showerror("Error", "File: Disposals detail. Please insert the correct header for 'Disposal Date'")
-# 			  #sys.exit()
-# 			try:
-# 			  ULDisp=[b.value for b in Disp1[DispUL][Disprow:lundisp+1]]
-# 			except:
-# 				flash("Please insert the correct header for UL in Disposal file")
-# 				return render_template("index.html")
-# 			#   messagebox.showerror("Error", "File: Disposals detail. Please insert the correct header for 'UL'")
-# 			  #sys.exit()
-# 			try:
-# 			  DeprChDisp=[b.value for b in Disp1[DispDeprCh][Disprow:lundisp+1]]
-# 			except:
-# 				flash("Please insert the correct header for Depreciation Charge in Disposal file")
-# 				return render_template("index.html")
-# 			#   messagebox.showerror("Error", "File: Disposals detail. Please insert the correct header for 'Disposals Charge'")
-# 			  #sys.exit()
-# 			try:
-# 			  PIFDisp=[b.value for b in Disp1[DispPIF][Disprow:lundisp+1]]
-# 			except:
-# 				flash("Please insert the correct header for PIF in Disposal file")
-# 				return render_template("index.html")
-# 			#   messagebox.showerror("Error", "File: Disposals detail. Please insert the correct header for 'PIF'")
-# 			  #sys.exit()
-# 			try:
-# 			  GBVDisp=[b.value for b in Disp1[DispGBV][Disprow:lundisp+1]]
-# 			except:
-# 				flash("Please insert the correct header for GBV in Disposal file")
-# 				return render_template("index.html")
-# 			#   messagebox.showerror("Error", "File: Disposals detail. Please insert the correct header for 'GBV'")
-# 			  #sys.exit()
-# 			try:
-# 			  AccumulatedDepreciationDisp=[b.value for b in Disp1[DispAccDepr][Disprow:lundisp+1]]
-# 			except:
-# 				flash("Please insert the correct header for Accumulated Depreciation in Disposal file")
-# 				return render_template("index.html")
-# 			#   messagebox.showerror("Error", "File: Disposals detail. Please insert the correct header for 'Accumulated Depreciation'")
-# 			  #sys.exit()
-
-# 		# sale=0
-# 		# scrap=0
-# 		# for i in range(0,len(TypeDis)):
-# 		#   if(TypeDis[i]=='Sale'):
-# 		#     sale=sale+1
-# 		#   elif(TypeDis[i]=='Scrap'):
-# 		#     scrap=scrap+1
-# 		  # else:
-# 		  #   messagebox.showerror("Error", "File: Disposals detail. Please verify the column Type and make sure that all the rows have one of values: Sale or Scrap!")
-# 		  #   #sys.exit()
-
-# 		# try:
-# 		#   lunCIP=len(CIP1[CIPAccount])
-# 		#
-# 		#   ItemCIP=[b.value for b in CIP1[CIPItem][CIProw:lunCIP+1]]
-# 		#   AccountCIP=[b.value for b in CIP1[CIPAccount][CIProw:lunCIP+1]]
-# 		#   AdditionCIP=[b.value for b in CIP1[CIPAddition][CIProw:lunCIP+1]]
-# 		#   DisposalCIP=[b.value for b in CIP1[CIPDisposal][CIProw:lunCIP+1]]
-# 		#   TypeCIP=[b.value for b in CIP1[CIPType][CIProw:lunCIP+1]]
-# 		#
-# 		#   purCIP=0
-# 		#   transCIP=0
-# 		#   saleCIP=0
-# 		#   scrapCIP=0
-# 		#   for i in range(0,len(TypeCIP)):
-# 		#     if(TypeCIP[i]=='Pure'):
-# 		#       purCIP=purCIP+1
-# 		#     elif(TypeCIP[i]=='Transfer'):
-# 		#       transCIP=transCIP+1
-# 		#     elif(TypeCIP[i]=='Sales'):
-# 		#       saleCIP=saleCIP+1
-# 		#     elif(TypeCIP[i]=='Scrapped'):
-# 		#       scrapCIP=scrapCIP+1
-# 		#     else:
-# 		#       messagebox.showerror("Error", "File: CIP detail. Please verify the column Type and make sure that all the rows have one of values: Pure for Additions or Transfer/Sales/Scrapped for Disposals!")
-# 		#       #sys.exit()
-# 		# except:
-# 		#   a=1
-# 		#   messagebox.showinfo("Information","File: CIP detail. Please note that CIP detail cannot be found or opened, the application will continue work without this detail.If a CIP detail is not available, press ok and ignore this message. If a CIP detail is available, please make sure that the file follows the instructions and re-run the application. ")
-# 		luntb=len(TB1[tbacc])
-# 		try:
-# 		  AccountTB=[b.value for b in TB1[tbacc][tbrow:luntb+1]]
-# 		  DescriptionTB=[b.value for b in TB1[tbdesc][tbrow:luntb+1]]
-# 		  OBTB=[b.value for b in TB1[tbob][tbrow:luntb+1]]
-# 		  DMTB=[b.value for b in TB1[tbdrm][tbrow:luntb+1]]
-# 		  CMTB=[b.value for b in TB1[tbcrm][tbrow:luntb+1]]
-# 		  CBTB=[b.value for b in TB1[tbcb][tbrow:luntb+1]]
-# 		except:
-# 			pass
-# 		#   messagebox.showerror("Error", "File: TB. Please rename the headers following instructions. One or more headers could not be found. Be careful at spaces or key-sensitivity!")
-
-# 		PBC_FAR =FAR.create_sheet("PBC_FAR")
-
-# 		F10_TB =FAR.create_sheet("F10_TB")
-# 		PBC_FAR.cell(row=1, column=1).value="Item"
-# 		PBC_FAR.cell(row=1, column=2).value="Account"
-# 		PBC_FAR.cell(row=1, column=3).value="GBV"
-# 		PBC_FAR.cell(row=1, column=4).value="Accumulated Depreciation"
-# 		PBC_FAR.cell(row=1, column=5).value="Accumulated Impairment"
-# 		PBC_FAR.cell(row=1, column=6).value="Depr Account"
-# 		PBC_FAR.cell(row=1, column=7).value="Synt Fixed Assets Accounts"
-# 		PBC_FAR.cell(row=1, column=8).value="Impairment Account"
-# 		PBC_FAR.cell(row=1, column=9).value="Depreciation Charge"
-# 		PBC_FAR.cell(row=1, column=10).value="Impairment Charge"
-
-# 		for i in range (1,11):
-# 			PBC_FAR.cell(row=1, column= i).border=doubleborder
-# 			PBC_FAR.cell(row=1, column= i).font=font2
-# 			PBC_FAR.cell(row=1, column= i).fill=headersblue
-
-# 		for i in range (12, 14):
-# 			PBC_FAR.cell(row=1, column= i).border=doubleborder
-# 			PBC_FAR.cell(row=1, column= i).font=font2
-# 			PBC_FAR.cell(row=1, column= i).fill=headersblue
-
-
-
-# 		for i in range(2, 18):
-# 			PBC_FAR.cell(row=i, column=12).alignment = Alignment (horizontal='right')
-
-# 		for i in range(2, 18):
-# 			PBC_FAR.cell(row=i, column=13).number_format='#,##0_);(#,##0)'
-
-# 		for i in range (1, len(ItemFAR)+1):
-# 			PBC_FAR.cell(row=i+1, column=1).value=ItemFAR[i-1]
-
-
-# 		for i in range (1, len(AccountFAR)+1):
-# 			PBC_FAR.cell(row=i+1, column=2).value=AccountFAR[i-1]
-
-# 		for i in range (1, len(GBVFAR)+1):
-# 			PBC_FAR.cell(row=i+1, column=3).value=GBVFAR[i-1]
-
-# 		for i in range (1, len(AccDeprFAR)+1):
-# 			PBC_FAR.cell(row=i+1, column=4).value=AccDeprFAR[i-1]
-
-
-# 		for i in range (1, len(AccountFAR)+1):
-# 			PBC_FAR.cell(row=i+1, column=6).value='=IF(G{0}="201",2801,IF(G{0}="203",2803,IF(G{0}="205",2805,IF(G{0}="208",2808,IF(G{0}="206",2806,IF(G{0}="207",2807,IF(G{0}="211",2811,IF(G{0}="212",2812,IF(G{0}="213",2813,IF(G{0}="223",2813,IF(G{0}="214",2814,IF(G{0}="224",2814,IF(G{0}="215",2815,IF(G{0}="216",2816,IF(G{0}="217",2817,0)))))))))))))))'.format(i+1)
-
-# 		for i in range (1,len(AccountFAR)+1):
-# 			PBC_FAR.cell(row=i+1, column=7).value='=Left(B{0},3)'.format(i+1)
-
-# 		for i in range (1,len(AccountFAR)+1):
-# 			PBC_FAR.cell(row=i+1, column=8).value='=IF(G{0}="203",2903,IF(G{0}="205",2905,IF(G{0}="206",2906,IF(G{0}="208",2908,IF(G{0}="211",2911,IF(G{0}="212",2912,IF(G{0}="213",2913,IF(G{0}="223",2913,IF(G{0}="214",2914,IF(G{0}="224",2914,IF(G{0}="215",2915,IF(G{0}="216",2916,IF(G{0}="217",2917,IF(G{0}="227",2917,0))))))))))))))'.format(i+1)
-
-# 		for i in range (1, len(AccountFAR)+1):
-# 			for j in range (3, 6):
-# 				PBC_FAR.cell(row=i+1, column=j).number_format='#,##0_);(#,##0)'
-
-# 		for i in range (1, len(AccountFAR)+1):
-# 			for j in range (9, 11):
-# 				PBC_FAR.cell(row=i+1, column=j).number_format='#,##0_);(#,##0)'
-
-# 		for i in range(1, len(ChargeFAR)+1):
-# 			PBC_FAR.cell(row=i+1, column=9).value=ChargeFAR[i-1]
-
-
-
-# 		PBC_FAR.cell(row=14, column=12).font=font2
-# 		PBC_FAR.cell(row=14, column=13).font=fontRed
-
-# 		PBC_FAR.cell(row=5, column=12).font=font2
-# 		PBC_FAR.cell(row=5, column=13).font=fontRed
-
-# 		for i in range(2, 5):
-# 			PBC_FAR.cell(row=i, column=13).font=fontRedDiff
-
-# 		for i in range(7, 14):
-# 			PBC_FAR.cell(row=i, column=13).font=fontRedDiff
-
-# 		PBC_FAR.cell(row=13, column=12).border=doubleborder
-# 		PBC_FAR.cell(row=13, column=13).border=doubleborder
-
-# 		PBC_FAR.cell(row=4, column=12).border=doubleborder
-# 		PBC_FAR.cell(row=4, column=13).border=doubleborder
-
-
-
-# 		for i in range(12, 14):
-# 			PBC_FAR.cell(row=16, column=i).fill=total
-# 		PBC_FAR.cell(row=16, column=13).font=fontRed
-# 		PBC_FAR.cell(row=16, column=12).font=font2
-
-# 		"Adjust Column Width---------------------------------------------------------------------------------------------------------------------------------."
-
-# 		PBC_FAR.column_dimensions['A'].width=25
-# 		PBC_FAR.column_dimensions['B'].width=33
-# 		PBC_FAR.column_dimensions['C'].width=25
-# 		PBC_FAR.column_dimensions['D'].width=35
-# 		PBC_FAR.column_dimensions['E'].width=25
-# 		PBC_FAR.column_dimensions['F'].width=25
-# 		PBC_FAR.column_dimensions['G'].width=25
-# 		PBC_FAR.column_dimensions['H'].width=25
-# 		PBC_FAR.column_dimensions['I'].width=25
-# 		PBC_FAR.column_dimensions['J'].width=25
-
-# 		PBC_FAR.column_dimensions['L'].width=35
-# 		PBC_FAR.column_dimensions['M'].width=25
-
-
-# 		"Create PBC TB ---------------------------------------------------------------------"
-
-# 		F10_TB.cell(row=1, column=1).value="Class"
-# 		F10_TB.cell(row=1, column=2).value="Synt 3"
-# 		F10_TB.cell(row=1, column=3).value="Account"
-# 		F10_TB.cell(row=1, column=4).value="Description"
-# 		F10_TB.cell(row=1, column=5).value="OB"
-# 		F10_TB.cell(row=1, column=6).value="DM"
-# 		F10_TB.cell(row=1, column=7).value="CM"
-# 		F10_TB.cell(row=1, column=8).value="CB"
-# 		F10_TB.cell(row=1, column=9).value="Check"
-# 		F10_TB.cell(row=1, column=10).value="Synt 4"
-
-# 		for i in range (1,11):
-# 			F10_TB.cell(row=1, column= i).border=doubleborder
-# 			F10_TB.cell(row=1, column= i).font=font2
-# 			F10_TB.cell(row=1, column= i).fill=headersblue
-
-# 		for i in range (1,len(AccountTB)):
-# 			F10_TB.cell(row=i+1, column=3).value=AccountTB[i-1]
-
-# 		for i in range (1,len(DescriptionTB)):
-# 			F10_TB.cell(row=i+1, column=4).value=DescriptionTB[i-1]
-
-# 		for i in range (1, len(OBTB)):
-# 			F10_TB.cell(row=i+1, column=5).value=OBTB[i-1]
-
-# 		for i in range (1, len(DMTB)):
-# 			F10_TB.cell(row=i+1, column=6).value=DMTB[i-1]
-
-# 		for i in range (1, len(CMTB)):
-# 			F10_TB.cell(row=i+1, column=7).value=CMTB[i-1]
-
-# 		for i in range (1, len(CBTB)):
-# 			F10_TB.cell(row=i+1, column=8).value=CBTB[i-1]
-
-# 		for i in range (1, len(AccountTB)):
-# 			F10_TB.cell(row=i+1, column= 9).value='=IF(A{0}<"6",E{0}+F{0}-G{0}-H{0},F{0}-G{0})'.format(i+1)
-
-# 		for i in range (1, len(AccountTB)+1):
-# 			for j in range (5, 10):
-# 				F10_TB.cell(row=i+1, column=j).number_format='#,##0_);(#,##0)'
-
-# 		for i in range (1,len(AccountTB)):
-# 			F10_TB.cell(row=i+1, column=2).value='=Left(C{0},3)'.format(i+1)
-
-# 		for i in range (1,len(AccountTB)):
-# 			F10_TB.cell(row=i+1, column=1).value='=Left(C{0},1)'.format(i+1)
-
-# 		for i in range(1, len(AccountTB)):
-# 			F10_TB.cell(row=i+1, column=10).value="=LEFT(C{0},4)".format(i+1)
-
-# 		"Adjust Column Width---------------------------------------------------------------------------------------------------------------------------------."
-
-# 		F10_TB.column_dimensions['A'].width=25
-# 		F10_TB.column_dimensions['B'].width=25
-# 		F10_TB.column_dimensions['C'].width=25
-# 		F10_TB.column_dimensions['D'].width=35
-# 		F10_TB.column_dimensions['E'].width=25
-# 		F10_TB.column_dimensions['F'].width=25
-# 		F10_TB.column_dimensions['G'].width=25
-# 		F10_TB.column_dimensions['H'].width=25
-# 		F10_TB.column_dimensions['I'].width=25
-# 		F10_TB.column_dimensions['J'].width=25
-
-
-
-# 		PBC_Disposals=FAR.create_sheet("PBC_Disposals")
-# 		PBC_Disposals.cell(row=1, column=1).value="Synt 3"
-# 		PBC_Disposals.cell(row=1, column=2).value="Account"
-# 		PBC_Disposals.cell(row=1, column=3).value="Item"
-# 		PBC_Disposals.cell(row=1, column=4).value="Description"
-# 		PBC_Disposals.cell(row=1, column=5).value="PIF Date"
-# 		PBC_Disposals.cell(row=1, column=6).value="Disposals Date"
-# 		PBC_Disposals.cell(row=1, column=7).value="UL"
-# 		PBC_Disposals.cell(row=1, column=8).value="GBV"
-# 		PBC_Disposals.cell(row=1, column=9).value="Depreciation Charge"
-# 		PBC_Disposals.cell(row=1, column=10).value="Accumulated Depreciation"
-# 		PBC_Disposals.cell(row=1, column=11).value="Type"
-# 		PBC_Disposals.cell(row=1, column=12).value="Depreciation Account"
-
-
-# 		for i in range (1,12):
-# 		  PBC_Disposals.cell(row=1, column= i).border=doubleborder
-# 		  PBC_Disposals.cell(row=1, column= i).font=font2
-# 		  PBC_Disposals.cell(row=1, column= i).fill=blueFill
-# 		if(aaaa==0):
-# 		  for i in range(1, len(AccountDisp)+1):
-# 			  PBC_Disposals.cell(row=i+1, column=1).value="=LEFT(TRIM(B{0}),3)".format(i+1)
-
-# 		  for i in range (1, len(AccountDisp)+1):
-
-# 			  PBC_Disposals.cell(row=i+1, column=2).value=AccountDisp[i-1]
-
-
-# 		  for i in range (1, len(ItemDisp)+1):
-# 			  PBC_Disposals.cell(row=i+1, column=3).value=ItemDisp[i-1]
-
-# 		  for i in range (1, len(DescriptionDisp)+1):
-# 			  PBC_Disposals.cell(row=i+1, column=4).value=DescriptionDisp[i-1]
-
-
-		  
-# 		#   if(aa==False):
-# 		#         messagebox.showerror("Error", "File: Disposal detail. Please make sure that the format for PIF Disposals is DATE!")
-# 		#         #sys.exit()
-
-# 		  for i in range (1, len(PIFDisp)+1):
-# 			  PBC_Disposals.cell(row=i+1, column=5).value=PIFDisp[i-1]
-# 			  PBC_Disposals.cell(row=i+1, column=5).number_format='mm/dd/yyyy'
-
-
-# 		#   if(bb==False):
-# 			#     messagebox.showerror("Error", "File: Disposal detail. Please make sure that the format for Disposal Date is DATE!")
-# 				#sys.exit()
-
-# 		  for i in range (1, len(DispDate)+1):
-# 			  PBC_Disposals.cell(row=i+1, column=6).value=DispDate[i-1]
-# 			  PBC_Disposals.cell(row=i+1, column=6).number_format='mm/dd/yyyy'
-
-# 		  for i in range (1, len(ULDisp)+1):
-# 			  PBC_Disposals.cell(row=i+1, column=7).value=ULDisp[i-1]
-
-# 		  for i in range (1, len(GBVDisp)+1):
-# 			  PBC_Disposals.cell(row=i+1, column=8).value=GBVDisp[i-1]
-# 			  PBC_Disposals.cell(row=i+1, column=8).number_format='#,##0_);(#,##0)'
-# 			  PBC_Disposals.cell(row=i+1,column=11).value=TypeDisp[i-1]
-
-# 		  for i in range (1, len(DeprChDisp)+1):
-# 			  PBC_Disposals.cell(row=i+1, column=9).value=DeprChDisp[i-1]
-# 			  PBC_Disposals.cell(row=i+1,column=9).number_format='#,##0_);(#,##0)'
-
-# 		  for i in range (1, len(AccumulatedDepreciationDisp)+1):
-# 			  PBC_Disposals.cell(row=i+1, column=10).value=AccumulatedDepreciationDisp[i-1]
-# 			  PBC_Disposals.cell(row=i+1,column=10).number_format='#,##0_);(#,##0)'
-# 		  for i in range (1,len(AccountDisp)+1):
-# 			  PBC_Disposals.cell(row=i+1, column=12).value='=IF(A{0}="201",2801,IF(A{0}="203",2803,IF(A{0}="205",2805,IF(A{0}="208",2808,IF(A{0}="206",2806,IF(A{0}="2071",2807,IF(A{0}="211",2811,IF(A{0}="212",2812,IF(A{0}="213",2813,IF(A{0}="223",2813,IF(A{0}="214",2814,IF(A{0}="224",2814,IF(A{0}="215",2815,IF(A{0}="216",2816,IF(A{0}="217",2817,0)))))))))))))))'.format(i+1)
-
-# 		PBC_Disposals.column_dimensions['A'].width=25
-# 		PBC_Disposals.column_dimensions['B'].width=25
-# 		PBC_Disposals.column_dimensions['C'].width=25
-# 		PBC_Disposals.column_dimensions['D'].width=35
-# 		PBC_Disposals.column_dimensions['E'].width=25
-# 		PBC_Disposals.column_dimensions['F'].width=25
-# 		PBC_Disposals.column_dimensions['G'].width=25
-# 		PBC_Disposals.column_dimensions['H'].width=25
-# 		PBC_Disposals.column_dimensions['I'].width=25
-# 		PBC_Disposals.column_dimensions['J'].width=25
-
-# 		for i in range(1,11):
-# 		  for j in range(2,PBC_Disposals.max_row+1):
-# 			  PBC_Disposals.cell(row=j,column=i).font=font1
-
-# 		if(val1==1):
-# 			G100FAR=FAR.create_sheet("G10 FAR Recon")
-
-# 			G100FAR.title="G10 FAR Recon"
-
-# 			for i in range(1, 114):
-# 				for j in range(1, 10):
-# 					G100FAR.cell(row=i, column=j).font=font1
-
-
-# 			G100FAR.cell(row=1, column=1).value="Client:"
-# 			G100FAR.cell(row=1, column=1).font=font2
-
-# 			G100FAR.cell(row=1, column=2).value=namec
-# 			G100FAR.cell(row=1, column=2).font=font2
-
-# 			G100FAR.cell(row=2, column=1).value="Period end:"
-# 			G100FAR.cell(row=2, column=1).font=font2
-
-# 			G100FAR.cell(row=2, column=2).value=ant
-# 			G100FAR.cell(row=2, column=2).number_format='mm/dd/yyyy'
-# 			G100FAR.cell(row=2, column=2).font=font2
-
-# 			G100FAR.cell(row=1, column=6).value="Prepared by:"
-# 			G100FAR.cell(row=1, column=6).font=font2
-
-# 			G100FAR.cell(row=2, column=6).value="Date:"
-# 			G100FAR.cell(row=2, column=6).font=font2
-# 			G100FAR.cell(row=2, column=7).value=datetime.datetime.now().date()
-# 			G100FAR.cell(row=2, column=7).number_format="mm/dd/yyyy"
-# 			G100FAR.cell(row=2, column=7).alignment = Alignment (horizontal='left')
-
-# 			for i in range(1, 4):
-# 				G100FAR.cell(row=i, column=6).alignment=Alignment(horizontal='right')
-
-# 			G100FAR.cell(row=3, column=6).value="Ref:"
-# 			G100FAR.cell(row=3, column=6).font=font2
-# 			G100FAR.cell(row=3, column=7).value="G10"
-# 			G100FAR.cell(row=3, column=7).font=fontRed
-
-# 			for i in range(1,4):
-# 				G100FAR.cell(row=i, column=8).alignment = Alignment(horizontal='right')
-
-# 			G100FAR.cell(row=4, column=3).value="Fixed Assets Register Reconciliation"
-# 			G100FAR.cell(row=4, column=3).font=font2
-
-# 			G100FAR.cell(row=7, column=1).value="Procedure:"
-# 			G100FAR.cell(row=7, column=1).alignment=Alignment(horizontal='right')
-# 			G100FAR.cell(row=7, column=2).value="Obtain the FAR as at period end and perform the following: "
-# 			G100FAR.cell(row=8, column=2).value="- perform reconciliation for FA GBV, accumulated depreciation, accumulated impairement, depreciation and impairement charge with the TB: "
-# 			G100FAR.cell(row=9, column=2).value="- recompute the NBV  as per FAR and reconcile it with TB"
-# 			G100FAR.cell(row=10, column=1).value="Work done:"
-# 			G100FAR.cell(row=10, column=1).alignment=Alignment(horizontal='right')
-# 			G100FAR.cell(row=10, column=2).value="Please see the work below:"
-# 			G100FAR.cell(row=7, column=1).font=font2
-# 			G100FAR.cell(row=10, column=1).font=font2
-
-# 			G100FAR.cell(row=12, column=1).value="Working 1: GBV"
-# 			G100FAR.cell(row=12, column=1).font=workingsblue
-
-# 			G100FAR.cell(row=14,column=1).value="Synt Account"
-# 			G100FAR.cell(row=14,column=2).value="Description"
-# 			G100FAR.cell(row=14,column=3).value="As per FAR(PBC_FAR)"
-# 			G100FAR.cell(row=14,column=4).value="As per TB(F10_TB)"
-# 			G100FAR.cell(row=14,column=5).value="Check"
-
-# 			for i in range (1,6):
-# 				G100FAR.cell(row=14, column=i).font=headers
-# 				G100FAR.cell(row=14, column=i).border=solidborder
-# 				G100FAR.cell(row=14, column=i).fill=headersblue
-
-
-# 			for i in range (1,6):
-# 				G100FAR.cell(row=23, column=i).font=headers
-# 				G100FAR.cell(row=23, column=i).border=solidborder
-# 				G100FAR.cell(row=23, column=i).fill=headersblue
-
-
-# 			for i in range (1,6):
-# 				G100FAR.cell(row=47, column=i).font=headers
-# 				G100FAR.cell(row=47, column=i).border=solidborder
-# 				G100FAR.cell(row=47, column=i).fill=headersblue
-
-# 			"Adjust Column Width---------------------------------------------------------------"
-
-# 			G100FAR.column_dimensions['A'].width=25
-# 			G100FAR.column_dimensions['B'].width=33
-# 			G100FAR.column_dimensions['C'].width=25
-# 			G100FAR.column_dimensions['D'].width=35
-# 			G100FAR.column_dimensions['E'].width=25
-# 			G100FAR.column_dimensions['F'].width=25
-# 			G100FAR.column_dimensions['G'].width=25
-# 			G100FAR.column_dimensions['H'].width=25
-# 			G100FAR.column_dimensions['I'].width=25
-
-
-
-# 			G100FAR.cell(row=13, column=1).value="'-Intangible Assets-"
-# 			G100FAR.cell(row=13, column=1).font=greenbolditalic
-
-# 			G100FAR.cell(row=15, column=1).value="201"
-# 			G100FAR.cell(row=16, column=1).value="203"
-# 			G100FAR.cell(row=17, column=1).value="205 & 208"
-# 			G100FAR.cell(row=18, column=1).value="206"
-# 			G100FAR.cell(row=19, column=1).value="2071"
-# 			G100FAR.cell(row=20, column=1).value="Total Intangibles Assets"
-# 			for i in range(15, 20):
-# 				G100FAR.cell(row=i, column=1).alignment=Alignment(horizontal='right')
-
-# 			G100FAR.cell(row=15, column=2).value="Set-up costs"
-# 			G100FAR.cell(row=16, column=2).value="Development costs"
-# 			G100FAR.cell(row=17, column=2).value="Licenses, Trademarks"
-# 			G100FAR.cell(row=18, column=2).value="Intangible assets for mineral resources"
-# 			G100FAR.cell(row=19, column=2).value="Goodwill"
-
-
-# 			G100FAR.cell(row=15, column=3).value='=SUMIF(PBC_FAR!G:G,"201",PBC_FAR!C:C)'
-# 			G100FAR.cell(row=16, column=3).value='=SUMIF(PBC_FAR!G:G,"203",PBC_FAR!C:C)'
-# 			G100FAR.cell(row=17, column=3).value='=SUMIF(PBC_FAR!G:G,"205",PBC_FAR!C:C)+SUMIF(PBC_FAR!G:G,"208",PBC_FAR!C:C)'
-# 			G100FAR.cell(row=18, column=3).value='=SUMIF(PBC_FAR!G:G,"206",PBC_FAR!C:C)'
-# 			G100FAR.cell(row=19, column=3).value='=SUMIF(PBC_FAR!G:G,"207",PBC_FAR!C:C)'
-
-# 			G100FAR.cell(row=15, column=4).value='=SUMIF(F10_TB!B:B,"201",F10_TB!H:H)'
-# 			G100FAR.cell(row=16, column=4).value='=SUMIF(F10_TB!B:B,"203",F10_TB!H:H)'
-# 			G100FAR.cell(row=17, column=4).value='=SUMIF(F10_TB!B:B,"205",F10_TB!H:H)+SUMIF(F10_TB!B:B,"208",F10_TB!H:H)'
-# 			G100FAR.cell(row=18, column=4).value='=SUMIF(F10_TB!B:B,"206",F10_TB!H:H)'
-# 			G100FAR.cell(row=19, column=4).value='=SUMIF(F10_TB!B:B,"207",F10_TB!H:H)'
-
-# 			for i in range(14, 20):
-# 				G100FAR.cell(row=i+1, column=5).value="=C{0}-D{0}".format(i+1)
-
-# 			for i in range(15,20):
-# 				G100FAR.cell(row=i,column=5).font=fontRedDiff
-
-# 			G100FAR.cell(row=20, column=5).font=fontRed
-
-# 			for i in range (1,6):
-# 				G100FAR.cell(row=19, column=i).border=doubleborder
-
-# 			G100FAR.cell(row=20, column=3).value='=SUM(C15:C19)'
-# 			G100FAR.cell(row=20, column=4).value='=SUM(D15:D19)'
-# 			G100FAR.cell(row=20, column=5).value='=SUM(E15:E19)'
-
-# 			for i in range (1,5):
-# 				G100FAR.cell(row=20, column=i).font=font2
-
-
-
-# 			for i in range(15,99):
-# 				for j in range (3,7):
-# 					G100FAR.cell(row=i, column=j).number_format='#,##0_);(#,##0)'
-
-# 			G100FAR.cell (row=22, column=1).value="'-Tangible Assets-"
-# 			G100FAR.cell(row=22, column=1).font=greenbolditalic
-
-# 			G100FAR.cell(row=23,column=1).value="Synt Account"
-# 			G100FAR.cell(row=23,column=2).value="Description"
-# 			G100FAR.cell(row=23,column=3).value="As per FAR(PBC_FAR)"
-# 			G100FAR.cell(row=23,column=4).value="As per TB(F10_TB)"
-# 			G100FAR.cell(row=23,column=5).value="Check"
-
-
-# 			G100FAR.cell(row=24, column=1).value="211"
-# 			G100FAR.cell(row=25, column=1).value="212"
-# 			G100FAR.cell(row=26, column=1).value="213 & 223"
-# 			G100FAR.cell(row=27, column=1).value="214 & 224"
-# 			G100FAR.cell(row=28, column=1).value="215"
-# 			G100FAR.cell(row=29, column=1).value="216"
-# 			G100FAR.cell(row=29, column=1).value="217 & 227"
-# 			G100FAR.cell(row=30, column=1).value='Total Tangibles Assets'
-
-# 			for i in range(24, 31):
-# 				G100FAR.cell(row=i, column=1).alignment=Alignment(horizontal='right')
-
-# 			G100FAR.cell(row=24, column=2).value="Land"
-# 			G100FAR.cell(row=25, column=2).value="Buildings"
-# 			G100FAR.cell(row=26, column=2).value="Equipments and Machines"
-# 			G100FAR.cell(row=27, column=2).value="Furniture, office equipments"
-# 			G100FAR.cell(row=28, column=2).value="Investment properties"
-# 			G100FAR.cell(row=29, column=2).value="Tangible assets for mineral resources"
-# 			G100FAR.cell(row=30, column=2).value="Biological assets"
-
-# 			G100FAR.cell(row=24, column=3).value='=SUMIF(PBC_FAR!G:G,"211",PBC_FAR!C:C)'
-# 			G100FAR.cell(row=25, column=3).value='=SUMIF(PBC_FAR!G:G,"212",PBC_FAR!C:C)'
-# 			G100FAR.cell(row=26, column=3).value='=SUMIF(PBC_FAR!G:G,"213",PBC_FAR!C:C)+SUMIF(PBC_FAR!G:G,"223",PBC_FAR!C:C)'
-# 			G100FAR.cell(row=27, column=3).value='=SUMIF(PBC_FAR!G:G,"214",PBC_FAR!C:C)+SUMIF(PBC_FAR!G:G,"224",PBC_FAR!C:C)'
-# 			G100FAR.cell(row=28, column=3).value='=SUMIF(PBC_FAR!G:G,"215",PBC_FAR!C:C)'
-# 			G100FAR.cell(row=29, column=3).value='=SUMIF(PBC_FAR!G:G,"216",PBC_FAR!C:C)'
-# 			G100FAR.cell(row=30, column=3).value='=SUMIF(PBC_FAR!G:G,"217",PBC_FAR!C:C)+SUMIF(PBC_FAR!G:G,"227",PBC_FAR!C:C)'
-
-# 			G100FAR.cell(row=24, column=4).value='=SUMIF(F10_TB!B:B,"211",F10_TB!H:H)'
-# 			G100FAR.cell(row=25, column=4).value='=SUMIF(F10_TB!B:B,"212",F10_TB!H:H)'
-# 			G100FAR.cell(row=26, column=4).value='=SUMIF(F10_TB!B:B,"213",F10_TB!H:H)+SUMIF(F10_TB!B:B,"223",F10_TB!H:H)'
-# 			G100FAR.cell(row=27, column=4).value='=SUMIF(F10_TB!B:B,"214",F10_TB!H:H)+SUMIF(F10_TB!B:B,"224",F10_TB!H:H)'
-# 			G100FAR.cell(row=28, column=4).value='=SUMIF(F10_TB!B:B,"215",F10_TB!H:H)'
-# 			G100FAR.cell(row=29, column=4).value='=SUMIF(F10_TB!B:B,"216",F10_TB!H:H)'
-# 			G100FAR.cell(row=30, column=4).value='=SUMIF(F10_TB!B:B,"217",F10_TB!H:H)'
-
-# 			for i in range(23, 30):
-# 				G100FAR.cell(row=i+1, column=5).value="=C{0}-D{0}".format(i+1)
-
-# 			G100FAR.cell(row=31,column=3).value='=SUM(C24:C30)'
-# 			G100FAR.cell(row=31,column=4).value='=SUM(D24:D30)'
-# 			G100FAR.cell(row=31,column=5).value='=SUM(E24:E30)'
-
-# 			for i in range (1,5):
-# 				G100FAR.cell(row=31,column=i).font=font2
-
-# 			G100FAR.cell(row=31, column=5).font=fontRed
-
-# 			for i in range (1,6):
-# 				G100FAR.cell(row=29, column=i).border=doubleborder
-
-# 			for i in range (24,31):
-# 				G100FAR.cell(row=i, column=5).font=fontRedDiff
-
-# 			G100FAR.cell(row=31, column=1).value="Total Tangible Assets"
-
-# 			G100FAR.cell(row=33, column=1).value='Total FA GBV'
-# 			G100FAR.cell(row=33, column=3).value='=C31+C20'
-# 			G100FAR.cell(row=33, column=4).value='=D31+D20'
-# 			G100FAR.cell(row=33, column=5).value='=E31+E20'
-
-# 			for i in range(1, 6):
-# 				G100FAR.cell(row=33, column=i).fill=total
-
-# 			for i in range(1,5):
-# 				G100FAR.cell(row=33, column=i).font=font2
-
-# 			G100FAR.cell(row=33, column=5).font=fontRed
-
-# 			G100FAR.cell(row=36, column=1).value='Working 2: Acculumated Depreciation'
-# 			G100FAR.cell(row=36, column=1).font=workingsblue
-
-
-# 			G100FAR.cell(row=38,column=1).value="Synt Account"
-# 			G100FAR.cell(row=38,column=2).value="Description"
-# 			G100FAR.cell(row=38,column=3).value="As per FAR(PBC_FAR)"
-# 			G100FAR.cell(row=38,column=4).value="As per TB(F10_TB)"
-# 			G100FAR.cell(row=38,column=5).value="Check"
-
-# 			for i in range (1,6):
-# 				G100FAR.cell(row=38, column=i).font=headers
-# 				G100FAR.cell(row=38, column=i).border=solidborder
-# 				G100FAR.cell(row=38, column=i).fill=headersblue
-
-# 			G100FAR.cell(row=37, column=1).value="'-Depreciation of Intangible Assets-"
-# 			G100FAR.cell(row=37, column=1).font=greenbolditalic
-
-# 			G100FAR.cell(row=39, column=1).value="2801"
-# 			G100FAR.cell(row=40, column=1).value="2803"
-# 			G100FAR.cell(row=41, column=1).value="2805 & 2808"
-# 			G100FAR.cell(row=42, column=1).value="2806"
-# 			G100FAR.cell(row=43, column=1).value="2807"
-
-# 			for i in range(38, 44):
-# 				G100FAR.cell(row=i, column=1).alignment=Alignment(horizontal='right')
-
-# 			G100FAR.cell(row=39, column=2).value="Depreciation of Set-up costs"
-# 			G100FAR.cell(row=40, column=2).value="Depreciation of development costs"
-# 			G100FAR.cell(row=41, column=2).value="Depreciation of licenses and trademarks"
-# 			G100FAR.cell(row=42, column=2).value="Depreciation of intangible assets for mineral resources"
-# 			G100FAR.cell(row=43, column=2).value="Depreciation of goodwill"
-
-# 			G100FAR.cell(row=39, column=3).value='=SUMIF(PBC_FAR!F:F,"2801",PBC_FAR!D:D)'
-# 			G100FAR.cell(row=40, column=3).value='=SUMIF(PBC_FAR!F:F,"2803",PBC_FAR!D:D)'
-# 			G100FAR.cell(row=41, column=3).value='=SUMIF(PBC_FAR!F:F,"2805",PBC_FAR!D:D)+SUMIF(PBC_FAR!F:F,"2808",PBC_FAR!D:D)'
-# 			G100FAR.cell(row=42, column=3).value='=SUMIF(PBC_FAR!F:F,"2806",PBC_FAR!D:D)'
-# 			G100FAR.cell(row=43, column=3).value='=SUMIF(PBC_FAR!F:F,"2807",PBC_FAR!D:D)'
-
-# 			G100FAR.cell(row=39, column=4).value='=SUMIF(F10_TB!J:J,"2801",F10_TB!H:H)'
-# 			G100FAR.cell(row=40, column=4).value='=SUMIF(F10_TB!J:J,"2803",F10_TB!H:H)'
-# 			G100FAR.cell(row=41, column=4).value='=SUMIF(F10_TB!J:J,"2805",F10_TB!H:H)+SUMIF(F10_TB!J:J,"2808",F10_TB!H:H)'
-# 			G100FAR.cell(row=42, column=4).value='=SUMIF(F10_TB!J:J,"2806",F10_TB!H:H)'
-# 			G100FAR.cell(row=43, column=4).value='=SUMIF(F10_TB!J:J,"2807",F10_TB!H:H)'
-
-# 			for i in range(38, 43):
-# 				G100FAR.cell(row=i+1, column=5).value='=IF(C{0}<0,C{0}-D{0},C{0}+D{0})'.format(i+1)
-
-# 			G100FAR.cell(row=44, column=1).value="Total Depreciation of Intangible Assets"
-# 			G100FAR.cell(row=44, column=3).value="=SUM(C39:C43)"
-# 			G100FAR.cell(row=44, column=4).value="=SUM(D39:D43)"
-# 			G100FAR.cell(row=44, column=5).value="=SUM(E39:E43)"
-
-# 			for i in range (1,5):
-# 				G100FAR.cell(row=44,column=i).font=font2
-
-# 			G100FAR.cell(row=44, column=5).font=fontRed
-
-# 			for i in range (1,6):
-# 				G100FAR.cell(row=44, column=i).border=doubleborder
-
-# 			for i in range (39,45):
-# 				G100FAR.cell(row=i, column=5).font=fontRedDiff
-
-
-# 			G100FAR.cell(row=46, column=1).value="'-Depreciation of Tangible Assets-"
-# 			G100FAR.cell(row=46, column=1).font=greenbolditalic
-
-
-# 			G100FAR.cell(row=47,column=1).value="Synt Account"
-# 			G100FAR.cell(row=47,column=2).value="Description"
-# 			G100FAR.cell(row=47,column=3).value="As per FAR(PBC_FAR)"
-# 			G100FAR.cell(row=47,column=4).value="As per TB(F10_TB)"
-# 			G100FAR.cell(row=47,column=5).value="Check"
-
-
-# 			G100FAR.cell(row=48, column=1).value="2812"
-# 			G100FAR.cell(row=49, column=1).value="2813"
-# 			G100FAR.cell(row=50, column=1).value="2814"
-# 			G100FAR.cell(row=51, column=1).value="2815"
-# 			G100FAR.cell(row=52, column=1).value="2816"
-# 			G100FAR.cell(row=53, column=1).value="2817"
-
-# 			for i in range(48, 54):
-# 				G100FAR.cell(row=i, column=1).alignment=Alignment(horizontal='right')
-
-# 			G100FAR.cell(row=48, column=2).value="Depreciation of buildings"
-# 			G100FAR.cell(row=49, column=2).value="Depreciation of equipments and machines"
-# 			G100FAR.cell(row=50, column=2).value="Depreciation of furniture and office equipments"
-# 			G100FAR.cell(row=51, column=2).value="Depreciation of investment properties"
-# 			G100FAR.cell(row=52, column=2).value="Depreciation of tangible assets for mineral resources"
-# 			G100FAR.cell(row=53, column=2).value="Depreciation for biological assets"
-
-# 			G100FAR.cell(row=48, column=3).value='=SUMIF(PBC_FAR!F:F,"2812",PBC_FAR!D:D)'
-# 			G100FAR.cell(row=49, column=3).value='=SUMIF(PBC_FAR!F:F,"2813",PBC_FAR!D:D)'
-# 			G100FAR.cell(row=50, column=3).value='=SUMIF(PBC_FAR!F:F,"2814",PBC_FAR!D:D)'
-# 			G100FAR.cell(row=51, column=3).value='=SUMIF(PBC_FAR!F:F,"2815",PBC_FAR!D:D)'
-# 			G100FAR.cell(row=52, column=3).value='=SUMIF(PBC_FAR!F:F,"2816",PBC_FAR!D:D)'
-# 			G100FAR.cell(row=53, column=3).value='=SUMIF(PBC_FAR!F:F,"2817",PBC_FAR!D:D)'
-
-# 			G100FAR.cell(row=48, column=4).value='=SUMIF(F10_TB!J:J,"2812",F10_TB!H:H)'
-# 			G100FAR.cell(row=49, column=4).value='=SUMIF(F10_TB!J:J,"2813",F10_TB!H:H)'
-# 			G100FAR.cell(row=50, column=4).value='=SUMIF(F10_TB!J:J,"2814",F10_TB!H:H)'
-# 			G100FAR.cell(row=51, column=4).value='=SUMIF(F10_TB!J:J,"2815",F10_TB!H:H)'
-# 			G100FAR.cell(row=52, column=4).value='=SUMIF(F10_TB!J:J,"2816",F10_TB!H:H)'
-# 			G100FAR.cell(row=53, column=4).value='=SUMIF(F10_TB!J:J,"2817",F10_TB!H:H)'
-
-# 			for i in range(47, 53):
-# 				G100FAR.cell(row=i+1, column=5).value="=IF(C{0}<0,C{0}-D{0},C{0}+D{0})".format(i+1)
-
-# 			G100FAR.cell(row=54, column=1).value="Total Depreciation of Tangible Assets"
-# 			G100FAR.cell(row=54, column=3).value="=SUM(C48:C53)"
-# 			G100FAR.cell(row=54, column=4).value="=SUM(D48:D53)"
-# 			G100FAR.cell(row=54, column=5).value="=SUM(E48:E53)"
-
-
-# 			G100FAR.cell(row=56, column=1).value="Total FA Depreciation "
-# 			G100FAR.cell(row=56, column=3).value="=C54+C44"
-# 			G100FAR.cell(row=56, column=4).value="=D54+D44"
-# 			G100FAR.cell(row=56, column=5).value="=E54+E44"
-
-# 			for i in range (1,5):
-# 				G100FAR.cell(row=54,column=i).font=font2
-# 				G100FAR.cell(row=56,column=i).font=font2
-
-
-# 			G100FAR.cell(row=54, column=5).font=fontRed
-# 			G100FAR.cell(row=56, column=5).font=fontRed
-
-# 			for i in range (1,6):
-# 				G100FAR.cell(row=54, column=i).border=doubleborder
-
-# 			for i in range (48,54):
-# 				G100FAR.cell(row=i, column=5).font=fontRedDiff
-
-# 			for i in range(1, 6):
-# 				G100FAR.cell(row=56, column=i).fill=total
-
-
-# 			G100FAR.cell(row=60,column=1).value="Working 3: NBV"
-# 			G100FAR.cell(row=60,column=1).font=workingsblue
-
-# 			G100FAR.cell(row=62,column=1).value="Account"
-# 			G100FAR.cell(row=62,column=2).value="Description"
-# 			G100FAR.cell(row=62,column=3).value="GBV"
-
-# 			G100FAR.cell(row=62,column=4).value="Accumulated Depreciation"
-# 			G100FAR.cell(row=62,column=5).value="NBV"
-
-
-# 			for i in range (1,6):
-# 				G100FAR.cell(row=62, column=i).font=headers
-# 				G100FAR.cell(row=62, column=i).border=solidborder
-# 				G100FAR.cell(row=62, column=i).fill=headersblue
-
-# 			for i in range (1,6):
-# 				G100FAR.cell(row=71, column=i).font=headers
-# 				G100FAR.cell(row=71, column=i).border=solidborder
-# 				G100FAR.cell(row=71, column=i).fill=headersblue
-
-
-# 			G100FAR.cell(row=61, column=1).value="'-Intangible Assets-"
-# 			G100FAR.cell(row=61, column=1).font=greenbolditalic
-
-# 			G100FAR.cell(row=63, column=1).value="201"
-# 			G100FAR.cell(row=64, column=1).value="203"
-# 			G100FAR.cell(row=65, column=1).value="205 & 208"
-# 			G100FAR.cell(row=66, column=1).value="206"
-# 			G100FAR.cell(row=67, column=1).value="2071"
-
-# 			for i in range(63, 68):
-# 				G100FAR.cell(row=i, column=1).alignment=Alignment(horizontal='right')
-
-# 			G100FAR.cell(row=63, column=2).value="Set-up costs"
-# 			G100FAR.cell(row=64, column=2).value="Development costs"
-# 			G100FAR.cell(row=65, column=2).value="Licenses, Trademarks"
-# 			G100FAR.cell(row=66, column=2).value="Intangible assets for mineral resources"
-# 			G100FAR.cell(row=67, column=2).value="Goodwill"
-
-# 			G100FAR.cell(row=63, column=3).value="=C15"
-# 			G100FAR.cell(row=64, column=3).value="=C16"
-# 			G100FAR.cell(row=65, column=3).value="=C17"
-# 			G100FAR.cell(row=66, column=3).value="=C18"
-# 			G100FAR.cell(row=67, column=3).value="=C19"
-
-# 			G100FAR.cell(row=63, column=4).value="=IF(C39<0,C39,-C39)"
-# 			G100FAR.cell(row=64, column=4).value="=IF(C40<0,C40,-C40)"
-# 			G100FAR.cell(row=65, column=4).value="=IF(C41<0,C41,-C41)"
-# 			G100FAR.cell(row=66, column=4).value="=IF(C42<0,C42,-C42)"
-# 			G100FAR.cell(row=67, column=4).value="=IF(C43<0,C43,-C43)"
-
-# 			for i in range(62, 67):
-# 				G100FAR.cell(row=i+1, column=5).value="=C{0}+D{0}".format(i+1)
-
-
-# 			G100FAR.cell(row=68, column=1).value="Total Intangible Assets"
-# 			G100FAR.cell(row=68, column=3).value="=SUM(C63:C67)"
-# 			G100FAR.cell(row=68, column=4).value="=SUM(D63:D67)"
-# 			G100FAR.cell(row=68, column=5).value="=SUM(E63:E67)"
-
-
-# 			for i in range (1,6):
-# 				G100FAR.cell(row=68,column=i).font=font2
-
-# 			for i in range (1,6):
-# 				G100FAR.cell(row=67, column=i).border=doubleborder
-
-
-# 			G100FAR.cell(row=70, column=1).value="'-Tangible Assets-"
-# 			G100FAR.cell(row=70, column=1).font=greenbolditalic
-
-# 			G100FAR.cell(row=71,column=1).value="Account"
-# 			G100FAR.cell(row=71,column=2).value="Description"
-# 			G100FAR.cell(row=71,column=3).value="GBV"
-
-# 			G100FAR.cell(row=71,column=4).value="Accumulated Depreciation"
-# 			G100FAR.cell(row=71,column=5).value="NBV"
-
-
-# 			G100FAR.cell(row=72, column=1).value="211"
-# 			G100FAR.cell(row=73, column=1).value="212"
-# 			G100FAR.cell(row=74, column=1).value="213 & 223"
-# 			G100FAR.cell(row=75, column=1).value="214 & 224"
-# 			G100FAR.cell(row=76, column=1).value="215"
-# 			G100FAR.cell(row=77, column=1).value="216"
-# 			G100FAR.cell(row=78, column=1).value="217 & 227"
-
-# 			for i in range(72, 79):
-# 				G100FAR.cell(row=i, column=1).alignment=Alignment(horizontal='right')
-
-# 			G100FAR.cell(row=72, column=2).value="Land"
-# 			G100FAR.cell(row=73, column=2).value="Buildings"
-# 			G100FAR.cell(row=74, column=2).value="Equipments and Machines"
-# 			G100FAR.cell(row=75, column=2).value="Furniture, office equipments"
-# 			G100FAR.cell(row=76, column=2).value="Investment properties"
-# 			G100FAR.cell(row=77, column=2).value="Tangible assets for mineral resources"
-# 			G100FAR.cell(row=78, column=2).value="Biological assets"
-
-# 			G100FAR.cell(row=72, column=3).value="=C24"
-# 			G100FAR.cell(row=73, column=3).value="=C25"
-# 			G100FAR.cell(row=74, column=3).value="=C26"
-# 			G100FAR.cell(row=75, column=3).value="=C27"
-# 			G100FAR.cell(row=76, column=3).value="=C28"
-# 			G100FAR.cell(row=77, column=3).value="=C29"
-# 			G100FAR.cell(row=78, column=3).value="=C30"
-
-# 			G100FAR.cell(row=72, column=4).value=0
-# 			G100FAR.cell(row=73, column=4).value="=IF(C48<0,C48,-C48)"
-# 			G100FAR.cell(row=74, column=4).value="=IF(C49<0,C49,-C49)"
-# 			G100FAR.cell(row=75, column=4).value="=IF(C50<0,C50,-C50)"
-# 			G100FAR.cell(row=76, column=4).value="=IF(C51<0,C51,-C51)"
-# 			G100FAR.cell(row=77, column=4).value="=IF(C52<0,C52,-C52)"
-# 			G100FAR.cell(row=78, column=4).value="=IF(C53<0,C53,-C53)"
-
-
-# 			for i in range(72, 78):
-# 				G100FAR.cell(row=i+1, column=5).value="=C{0}+D{0}".format(i+1)
-
-# 			G100FAR.cell(row=79, column=1).value="Total Tangible Assets"
-# 			G100FAR.cell(row=79, column=3).value="=SUM(C72:C78)"
-# 			G100FAR.cell(row=79, column=4).value="=SUM(D72:D78)"
-# 			G100FAR.cell(row=79, column=5).value="=SUM(E72:E78)"
-
-# 			G100FAR.cell(row=81, column=1).value="Total FA NBV"
-# 			G100FAR.cell(row=81, column=3).value="=SUM(C68,C79)"
-# 			G100FAR.cell(row=81, column=4).value="=SUM(D68,D79)"
-# 			G100FAR.cell(row=81, column=5).value="=SUM(E68,E79)"
-
-# 			for i in range (1,6):
-# 				G100FAR.cell(row=79,column=i).font=font2
-# 				G100FAR.cell(row=81,column=i).font=font2
-
-
-# 			for i in range (1,6):
-# 				G100FAR.cell(row=78, column=i).border=doubleborder
-
-
-# 			for i in range(1, 6):
-# 				G100FAR.cell(row=81, column=i).fill=total
-
-# 			if (len(ChargeFAR)==0):
-# 				print("list is empty")
-# 			else:
-
-# 				G100FAR.cell(row=83, column=1).value="Working 4: Depreciation charge reconciliation"
-# 				G100FAR.cell(row=83, column=1).font=workingsblue
-
-# 				G100FAR.cell(row=84, column=1).value="As per FAR(PBC_FAR)"
-# 				G100FAR.cell(row=84, column=2).value="As per TB(PBC_TB)"
-# 				G100FAR.cell(row=84, column=3).value="Check"
-
-# 				for i in range(1, 4):
-# 					G100FAR.cell(row=84, column=i).font=headers
-# 					G100FAR.cell(row=84, column=i).fill=headersblue
-# 					G100FAR.cell(row=84, column=i).border=solidborder
-
-# 				G100FAR.cell(row=85, column=1).value="=SUM(PBC_FAR!I:I)"
-# 				G100FAR.cell(row=85, column=2).value='=SUMIF(F10_TB!J:J,"6811",F10_TB!H:H)'
-# 				G100FAR.cell(row=85, column=3).value='=IF(A85<0,B85+A85,A85-B85)'
-
-# 			G100FAR.sheet_view.showGridLines = False
-
-# 		if(val2==1):
-# 			  G20=FAR.create_sheet("G20 Depr Recomp")
-
-
-# 			  G20.column_dimensions['A'].width=15
-# 			  G20.column_dimensions['B'].width=15
-# 			  G20.column_dimensions['C'].width=30
-# 			  G20.column_dimensions['D'].width=15
-# 			  G20.column_dimensions['E'].width=15
-# 			  G20.column_dimensions['F'].width=25
-# 			  G20.column_dimensions['G'].width=25
-# 			  G20.column_dimensions['H'].width=15
-# 			  G20.column_dimensions['I'].width=20
-# 			  G20.column_dimensions['J'].width=15
-# 			  G20.column_dimensions['K'].width=15
-# 			  G20.column_dimensions['L'].width=15
-# 			  G20.column_dimensions['M'].width=15
-# 			  G20.column_dimensions['N'].width=25
-# 			  G20.column_dimensions['O'].width=15
-# 			  G20.column_dimensions['P'].width=35
-# 			  G20.column_dimensions['Q'].width=25
-# 			  G20.column_dimensions['R'].width=15
-# 			  G20.column_dimensions['S'].width=25
-# 			  G20.column_dimensions['T'].width=15
-# 			  G20.column_dimensions['U'].width=15
-# 			  G20.column_dimensions['V'].width=25
-# 			  G20.column_dimensions['W'].width=15
-# 			  G20.column_dimensions['X'].width=25
-
-
-# 			  G20.cell(row=1, column=1).value="Client:"
-# 			  G20.cell(row=1, column=1).font=font2
-# 			  G20.cell(row=1, column=2).value=namec
-# 			  G20.cell(row=1, column=2).font=font2
-# 			  G20.cell(row=2, column=1).value="Period end:"
-# 			  G20.cell(row=2, column=1).font=font2
-# 			  G20.cell(row=2, column=2).value=ant
-# 			  G20.cell(row=2, column=2).number_format='mm/dd/yyyy'
-# 			  G20.cell(row=2, column=2).font=font2
-# 			  postdate = str(postdate)
-# 			  anp = postdate[0]+postdate[1]+postdate[2]+postdate[3]
-# 			  lunap = postdate[5]+postdate[6]
-# 			  ziip = postdate[8]+postdate[9]
-
-# 			  yearentry = str(yearentry)
-# 			  print(yearentry)
-# 			  an = yearentry[0]+yearentry[1]+yearentry[2]+yearentry[3]
-# 			  luna = yearentry[5]+yearentry[6]
-# 			  zi = yearentry[8]+yearentry[9]
-# 			  an = int(an)
-# 			  zi = int(zi)
-# 			  luna=int(luna)
-
-# 			  #yearentry=datetime.date(int(an),int(luna),int(zi))
-# 			  #print(type(yearentry))
-# 			  #yearentry=str(yearentry)
-# 			  ##yearentry = yearentry.strftime('%m/%d/%Y')
-# 			  ##yearentry = datetime.datetime.strptime(yearentry,'%m/%d/%Y')
-# 			  #yearentry = yearentry.date('%m/%d/%Y')
-# 			  #print(type(yearentry))
-# 			  #print("qwjdnqwibdqw", yearentry)
-
-# 			  G20.cell(row=1, column=8).value="Prepared by:"
-# 			  G20.cell(row=1, column=8).font=font2
-
-# 			  G20.cell(row=2, column=8).value="Date:"
-# 			  G20.cell(row=2, column=8).font=font2
-# 			  G20.cell(row=2, column=9).value=datetime.datetime.now().date()
-# 			  G20.cell(row=2, column=9).number_format="mm/dd/yyyy"
-# 			  G20.cell(row=2, column=9).alignment = Alignment (horizontal='left')
-# 			  G20.cell(row=2, column=9).font=font1
-
-
-# 			  G20.cell(row=3, column=8).value="Ref:"
-# 			  G20.cell(row=3, column=8).font=font2
-# 			  G20.cell(row=3, column=9).value="G20"
-# 			  G20.cell(row=3, column=9).font=fontRed
-
-# 			  for i in range(1,4):
-# 				  G20.cell(row=i, column=8).alignment = Alignment(horizontal='right')
-
-# 			  G20.cell(row=4, column=4).value="Tangible and Intangible Assets Depreciation Recomputation"
-# 			  G20.cell(row=4, column=4).font=font2
-
-# 			  G20.cell(row=7, column=1).value="Procedure:"
-# 			  G20.cell(row=7, column=1).alignment=Alignment(horizontal='right')
-# 			  G20.cell(row=7, column=2).value="Obtain the Fixed asset Register and list of tangible and intangible assets and detail of disposals for the period and recompute the depreciation charge in the period and accumulated depreciation at period end."
-# 			  G20.cell(row=9, column=1).value="Work done:"
-# 			  G20.cell(row=9, column=1).alignment=Alignment(horizontal='right')
-# 			  G20.cell(row=8, column=2).value="Agree the recomputed depreciation charge and accumulated depreciation with the FAR and Disposal list and with TB."
-
-# 			  G20.cell(row=7, column=2).font=font1
-# 			  G20.cell(row=9, column=1).font=font1
-# 			  G20.cell(row=8, column=2).font=font1
-
-# 			  G20.cell(row=9, column=2).value="Please see the work below:"
-# 			  G20.cell(row=7, column=1).font=font2
-# 			  G20.cell(row=9, column=1).font=font2
-
-# 			  G20.cell(row=9, column=2).font=font1
-
-
-# 			  G20.cell(row=40,column=1).value="Synt"
-# 			  G20.cell(row=40,column=2).value="Account"
-# 			  G20.cell(row=40,column=3).value="Item"
-# 			  G20.cell(row=40, column=4).value="Description"
-# 			  G20.cell(row=40,column=5).value="PIF Year"
-# 			  G20.cell(row=40,column=6).value="PIF Date"
-# 			  G20.cell(row=40,column=7).value="Disposal Date"
-# 			  G20.cell(row=40,column=8).value="UL in months"
-# 			  G20.cell(row=40,column=9).value="GBV"
-# 			  G20.cell(row=40,column=10).value="Depr Charge"
-# 			  G20.cell(row=40,column=11).value="Acc Depreciation"
-
-
-# 			  for i in range (1,12):
-# 				  G20.cell(row=40, column=i).font=headers
-# 				  G20.cell(row=40, column=i).border=solidborder
-# 				  G20.cell(row=40, column=i).fill=headersblue
-
-
-# 			  "Adjust Column Width---------------------------------------------------------------"
-
-# 			  G20.cell(row=11, column=4).value="As per Client(FAR and Disposal list)"
-# 			  G20.cell(row=11, column=4).font=font2
-
-# 			  G20.cell(row=11, column=2).value="Summary:"
-# 			  G20.cell(row=11, column=2).font=fontitalic
-
-# 			  G20.cell(row=12, column=2).value="Account"
-# 			  G20.cell(row=12, column=3).value="Description"
-# 			  G20.cell(row=12, column=4).value="GBV (FAR)"
-# 			  G20.cell(row=12, column=5).value="Depreciation charge (FAR and Disposal list)"
-# 			  G20.cell(row=12, column=6).value="Accumulated depreciation (FAR)"
-# 			  G20.cell(row=12, column=7).value="Accumulated depreciation (Disposals)"
-
-
-
-# 			  for i in range(2, 8):
-# 				  G20.cell(row=12, column=i).font=headers
-# 				  G20.cell(row=12, column=i).fill=headersblue
-# 				  G20.cell(row=12, column=i).border=solidborder
-# 			  G20.cell(row=13, column=7).border=solidbordersus
-
-# 			  G20.cell(row=13, column=2).value=201
-# 			  G20.cell(row=14, column=2).value=203
-# 			  G20.cell(row=15, column=2).value=205
-# 			  G20.cell(row=16, column=2).value=208
-# 			  G20.cell(row=17, column=2).value=206
-# 			  G20.cell(row=18, column=2).value=2071
-
-
-# 			  G20.cell(row=13, column=3).value="Set-up costs"
-# 			  G20.cell(row=14, column=3).value="Development costs"
-# 			  G20.cell(row=15, column=3).value="Licenses, Trademarks"
-# 			  G20.cell(row=16, column=3).value="Other Intangibles"
-# 			  G20.cell(row=17, column=3).value="Intangible assets for mineral resources"
-# 			  G20.cell(row=18, column=3).value="Goodwill"
-
-# 			  G20.cell(row=13, column=4).value='=SUMIF(A:A,"201",I:I)'
-# 			  G20.cell(row=14, column=4).value='=SUMIF(A:A,"203",I:I)'
-# 			  G20.cell(row=15, column=4).value='=SUMIF(A:A,"205",I:I)'
-# 			  G20.cell(row=16, column=4).value='=SUMIF(A:A,"208",I:I)'
-# 			  G20.cell(row=17, column=4).value='=SUMIF(A:A,"206",I:I)'
-# 			  G20.cell(row=18, column=4).value='=SUMIF(A:A,"207",I:I)'
-
-# 			  G20.cell(row=13, column=5).value='=SUMIF(A:A,"201",J:J)+SUMIF(A:A,"201D",J:J)'
-# 			  G20.cell(row=14, column=5).value='=SUMIF(A:A,"203",J:J)+SUMIF(A:A,"203D",J:J)'
-# 			  G20.cell(row=15, column=5).value='=SUMIF(A:A,"205",J:J)+SUMIF(A:A,"205D",J:J)'
-# 			  G20.cell(row=16, column=5).value='=SUMIF(A:A,"208",J:J)+SUMIF(A:A,"208D",J:J)'
-# 			  G20.cell(row=17, column=5).value='=SUMIF(A:A,"206",J:J)+SUMIF(A:A,"206D",J:J)'
-# 			  G20.cell(row=18, column=5).value='=SUMIF(A:A,"207",J:J)+SUMIF(A:A,"207D",J:J)'
-
-# 			  G20.cell(row=13, column=6).value='=SUMIF(A:A,"201",K:K)'
-# 			  G20.cell(row=14, column=6).value='=SUMIF(A:A,"203",K:K)'
-# 			  G20.cell(row=15, column=6).value='=SUMIF(A:A,"205",K:K)'
-# 			  G20.cell(row=16, column=6).value='=SUMIF(A:A,"208",K:K)'
-# 			  G20.cell(row=17, column=6).value='=SUMIF(A:A,"206",K:K)'
-# 			  G20.cell(row=18, column=6).value='=SUMIF(A:A,"207",K:K)'
-
-# 			  G20.cell(row=13, column=7).value='=SUMIF(A:A,"201D",K:K)'
-# 			  G20.cell(row=14, column=7).value='=SUMIF(A:A,"203D",K:K)'
-# 			  G20.cell(row=15, column=7).value='=SUMIF(A:A,"205D",K:K)'
-# 			  G20.cell(row=16, column=7).value='=SUMIF(A:A,"208D",K:K)'
-# 			  G20.cell(row=17, column=7).value='=SUMIF(A:A,"206D",K:K)'
-# 			  G20.cell(row=18, column=7).value='=SUMIF(A:A,"207D",K:K)'
-
-# 			  G20.cell(row=19, column=2).value="Total Intangibles Assets"
-# 			  G20.cell(row=19, column=4).value="=SUM(D13:D18)"
-# 			  G20.cell(row=19, column=5).value="=SUM(E13:E18)"
-# 			  G20.cell(row=19, column=6).value="=SUM(F13:F18)"
-# 			  G20.cell(row=19, column=7).value="=SUM(G13:G18)"
-
-
-# 			  for i in range(2,8):
-# 				  G20.cell(row=19, column=i).font=font2
-
-# 			  #G20.cell(row=20, column=2).value='=IF(SUMIF(PBC_FAR!G:G,"211",PBC_FAR!E:E)+SUMIF(PBC_FAR!G:G,"211",PBC_FAR!J:J)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!J:J)=0,"","211")'
-# 			  G20.cell(row=21, column=2).value=212
-# 			  G20.cell(row=22, column=2).value=213
-# 			  G20.cell(row=23, column=2).value=214
-# 			  G20.cell(row=24, column=2).value=215
-# 			  G20.cell(row=25, column=2).value=216
-# 			  G20.cell(row=26, column=2).value=217
-
-# 			  #G20.cell(row=20, column=3).value='=IF(SUMIF(PBC_FAR!G:G,"211",PBC_FAR!E:E)+SUMIF(PBC_FAR!G:G,"211",PBC_FAR!J:J)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!J:J)=0,"","Land")'
-# 			  G20.cell(row=21, column=3).value="Buildings"
-# 			  G20.cell(row=22, column=3).value="Equipments and Machines"
-# 			  G20.cell(row=23, column=3).value="Furniture, office equipments"
-# 			  G20.cell(row=24, column=3).value="Investment properties"
-# 			  G20.cell(row=25, column=3).value="Tangible assets for mineral resources"
-# 			  G20.cell(row=26, column=3).value="Biological assets"
-
-
-# 			  #G20.cell(row=20, column=4).value='=IF(SUMIF(PBC_FAR!G:G,"211",PBC_FAR!E:E)+SUMIF(PBC_FAR!G:G,"211",PBC_FAR!J:J)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!J:J)=0,"",SUMIF(A:A,"211",I:I))'
-# 			  G20.cell(row=21, column=4).value='=SUMIF(A:A,"212",I:I)'
-# 			  G20.cell(row=22, column=4).value='=SUMIF(A:A,"213",I:I)'
-# 			  G20.cell(row=23, column=4).value='=SUMIF(A:A,"214",I:I)'
-# 			  G20.cell(row=24, column=4).value='=SUMIF(A:A,"215",I:I)'
-# 			  G20.cell(row=25, column=4).value='=SUMIF(A:A,"216",I:I)'
-# 			  G20.cell(row=26, column=4).value='=SUMIF(A:A,"217",I:I)'
-
-# 			  #G20.cell(row=20, column=5).value='=IF(SUMIF(PBC_FAR!G:G,"211",PBC_FAR!E:E)+SUMIF(PBC_FAR!G:G,"211",PBC_FAR!J:J)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!J:J)=0,"",SUMIF(A:A,"211",J:J)+SUMIF(A:A,"211D",J:J))'
-# 			  G20.cell(row=21, column=5).value='=SUMIF(A:A,"212",J:J)+SUMIF(A:A,"212D",J:J)'
-# 			  G20.cell(row=22, column=5).value='=SUMIF(A:A,"213",J:J)+SUMIF(A:A,"213D",J:J)'
-# 			  G20.cell(row=23, column=5).value='=SUMIF(A:A,"214",J:J)+SUMIF(A:A,"214D",J:J)'
-# 			  G20.cell(row=24, column=5).value='=SUMIF(A:A,"215",J:J)+SUMIF(A:A,"215D",J:J)'
-# 			  G20.cell(row=25, column=5).value='=SUMIF(A:A,"216",J:J)+SUMIF(A:A,"216D",J:J)'
-# 			  G20.cell(row=26, column=5).value='=SUMIF(A:A,"217",J:J)+SUMIF(A:A,"217D",J:J)'
-
-# 			  #G20.cell(row=20, column=6).value='=IF(SUMIF(PBC_FAR!G:G,"211",PBC_FAR!E:E)+SUMIF(PBC_FAR!G:G,"211",PBC_FAR!J:J)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!J:J)=0,"",SUMIF(A:A,"211",K:K))'
-# 			  G20.cell(row=21, column=6).value='=SUMIF(A:A,"212",K:K)'
-# 			  G20.cell(row=22, column=6).value='=SUMIF(A:A,"213",K:K)'
-# 			  G20.cell(row=23, column=6).value='=SUMIF(A:A,"214",K:K)'
-# 			  G20.cell(row=24, column=6).value='=SUMIF(A:A,"215",K:K)'
-# 			  G20.cell(row=25, column=6).value='=SUMIF(A:A,"216",K:K)'
-# 			  G20.cell(row=26, column=6).value='=SUMIF(A:A,"217",K:K)'
-
-# 			  #G20.cell(row=20, column=7).value='=IF(SUMIF(PBC_FAR!G:G,"211",PBC_FAR!E:E)+SUMIF(PBC_FAR!G:G,"211",PBC_FAR!J:J)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!J:J)=0,"",SUMIF(A:A,"211D",K:K))'
-# 			  G20.cell(row=21, column=7).value='=SUMIF(A:A,"212D",K:K)'
-# 			  G20.cell(row=22, column=7).value='=SUMIF(A:A,"213D",K:K)'
-# 			  G20.cell(row=23, column=7).value='=SUMIF(A:A,"214D",K:K)'
-# 			  G20.cell(row=24, column=7).value='=SUMIF(A:A,"215D",K:K)'
-# 			  G20.cell(row=25, column=7).value='=SUMIF(A:A,"216D",K:K)'
-# 			  G20.cell(row=26, column=7).value='=SUMIF(A:A,"217D",K:K)'
-
-# 			  G20.cell(row=27, column=2).value="Total Tangible Assets"
-
-# 			  G20.cell(row=27, column=4).value="=SUM(D20:D26)"
-# 			  G20.cell(row=27, column=5).value="=SUM(E20:E26)"
-# 			  G20.cell(row=27, column=6).value="=SUM(F20:F26)"
-# 			  G20.cell(row=27, column=7).value="=SUM(G20:G26)"
-
-# 			  G20.cell(row=29, column=2).value="Total Tangible and Intangible Assets"
-# 			  G20.cell(row=29, column=4).value="=D19+D27"
-# 			  G20.cell(row=29, column=5).value='=E19+E27'
-# 			  G20.cell(row=29, column=6).value='=F19+F27'
-
-# 			  G20.cell(row=29, column=7).value="=G19+G27"
-
-# 			  G20.cell(row=30,column=2).value="As per TB"
-# 			  G20.cell(row=30,column=4).value='=SUMIF(F10_TB!B:B,"201",F10_TB!H:H)+SUMIF(F10_TB!B:B,"203",F10_TB!H:H)+SUMIF(F10_TB!B:B,"205",F10_TB!H:H)+SUMIF(F10_TB!B:B,"208",F10_TB!H:H)+SUMIF(F10_TB!B:B,"206",F10_TB!H:H)+SUMIF(F10_TB!B:B,"207",F10_TB!H:H)+SUMIF(F10_TB!B:B,"212",F10_TB!H:H)+SUMIF(F10_TB!B:B,"213",F10_TB!H:H)+SUMIF(F10_TB!B:B,"214",F10_TB!H:H)+SUMIF(F10_TB!B:B,"215",F10_TB!H:H)+SUMIF(F10_TB!B:B,"216",F10_TB!H:H)+SUMIF(F10_TB!B:B,"217",F10_TB!H:H)'
-# 			  G20.cell(row=30,column=5).value="=Q14"
-# 			  G20.cell(row=30,column=6).value='=SUMIF(F10_TB!B:B,"280",F10_TB!H:H)+SUMIF(F10_TB!B:B,"281",F10_TB!H:H)'
-
-# 			  G20.cell(row=31,column=2).value="Check"
-# 			  G20.cell(row=31,column=4).value="=D29-D30"
-# 			  G20.cell(row=31,column=5).value="=IF(E29<0,E29+E30,E29-E30)"
-# 			  G20.cell(row=31,column=6).value="=IF(F29<0,F29-F30,F29+F30)"
-
-
-
-# 			  G20.cell(row=21,column=13).font=font2
-
-# 			  for i in range(2, 8):
-# 				  G20.cell(row=27, column=i).font=font2
-# 				  G20.cell(row=29, column=i).font=font2
-# 				  G20.cell(row=30, column=i).font=font2
-# 				  G20.cell(row=31, column=i).font=fontRed
-# 				  G20.cell(row=29,column=i).number_format='#,##0_);(#,##0)'
-# 				  G20.cell(row=30,column=i).number_format='#,##0_);(#,##0)'
-# 				  G20.cell(row=31,column=i).number_format='#,##0_);(#,##0)'
-
-# 			  for i in range(2, 8):
-# 				  G20.cell(row=18, column=i).border=doubleborder
-# 				  G20.cell(row=26, column=i).border=doubleborder
-
-
-# 			  G20.cell(row=33, column=2).value="As per Disposal list"
-# 			  G20.cell(row=33, column=2).font=font2
-# 			  G20.cell(row=34, column=2).value="Check"
-# 			  G20.cell(row=34, column=2).font=fontRed
-# 			  G20.cell(row=36, column=1).value="Recomputation:"
-# 			  G20.cell(row=36, column=1).font=fontitalic
-
-
-# 			  G20.cell(row=33, column=7).value="=SUM(PBC_Disposals!J:J)"
-# 			  G20.cell(row=33, column=7).font=font2
-# 			  G20.cell(row=34, column=7).value="=G29-G33"
-# 			  G20.cell(row=34, column=7).font=fontRed
-
-
-# 			  G20.cell(row=40,column=13).value="Cost"
-# 			  G20.cell(row=40,column=14).value="UL"
-
-# 			  G20.cell(row=40,column=15).value="Start Depr"
-# 			  G20.cell(row=40,column=16).value="End Depr"
-# 			  G20.cell(row=40,column=17).value="Month in year"
-# 			  G20.cell(row=40,column=18).value="Monthly depr"
-# 			  G20.cell(row=40,column=19).value="Depreciation charge"
-# 			  G20.cell(row=40,column=20).value="Diff"
-
-# 			  G20.cell(row=40,column=22).value="Accumulated depr"
-# 			  G20.cell(row=40,column=23).value="Diff"
-# 			  G20.cell(row=40,column=24).value="Check if accumulated depr < GBV"
-
-# 			  for i in range (13,21):
-# 				  G20.cell(row=40, column=i).font=headers
-# 				  G20.cell(row=40, column=i).border=solidborder
-# 				  G20.cell(row=40, column=i).fill=headerspurple
-
-# 			  for i in range (22,25):
-# 				  G20.cell(row=40, column=i).font=headers
-# 				  G20.cell(row=40, column=i).border=solidborder
-# 				  G20.cell(row=40, column=i).fill=headerspurple
-
-# 			  "noul tabel-------------------------------------------------------------------------------------------------"
-
-# 			  G20.cell(row=11, column=9).value="As per GT"
-# 			  G20.cell(row=11, column=9).font=font2
-# 			  G20.cell(row=12, column=9).value="Depreciation charge"
-# 			  G20.cell(row=12, column=10).value="Diff"
-# 			  G20.cell(row=12, column=10).font=fontRed
-# 			  G20.cell(row=12, column=11).value="Accumulated depreciation"
-# 			  G20.cell(row=12, column=12).value="Diff"
-# 			  G20.cell(row=12, column=12).font=fontRed
-# 			  G20.cell(row=12, column=13).value="Accumulated Depreciation (Disposals)"
-# 			  G20.cell(row=12, column=14).value="Diff"
-
-# 			  for i in range (9,15):
-# 				  G20.cell(row=12, column=i).font=headers
-# 				  G20.cell(row=12, column=i).border=solidborder
-# 				  G20.cell(row=12, column=i).fill=headersblue
-
-# 			  for i in range(9, 15):
-# 				  G20.cell(row=18, column=i).border=doubleborder
-
-# 			  for i in range(9, 15):
-# 				  G20.cell(row=26, column=i).border=doubleborder
-
-
-
-# 			  G20.cell(row=13, column=9).value='=SUMIF(A:A,"201",S:S)+SUMIF(A:A,"201D",S:S)'
-# 			  G20.cell(row=14, column=9).value='=SUMIF(A:A,"203",S:S)+SUMIF(A:A,"203D",S:S)'
-# 			  G20.cell(row=15, column=9).value='=SUMIF(A:A,"205",S:S)+SUMIF(A:A,"205D",S:S)'
-# 			  G20.cell(row=16, column=9).value='=SUMIF(A:A,"208",S:S)+SUMIF(A:A,"208D",S:S)'
-# 			  G20.cell(row=17, column=9).value='=SUMIF(A:A,"206",S:S)+SUMIF(A:A,"206D",S:S)'
-# 			  G20.cell(row=18, column=9).value='=SUMIF(A:A,"207",S:S)+SUMIF(A:A,"207D",S:S)'
-
-# 			  G20.cell(row=13, column=11).value='=SUMIF(A:A,"201",V:V)'
-# 			  G20.cell(row=14, column=11).value='=SUMIF(A:A,"203",V:V)'
-# 			  G20.cell(row=15, column=11).value='=SUMIF(A:A,"205",V:V)'
-# 			  G20.cell(row=16, column=11).value='=SUMIF(A:A,"208",V:V)'
-# 			  G20.cell(row=17, column=11).value='=SUMIF(A:A,"206",V:V)'
-# 			  G20.cell(row=18, column=11).value='=SUMIF(A:A,"207",V:V)'
-
-# 			  G20.cell(row=13, column=13).value='=SUMIF(A:A,"201D",V:V)'
-# 			  G20.cell(row=14, column=13).value='=SUMIF(A:A,"203D",V:V)'
-# 			  G20.cell(row=15, column=13).value='=SUMIF(A:A,"205D",V:V)'
-# 			  G20.cell(row=16, column=13).value='=SUMIF(A:A,"208D",V:V)'
-# 			  G20.cell(row=17, column=13).value='=SUMIF(A:A,"206D",V:V)'
-# 			  G20.cell(row=18, column=13).value='=SUMIF(A:A,"207D",V:V)'
-
-# 			  #G20.cell(row=20, column=9).value='=IF(SUMIF(PBC_FAR!G:G,"211",PBC_FAR!E:E)+SUMIF(PBC_FAR!G:G,"211",PBC_FAR!J:J)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!J:J)=0,"",SUMIF(A:A,"211",S:S)+SUMIF(A:A,"211D",S:S))'
-# 			  G20.cell(row=21, column=9).value='=SUMIF(A:A,"212",S:S)+SUMIF(A:A,"212D",S:S)'
-# 			  G20.cell(row=22, column=9).value='=SUMIF(A:A,"213",S:S)+SUMIF(A:A,"213D",S:S)'
-# 			  G20.cell(row=23, column=9).value='=SUMIF(A:A,"214",S:S)+SUMIF(A:A,"214D",S:S)'
-# 			  G20.cell(row=24, column=9).value='=SUMIF(A:A,"215",S:S)+SUMIF(A:A,"215D",S:S)'
-# 			  G20.cell(row=25, column=9).value='=SUMIF(A:A,"216",S:S)+SUMIF(A:A,"216D",S:S)'
-# 			  G20.cell(row=26, column=9).value='=SUMIF(A:A,"217",S:S)+SUMIF(A:A,"217D",S:S)'
-
-# 			  #G20.cell(row=20, column=13).value='=IF(SUMIF(PBC_FAR!G:G,"211",PBC_FAR!E:E)+SUMIF(PBC_FAR!G:G,"211",PBC_FAR!J:J)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!J:J)=0,"",SUMIF(A:A,"211D",V:V))'
-# 			  G20.cell(row=21, column=13).value='=SUMIF(A:A,"212D",V:V)'
-# 			  G20.cell(row=22, column=13).value='=SUMIF(A:A,"213D",V:V)'
-# 			  G20.cell(row=23, column=13).value='=SUMIF(A:A,"214D",V:V)'
-# 			  G20.cell(row=24, column=13).value='=SUMIF(A:A,"215D",V:V)'
-# 			  G20.cell(row=25, column=13).value='=SUMIF(A:A,"216D",V:V)'
-# 			  G20.cell(row=26, column=13).value='=SUMIF(A:A,"217D ",V:V)'
-
-# 			  #G20.cell(row=20, column=11).value='=IF(SUMIF(PBC_FAR!G:G,"211",PBC_FAR!E:E)+SUMIF(PBC_FAR!G:G,"211",PBC_FAR!J:J)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!J:J)=0,"",SUMIF(A:A,"211",V:V))'
-# 			  G20.cell(row=21, column=11).value='=SUMIF(A:A,"212",V:V)'
-# 			  G20.cell(row=22, column=11).value='=SUMIF(A:A,"213",V:V)'
-# 			  G20.cell(row=23, column=11).value='=SUMIF(A:A,"214",V:V)'
-# 			  G20.cell(row=24, column=11).value='=SUMIF(A:A,"215",V:V)'
-# 			  G20.cell(row=25, column=11).value='=SUMIF(A:A,"216",V:V)'
-# 			  G20.cell(row=26, column=11).value='=SUMIF(A:A,"217",V:V)'
-
-# 			  #G20.cell(row=20, column=10).value='=IF(SUMIF(PBC_FAR!G:G,"211",PBC_FAR!E:E)+SUMIF(PBC_FAR!G:G,"211",PBC_FAR!J:J)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!J:J)=0,"",I20-E20)'
-# 			  #G20.cell(row=20, column=12).value='=IF(SUMIF(PBC_FAR!G:G,"211",PBC_FAR!E:E)+SUMIF(PBC_FAR!G:G,"211",PBC_FAR!J:J)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!J:J)=0,"",K20-F20)'
-# 			  #G20.cell(row=20, column=14).value='=IF(SUMIF(PBC_FAR!G:G,"211",PBC_FAR!E:E)+SUMIF(PBC_FAR!G:G,"211",PBC_FAR!J:J)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)+SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!J:J)=0,"",M20-G20)'
-
-# 			  "PARTEA NUUA"
-# 			  G20.cell(row=19, column=13).value="=SUM(M13:M18)"
-# 			  G20.cell(row=27, column=13).value="=SUM(M20:M26)"
-# 			  G20.cell(row=29, column=13).value="=M19+M27"
-# 			  G20.cell(row=33, column=13).value="=SUM(PBC_Disposals!J:J)"
-# 			  G20.cell(row=34, column=13).value="=M29-M33"
-
-# 			  for i in range(12, 18):
-# 				  G20.cell(row=i+1, column=14).value='=M{0}-G{0}'.format(i+1)
-
-# 			  for i in range(20, 26):
-# 				  G20.cell(row=i+1, column=14).value='=M{0}-G{0}'.format(i+1)
-
-# 			  G20.cell(row=19, column=14).value="=SUM(N13:N18)"
-# 			  G20.cell(row=27, column=14).value="=SUM(N20:N26)"
-# 			  G20.cell(row=29, column=14).value="=M29-G29"
-
-# 			  for i in range(13, 19):
-# 				  for j in range(13, 14):
-# 					  G20.cell(row=i, column=j).font=font1
-
-# 			  for i in range(21, 27):
-# 				  for j in range(13, 14):
-# 					  G20.cell(row=i, column=j).font=font1
-
-# 			  for i in range(13, 35):
-# 				  for j in range(13, 15):
-# 					  G20.cell(row=i, column=j).number_format='#,##0_);(#,##0)'
-
-# 			  G20.cell(row=19, column=13).font=font2
-# 			  G20.cell(row=27, column=13).font=font2
-# 			  G20.cell(row=29, column=13).font=font2
-# 			  G20.cell(row=33, column=13).font=font2
-# 			  G20.cell(row=34, column=13).font=fontRed
-
-# 			  for i in range(13, 19):
-# 				  G20.cell(row=i, column=14).font=fontRedDiff
-
-# 			  G20.cell(row=19, column=19).font=fontRed
-
-
-# 			  for i in range(21, 27):
-# 				  G20.cell(row=i, column=14).font=fontRedDiff
-
-# 			  G20.cell(row=27, column=14).font=fontRed
-# 			  G20.cell(row=29, column=14).font=fontRed
-# 			  "PARTEA NOUA"
-
-# 			  G20.cell(row=19, column=9).value='=SUM(I13:I18)'
-# 			  G20.cell(row=27, column=9).value='=SUM(I20:I26)'
-
-# 			  G20.cell(row=19, column=10).value='=SUM(J13:J18)'
-# 			  G20.cell(row=27, column=10).value='=SUM(J20:J26)'
-
-# 			  G20.cell(row=19, column=11).value='=SUM(K13:K18)'
-# 			  G20.cell(row=27, column=11).value='=SUM(K20:K26)'
-
-# 			  G20.cell(row=19, column=12).value='=SUM(L13:L18)'
-# 			  G20.cell(row=27, column=12).value='=SUM(L20:L26)'
-
-# 			  for i in range(12, 18):
-# 				  G20.cell(row=i+1, column=10).value='=if($E$29=0,"N/A – no depr expense in FAR PBC",I{0}-E{0})'.format(i+1)
-# 				  G20.cell(row=i+1, column=10).font=fontRedDiff
-
-# 			  for i in range(20, 26):
-# 				  G20.cell(row=i+1, column=10).value='=if($E$29=0,"N/A – no depr expense in FAR PBC",I{0}-E{0})'.format(i+1)
-# 				  G20.cell(row=i+1, column=10).font=fontRedDiff
-
-# 			  for i in range(12, 18):
-# 				  G20.cell(row=i+1, column=12).value='=if(F{0}>=0,K{0}-F{0},K{0}+F{0})'.format(i+1)
-# 				  G20.cell(row=i+1, column=12).font=fontRedDiff
-
-# 			  for i in range(20, 26):
-# 				  G20.cell(row=i+1, column=12).value='=if(F{0}>=0,K{0}-F{0},K{0}+F{0})'.format(i+1)
-# 				  G20.cell(row=i+1, column=12).font=fontRedDiff
-
-# 			  G20.cell(row=19, column=10).font=fontRed
-# 			  G20.cell(row=19, column=12).font=fontRed
-
-# 			  G20.cell(row=27, column=10).font=fontRed
-# 			  G20.cell(row=27, column=12).font=fontRed
-
-# 			  for i in range(27, 30):
-# 				  G20.cell(row=i, column=9).font=font2
-
-# 			  for i in range(27, 31):
-# 				  G20.cell(row=i, column=11).font=font2
-
-# 			  for i in range(13, 20):
-# 				  for j in range(9, 13):
-# 					  G20.cell(row=i, column=j).number_format='#,##0_);(#,##0)'
-
-# 			  for i in range(21, 32):
-# 				  for j in range(9, 13):
-# 					  G20.cell(row=i, column=j).number_format='#,##0_);(#,##0)'
-
-# 			  for i in range(13, 20):
-# 				  G20.cell(row=i, column=9).font=font1
-
-# 			  for i in range(13, 20):
-# 				  G20.cell(row=i, column=11).font=font1
-
-# 			  for i in range(21, 27):
-# 				  G20.cell(row=i, column=9).font=font1
-
-# 			  for i in range(21, 27):
-# 				  G20.cell(row=i, column=11).font=font1
-
-# 			  G20.cell(row=29, column=9).value='=I19+I27'
-# 			  G20.cell(row=29, column=11).value='=K19+K27'
-
-# 			  G20.cell(row=29, column=10).value='=E29-I29'
-# 			  G20.cell(row=29, column=12).value='=F29-K29'
-
-# 			  G20.cell(row=30, column=9).value='=Q14'
-# 			  G20.cell(row=30, column=11).value='=SUMIF(F10_TB!B:B,"280",F10_TB!H:H)+SUMIF(F10_TB!B:B,"281",F10_TB!H:H)'
-
-# 			  G20.cell(row=31, column=9).value='=IF(I29<0,I29+I30,I29-I30)'
-# 			  G20.cell(row=31, column=9).font=fontRed
-# 			  G20.cell(row=31, column=11).value='=IF(K29<0,K29-K30,K29+K30)'
-# 			  G20.cell(row=31, column=11).font=fontRed
-
-# 			  G20.cell(row=29, column=10).font=fontRed
-# 			  G20.cell(row=29, column=12).font=fontRed
-
-# 			  G20.cell(row=30, column=9).border=solidborder
-# 			  G20.cell(row=30, column=11).border=solidborder
-
-# 			  for i in range(4, 8):
-# 				  G20.cell(row=30, column=i).border=solidborder
-# 				  G20.cell(row=33, column=i).border=solidborder
-# 			  for i in range(9, 14):
-# 				  G20 .cell(row=33, column=i).border=solidborder
-# 			  G20.cell(row=29 ,column=15).value='=IF(ISERROR(L29),"One of the FAR PIF Dates exceed the period end date, therefore the fixed assets should not be presented in FAR","")'
-
-# 			  G20.cell(row=12, column=16).value="Reconciliation #28x vs #68x as per TB"
-# 			  G20.cell(row=13, column=16).value="Depreciation CM #28x"
-# 			  G20.cell(row=14, column=16).value="Depreciation charge 681"
-# 			  G20.cell(row=15, column=16).value="Diff"
-
-# 			  G20.cell(row=12, column=16).font=font2
-
-# 			  for i in range (12,16):
-# 				  G20.cell(row=i, column=16).font=font2
-
-# 			  for i in range(12,16):
-# 				  G20.cell(row=i, column=16).alignment=Alignment(horizontal='center', vertical='center')
-
-# 			  for i in range(18,21):
-# 				  G20.cell(row=i, column=16).alignment=Alignment(horizontal='center', vertical='center')
-
-# 			  for i in range(16,18):
-# 				  G20.cell(row=12, column=i).font=headers
-# 				  G20.cell(row=13, column=i).border=solidbordersus
-# 				  G20.cell(row=12, column=i).fill=headersblue
-
-# 			  G20.cell(row=13, column=17).value='=SUMIF(F10_TB!B:B,"280",F10_TB!G:G)+SUMIF(F10_TB!B:B,"281",F10_TB!G:G)'
-# 			  G20.cell(row=14, column=17).value='=SUMIF(F10_TB!J:J,"6811",F10_TB!H:H)+SUMIF(F10_TB!J:J,"6817",F10_TB!H:H)'
-# 			  G20.cell(row=15, column=17).value='=IF(AND(Q13<0,Q14<0),Q13-Q14,IF(OR(Q13<0,Q14<0),Q13+Q14,Q13-Q14))'
-# 			  G20.cell(row=15, column=16).font=fontRed
-# 			  G20.cell(row=15, column=17).font=fontRed
-
-# 			  G20.cell(row=13, column=17).font=font1
-# 			  G20.cell(row=14, column=17).font=font1
-
-# 			  for i in range(16, 18):
-# 				  G20.cell(row=14, column=i).border=doubleborder
-
-
-# 			  for i in range (13,17):
-# 				  G20.cell(row=i, column=17).number_format='#,##0_);(#,##0)'
-
-
-# 			  G20.cell(row=36, column=13).value=datetime.date(int(anp), int(lunap), int(ziip))
-# 			  G20.cell(row=37, column=13).value=datetime.date(an, luna, zi)
-# 			  G20.cell(row=36, column=13).number_format="mm/dd/yyyy"
-# 			  G20.cell(row=37, column=13).number_format="mm/dd/yyyy"
-# 			  G20.cell(row=36, column=13).font=fontalb
-# 			  G20.cell(row=37, column=13).font=fontalb
-
-# 			  G20.cell(row=38, column=1).value="As per Client (FAR and Disposal list)"
-# 			  G20.cell(row=38, column=1).font=font2
-
-# 			  G20.cell(row=38, column=13).value="As per GT Recomputation"
-# 			  G20.cell(row=38, column=13).font=font2
-# 			  print(len(AccountDisp))			  
-
-# 			  lenTotal=len(AccountFAR)+len(AccountDisp)
-# 			  for i in range (1,lenTotal+1):
-# 				  G20.cell(row=i+40, column=1).value='=Left(TRIM(B{0}),3)'.format(i+40)
-
-# 			  print(lenTotal)
-# 			  print(len(AccountDisp))
-# 			  # print(len(AccountFar))
-# 			  h = lenTotal - len(AccountDisp)
-# 			  print(h)
-
-# 			  for i in range(1, len(AccountDisp)+1):
-# 				  G20.cell(row=i+h+40, column=1).value='=Left(TRIM(B{0}),3)&"D"'.format(i+h+40)
-
-# 			  for i in range (1, len(AccountFAR)+1):
-# 				  G20.cell(row=i+40, column=2).value=AccountFAR[i-1]
-# 			  ###
-# 			  for i in range(1,len(AccountDisp)+1):
-# 				  G20.cell(row=i+40+len(AccountFAR),column=2).value=AccountDisp[i-1]
-# 			  ##
-# 			  for i in range (1, len(ItemFAR)+1):
-# 				  G20.cell(row=i+40, column=3).value=ItemFAR[i-1]
-
-# 			  for i in range(1, len(DescriptionFAR)+1):
-# 				  G20.cell(row=i+40, column=4).value=DescriptionFAR[i-1]
-
-# 			  for i in range(1,len(DescriptionDisp)+1):
-# 				  G20.cell(row=i+40+len(AccountFAR),column=4).value=DescriptionDisp[i-1]
-
-# 			  for i in range (1,lenTotal+1):
-# 				  G20.cell(row=i+40, column=5).value='=Year(F{0})'.format(i+40)
-
-# 			  for i in range(1,len(PIFDate)+1):
-# 				  G20.cell(row=i+40, column=6).value=PIFDate[i-1]
-
-# 			  for i in range(1,len(PIFDisp)+1):
-# 				  G20.cell(row=i+40+len(AccountFAR),column=6).value=PIFDisp[i-1]
-
-# 			  for i in range(1,lenTotal+1):
-# 				  G20.cell(row=i+40, column=6).number_format='mm/dd/yyyy'
-
-# 			  for i in range(1,len(PIFDate)+len(DispDate)+2):
-# 				  G20.cell(row=i+40, column=7).number_format='mm/dd/yyyy'
-
-# 			  for i in range (1,len (UL)+1):
-# 				  G20.cell(row=i+40, column=8).value=UL[i-1]
-
-# 			  for i in range(1,len(ULDisp)+1):
-# 				  G20.cell(row=i+40+len(AccountFAR),column=8).value=ULDisp[i-1]
-
-# 			  for i in range (1, len(GBVFAR)+1):
-# 				  G20.cell(row=i+40, column=9).value=GBVFAR[i-1]
-
-# 			  for i in range(1,len(GBVDisp)+1):
-# 				  G20.cell(row=i+40+len(AccountFAR),column=9).value=GBVDisp[i-1]
-
-# 			  for i in range (1,len(ChargeFAR)+1):
-# 				  G20.cell(row=i+40, column=10).value=ChargeFAR[i-1]
-
-# 			  for i in range(1,len(DeprChDisp)+1):
-# 				  G20.cell(row=i+40+len(AccountFAR),column=10).value=DeprChDisp[i-1]
-
-# 			  for i in range (1, len(AccDeprFAR)+1):
-# 				  G20.cell(row=i+40, column=11).value=AccDeprFAR[i-1]
-
-# 			  for i in range(1,len(AccumulatedDepreciationDisp)+1):
-# 				  G20.cell(row=i+40+len(AccountFAR),column=11).value=AccumulatedDepreciationDisp[i-1]
-
-# 			  for i in range(1, len(AccDeprFAR)+len(AccumulatedDepreciationDisp)+2):
-# 				  for j in range(8, 12):
-# 					  G20.cell(row=i+40, column=j).number_format='#,##0_);(#,##0)'
-
-
-# 			  for i in range (1,lenTotal+1):
-# 				  G20.cell(row=i+40, column=13).value='=I{0}'.format(i+40)
-
-# 			  for i in range (1,lenTotal+1):
-# 				  G20.cell(row=i+40, column=14).value='=H{0}'.format(i+40)
-
-
-# 			  # for i in range (1,len(PIFDate)+1):
-# 			  #   G20.cell(row=i+33, column=6).number_format='mm/dd/yyyy'
-
-# 			  # for i in range (1,len(DispDate)+1):
-# 			  #   G20.cell(row=i+33, column=7).number_format='mm/dd/yyyy'
-
-# 			  for i in range (1,lenTotal+1):
-# 				  G20.cell(row=i+40, column=15).value='=DATE(YEAR(F{0}),MONTH(F{0})+1,1)'.format(i+40)
-
-# 			  for i in range (1,lenTotal+1):
-# 				  G20.cell(row=i+40, column=15).number_format='mm/dd/yyyy'
-
-# 			  #=IF(DAY(E{0})=1,E{0},DATE(YEAR(N{0}),MONTH(N{0})+1,1))
-
-# 			  for i in range (1,lenTotal+1):
-# 				  G20.cell(row=i+40, column=16).value='=IF(MID(A{0},4,1)="D",MIN(G{0},DATE(YEAR(O{0}),MONTH(O{0})+N{0},DAY(O{0}))),(DATE(YEAR(O{0}),MONTH(O{0})+N{0},1)))'.format(i+40)
-
-# 			  for i in range (1,lenTotal+1):
-# 				  G20.cell(row=i+40, column=16).number_format='mm/dd/yyyy'
-
-
-# 			  # for i in range (1,len(PIFDate)+1):
-# 			  #   G20.cell(row=i+33, column=17).number_format='mm/dd/yyyy'
-
-# 			  # for i in range (1,len(PIFDate)+1):
-# 			  #   G20.cell(row=i+33, column=16).number_format='mm/dd/yyyy'
-
-# 			  for i in range (1,lenTotal+1):
-# 				  G20.cell(row=i+40, column=17).value='=DATEDIF(IF(MAX(O{0},$M$37)>$M$36+1,$M$36+1,MAX(O{0},$M$37)),MAX($M$37,MIN($M$36+1,P{0})),"m")'.format(i+40)
-
-# 			  for i in range (1,lenTotal+1):
-# 				  G20.cell(row=i+40, column=18).value='=IF(N{0}>0,M{0}/N{0},0)'.format(i+40)
-
-# 			  # for i in range (1,len(PIFDate)+1):
-# 			  #   G20.cell(row=i+33, column=18).number_format='#,##0_);(#,##0)'
-
-# 			  for i in range (1,lenTotal+1):
-# 				  G20.cell(row=i+40, column=19).value='=Q{0}*R{0}'.format(i+40)
-
-
-
-# 			  for i in range (1,lenTotal+1):
-# 				  G20.cell(row=i+40, column=20).value='=if($e$29=0,"N/A – no depr expense in FAR PBC",IF(J{0}<0,J{0}+S{0},J{0}-S{0}))'.format(i+40)
-
-
-
-# 			  for i in range (1,lenTotal+1):
-# 				  G20.cell(row=i+40, column=20).font=fontRedDiff
-
-# 			  for i in range (1,lenTotal+1):
-# 				  G20.cell(row=i+40, column=22).value='=iferror(DATEDIF(O{0},MIN(P{0},MAX($M$37,MIN($M$36+1,P{0}))),"m")*R{0},0)'.format(i+40)
-
-# 			  for i in range (1,lenTotal+1):
-# 				  G20.cell(row=i+40, column=23).value='=IF(K{0}<0,K{0}+V{0},K{0}-V{0})'.format(i+40)
-# 			  for i in range(41,lenTotal+42):
-# 				  G20.cell(row=i,column=13).number_format='#,##0_);(#,##0)'
-
-# 			  for i in range (1,lenTotal+1):
-# 				  G20.cell(row=i+40, column=23).font=fontRedDiff
-
-# 			  for i in range(1,len(PIFDate)+len(AccumulatedDepreciationDisp)+2):
-# 				  for j in range(17, 24):
-# 				    G20.cell(row=i+40, column=j).number_format='#,##0_);(#,##0)'
-
-# 			  for i in range(1, len(ItemDisp)+1):
-# 				  G20.cell(row=i+len(ItemFAR)+40, column=3).value=ItemDisp[i-1]
-
-# 			  for i in range(1, len(DispDate)+1):
-# 				  G20.cell(row=i+len(ItemFAR)+40, column=7).value=DispDate[i-1]
-
-# 			  # for i in range(1, len(AccumulatedDepreciationDisp)+1):
-# 			  #   G20.cell(row=i+len(ItemFAR)+32, column=19).value=AccumulatedDepreciationDisp[i-1]
-
-# 			  for i in range(4,7):
-# 				  for j in range(15, 30):
-# 				    G20.cell(row=j, column=i).number_format='#,##0_);(#,##0)'
-
-# 			  # c=G20['A33']
-# 			  # G20.freeze_panes = c
-
-# 			  for i in range(2,7):
-# 				  for j in range(13,19):
-# 				    G20.cell(row=j,column=i).font=font1
-
-# 			  for i in range(2,7):
-# 				  for j in range(21,27):
-# 				    G20.cell(row=j,column=i).font=font1
-
-
-# 			  for i in range(1,20):
-# 				  for j in range(41,G20.max_row):
-# 				    G20.cell(row=j,column=i).font=font1
-
-# 			  for j in range(41,G20.max_row):
-# 				  G20.cell(row=j,column=22).font=font1
-
-# 			  for i in range(41,G20.max_row):
-# 				  G20.cell(row=i,column=24).value='=IF(V{0}<=I{0},"OK","Not OK")'.format(i)
-# 				  G20.cell(row=i,column=24).font=font1
-
-
-
-# 			  G20.cell(row=17, column=16).value="Reconciliation of Disposals with FA CM"
-# 			  G20.cell(row=18, column=16).value="Disposals as per detail"
-# 			  G20.cell(row=19, column=16).value="As per TB"
-# 			  for i in range(18, 20):
-# 				  G20.cell(row=i, column=16).font=font2
-# 			  G20.cell(row=20, column=16).value="Diff"
-# 			  G20.cell(row=20, column=16).alignment=Alignment(horizontal='center')
-# 			  for i in range(16, 18):
-# 				  G20.cell(row=20, column=i).font=fontRed
-
-# 			  for i in range(16, 18):
-# 				  G20.cell(row=17, column=i).font=headers
-# 				  G20.cell(row=18, column=i).border=solidbordersus
-# 				  G20.cell(row=17, column=i).fill=headersblue
-# 				  G20.cell(row=19, column=i).border=doubleborder
-
-# 			  G20.cell(row=18, column=17).value='=SUMIF(PBC_Disposals!K:K,"FA",PBC_Disposals!H:H)'
-# 			  G20.cell(row=19, column=17).value='=SUMIF(F10_TB!B:B,"201",F10_TB!G:G)+SUMIF(F10_TB!B:B,"203",F10_TB!G:G)+SUMIF(F10_TB!B:B,"205",F10_TB!G:G)+SUMIF(F10_TB!B:B,"208",F10_TB!G:G)+SUMIF(F10_TB!B:B,"206",F10_TB!G:G)+SUMIF(F10_TB!B:B,"207",F10_TB!G:G)+SUMIF(F10_TB!B:B,"212",F10_TB!G:G)+SUMIF(F10_TB!B:B,"213",F10_TB!G:G)+SUMIF(F10_TB!B:B,"214",F10_TB!G:G)+SUMIF(F10_TB!B:B,"215",F10_TB!G:G)+SUMIF(F10_TB!B:B,"216",F10_TB!G:G)+SUMIF(F10_TB!B:B,"217",F10_TB!G:G)'
-# 			  G20.cell(row=20, column=17).value='=IF(AND(Q18<0,Q19<0),Q18-Q19,IF(OR(Q18<0,Q19<0),Q18+Q19,Q18-Q19))'
-
-# 			  for i in range(18, 21):
-# 				  G20.cell(row=i, column=17).number_format='#,##0_);(#,##0)'
-# 				  G20.cell(row=i, column=17).font=font1
-
-# 			  # for i in range(4, 7):
-# 			  #   for j in range(13, 16):
-# 			  #     G20.cell(row=j, column=i).number_format='#,##0_);(#,##0)'
-
-# 			  G20.cell(row=20, column=17).font=fontRed
-
-# 			  for i in range(13, 15):
-# 				  G20.cell(row=i, column=14).font=font2
-
-# 			  for i in range(13, 35):
-# 				  G20.cell(row=i, column=7).number_format='#,##0_);(#,##0)'
-
-# 			  G20.cell(row=30, column=9).font=font2
-# 			  G20.cell(row=19, column=9).font=font2
-# 			  G20.cell(row=19, column=11).font=font2
-
-# 			  for i in range(2,8):
-# 				  G20.cell(row=12, column=i).alignment=Alignment(horizontal='center', vertical='center', wrap_text=True)
-
-# 			  for i in range(9,15):
-# 				  G20.cell(row=12, column=i).alignment=Alignment(horizontal='center', vertical='center', wrap_text=True)
-
-# 			  for i in range(1, 25):
-# 				  G20.cell(row=40, column=i).alignment=Alignment(horizontal='center', vertical='center', wrap_text=True)
-
-
-# 			  G20.row_dimensions[39].height = 4
-# 			  G20.row_dimensions[28].height = 4
-
-# 			  G20.merge_cells('P12:Q12')
-# 			  G20.merge_cells('P17:Q17')
-# 			  G20.merge_cells('D11:G11')
-# 			  G20.merge_cells('I11:N11')
-
-# 			  G20.cell(row=11, column=4).alignment=Alignment(horizontal='center', vertical='center')
-# 			  G20.cell(row=11, column=9).alignment=Alignment(horizontal='center', vertical='center')
-# 			  G20.cell(row=12, column=16).alignment=Alignment(horizontal='center', vertical='center')
-# 			  G20.cell(row=17, column=16).alignment=Alignment(horizontal='center', vertical='center')
-
-# 			  for i in range(4, 8):
-# 				  G20.cell(row=11, column=i).border=solidborder
-
-# 			  for i in range(4, 8):
-# 				  G20.cell(row=10, column=i).border=solidborder
-
-# 			  for i in range(9, 15):
-# 				  G20.cell(row=11, column=i).border=solidborder
-
-# 			  for i in range(11, 15):
-# 				  G20.cell(row=10, column=i).border=solidborder
-
-# 			  G20.cell(row=11, column=3).border=solidborderdreapta
-# 			  G20.cell(row=11, column=7).border=solidborderdreapta
-# 			  G20.cell(row=10, column=9).border=solidborder
-# 			  G20.cell(row=10, column=10).border=solidborder
-# 			  G20.cell(row=11, column=7).border=solidborder
-# 			  G20.cell(row=11, column=7).border=solidborderdreapta
-
-# 			  G20.cell(row=11, column=8).border=solidborderdreapta
-# 			  G20.cell(row=12, column=7).border=solidbordersus
-# 			  G20.cell(row=11, column=15).border=solidborderstanga
-# 			  G20.cell(row=13, column=14).font=fontRedDiff
-# 			  G20.cell(row=14, column=14).font=fontRedDiff
-# 			  G20.cell(row=19, column=14).font=fontRed
-
-# 			  for i in range(13, 19):
-# 				  G20.cell(row=i ,column=7).font=font1
-
-# 			  for i in range(21, 27):
-# 				  G20.cell(row=i ,column=7).font=font1
-
-# 			  for i in range(9, 14):
-# 				  G20.cell(row=30, column=i).border=solidborder
-
-# 			  for i in range(2, 14):
-# 				  G20.cell(row=20, column=i).font=font1
-# 			  for i in range(4, 14):
-# 				  G20.cell(row=20, column=i).number_format='#,##0_);(#,##0)'
-
-# 			  G20.cell(row=20, column=10).font=fontRedDiff
-# 			  G20.cell(row=20, column=12).font=fontRedDiff
-# 			  G20.cell(row=20, column=14).font=fontRedDiff
-
-# 			  for i in range(4, 7):
-# 				  for j in range(13, 15):
-# 				    G20.cell(row=j, column=i).number_format='#,##0_);(#,##0)'
-
-# 			  G20.cell(row=20, column=2).alignment = Alignment (horizontal='right')
-# 			  G20.sheet_view.showGridLines = False
-
-# 		if(val3==1):
-# 			G30=FAR.create_sheet("G30 FA TOM")
-
-# 			# G30.title="G30 FA TOM"
-
-
-# 			PBC_Addition =FAR.create_sheet("PBC_Add")
-
-# 			PBC_CIP =FAR.create_sheet("PBC_CIP")
-
-
-
-	# 		"Create PBC FAR ---------------------------------------------------------------------"
-
-
-
-
-	# 		"Create Add Detail ---------------------------------------------------------------------"
-
-
-	# 		PBC_Addition.cell(row=1, column=1).value="Item"
-	# 		PBC_Addition.cell(row=1, column=2).value="Account"
-	# 		PBC_Addition.cell(row=1, column=3).value="GBV"
-	# 		PBC_Addition.cell(row=1, column=4).value="Depreciation Charge"
-	# 		PBC_Addition.cell(row=1, column=5).value="Accumulated Depreciation"
-	# 		PBC_Addition.cell(row=1, column=6).value="PIF Date"
-	# 		PBC_Addition.cell(row=1, column=7).value="Synt Account"
-	# 		PBC_Addition.cell(row=1, column=8).value="Type"
-	# 		PBC_Addition.cell(row=1, column=9).value="Depr Account"
-	# 		PBC_Addition.cell(row=1,column=10).value="Synt 4"
-	# 		try:
-	# 			for i in range (1,11):
-	# 			  PBC_Addition.cell(row=1, column= i).border=doubleborder
-	# 			  PBC_Addition.cell(row=1, column= i).font=font2
-	# 			  PBC_Addition.cell(row=1, column= i).fill=blueFill
-
-	# 			for i in range (1,len(ItemAdd)+1):
-	# 			  PBC_Addition.cell(row=i+1, column=1).value=ItemAdd[i-1]
-
-	# 			for i in range (1,len(AccountAdd)+1):
-	# 			  PBC_Addition.cell(row=i+1, column=2).value=AccountAdd[i-1]
-
-	# 			for i in range (1,len(GBVAdd)+1):
-	# 			  PBC_Addition.cell(row=i+1, column=3).value=GBVAdd[i-1]
-
-	# 			for i in range (1,len(AccumulatedDepreciation)+1):
-	# 			  PBC_Addition.cell(row=i+1, column=5).value=AccumulatedDepreciation[i-1]
-
-
-	# 			for i in range (1,len(Charge)+1):
-	# 			  PBC_Addition.cell(row=i+1, column=4).value=Charge[i-1]
-
-	# 			for i in range (1,len(PIFDateadd)+1):
-	# 			  PBC_Addition.cell(row=i+1, column=6).value=PIFDateadd[i-1]
-
-	# 			for i in range (1,len(PIFDateadd)+1):
-	# 			  for j in range (3,6):
-	# 				  PBC_Addition.cell(row=i+1, column=j).number_format='#,##0_);(#,##0)'
-
-	# 			for i in range (1,len(PIFDateadd)+1):
-	# 			  PBC_Addition.cell(row=i+1, column=6).number_format='mm/dd/yyyy'
-
-	# 			for i in range (1,len(PIFDateadd)+1):
-	# 			  PBC_Addition.cell(row=i+1, column=7).value='=left(B{0},3)'.format(i+1)
-
-	# 			for i in range (1,len(AccountAdd)+1):
-	# 			  PBC_Addition.cell(row=i+1, column=8).value=TypeAdd[i-1]
-
-	# 			for i in range (1,len(AccountAdd)+1):
-	# 			  PBC_Addition.cell(row=i+1, column=9).value='=IF(G{0}<"210","280","281")'.format(i+1)
-
-	# 			for i in range (1,len(AccountAdd)+1):
-	# 			  PBC_Addition.cell(row=i+1, column=10).value='=left(B{0},4)'.format(i+1)
-	# 		except:
-	# 			l=1
-
-	# 		"Adjust Column Width---------------------------------------------------------------------------------------------------------------------------------."
-
-	# 		for col in PBC_Addition.columns:
-	# 			max_length = 10
-	# 			for cell in col:
-	# 				if cell.coordinate in PBC_Addition.merged_cells:
-	# 					continue
-	# 				try:
-	# 					if len(str(cell.value)) > max_length:
-	# 						max_length = len(cell.value)
-	# 				except:
-	# 					pass
-
-	# 			adjusted_width = (max_length + 5)
-
-
-	# 		listanoua=['A','B','C','D','E','F','G']
-
-	# 		for column in listanoua:
-	# 		  for i in listanoua:
-	# 			  if (column==i):
-	# 			    PBC_Addition.column_dimensions[column].width = adjusted_width
-
-
-
-
-
-
-
-	# 		"Create CIP Detail ---------------------------------------------------------------------"
-
-	# 		PBC_CIP.cell(row=1, column=1).value="Item"
-	# 		PBC_CIP.cell(row=1, column=2).value="Account"
-	# 		PBC_CIP.cell(row=1, column=3).value="Addition"
-	# 		PBC_CIP.cell(row=1, column=4).value="Disposals"
-	# 		PBC_CIP.cell(row=1, column=5).value="Type"
-	# 		PBC_CIP.cell(row=1, column=6).value="Synt"
-
-
-	# 		for i in range (1,7):
-	# 		  PBC_CIP.cell(row=1, column= i).border=doubleborder
-	# 		  PBC_CIP.cell(row=1, column= i).font=font2
-	# 		  PBC_CIP.cell(row=1, column= i).fill=blueFill
-
-	# 		# try:
-	# 		#   for i in range (1,len(ItemCIP)+1):
-	# 		#     PBC_CIP.cell(row=i+1, column=1).value=ItemCIP[i-1]
-	# 		#
-	# 		#   for i in range (1,len(AccountCIP)+1):
-	# 		#     PBC_CIP.cell(row=i+1, column=2).value=AccountCIP[i-1]
-	# 		#
-	# 		#   for i in range (1,len(AdditionCIP)+1):
-	# 		#     PBC_CIP.cell(row=i+1, column=3).value=AdditionCIP[i-1]
-	# 		#
-	# 		#   for i in range (1,len(DisposalCIP)+1):
-	# 		#     PBC_CIP.cell(row=i+1, column=4).value=DisposalCIP[i-1]
-	# 		#
-	# 		#   for i in range (1,len(TypeCIP)+1):
-	# 		#     PBC_CIP.cell(row=i+1, column=5).value=TypeCIP[i-1]
-	# 		#
-	# 		#   for i in range (1,len(AccountCIP)+1):
-	# 		#     PBC_CIP.cell(row=i+1, column=6).value='=left(B{0},3)'.format(i+1);
-	# 		#
-	# 		#   for i in range (1,len(AccountCIP)+1):
-	# 		#     for j in range (3,5):
-	# 		#       PBC_CIP.cell(row=i+1,column=j).number_format='#,##0_);(#,##0)'
-	# 		#
-	# 		# except:
-	# 		#   a=1
-	# 		"Adjust Column Width---------------------------------------------------------------------------------------------------------------------------------."
-
-	# 		for col in PBC_CIP.columns:
-	# 			max_length = 10
-	# 			for cell in col:
-	# 				if cell.coordinate in PBC_CIP.merged_cells:
-	# 					continue
-	# 				try:
-	# 					if len(str(cell.value)) > max_length:
-	# 						max_length = len(cell.value)
-	# 				except:
-	# 					pass
-
-	# 			adjusted_width = (max_length + 5)
-
-
-	# 		listanoua=['A','B','C','D','E','F','G']
-
-	# 		for column in listanoua:
-	# 		  for i in listanoua:
-	# 			  if (column==i):
-	# 			    PBC_CIP.column_dimensions[column].width = adjusted_width
-
-	# 		"Create Advances Detail ---------------------------------------------------------------------"
-
-	# 		"Adjust Column Width---------------------------------------------------------------------------------------------------------------------------------."
-
-
-	# 		"Adjust Column Width---------------------------------------------------------------------------------------------------------------------------------."
-
-	# 		# for col in F10_TB.columns:
-	# 		#     max_length = 0
-	# 		#     for cell in col:
-	# 		#         if cell.coordinate in F10_TB.merged_cells:
-	# 		#             continue
-	# 		#         try:
-	# 		#             if len(str(cell.value)) > max_length:
-	# 		#                 max_length = len(cell.value)
-	# 		#         except:
-	# 		#             pass
-	# 		#     adjusted_width = (max_length - 20)
-
-
-
-
-	# 		G30.cell(row=1, column=1).value="Client:"
-	# 		G30.cell(row=1, column=1).font=font2
-	# 		G30.cell(row=1, column=2).value=namec
-	# 		G30.cell(row=1, column=2).font=font2
-	# 		G30.cell(row=2, column=1).value="Period end:"
-	# 		G30.cell(row=2, column=1).font=font2
-	# 		G30.cell(row=2, column=2).value=ant
-	# 		G30.cell(row=2, column=2).number_format='mm/dd/yyyy'
-	# 		G30.cell(row=2, column=2).font=font2
-	# 		G30.cell(row=1, column=11).value="Prepared by:"
-	# 		G30.cell(row=1, column=11).font=font2
-
-	# 		G30.cell(row=2, column=11).value="Date:"
-	# 		G30.cell(row=2, column=11).font=font2
-	# 		G30.cell(row=2, column=12).value=datetime.datetime.now().date()
-	# 		G30.cell(row=2, column=12).number_format="mm/dd/yyyy"
-	# 		G30.cell(row=2, column=12).font=font1
-	# 		G30.cell(row=2, column=12).alignment = Alignment (horizontal='left')
-
-	# 		G30.cell(row=3, column=11).value="Ref:"
-	# 		G30.cell(row=3, column=11).font=font2
-	# 		G30.cell(row=3, column=12).value="G30"
-	# 		G30.cell(row=3, column=12).font=fontRed
-
-	# 		for i in range(1,4):
-	# 			G30.cell(row=i, column=11).alignment = Alignment(horizontal='right')
-
-	# 		G30.cell(row=4, column=3).value="Tangible and Intangible Assets Table of Movement"
-	# 		G30.cell(row=4, column=3).font=font2
-
-	# 		G30.cell(row=6, column=1).value="Procedure:"
-	# 		G30.cell(row=6, column=1).alignment=Alignment(horizontal='right')
-	# 		G30.cell(row=6, column=2).value="Based on the Tangible and Intangible Movement Details from the period received from client (Additions, Disposals, Assets in progress, including identification of Transfers and Advances) and the Fixed Asset Register (FAR), perform the following:"
-	# 		G30.cell(row=7, column=2).value="- prepare table of movement of tangible and intangible assets for GBV, Accumulated depreciation and Impairment(based on TB) and reconcile the closing amount with the TB"
-	# 		G30.cell(row=8, column=2).value="- compute the closing NBV of tangible and intangible assets and reconcile it with TB"
-	# 		G30.cell(row=9, column=2).value="- prepare a summary of opening and closing NBV"
-	# 		G30.cell(row=6, column=1).font=font2
-
-	# 		G30.cell(row=6, column=2).font=font1
-	# 		G30.cell(row=7, column=2).font=font1
-	# 		G30.cell(row=8, column=2).font=font1
-	# 		G30.cell(row=9, column=2).font=font1
-
-	# 		G30.cell(row=11, column=1).value="Work done"
-	# 		G30.cell(row=11, column=1).alignment=Alignment(horizontal='right')
-	# 		G30.cell(row=11, column=1).font=font2
-	# 		G30.cell(row=11, column=2).value="Please see work below:"
-	# 		G30.cell(row=11, column=2).font=font1
-
-	# 		for i in range(14,21):
-	# 			G30.cell(row=i,column=3).border=rightborder
-	# 			G30.cell(row=i,column=6).border=rightborder
-	# 			G30.cell(row=i,column=9).border=rightborder
-	# 		for i in range(1,7):
-	# 		  G30.cell(row=79,column=i).border=doubleborder
-	# 		  G30.cell(row=91,column=i).border=doubleborder
-
-	# 		for i in range(25,32):
-	# 		  G30.cell(row=i,column=3).border=rightborder
-	# 		  G30.cell(row=i,column=6).border=rightborder
-	# 		  G30.cell(row=i,column=9).border=rightborder
-	# 		for i in range(37,41):
-	# 		  G30.cell(row=i,column=3).border=rightborder
-	# 		  G30.cell(row=i,column=6).border=rightborder
-	# 		  G30.cell(row=i,column=9).border=rightborder
-	# 		for i in range(49,55):
-	# 		  G30.cell(row=i,column=3).border=rightborder
-	# 		  G30.cell(row=i,column=6).border=rightborder
-	# 		  G30.cell(row=i,column=9).border=rightborder
-	# 		for i in range(58,66):
-	# 		  G30.cell(row=i,column=3).border=rightborder
-	# 		  G30.cell(row=i,column=6).border=rightborder
-	# 		  G30.cell(row=i,column=9).border=rightborder
-
-
-	# 		for i in range(1,13):
-	# 		  G30.cell(row=20,column=i).border=doubleborder
-	# 		  G30.cell(row=31,column=i).border=doubleborder
-	# 		  G30.cell(row=40,column=i).border=doubleborder
-	# 		  G30.cell(row=54,column=i).border=doubleborder
-	# 		  G30.cell(row=65,column=i).border=doubleborder
-
-
-	# 		G30.cell(row=13, column=1).value="Working 1: GBV"
-	# 		G30.cell(row=13, column=1).font=workingsblue
-
-	# 		G30.cell(row=14,column=1).value="'-Intangible assets-"
-	# 		G30.cell(row=14,column=1).font=greenbolditalic
-	# 		G30.cell(row=14, column=6).value="Additions(PBC_Add)"
-	# 		G30.cell(row=14, column=9).value="Disposals(PBC_Disposals)"
-
-	# 		# for i in range (4,7):
-	# 		#     G30.cell(row=14,column=i).alignment=Alignment (horizontal='centerContinuous')
-
-
-	# 		# for i in range (7,10):
-	# 		#     G30.cell(row=14,column=i).alignment=Alignment (horizontal='centerContinuous')
-
-	# 		"Adjust Column Width---------------------------------------------------------------"
-
-	# 		for col in G30.columns:
-	# 			max_length = 20
-	# 			for cell in col:
-	# 				if cell.coordinate in G30.merged_cells:
-	# 					continue
-	# 				try:
-	# 					if len(str(cell.value)) > max_length:
-	# 						max_length = len(cell.value)
-	# 				except:
-	# 					pass
-	# 			adjusted_width = (max_length - 2)
-
-	# 		listanoua=['A','B','C','D','E','F','G','H','J','I','K']
-	# 		for column in listanoua:
-	# 			for i in listanoua:
-	# 				if (column==i):
-	# 					G30.column_dimensions[column].width = adjusted_width
-
-
-	# 		'---------'
-
-
-	# 		G30.cell(row=15, column=1).value="Account"
-	# 		G30.cell(row=15, column=2).value="Description"
-	# 		G30.cell(row=15, column=3).value="OB 01.01."+str(yearentry)
-	# 		G30.cell(row=15, column=4).value="Pure"
-	# 		G30.cell(row=15, column=5).value="Transfer"
-	# 		G30.cell(row=15, column=6).value="Total Additions"
-	# 		# G30.cell(row=15, column=7).value="Sales"
-	# 		# G30.cell(row=15, column=8).value="Scrapped"
-	# 		G30.cell(row=15, column=9).value="Total Disposals"
-	# 		G30.cell(row=15, column=10).value="Recomputed CB as per GT"
-	# 		G30.cell(row=15, column=11).value="CB 31.12."+str(yearentry)+" as per TB"
-	# 		G30.cell(row=15, column=12).value="Diff"
-	# 		for i in range (1,13):
-	# 		  G30.cell(row=15,column=i).font=workingsblue2
-	# 		  G30.cell(row=15,column=i).fill=lbluefill
-	# 		  G30.cell(row=15,column=i).border=solidborder
-
-	# 		for i in range (4,10):
-	# 		  G30.cell(row=14, column=i).font=workingsblue2
-	# 		  G30.cell(row=14, column=i).border=solidborder
-	# 		  G30.cell(row=14, column=i).fill=lbluefill
-
-
-	# 		G30.cell(row=16, column=1).value="201"
-	# 		G30.cell(row=17, column=1).value="203"
-	# 		G30.cell(row=18, column=1).value="205 & 208"
-	# 		G30.cell(row=19, column=1).value="2071"
-	# 		G30.cell(row=20, column=1).value="206"
-
-	# 		G30.cell(row=21,column=1).value="Total GBV intangible assets in function"
-	# 		G30.cell(row=21,column=1).font=font2
-
-	# 		G30.cell(row=23,column=1).value='-Tangible assets-'
-	# 		G30.cell(row=23,column=1).font=greenbolditalic
-
-	# 		G30.cell(row=24, column=1).value="Account"
-	# 		G30.cell(row=24, column=2).value="Description"
-	# 		G30.cell(row=24, column=3).value="OB 01.01."+str(yearentry)
-	# 		G30.cell(row=24, column=4).value="Pure"
-	# 		G30.cell(row=24, column=5).value="Transfer"
-	# 		G30.cell(row=24, column=6).value="Total Additions"
-	# 		# G30.cell(row=15, column=7).value="Sales"
-	# 		# G30.cell(row=15, column=8).value="Scrapped"
-	# 		G30.cell(row=24, column=9).value="Total Disposals"
-	# 		G30.cell(row=24, column=10).value="Recomputed CB as per GT"
-	# 		G30.cell(row=24, column=11).value="CB 31.12."+str(yearentry)+" as per TB"
-	# 		G30.cell(row=24, column=12).value="Diff"
-
-	# 		for i in range (1,13):
-	# 		  G30.cell(row=24,column=i).font=workingsblue2
-	# 		  G30.cell(row=24,column=i).fill=lbluefill
-	# 		  G30.cell(row=24,column=i).border=solidborder
-
-
-	# 		G30.cell(row=25, column=1).value="211"
-	# 		G30.cell(row=26, column=1).value="212"
-	# 		G30.cell(row=1+26, column=1).value="213 & 223"
-	# 		G30.cell(row=1+27, column=1).value="214 & 224"
-	# 		G30.cell(row=1+28, column=1).value="215"
-	# 		G30.cell(row=1+29, column=1).value="216"
-	# 		G30.cell(row=1+30, column=1).value="217 & 227"
-	# 		G30.cell(row=1+31, column=1).value="Total GBV tangible assets in function"
-	# 		G30.cell(row=1+31, column=1).font=font2
-	# 		# G30.cell(row=1+33, column=1).value="Total Fixed Assets"
-	# 		# G30.cell(row=1+33, column=1).font=font2
-	# 		# for i in range(1,13):
-	# 		#   G30.cell(row=1+33,column=i).fill=grifill
-
-
-	# 		G30.cell(row=1+36, column=1).value="-CIP-"
-	# 		G30.cell(row=1+36, column=1).font=greenbolditalic
-
-	# 		G30.cell(row=1+36, column=6).value="Additions(PBC_CIP)"
-	# 		G30.cell(row=1+36, column=9).value="Disposals(PBC_CIP)"
-
-	# 		# for i in range (4,7):
-	# 		#     G30.cell(row=1+36,column=i).alignment=Alignment (horizontal='centerContinuous')
-
-
-	# 		# for i in range (7,10):
-	# 		#     G30.cell(row=1+36,column=i).alignment=Alignment (horizontal='centerContinuous')
-
-
-	# 		G30.cell(row=1+37, column=1).value="Account"
-	# 		G30.cell(row=1+37, column=2).value="Description"
-	# 		G30.cell(row=1+37, column=3).value="OB 01.01."+str(yearentry)
-	# 		G30.cell(row=1+37, column=4).value="Pure"
-	# 		G30.cell(row=1+37, column=6).value="Total Additions"
-	# 		G30.cell(row=1+37, column=7).value="Sales/Scrapped"
-	# 		G30.cell(row=1+37, column=8).value="Transfer"
-	# 		G30.cell(row=1+37, column=9).value="Total Disposals"
-	# 		G30.cell(row=1+37, column=10).value="Recomputed CB as per GT"
-	# 		G30.cell(row=1+37, column=11).value="CB 31.12."+str(yearentry)+" as per TB"
-	# 		G30.cell(row=1+37, column=12).value="Diff"
-	# 		for i in range (1,13):
-	# 		  G30.cell(row=1+37,column=i).font=workingsblue2
-	# 		  G30.cell(row=1+37,column=i).fill=lbluefill
-	# 		  G30.cell(row=1+37,column=i).border=solidborder
-
-	# 		for i in range (4,10):
-	# 		  G30.cell(row=1+36, column=i).font=workingsblue2
-	# 		  G30.cell(row=1+36, column=i).border=solidborder
-	# 		  G30.cell(row=1+36, column=i).fill=lbluefill
-
-
-	# 		G30.cell(row=1+38, column=1).value="231"
-	# 		G30.cell(row=1+39, column=1).value="235"
-	# 		G30.cell(row=1+40, column=1).value="Total GBV CIP"
-	# 		G30.cell(row=1+40, column=1).font=font2
-	# 		# for i in range(1,13):
-	# 		#   G30.cell(row=1+40, column=i).fill=grifill
-	# 		###
-
-	# 		# for i in range(1,13):
-	# 		#   G30.cell(row=47, column=i).fill=grifill
-
-	# 		G30.cell(row=44, column=1).value="TOTAL FA GBV"
-	# 		G30.cell(row=44, column=1).font=font2
-
-	# 		G30.cell(row=47, column=1).value="Working 2: Accumulated Depreciation and Impairment"
-	# 		G30.cell(row=47, column=1).font=workingsblue
-
-	# 		G30.cell(row=48,column=1).value="'-Depreciation of intangible assets-"
-	# 		G30.cell(row=48,column=1).font=greenbolditalic
-	# 		G30.cell(row=49, column=1).value="Account"
-	# 		G30.cell(row=49, column=2).value="Description"
-	# 		G30.cell(row=49, column=3).value="OB 01.01."+str(yearentry)
-	# 		G30.cell(row=49, column=6).value="Depreciation Charge"
-	# 		G30.cell(row=49, column=9).value="Accumulated depreciation of disposals"
-	# 		G30.cell(row=49, column=10).value="Recomputed CB as per GT"
-	# 		G30.cell(row=49, column=11).value="CB 31.12."+str(yearentry)+" as per TB"
-	# 		G30.cell(row=49, column=12).value="Diff"
-
-	# 		for i in range (1,13):
-	# 		  G30.cell(row=49,column=i).font=workingsblue2
-	# 		  G30.cell(row=49,column=i).fill=lbluefill
-	# 		  G30.cell(row=49,column=i).border= solidborder
-
-	# 		# G30.cell(row=52, column=4).value="Additions(FAR)"
-	# 		# G30.cell(row=52, column=7).value="Disposals(PBC_Disposals)"
-
-	# 		# for i in range (4,7):
-	# 		#     G30.cell(row=52,column=i).alignment=Alignment (horizontal='centerContinuous')
-
-	# 		# for i in range (7,10):
-	# 		#     G30.cell(row=52,column=i).alignment=Alignment (horizontal='centerContinuous')
-
-	# 		# for i in range (4,10):
-	# 		#   G30.cell(row=52, column=i).font=font2
-	# 		#   G30.cell(row=52, column=i).border=solidborder
-	# 		#   G30.cell(row=52, column=i).fill=lbluefill
-
-
-	# 		G30.cell(row=50, column=1).value="2801"
-	# 		G30.cell(row=51, column=1).value="2803"
-	# 		G30.cell(row=52, column=1).value="2805 & 2808"
-	# 		G30.cell(row=53, column=1).value="2807"
-	# 		G30.cell(row=54, column=1).value="2806"
-
-	# 		G30.cell(row=55, column=1).value="Total depreciation of intangible assets"
-	# 		G30.cell(row=55, column=1).font=font2
-
-	# 		G30.cell(row=57,column=1).value='-Depreciation of tangible assets'
-	# 		G30.cell(row=57,column=1).font=greenbolditalic
-
-	# 		G30.cell(row=58, column=1).value="Account"
-	# 		G30.cell(row=58, column=2).value="Description"
-	# 		G30.cell(row=58, column=3).value="OB 01.01."+str(yearentry)
-	# 		G30.cell(row=58, column=6).value="Depreciation Charge"
-	# 		G30.cell(row=58, column=9).value="Accumulated depreciation of disposals"
-	# 		G30.cell(row=58, column=10).value="Recomputed CB as per GT"
-	# 		G30.cell(row=58, column=11).value="CB 31.12."+str(yearentry)+" as per TB"
-	# 		G30.cell(row=58, column=12).value="Diff"
-
-	# 		for i in range (1,13):
-	# 		  G30.cell(row=58,column=i).font=workingsblue2
-	# 		  G30.cell(row=58,column=i).fill=lbluefill
-	# 		  G30.cell(row=58,column=i).border= solidborder
-
-
-	# 		G30.cell(row=59, column=1).value="2811"
-	# 		G30.cell(row=60, column=1).value="2812"
-	# 		G30.cell(row=61, column=1).value="2813"
-	# 		G30.cell(row=62, column=1).value="2814"
-	# 		G30.cell(row=63, column=1).value="2815"
-	# 		G30.cell(row=64, column=1).value="2816"
-	# 		G30.cell(row=65, column=1).value="2817"
-	# 		G30.cell(row=66, column=1).value="Total Depreciation of tangible assets"
-	# 		G30.cell(row=66, column=1).font=font2
-
-	# 		G30.cell(row=67, column=1).value="Total depreciation"
-	# 		G30.cell(row=67, column=1).font=font2
-
-	# 		# for i in range(1,13):
-	# 		#   G30.cell(row=95, column=i).fill=grifill
-
-	# 		# G30.cell(row=98, column=1).value="Working 5: Depreciation, impairment and goodwill check"
-	# 		# G30.cell(row=98, column=1).font=workingsblue
-
-	# 		# G30.cell(row=99, column=1).value="Check"
-	# 		# G30.cell(row=99, column=2).value="As per FAR"
-	# 		# G30.cell(row=99, column=3).value="As per TB"
-	# 		# G30.cell(row=99, column=6).value="Diff"
-
-	# 		# for i in range (1,7):
-	# 		#   G30.cell(row=99,column=i).font=font2
-	# 		#   G30.cell(row=99,column=i).fill=lbluefill
-	# 		#   G30.cell(row=99,column=i).border= solidborder
-	# 		#   # G30.cell(row=105,column=i).border= solidborder
-
-
-	# 		# G30.cell(row=100, column=1).value="Depreciation charge"
-	# 		# G30.cell(row=101, column=1).value="Impairment charge"
-	# 		# G30.cell(row=102, column=1).value="Goodwill charge"
-
-
-	# 		G30.cell(row=72, column=1).value="Working 3: NBV"
-	# 		G30.cell(row=72, column=1).font=workingsblue
-
-	# 		G30.cell(row=73, column=1).value="Account"
-	# 		G30.cell(row=73, column=2).value="Description"
-	# 		G30.cell(row=73, column=3).value="Recomputed NBV 01.01."+str(yearentry)+" as per GT"
-	# 		# G30.cell(row=105, column=4).value="Accumulated depreciation"
-	# 		# G30.cell(row=105, column=5).value="Accumulated impairment"
-	# 		G30.cell(row=73, column=6).value="Recomputed NBV 31.12."+str(yearentry)+" as per GT"
-
-	# 		for i in range (1,7):
-	# 		  G30.cell(row=73,column=i).font=workingsblue2
-	# 		  G30.cell(row=73,column=i).fill=lbluefill
-	# 		  G30.cell(row=73,column=i).border= solidborder
-
-	# 		G30.cell(row=74, column=1).value="201,2801"
-	# 		G30.cell(row=75, column=1).value="203,2803"
-	# 		G30.cell(row=76, column=1).value="205 & 208, 2805 & 2808"
-	# 		G30.cell(row=77, column=1).value="2071,2807"
-	# 		G30.cell(row=78, column=1).value="206, 2806"
-	# 		G30.cell(row=79, column=1).value="4094"
-	# 		G30.cell(row=80, column=1).value="Total NBV intangibles"
-
-	# 		G30.cell(row=83, column=1).value="211, 212, 2811, 2812"
-	# 		G30.cell(row=84, column=1).value="213 & 223, 2813"
-	# 		G30.cell(row=85, column=1).value="214 & 224, 2814"
-	# 		G30.cell(row=86, column=1).value="215, 2815"
-	# 		G30.cell(row=87, column=1).value="216, 2816"
-	# 		G30.cell(row=88, column=1).value="217, 2817"
-	# 		G30.cell(row=89, column=1).value="4093"
-	# 		G30.cell(row=90, column=1).value="231"
-	# 		G30.cell(row=91, column=1).value="235"
-	# 		G30.cell(row=92, column=1).value="Total NBV tangibles"
-
-	# 		G30.cell(row=94, column=1).value="Total Intangible and Tangible Assets NBV"
-	# 		G30.cell(row=94, column=1).font=font2
-
-	# 		G30.cell(row=96,column=1).value="Findings:"
-	# 		G30.cell(row=96,column=1).font=font2
-	# 		#mai punem niste borduri
-
-	# 		# G30.cell(row=15,column=3).border=rightmedium
-	# 		# G30.cell(row=15,column=6).border=rightmedium
-	# 		# G30.cell(row=15,column=9).border=rightmedium
-
-	# 		# G30.cell(row=14,column=6).border=rightmedium
-	# 		# G30.cell(row=14,column=9).border=rightmedium
-
-	# 		# G30.cell(row=20,column=3).border=rightdouble
-	# 		# G30.cell(row=20,column=6).border=rightdouble
-	# 		# G30.cell(row=20,column=9).border=rightdouble
-
-	# 		# G30.cell(row=31,column=3).border=rightdouble
-	# 		# G30.cell(row=31,column=6).border=rightdouble
-	# 		# G30.cell(row=31,column=9).border=rightdouble
-
-
-	# 		# G30.cell(row=24,column=3).border=rightdouble
-	# 		# G30.cell(row=24,column=6).border=rightdouble
-	# 		# G30.cell(row=24,column=9).border=rightdouble
-
-
-	# 		# G30.cell(row=38,column=3).border=rightmedium
-	# 		# G30.cell(row=38,column=6).border=rightmedium
-	# 		# G30.cell(row=38,column=9).border=rightmedium
-
-	# 		# G30.cell(row=40,column=3).border=rightdouble
-	# 		# G30.cell(row=40,column=6).border=rightdouble
-	# 		# G30.cell(row=40,column=9).border=rightdouble
-
-
-	# 		# # G30.cell(row=52,column=3).border=rightborder
-	# 		# # G30.cell(row=52,column=6).border=rightmedium
-	# 		# # G30.cell(row=52,column=9).border=rightmedium
-	# 		# G30.cell(row=49,column=3).border=rightmedium
-	# 		# G30.cell(row=49,column=6).border=rightmedium
-	# 		# G30.cell(row=49,column=9).border=rightmedium
-
-	# 		# G30.cell(row=58,column=3).border=rightdouble
-	# 		# G30.cell(row=58,column=6).border=rightdouble
-	# 		# G30.cell(row=58,column=9).border=rightdouble
-
-
-
-
-	# 		#descrieri
-	# 		G30.cell(row=16, column=2).value="Set-up costs"
-	# 		G30.cell(row=17, column=2).value="Development costs"
-	# 		G30.cell(row=18, column=2).value="Licenses, Trademarks and Other intangibles"
-	# 		G30.cell(row=19, column=2).value="Goodwill"
-	# 		G30.cell(row=20, column=2).value="Intangible assets for mineral resources"
-
-	# 		G30.cell(row=25, column=2).value="Land"
-	# 		G30.cell(row=26, column=2).value="Buildings"
-	# 		G30.cell(row=1+26, column=2).value="Equipments and Machines"
-	# 		G30.cell(row=1+27, column=2).value="Furniture, office equipments"
-	# 		G30.cell(row=1+28, column=2).value="Investment properties"
-	# 		G30.cell(row=1+29, column=2).value="Tangible assets for mineral resources"
-	# 		G30.cell(row=1+30, column=2).value="Biological assets"
-
-	# 		G30.cell(row=1+38, column=2).value="WIP Tangible Assets"
-	# 		G30.cell(row=1+39, column=2).value="WIP Investment properties"
-
-	# 		G30.cell(row=50, column=2).value="Depreciation for set-up costs"
-	# 		G30.cell(row=51, column=2).value="Depreciation for development costs"
-	# 		G30.cell(row=52, column=2).value="Depreciation for Licenses, Trademarks and Other intangibles "
-	# 		G30.cell(row=53, column=2).value="Depreciation for Goodwill"
-	# 		G30.cell(row=54, column=2).value="Depreciation for intangible assets for mineral resources "
-
-	# 		G30.cell(row=59, column=2).value="Depreciation for Land"
-	# 		G30.cell(row=60, column=2).value="Depreciation for Buildings"
-	# 		G30.cell(row=61, column=2).value="Depreciation for Equipments and Machines"
-	# 		G30.cell(row=62, column=2).value="Depreciation for Furniture, office equipments"
-	# 		G30.cell(row=63, column=2).value="Depreciation for investment properties"
-	# 		G30.cell(row=64, column=2).value="Depreciation for tangible assets for mineral resources"
-	# 		G30.cell(row=65, column=2).value="Depreciation for biological assets"
-
-
-
-	# 		G30.cell(row=74, column=2).value="Set-up costs"
-	# 		G30.cell(row=75, column=2).value="Development costs"
-	# 		G30.cell(row=76, column=2).value="Licenses, Trademarks and Other intangibles"
-	# 		G30.cell(row=77, column=2).value="Goodwill"
-	# 		G30.cell(row=78, column=2).value="Intangible assets for mineral resources"
-	# 		G30.cell(row=79, column=2).value="Advances for intangibles"
-
-	# 		G30.cell(row=83, column=2).value="Land and Buildings"
-	# 		G30.cell(row=84, column=2).value="Equipments and Machines"
-	# 		G30.cell(row=85, column=2).value="Furniture, office equipments"
-	# 		G30.cell(row=86, column=2).value="Investment properties"
-	# 		G30.cell(row=87, column=2).value="Tangible assets for mineral resources"
-	# 		G30.cell(row=88, column=2).value="Biological assets"
-	# 		G30.cell(row=89, column=2).value="Advances for tangibles"
-
-	# 		G30.cell(row=90, column=2).value="WIP Tangible Assets"
-	# 		G30.cell(row=91, column=2).value="WIP investment properties"
-
-	# 		#formule
-
-	# 		G30.cell(row=16, column=3).value='=SUMIF(F10_TB!B:B,"201",F10_TB!E:E)'
-	# 		G30.cell(row=17, column=3).value='=SUMIF(F10_TB!B:B,"203",F10_TB!E:E)'
-	# 		G30.cell(row=18, column=3).value='=SUMIF(F10_TB!B:B,"205",F10_TB!E:E)+SUMIF(F10_TB!B:B,"208",F10_TB!E:E)'
-	# 		G30.cell(row=19, column=3).value='=SUMIF(F10_TB!B:B,"207",F10_TB!E:E)'
-	# 		G30.cell(row=20, column=3).value='=SUMIF(F10_TB!B:B,"206",F10_TB!E:E)'
-	# 		G30.cell(row=21, column=3).value='=SUM(C16:C20)'
-
-	# 		G30.cell(row=16, column=4).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"201",PBC_Add!H:H,"Pure")'
-	# 		G30.cell(row=17, column=4).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"203",PBC_Add!H:H,"Pure")'
-	# 		G30.cell(row=18, column=4).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"205",PBC_Add!H:H,"Pure")+SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"208",PBC_Add!H:H,"Pure")'
-	# 		G30.cell(row=19, column=4).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"207",PBC_Add!H:H,"Pure")'
-	# 		G30.cell(row=20, column=4).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"206",PBC_Add!H:H,"Pure")'
-	# 		G30.cell(row=21, column=4).value='=SUM(D16:D20)'
-
-	# 		G30.cell(row=16, column=5).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"201",PBC_Add!H:H,"Transfer")'
-	# 		G30.cell(row=17, column=5).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"203",PBC_Add!H:H,"Transfer")'
-	# 		G30.cell(row=18, column=5).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"205",PBC_Add!H:H,"Transfer")+SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"208",PBC_Add!H:H,"Transfer")'
-	# 		G30.cell(row=19, column=5).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"207",PBC_Add!H:H,"Transfer")'
-	# 		G30.cell(row=20, column=5).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"206",PBC_Add!H:H,"Transfer")'
-	# 		G30.cell(row=21, column=5).value='=SUM(E16:E20)'
-
-	# 		G30.cell(row=16, column=6).value="=SUM(D16:E16)"
-	# 		G30.cell(row=17, column=6).value="=SUM(D17:E17)"
-	# 		G30.cell(row=18, column=6).value="=SUM(D18:E18)"
-	# 		G30.cell(row=19, column=6).value="=SUM(D19:E19)"
-	# 		G30.cell(row=20, column=6).value="=SUM(D20:E20)"
-	# 		G30.cell(row=21, column=6).value="=SUM(F16:F20)"
-
-	# 		# G30.cell(row=17, column=7).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"201",PBC_Disposals!K:K,"Sale")'
-	# 		# G30.cell(row=18, column=7).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"203",PBC_Disposals!K:K,"Sale")'
-	# 		# G30.cell(row=19, column=7).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"205",PBC_Disposals!K:K,"Sale")+SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"208",PBC_Disposals!K:K,"Sale")'
-	# 		# G30.cell(row=20, column=7).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"207",PBC_Disposals!K:K,"Sale")'
-	# 		# G30.cell(row=21, column=7).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"206",PBC_Disposals!K:K,"Sale")'
-	# 		# G30.cell(row=22, column=7).value="=SUM(G17:G21)"
-
-
-	# 		# # G30.cell(row=17, column=8).value=0
-	# 		# # G30.cell(row=18, column=8).value=0
-	# 		# # G30.cell(row=19, column=8).value=0
-	# 		# # G30.cell(row=20, column=8).value=0
-	# 		# # G30.cell(row=21, column=8).value=0
-	# 		# # G30.cell(row=22, column=8).value="=SUM(H17:H21)"
-	# 		# G30.cell(row=17, column=8).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"201",PBC_Disposals!K:K,"Scrap")'
-	# 		# G30.cell(row=18, column=8).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"203",PBC_Disposals!K:K,"Scrap")'
-	# 		# G30.cell(row=19, column=8).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"205",PBC_Disposals!K:K,"Scrap")+SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"208",PBC_Disposals!K:K,"Scrap")'
-	# 		# G30.cell(row=20, column=8).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"207",PBC_Disposals!K:K,"Scrap")'
-	# 		# G30.cell(row=21, column=8).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"206",PBC_Disposals!K:K,"Scrap")'
-	# 		# G30.cell(row=22, column=8).value="=SUM(H17:H21)"
-
-	# 		G30.cell(row=16, column=9).value='=SUMIF(PBC_Disposals!A:A,"201",PBC_Disposals!H:H)'
-	# 		G30.cell(row=17, column=9).value='=SUMIF(PBC_Disposals!A:A,"203",PBC_Disposals!H:H)'
-	# 		G30.cell(row=18, column=9).value='=SUMIF(PBC_Disposals!A:A,"205",PBC_Disposals!H:H)+SUMIF(PBC_Disposals!A:A,"208",PBC_Disposals!H:H)'
-	# 		G30.cell(row=19, column=9).value='=SUMIF(PBC_Disposals!A:A,"207",PBC_Disposals!H:H)'
-	# 		G30.cell(row=20, column=9).value='=SUMIF(PBC_Disposals!A:A,"206",PBC_Disposals!H:H)'
-	# 		G30.cell(row=21, column=9).value="=SUM(I16:I20)"
-
-	# 		G30.cell(row=16, column=10).value='=IF(I16<0,C16+F16+I16,C16+F16-I16)'
-	# 		G30.cell(row=17, column=10).value='=IF(I17<0,C17+F17+I17,C17+F17-I17)'
-	# 		G30.cell(row=18, column=10).value='=IF(I18<0,C18+F18+I18,C18+F18-I18)'
-	# 		G30.cell(row=19, column=10).value='=IF(I19<0,C19+F19+I19,C19+F19-I19)'
-	# 		G30.cell(row=20, column=10).value='=IF(I20<0,C20+F20+I20,C20+F20-I20)'
-	# 		G30.cell(row=21, column=10).value="=SUM(J16:J20)"
-
-
-	# 		G30.cell(row=16, column=11).value='=SUMIF(F10_TB!B:B,"201",F10_TB!H:H)'
-	# 		G30.cell(row=17, column=11).value='=SUMIF(F10_TB!B:B,"203",F10_TB!H:H)'
-	# 		G30.cell(row=18, column=11).value='=SUMIF(F10_TB!B:B,"205",F10_TB!H:H)+SUMIF(F10_TB!B:B,"208",F10_TB!H:H)'
-	# 		G30.cell(row=19, column=11).value='=SUMIF(F10_TB!B:B,"207",F10_TB!H:H)'
-	# 		G30.cell(row=20, column=11).value='=SUMIF(F10_TB!B:B,"206",F10_TB!H:H)'
-	# 		G30.cell(row=21, column=11).value="=SUM(K16:K20)"
-
-	# 		G30.cell(row=16, column=12).value='=J16-K16'
-	# 		G30.cell(row=17, column=12).value='=J17-K17'
-	# 		G30.cell(row=18, column=12).value='=J18-K18'
-	# 		G30.cell(row=19, column=12).value='=J19-K19'
-	# 		G30.cell(row=20, column=12).value='=J20-K20'
-	# 		G30.cell(row=21, column=12).value="=SUM(L16:L20)"
-
-	# 		G30.cell(row=25, column=3).value='=SUMIF(F10_TB!B:B,"211",F10_TB!E:E)'
-	# 		G30.cell(row=26, column=3).value='=SUMIF(F10_TB!B:B,"212",F10_TB!E:E)'
-	# 		G30.cell(row=27, column=3).value='=SUMIF(F10_TB!B:B,"213",F10_TB!E:E)+SUMIF(F10_TB!B:B,"223",F10_TB!E:E)'
-	# 		G30.cell(row=28, column=3).value='=SUMIF(F10_TB!B:B,"214",F10_TB!E:E)+SUMIF(F10_TB!B:B,"224",F10_TB!E:E)'
-	# 		G30.cell(row=29, column=3).value='=SUMIF(F10_TB!B:B,"215",F10_TB!E:E)'
-	# 		G30.cell(row=30, column=3).value='=SUMIF(F10_TB!B:B,"216",F10_TB!E:E)'
-	# 		G30.cell(row=31, column=3).value='=SUMIF(F10_TB!B:B,"217",F10_TB!E:E)+SUMIF(F10_TB!B:B,"227",F10_TB!E:E)'
-	# 		G30.cell(row=32, column=3).value='=SUM(C25:C31)'
-
-	# 		G30.cell(row=25, column=4).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"211",PBC_Add!H:H,"Pure")'
-	# 		G30.cell(row=26, column=4).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"212",PBC_Add!H:H,"Pure")'
-	# 		G30.cell(row=27, column=4).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"213",PBC_Add!H:H,"Pure")+SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"223",PBC_Add!H:H,"Pure")'
-	# 		G30.cell(row=28, column=4).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"214",PBC_Add!H:H,"Pure")+SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"224",PBC_Add!H:H,"Pure")'
-	# 		G30.cell(row=29, column=4).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"215",PBC_Add!H:H,"Pure")'
-	# 		G30.cell(row=30, column=4).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"216",PBC_Add!H:H,"Pure")'
-	# 		G30.cell(row=31, column=4).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"217",PBC_Add!H:H,"Pure")+SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"227",PBC_Add!H:H,"Pure")'
-	# 		G30.cell(row=32, column=4).value='=SUM(D25:D31)'
-
-	# 		G30.cell(row=25, column=5).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"211",PBC_Add!H:H,"Transfer")'
-	# 		G30.cell(row=26, column=5).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"212",PBC_Add!H:H,"Transfer")'
-	# 		G30.cell(row=27, column=5).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"213",PBC_Add!H:H,"Transfer")+SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"223",PBC_Add!H:H,"Transfer")'
-	# 		G30.cell(row=28, column=5).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"214",PBC_Add!H:H,"Transfer")+SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"224",PBC_Add!H:H,"Transfer")'
-	# 		G30.cell(row=29, column=5).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"215",PBC_Add!H:H,"Transfer")'
-	# 		G30.cell(row=30, column=5).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"216",PBC_Add!H:H,"Transfer")'
-	# 		G30.cell(row=31, column=5).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"217",PBC_Add!H:H,"Transfer")+SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"227",PBC_Add!H:H,"Transfer")'
-	# 		G30.cell(row=32, column=5).value='=SUM(E25:E31)'
-
-	# 		G30.cell(row=25, column=6).value="=SUM(D25:E25)"
-	# 		G30.cell(row=26, column=6).value="=SUM(D26:E26)"
-	# 		G30.cell(row=27, column=6).value="=SUM(D27:E27)"
-	# 		G30.cell(row=28, column=6).value="=SUM(D28:E28)"
-	# 		G30.cell(row=29, column=6).value="=SUM(D29:E29)"
-	# 		G30.cell(row=30, column=6).value="=SUM(D30:E30)"
-	# 		G30.cell(row=31, column=6).value="=SUM(D31:E31)"
-	# 		G30.cell(row=32, column=6).value="=SUM(F25:F31)"
-
-	# 		G30.cell(row=25, column=7).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"211",PBC_Disposals!K:K,"Sale")'
-	# 		G30.cell(row=26, column=7).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"212",PBC_Disposals!K:K,"Sale")'
-	# 		G30.cell(row=27, column=7).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"213",PBC_Disposals!K:K,"Sale")+SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"223",PBC_Disposals!K:K,"Sale")'
-	# 		G30.cell(row=28, column=7).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"214",PBC_Disposals!K:K,"Sale")+SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"224",PBC_Disposals!K:K,"Sale")'
-	# 		G30.cell(row=29, column=7).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"215",PBC_Disposals!K:K,"Sale")'
-	# 		G30.cell(row=30, column=7).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"216",PBC_Disposals!K:K,"Sale")'
-	# 		G30.cell(row=31, column=7).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"217",PBC_Disposals!K:K,"Sale")+SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"227",PBC_Disposals!K:K,"Sale")'
-	# 		G30.cell(row=32, column=7).value="=SUM(G25:G31)"
-
-
-	# 		# G30.cell(row=25, column=8).value=0
-	# 		# G30.cell(row=26, column=8).value=0
-	# 		# G30.cell(row=27, column=8).value=0
-	# 		# G30.cell(row=28, column=8).value=0
-	# 		# G30.cell(row=29, column=8).value=0
-	# 		# G30.cell(row=30, column=8).value=0
-	# 		# G30.cell(row=31, column=8).value="=SUM(H25:H30)"
-
-	# 		G30.cell(row=25, column=8).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"211",PBC_Disposals!K:K,"Scrap")'
-	# 		G30.cell(row=26, column=8).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"212",PBC_Disposals!K:K,"Scrap")'
-	# 		G30.cell(row=27, column=8).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"213",PBC_Disposals!K:K,"Scrap")+SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"223",PBC_Disposals!K:K,"Scrap")'
-	# 		G30.cell(row=28, column=8).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"214",PBC_Disposals!K:K,"Scrap")+SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"224",PBC_Disposals!K:K,"Scrap")'
-	# 		G30.cell(row=29, column=8).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"215",PBC_Disposals!K:K,"Scrap")'
-	# 		G30.cell(row=30, column=8).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"216",PBC_Disposals!K:K,"Scrap")'
-	# 		G30.cell(row=31, column=8).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"217",PBC_Disposals!K:K,"Scrap")+SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"227",PBC_Disposals!K:K,"Scrap")'
-	# 		G30.cell(row=32, column=8).value="=SUM(H25:H31)"
-
-	# 		G30.cell(row=25, column=9).value='=SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!H:H)'
-	# 		G30.cell(row=26, column=9).value='=SUMIF(PBC_Disposals!A:A,"212",PBC_Disposals!H:H)'
-	# 		G30.cell(row=27, column=9).value='=SUMIF(PBC_Disposals!A:A,"213",PBC_Disposals!H:H)+SUMIF(PBC_Disposals!A:A,"223",PBC_Disposals!H:H)'
-	# 		G30.cell(row=28, column=9).value='=SUMIF(PBC_Disposals!A:A,"214",PBC_Disposals!H:H)+SUMIF(PBC_Disposals!A:A,"224",PBC_Disposals!H:H)'
-	# 		G30.cell(row=29, column=9).value='=SUMIF(PBC_Disposals!A:A,"215",PBC_Disposals!H:H)'
-	# 		G30.cell(row=30, column=9).value='=SUMIF(PBC_Disposals!A:A,"216",PBC_Disposals!H:H)'
-	# 		G30.cell(row=31, column=9).value='=SUMIF(PBC_Disposals!A:A,"217",PBC_Disposals!H:H)+SUMIF(PBC_Disposals!A:A,"227",PBC_Disposals!H:H)'
-	# 		G30.cell(row=32, column=9).value="=SUM(I25:I31)"
-
-	# 		G30.cell(row=25, column=10).value='=IF(I25<0,C25+F25+I25,C25+F25-I25)'
-	# 		G30.cell(row=26, column=10).value='=IF(I26<0,C26+F26+I26,C26+F26-I26)'
-	# 		G30.cell(row=27, column=10).value='=IF(I27<0,C27+F27+I27,C27+F27-I27)'
-	# 		G30.cell(row=28, column=10).value='=IF(I28<0,C28+F28+I28,C28+F28-I28)'
-	# 		G30.cell(row=29, column=10).value='=IF(I29<0,C29+F29+I29,C29+F29-I29)'
-	# 		G30.cell(row=30, column=10).value='=IF(I30<0,C30+F30+I30,C30+F30-I30)'
-	# 		G30.cell(row=31, column=10).value='=IF(I31<0,C31+F31+I31,C31+F31-I31)'
-	# 		G30.cell(row=32, column=10).value="=SUM(J25:J31)"
-
-
-	# 		G30.cell(row=25, column=11).value='=SUMIF(F10_TB!B:B,"211",F10_TB!H:H)'
-	# 		G30.cell(row=26, column=11).value='=SUMIF(F10_TB!B:B,"212",F10_TB!H:H)'
-	# 		G30.cell(row=27, column=11).value='=SUMIF(F10_TB!B:B,"213",F10_TB!H:H)+SUMIF(F10_TB!B:B,"223",F10_TB!H:H)'
-	# 		G30.cell(row=28, column=11).value='=SUMIF(F10_TB!B:B,"214",F10_TB!H:H)+SUMIF(F10_TB!B:B,"224",F10_TB!H:H)'
-	# 		G30.cell(row=29, column=11).value='=SUMIF(F10_TB!B:B,"215",F10_TB!H:H)'
-	# 		G30.cell(row=30, column=11).value='=SUMIF(F10_TB!B:B,"216",F10_TB!H:H)'
-	# 		G30.cell(row=31, column=11).value='=SUMIF(F10_TB!B:B,"217",F10_TB!H:H)+SUMIF(F10_TB!B:B,"227",F10_TB!H:H)'
-	# 		G30.cell(row=32, column=11).value="=SUM(K25:K31)"
-
-	# 		G30.cell(row=25, column=12).value='=J25-K25'
-	# 		G30.cell(row=26, column=12).value='=J26-K26'
-	# 		G30.cell(row=27, column=12).value='=J27-K27'
-	# 		G30.cell(row=28, column=12).value='=J28-K28'
-	# 		G30.cell(row=29, column=12).value='=J29-K29'
-	# 		G30.cell(row=30, column=12).value='=J30-K30'
-	# 		G30.cell(row=31, column=12).value='=J31-K31'
-	# 		G30.cell(row=32, column=12).value="=SUM(L25:L31)"
-
-	# 		# G30.cell(row=34,column=3).value="=C22+C32"
-	# 		# G30.cell(row=34,column=4).value="=D22+D32"
-	# 		# G30.cell(row=34,column=5).value="=E22+E32"
-	# 		# G30.cell(row=34,column=6).value="=F22+F32"
-	# 		# # G30.cell(row=34,column=7).value="=G22+G32"
-	# 		# # G30.cell(row=34,column=8).value="=H22+H32"
-	# 		# G30.cell(row=34,column=9).value="=I22+I32"
-	# 		# G30.cell(row=34,column=10).value="=J22+J32"
-	# 		# G30.cell(row=34,column=11).value="=K22+K32"
-	# 		# G30.cell(row=34,column=12).value="=L22+L32"
-
-
-	# 		G30.cell(row=39, column=3).value='=SUMIF(F10_TB!B:B,"231",F10_TB!E:E)'
-	# 		G30.cell(row=40, column=3).value='=SUMIF(F10_TB!B:B,"235",F10_TB!E:E)'
-	# 		G30.cell(row=41,column=3).value='=SUM(C39:C40)'
-
-	# 		G30.cell(row=39,column=4).value='=SUMIF(PBC_CIP!F:F,"231",PBC_CIP!C:C)'
-	# 		G30.cell(row=40,column=4).value='=SUMIF(PBC_CIP!F:F,"235",PBC_CIP!C:C)'
-	# 		G30.cell(row=41,column=4).value='=SUM(D39:D40)'
-
-	# 		G30.cell(row=39,column=6).value='=SUM(D39:E39)'
-	# 		G30.cell(row=40,column=6).value='=SUM(D40:E40)'
-	# 		G30.cell(row=41,column=6).value='=SUM(F39:F40)'
-
-	# 		G30.cell(row=39,column=7).value='=SUMIFS(PBC_CIP!D:D,PBC_CIP!F:F,"231",PBC_CIP!E:E,"Sales")+SUMIFS(PBC_CIP!D:D,PBC_CIP!F:F,"231",PBC_CIP!E:E,"Scrapped")'
-	# 		G30.cell(row=40,column=7).value='=SUMIFS(PBC_CIP!D:D,PBC_CIP!F:F,"235",PBC_CIP!E:E,"Sales")+SUMIFS(PBC_CIP!D:D,PBC_CIP!F:F,"235",PBC_CIP!E:E,"Scrapped")'
-	# 		G30.cell(row=41,column=7).value='=SUM(G39:G40)'
-
-	# 		G30.cell(row=39,column=8).value='=SUMIFS(PBC_CIP!D:D,PBC_CIP!F:F,"231",PBC_CIP!E:E,"Transfer")'
-	# 		G30.cell(row=40,column=8).value='=SUMIFS(PBC_CIP!D:D,PBC_CIP!F:F,"235",PBC_CIP!E:E,"Transfer")'
-	# 		G30.cell(row=41,column=8).value='=SUM(H39:H40)'
-
-	# 		G30.cell(row=39,column=9).value='=SUM(G39:H39)'
-	# 		G30.cell(row=40,column=9).value='=SUM(G40:H40)'
-	# 		G30.cell(row=41,column=9).value='=SUM(I39:I40)'
-
-	# 		G30.cell(row=39,column=10).value='=IF(I39<0,C39+F39+I39,C39+F39-I39)'
-	# 		G30.cell(row=40,column=10).value='=IF(I40<0,C40+F40+I40,C40+F40-I40)'
-	# 		G30.cell(row=41,column=10).value='=SUM(J39:J40)'
-
-	# 		G30.cell(row=39,column=11).value='=SUMIF(F10_TB!B:B,"231",F10_TB!H:H)'
-	# 		G30.cell(row=40,column=11).value='=SUMIF(F10_TB!B:B,"235",F10_TB!H:H)'
-	# 		G30.cell(row=41,column=11).value='=SUM(K39:K40)'
-
-	# 		G30.cell(row=39,column=12).value='=J39-K39'
-	# 		G30.cell(row=40,column=12).value='=J40-K40'
-	# 		G30.cell(row=41,column=12).value='=SUM(L39:L40)'
-	# 		#################################################
-
-
-
-
-	# 		G30.cell(row=44, column=3).value='=C21+C32+C41'
-	# 		G30.cell(row=44, column=6).value='=F21+F32+F41'
-	# 		G30.cell(row=44, column=9).value='=I21+I32+I41'
-	# 		G30.cell(row=44, column=10).value='=J21+J32+J41'
-	# 		G30.cell(row=44, column=11).value='=K21+K32+K41'
-	# 		G30.cell(row=44, column=12).value='=L21+L32+L41'
-	# 		for i in range(1,13):
-	# 			G30.cell(row=44,column=i).fill=total
-	# 		G30.cell(row=50,column=3).value='=SUMIF(F10_TB!J:J,"2801",F10_TB!E:E)'
-	# 		G30.cell(row=51,column=3).value='=SUMIF(F10_TB!J:J,"2803",F10_TB!E:E)'
-	# 		G30.cell(row=52,column=3).value='=SUMIF(F10_TB!J:J,"2805",F10_TB!E:E)+SUMIF(F10_TB!J:J,"2808",F10_TB!E:E)'
-	# 		G30.cell(row=53,column=3).value='=SUMIF(F10_TB!J:J,"2807",F10_TB!E:E)'
-	# 		G30.cell(row=54,column=3).value='=SUMIF(F10_TB!J:J,"2806",F10_TB!E:E)'
-	# 		G30.cell(row=55,column=3).value='=SUM(C50:C54)'
-
-	# 		G30.cell(row=50,column=6).value='=IF(SUMIF(PBC_FAR!F:F,"2801",PBC_FAR!I:I)>0,-SUMIF(PBC_FAR!F:F,"2801",PBC_FAR!I:I),SUMIF(PBC_FAR!F:F,"2801",PBC_FAR!I:I))+IF(SUMIF(PBC_Disposals!A:A,"201",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"201",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"201",PBC_Disposals!I:I))'
-	# 		G30.cell(row=51,column=6).value='=IF(SUMIF(PBC_FAR!F:F,"2803",PBC_FAR!I:I)>0,-SUMIF(PBC_FAR!F:F,"2803",PBC_FAR!I:I),SUMIF(PBC_FAR!F:F,"2803",PBC_FAR!I:I))+IF(SUMIF(PBC_Disposals!A:A,"203",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"201",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"203",PBC_Disposals!I:I))'
-	# 		G30.cell(row=52,column=6).value='=IF(SUMIF(PBC_FAR!F:F,"2805",PBC_FAR!I:I)+SUMIF(PBC_FAR!F:F,"2808",PBC_FAR!I:I)>0,-SUMIF(PBC_FAR!F:F,"2805",PBC_FAR!I:I)-SUMIF(PBC_FAR!F:F,"2808",PBC_FAR!I:I),SUMIF(PBC_FAR!F:F,"2805",PBC_FAR!I:I)+SUMIF(PBC_FAR!F:F,"2808",PBC_FAR!I:I))+IF(SUMIF(PBC_Disposals!A:A,"205",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"205",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"205",PBC_Disposals!I:I))+IF(SUMIF(PBC_Disposals!A:A,"208",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"208",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"208",PBC_Disposals!I:I))'
-	# 		G30.cell(row=53,column=6).value='=IF(SUMIF(PBC_FAR!F:F,"2807",PBC_FAR!I:I)>0,-SUMIF(PBC_FAR!F:F,"2807",PBC_FAR!I:I),SUMIF(PBC_FAR!F:F,"2807",PBC_FAR!I:I))+IF(SUMIF(PBC_Disposals!A:A,"207",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"207",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"207",PBC_Disposals!I:I))'
-	# 		G30.cell(row=54,column=6).value='=IF(SUMIF(PBC_FAR!F:F,"2806",PBC_FAR!I:I)>0,-SUMIF(PBC_FAR!F:F,"2806",PBC_FAR!I:I),SUMIF(PBC_FAR!F:F,"2806",PBC_FAR!I:I))+IF(SUMIF(PBC_Disposals!A:A,"206",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"206",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"206",PBC_Disposals!I:I))'
-	# 		G30.cell(row=55,column=6).value='=SUM(F50:F54)'
-
-	# 		G30.cell(row=50,column=9).value='=SUMIF(PBC_Disposals!L:L,"2801",PBC_Disposals!J:J)'
-	# 		G30.cell(row=51,column=9).value='=SUMIF(PBC_Disposals!L:L,"2803",PBC_Disposals!J:J)'
-	# 		G30.cell(row=52,column=9).value='=SUMIF(PBC_Disposals!L:L,"2805",PBC_Disposals!J:J)+SUMIF(PBC_Disposals!L:L,"2808",PBC_Disposals!J:J)'
-	# 		G30.cell(row=53,column=9).value='=SUMIF(PBC_Disposals!L:L,"2807",PBC_Disposals!J:J)'
-	# 		G30.cell(row=54,column=9).value='=SUMIF(PBC_Disposals!L:L,"2806",PBC_Disposals!J:J)'
-	# 		G30.cell(row=55,column=9).value='=SUM(I50:I54)'
-
-	# 		G30.cell(row=50,column=10).value='=C50+F50+I50'
-	# 		G30.cell(row=51,column=10).value='=C51+F51+I51'
-	# 		G30.cell(row=52,column=10).value='=C52+F52+I52'
-	# 		G30.cell(row=53,column=10).value='=C53+F53+I53'
-	# 		G30.cell(row=54,column=10).value='=C54+F54+I54'
-	# 		G30.cell(row=55,column=10).value='=SUM(J50:J54)'
-
-
-	# 		G30.cell(row=50,column=11).value='=SUMIF(F10_TB!J:J,"2801",F10_TB!H:H)'
-	# 		G30.cell(row=51,column=11).value='=SUMIF(F10_TB!J:J,"2803",F10_TB!H:H)'
-	# 		G30.cell(row=52,column=11).value='=SUMIF(F10_TB!J:J,"2805",F10_TB!H:H)+SUMIF(F10_TB!J:J,"2808",F10_TB!H:H)'
-	# 		G30.cell(row=53,column=11).value='=SUMIF(F10_TB!J:J,"2807",F10_TB!H:H)'
-	# 		G30.cell(row=54,column=11).value='=SUMIF(F10_TB!J:J,"2806",F10_TB!H:H)'
-	# 		G30.cell(row=55,column=11).value='=SUM(K50:K54)'
-
-
-	# 		G30.cell(row=50,column=12).value='=J50-K50'
-	# 		G30.cell(row=51,column=12).value='=J51-K51'
-	# 		G30.cell(row=52,column=12).value='=J52-K52'
-	# 		G30.cell(row=53,column=12).value='=J53-K53'
-	# 		G30.cell(row=54,column=12).value='=J54-K54'
-	# 		G30.cell(row=55,column=12).value='=SUM(L50:L54)'
-
-	# 		G30.cell(row=59,column=3).value='=SUMIF(F10_TB!J:J,"2811",F10_TB!E:E)'
-	# 		G30.cell(row=60,column=3).value='=SUMIF(F10_TB!J:J,"2812",F10_TB!E:E)'
-	# 		G30.cell(row=61,column=3).value='=SUMIF(F10_TB!J:J,"2813",F10_TB!E:E)'
-	# 		G30.cell(row=62,column=3).value='=SUMIF(F10_TB!J:J,"2814",F10_TB!E:E)'
-	# 		G30.cell(row=63,column=3).value='=SUMIF(F10_TB!J:J,"2815",F10_TB!E:E)'
-	# 		G30.cell(row=64,column=3).value='=SUMIF(F10_TB!J:J,"2816",F10_TB!E:E)'
-	# 		G30.cell(row=65,column=3).value='=SUMIF(F10_TB!J:J,"2817",F10_TB!E:E)'
-	# 		G30.cell(row=66,column=3).value='=SUM(C59:C65)'
-
-	# 		G30.cell(row=59,column=6).value='=IF(SUMIF(PBC_FAR!F:F,"2811",PBC_FAR!I:I)>0,-SUMIF(PBC_FAR!F:F,"2811",PBC_FAR!I:I),SUMIF(PBC_FAR!F:F,"2811",PBC_FAR!I:I))+IF(SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I))'
-	# 		G30.cell(row=60,column=6).value='=IF(SUMIF(PBC_FAR!F:F,"2812",PBC_FAR!I:I)>0,-SUMIF(PBC_FAR!F:F,"2812",PBC_FAR!I:I),SUMIF(PBC_FAR!F:F,"2812",PBC_FAR!I:I))+IF(SUMIF(PBC_Disposals!A:A,"212",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"212",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"212",PBC_Disposals!I:I))'
-	# 		G30.cell(row=61,column=6).value='=IF(SUMIF(PBC_FAR!F:F,"2813",PBC_FAR!I:I)>0,-SUMIF(PBC_FAR!F:F,"2813",PBC_FAR!I:I),SUMIF(PBC_FAR!F:F,"2813",PBC_FAR!I:I))+IF(SUMIF(PBC_Disposals!A:A,"213",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"213",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"213",PBC_Disposals!I:I))'
-	# 		G30.cell(row=62,column=6).value='=IF(SUMIF(PBC_FAR!F:F,"2814",PBC_FAR!I:I)>0,-SUMIF(PBC_FAR!F:F,"2814",PBC_FAR!I:I),SUMIF(PBC_FAR!F:F,"2814",PBC_FAR!I:I))+IF(SUMIF(PBC_Disposals!A:A,"214",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"214",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"214",PBC_Disposals!I:I))'
-	# 		G30.cell(row=63,column=6).value='=IF(SUMIF(PBC_FAR!F:F,"2815",PBC_FAR!I:I)>0,-SUMIF(PBC_FAR!F:F,"2815",PBC_FAR!I:I),SUMIF(PBC_FAR!F:F,"2815",PBC_FAR!I:I))+IF(SUMIF(PBC_Disposals!A:A,"215",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"215",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"215",PBC_Disposals!I:I))'
-	# 		G30.cell(row=64,column=6).value='=IF(SUMIF(PBC_FAR!F:F,"2816",PBC_FAR!I:I)>0,-SUMIF(PBC_FAR!F:F,"2816",PBC_FAR!I:I),SUMIF(PBC_FAR!F:F,"2816",PBC_FAR!I:I))+IF(SUMIF(PBC_Disposals!A:A,"216",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"216",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"216",PBC_Disposals!I:I))'
-	# 		G30.cell(row=65,column=6).value='=IF(SUMIF(PBC_FAR!F:F,"2817",PBC_FAR!I:I)>0,-SUMIF(PBC_FAR!F:F,"2817",PBC_FAR!I:I),SUMIF(PBC_FAR!F:F,"2817",PBC_FAR!I:I))+IF(SUMIF(PBC_Disposals!A:A,"217",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"217",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"217",PBC_Disposals!I:I))'
-	# 		G30.cell(row=66,column=6).value='=SUM(F59:F65)'#AICI STOP
-
-	# 		G30.cell(row=59,column=9).value='=SUMIF(PBC_Disposals!L:L,"2811",PBC_Disposals!J:J)'
-	# 		G30.cell(row=60,column=9).value='=SUMIF(PBC_Disposals!L:L,"2812",PBC_Disposals!J:J)'
-	# 		G30.cell(row=61,column=9).value='=SUMIF(PBC_Disposals!L:L,"2813",PBC_Disposals!J:J)'
-	# 		G30.cell(row=62,column=9).value='=SUMIF(PBC_Disposals!L:L,"2814",PBC_Disposals!J:J)'
-	# 		G30.cell(row=63,column=9).value='=SUMIF(PBC_Disposals!L:L,"2815",PBC_Disposals!J:J)'
-	# 		G30.cell(row=64,column=9).value='=SUMIF(PBC_Disposals!L:L,"2816",PBC_Disposals!J:J)'
-	# 		G30.cell(row=65,column=9).value='=SUMIF(PBC_Disposals!L:L,"2817",PBC_Disposals!J:J)'
-	# 		G30.cell(row=66,column=9).value='=SUM(I59:I65)'
-
-	# 		G30.cell(row=59,column=10).value='=C59+F59+I59'
-	# 		G30.cell(row=60,column=10).value='=C60+F60+I60'
-	# 		G30.cell(row=61,column=10).value='=C61+F61+I61'
-	# 		G30.cell(row=62,column=10).value='=C62+F62+I62'
-	# 		G30.cell(row=63,column=10).value='=C63+F63+I63'
-	# 		G30.cell(row=64,column=10).value='=C64+F64+I64'
-	# 		G30.cell(row=65,column=10).value='=C65+F65+I65'
-	# 		G30.cell(row=66,column=10).value='=SUM(J59:J65)'
-
-	# 		G30.cell(row=59,column=11).value='=SUMIF(F10_TB!J:J,"2811",F10_TB!H:H)'
-	# 		G30.cell(row=60,column=11).value='=SUMIF(F10_TB!J:J,"2812",F10_TB!H:H)'
-	# 		G30.cell(row=61,column=11).value='=SUMIF(F10_TB!J:J,"2813",F10_TB!H:H)'
-	# 		G30.cell(row=62,column=11).value='=SUMIF(F10_TB!J:J,"2814",F10_TB!H:H)'
-	# 		G30.cell(row=63,column=11).value='=SUMIF(F10_TB!J:J,"2815",F10_TB!H:H)'
-	# 		G30.cell(row=64,column=11).value='=SUMIF(F10_TB!J:J,"2816",F10_TB!H:H)'
-	# 		G30.cell(row=65,column=11).value='=SUMIF(F10_TB!J:J,"2817",F10_TB!H:H)'
-	# 		G30.cell(row=66,column=11).value='=SUM(K59:K65)'
-
-	# 		G30.cell(row=59,column=12).value='=J59-K59'
-	# 		G30.cell(row=60,column=12).value='=J60-K60'
-	# 		G30.cell(row=61,column=12).value='=J61-K61'
-	# 		G30.cell(row=62,column=12).value='=J62-K62'
-	# 		G30.cell(row=63,column=12).value='=J63-K63'
-	# 		G30.cell(row=64,column=12).value='=J64-K64'
-	# 		G30.cell(row=65,column=12).value='=J65-K65'
-	# 		G30.cell(row=66,column=12).value='=SUM(L59:L65)'
-
-	# 		G30.cell(row=67,column=3).value="=C55+C66"
-	# 		G30.cell(row=67,column=6).value="=F55+F66"
-	# 		G30.cell(row=67,column=9).value="=I55+I66"
-	# 		G30.cell(row=67,column=10).value="=J55+J66"
-	# 		G30.cell(row=67,column=11).value="=K55+K66"
-	# 		G30.cell(row=67,column=12).value="=L55+L66"
-
-
-
-
-
-
-
-	# 		G30.cell(row=74,column=3).value="=C16+C50"
-	# 		G30.cell(row=75,column=3).value="=C17+C51"
-	# 		G30.cell(row=76,column=3).value="=C18+C52"
-	# 		G30.cell(row=77,column=3).value="=C19+C53"
-	# 		G30.cell(row=78,column=3).value="=C20+C54"
-
-
-	# 		G30.cell(row=80,column=3).value="=SUM(C74:C79)"
-	# 		G30.cell(row=80,column=6).value="=SUM(F74:F79)"
-
-	# 		G30.cell(row=83,column=3).value="=C25+C59+C26+C60"
-	# 		G30.cell(row=84,column=3).value="=C27+C61"
-	# 		G30.cell(row=85,column=3).value="=C28+C62"
-	# 		G30.cell(row=86,column=3).value="=C29+C63"
-	# 		G30.cell(row=87,column=3).value="=C30+C64"
-	# 		G30.cell(row=88,column=3).value="=C31+C65"
-
-	# 		G30.cell(row=90,column=3).value="=C39"
-	# 		G30.cell(row=91,column=3).value="=C40"
-
-	# 		G30.cell(row=92,column=3).value="=SUM(C83:C91)"
-	# 		G30.cell(row=92,column=6).value="=SUM(F83:F91)"
-
-	# 		G30.cell(row=74,column=6).value="=J17+J50"
-	# 		G30.cell(row=75,column=6).value="=J18+J51"
-	# 		G30.cell(row=76,column=6).value="=J19+J52"
-	# 		G30.cell(row=77,column=6).value="=J20+J53"
-	# 		G30.cell(row=78,column=6).value="=J21+J54"
-
-	# 		# G30.cell(row=111,column=6).value="=J45"
-
-	# 		G30.cell(row=83,column=6).value="=J25+J59+J26+J60"
-	# 		G30.cell(row=84,column=6).value="=J27+J61"
-	# 		G30.cell(row=85,column=6).value="=J28+J62"
-	# 		G30.cell(row=86,column=6).value="=J29+J63"
-	# 		G30.cell(row=87,column=6).value="=J30+J64"
-	# 		G30.cell(row=88,column=6).value="=J31+J65"
-
-	# 		# G30.cell(row=120,column=6).value="=J46"
-	# 		G30.cell(row=90,column=6).value="=J39+J92"
-	# 		G30.cell(row=91,column=6).value="=J40+J93"
-
-	# 		G30.cell(row=94,column=3).value="=C80+C92"
-	# 		G30.cell(row=94,column=6).value="=F80+F92"
-
-	# 		for i in range(17,126):
-	# 		  G30.cell(row=i,column=3).number_format="#,##0_);(#,##0)"
-	# 		  G30.cell(row=i,column=4).number_format="#,##0_);(#,##0)"
-	# 		  G30.cell(row=i,column=5).number_format="#,##0_);(#,##0)"
-	# 		  G30.cell(row=i,column=6).number_format="#,##0_);(#,##0)"
-	# 		  G30.cell(row=i,column=7).number_format="#,##0_);(#,##0)"
-	# 		  G30.cell(row=i,column=8).number_format="#,##0_);(#,##0)"
-	# 		  G30.cell(row=i,column=9).number_format="#,##0_);(#,##0)"
-	# 		  G30.cell(row=i,column=10).number_format="#,##0_);(#,##0)"
-	# 		  G30.cell(row=i,column=11).number_format="#,##0_);(#,##0)"
-	# 		  G30.cell(row=i,column=12).number_format="#,##0_);(#,##0)"
-
-	# 		for i in range(1,13):
-	# 		  G30.cell(row=21,column=i).font=font2
-	# 		  G30.cell(row=32,column=i).font=font2
-	# 		  G30.cell(row=41,column=i).font=font2
-	# 		  G30.cell(row=47,column=i).font=font2
-	# 		  G30.cell(row=55,column=i).font=font2
-	# 		  G30.cell(row=66,column=i).font=font2
-	# 		  G30.cell(row=67,column=i).font=font2
-	# 		  G30.cell(row=80,column=i).font=font2
-	# 		  G30.cell(row=92,column=i).font=font2
-	# 		  G30.cell(row=94,column=i).font=font2
-	# 		  G30.cell(row=96,column=i).font=font2
-
-	# 		for i in range(15,103):
-	# 		  G30.cell(row=i,column=12).font=fontRed
-
-
-
-	# 		G30.cell(row=37,column=6).border=rightmedium
-	# 		G30.cell(row=37,column=9).border=rightmedium
-
-	# 		for i in range(17,22):
-	# 		  G30.cell(row=i,column=12).font=fontRedDiff
-	# 		for i in range(25,32):
-	# 		  G30.cell(row=i,column=12).font=fontRedDiff
-	# 		for i in range(39,41):
-	# 		  G30.cell(row=i,column=12).font=fontRedDiff
-	# 		for i in range(45,47):
-	# 		  G30.cell(row=i,column=12).font=fontRedDiff
-	# 		for i in range(55,60):
-	# 		  G30.cell(row=i,column=12).font=fontRedDiff
-	# 		for i in range(63,70):
-	# 		  G30.cell(row=i,column=12).font=fontRedDiff
-	# 		for i in range(79,82):
-	# 		  G30.cell(row=i,column=12).font=fontRedDiff
-	# 		for i in range(85,94):
-	# 		  G30.cell(row=i,column=12).font=fontRedDiff
-
-
-	# 		for i in range(16,21):
-	# 		  for j in range(1,12):
-	# 			  G30.cell(row=i,column=j).font=font1
-	# 		for i in range(25,32):
-	# 		  for j in range(1,12):
-	# 			  G30.cell(row=i,column=j).font=font1
-	# 		for i in range(39,41):
-	# 		  for j in range(1,12):
-	# 			  G30.cell(row=i,column=j).font=font1
-	# 		for i in range(50,55):
-	# 		  for j in range(1,12):
-	# 			  G30.cell(row=i,column=j).font=font1
-	# 		for i in range(59,66):
-	# 		  for j in range(1,12):
-	# 			  G30.cell(row=i,column=j).font=font1
-	# 		for i in range(74,80):
-	# 		  for j in range(1,12):
-	# 			  G30.cell(row=i,column=j).font=font1
-	# 		for i in range(83,92):
-	# 		  for j in range(1,12):
-	# 			  G30.cell(row=i,column=j).font=font1
-
-
-	# 		G30.column_dimensions.group('D','E',hidden=True)
-	# 		G30.column_dimensions.group('G','H',hidden=True)
-
-	# 		G30.cell(row=42,column=7).value="Check"
-	# 		G30.cell(row=42,column=8).value="=IF(OR(H41<0),E32+E22+H41,E32+E22-H41)"
-
-	# 		G30.cell(row=42,column=7).font=fontRed
-	# 		G30.cell(row=42,column=8).font=fontRed
-
-
-
-	# 		for i in range(1,13):
-	# 		  G30.cell(row=15,column=i).alignment = Alignment(horizontal='center',vertical='center',wrap_text=True)
-	# 		  G30.cell(row=24,column=i).alignment = Alignment(horizontal='center',vertical='center',wrap_text=True)
-	# 		  G30.cell(row=38,column=i).alignment = Alignment(horizontal='center',vertical='center',wrap_text=True)
-	# 		  G30.cell(row=44,column=i).alignment = Alignment(horizontal='center',vertical='center',wrap_text=True)
-	# 		  G30.cell(row=49,column=i).alignment = Alignment(horizontal='center',vertical='center',wrap_text=True)
-	# 		  G30.cell(row=58,column=i).alignment = Alignment(horizontal='center',vertical='center',wrap_text=True)
-	# 		  G30.cell(row=73,column=i).alignment = Alignment(horizontal='center',vertical='center',wrap_text=True)
-
-
-	# 		G30.column_dimensions['A'].width=27
-	# 		G30.column_dimensions['B'].width=32
-
-	# 		G30.sheet_view.showGridLines = False
-
-
-	# 	balanta=FAR.create_sheet('Trial Balance')
-	# 	mr = TB1.max_row
-	# 	mc = TB1.max_column
-	# 	# copying the cell values from source
-	# 	# excel file to destination excel file
-	# 	for i in range (1, mr + 1):
-	# 		for j in range (1, mc + 1):
-	# 		# reading cell value from source excel file
-	# 			c = TB1.cell(row = i, column = j)
-
-	# 		# writing the read value to destination excel file
-	# 			balanta.cell(row = i, column = j).value = c.value
-
-	# 	folderpath = "C:\\Users\\Cristian.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Output\\FAR\\"
-	# 	folder_path=""
-	# 	os.mkdir(folderpath+namec)
-	# 	print(val1,val2,val3)
-	# 	if(val1==1 and val2==1 and val3==1):
-	# 		print("Yes")
-	# 		folder_path=os.path.join(folderpath+namec, 'G10, 20, 30 FA Reconciliation, TOM, Depreciation Expenses.xlsx')
-	# 		myorder=[4,5,6,0,9,1,2,3,7,8]
-	# 	if(val1==1 and val2==0 and val3==0):
-	# 		print("Yes")            
-	# 		myorder=[4,0,1,2,3]
-	# 		folder_path=os.path.join(folderpath+namec, 'G10 FA Reconciliation.xlsx')
-	# 	if(val1==0 and val2==1 and val3==0):
-	# 		print("Yes")            
-	# 		myorder=[4,0,1,2,3]
-	# 		folder_path=os.path.join(folderpath+namec, 'G20 FA Depreciation Expenses.xlsx')
-	# 	if(val1==0 and val2==0 and val3==1):
-	# 		print("Yes")            
-	# 		myorder=[4,0,1,2,3,5,6,7]
-	# 		folder_path=os.path.join(folderpath+namec, 'G30 TOM.xlsx')
-	# 	if(val1==1 and val2==1 and val3==0):
-	# 		print("Yes")            
-	# 		folder_path=os.path.join(folderpath+namec, 'G10,20 FA Reconciliation,Depreciation Expenses.xlsx')
-	# 		myorder=[4,5,0,1,2,3,6]
-	# 	if(val1==1 and val2==0 and val3==1):
-	# 		print("Yes")            
-	# 		myorder=[4,5,0,1,2,3,6,7,8]
-	# 		folder_path=os.path.join(folderpath+namec, 'G10,30 FA Reconciliation,TOM.xlsx')
-	# 	if(val1==0 and val2==1 and val3==1):
-	# 		print("Yes")            
-	# 		myorder=[4,5,0,1,2,3,6,7,8]
-	# 		folder_path=os.path.join(folderpath+namec, 'G20,30 Depreciation Expenses,TOM.xlsx')
-	# 	# FAR._sheets =[FAR._sheets[i] for i in myorder]
-
-
-
-	# 	FAR.save(folder_path)
-	# 	make_archive(folder_path,"C:\\Users\\Cristian.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Output\\FAR\\FAR "+namec+".zip")
-	# 	return send_from_directory(folderpath,"FAR "+namec+".zip", as_attachment=True)
-	# return "0"      
+						G30.column_dimensions[column].width = adjusted_width
+
+
+			'---------'
+
+
+			G30.cell(row=15, column=1).value="Account"
+			G30.cell(row=15, column=2).value="Description"
+			G30.cell(row=15, column=3).value="OB 01.01."+str(yearentry)
+			G30.cell(row=15, column=4).value="Pure"
+			G30.cell(row=15, column=5).value="Transfer"
+			G30.cell(row=15, column=6).value="Total Additions"
+			# G30.cell(row=15, column=7).value="Sales"
+			# G30.cell(row=15, column=8).value="Scrapped"
+			G30.cell(row=15, column=9).value="Total Disposals"
+			G30.cell(row=15, column=10).value="Recomputed CB as per Nexia"
+			G30.cell(row=15, column=11).value="CB 31.12."+str(yearentry)+" as per TB"
+			G30.cell(row=15, column=12).value="Diff"
+			for i in range (1,13):
+			  G30.cell(row=15,column=i).font=workingsblue2
+			  G30.cell(row=15,column=i).fill=lbluefill
+			  G30.cell(row=15,column=i).border=solidborder
+
+			for i in range (4,10):
+			  G30.cell(row=14, column=i).font=workingsblue2
+			  G30.cell(row=14, column=i).border=solidborder
+			  G30.cell(row=14, column=i).fill=lbluefill
+
+
+			G30.cell(row=16, column=1).value="201"
+			G30.cell(row=17, column=1).value="203"
+			G30.cell(row=18, column=1).value="205 & 208"
+			G30.cell(row=19, column=1).value="2071"
+			G30.cell(row=20, column=1).value="206"
+
+			G30.cell(row=21,column=1).value="Total GBV intangible assets in function"
+			G30.cell(row=21,column=1).font=font2
+
+			G30.cell(row=23,column=1).value='-Tangible assets-'
+			G30.cell(row=23,column=1).font=greenbolditalic
+
+			G30.cell(row=24, column=1).value="Account"
+			G30.cell(row=24, column=2).value="Description"
+			G30.cell(row=24, column=3).value="OB 01.01."+str(yearentry)
+			G30.cell(row=24, column=4).value="Pure"
+			G30.cell(row=24, column=5).value="Transfer"
+			G30.cell(row=24, column=6).value="Total Additions"
+			# G30.cell(row=15, column=7).value="Sales"
+			# G30.cell(row=15, column=8).value="Scrapped"
+			G30.cell(row=24, column=9).value="Total Disposals"
+			G30.cell(row=24, column=10).value="Recomputed CB as per Nexia"
+			G30.cell(row=24, column=11).value="CB 31.12."+str(yearentry)+" as per TB"
+			G30.cell(row=24, column=12).value="Diff"
+
+			for i in range (1,13):
+			  G30.cell(row=24,column=i).font=workingsblue2
+			  G30.cell(row=24,column=i).fill=lbluefill
+			  G30.cell(row=24,column=i).border=solidborder
+
+
+			G30.cell(row=25, column=1).value="211"
+			G30.cell(row=26, column=1).value="212"
+			G30.cell(row=1+26, column=1).value="213 & 223"
+			G30.cell(row=1+27, column=1).value="214 & 224"
+			G30.cell(row=1+28, column=1).value="215"
+			G30.cell(row=1+29, column=1).value="216"
+			G30.cell(row=1+30, column=1).value="217 & 227"
+			G30.cell(row=1+31, column=1).value="Total GBV tangible assets in function"
+			G30.cell(row=1+31, column=1).font=font2
+			# G30.cell(row=1+33, column=1).value="Total Fixed Assets"
+			# G30.cell(row=1+33, column=1).font=font2
+			# for i in range(1,13):
+			#   G30.cell(row=1+33,column=i).fill=grifill
+
+
+			G30.cell(row=1+36, column=1).value="-CIP-"
+			G30.cell(row=1+36, column=1).font=greenbolditalic
+
+			# G30.cell(row=1+36, column=6).value="Additions(PBC_CIP)"
+			# G30.cell(row=1+36, column=9).value="Disposals(PBC_CIP)"
+
+			# for i in range (4,7):
+			#     G30.cell(row=1+36,column=i).alignment=Alignment (horizontal='centerContinuous')
+
+
+			# for i in range (7,10):
+			#     G30.cell(row=1+36,column=i).alignment=Alignment (horizontal='centerContinuous')
+
+
+			G30.cell(row=1+37, column=1).value="Account"
+			G30.cell(row=1+37, column=2).value="Description"
+			G30.cell(row=1+37, column=3).value="OB 01.01."+str(yearentry)
+			G30.cell(row=1+37, column=4).value="Pure"
+			G30.cell(row=1+37, column=6).value="Total Additions"
+			G30.cell(row=1+37, column=7).value="Sales/Scrapped"
+			G30.cell(row=1+37, column=8).value="Transfer"
+			G30.cell(row=1+37, column=9).value="Total Disposals"
+			G30.cell(row=1+37, column=10).value="Recomputed CB as per Nexia"
+			G30.cell(row=1+37, column=11).value="CB 31.12."+str(yearentry)+" as per TB"
+			G30.cell(row=1+37, column=12).value="Diff"
+			for i in range (1,13):
+			  G30.cell(row=1+37,column=i).font=workingsblue2
+			  G30.cell(row=1+37,column=i).fill=lbluefill
+			  G30.cell(row=1+37,column=i).border=solidborder
+
+			for i in range (4,10):
+			  G30.cell(row=1+36, column=i).font=workingsblue2
+			  G30.cell(row=1+36, column=i).border=solidborder
+			  G30.cell(row=1+36, column=i).fill=lbluefill
+
+
+			G30.cell(row=1+38, column=1).value="231"
+			G30.cell(row=1+39, column=1).value="235"
+			G30.cell(row=1+40, column=1).value="Total GBV CIP"
+			G30.cell(row=1+40, column=1).font=font2
+			# for i in range(1,13):
+			#   G30.cell(row=1+40, column=i).fill=grifill
+			###
+
+			# for i in range(1,13):
+			#   G30.cell(row=47, column=i).fill=grifill
+
+			G30.cell(row=44, column=1).value="TOTAL FA GBV"
+			G30.cell(row=44, column=1).font=font2
+
+			G30.cell(row=47, column=1).value="Working 2: Accumulated Depreciation and Impairment"
+			G30.cell(row=47, column=1).font=workingsblue
+
+			G30.cell(row=48,column=1).value="'-Depreciation of intangible assets-"
+			G30.cell(row=48,column=1).font=greenbolditalic
+			G30.cell(row=49, column=1).value="Account"
+			G30.cell(row=49, column=2).value="Description"
+			G30.cell(row=49, column=3).value="OB 01.01."+str(yearentry)
+			G30.cell(row=49, column=6).value="Depreciation Charge"
+			G30.cell(row=49, column=9).value="Accumulated depreciation of disposals"
+			G30.cell(row=49, column=10).value="Recomputed CB as per Nexia"
+			G30.cell(row=49, column=11).value="CB 31.12."+str(yearentry)+" as per TB"
+			G30.cell(row=49, column=12).value="Diff"
+
+			for i in range (1,13):
+			  G30.cell(row=49,column=i).font=workingsblue2
+			  G30.cell(row=49,column=i).fill=lbluefill
+			  G30.cell(row=49,column=i).border= solidborder
+
+			# G30.cell(row=52, column=4).value="Additions(FAR)"
+			# G30.cell(row=52, column=7).value="Disposals(PBC_Disposals)"
+
+			# for i in range (4,7):
+			#     G30.cell(row=52,column=i).alignment=Alignment (horizontal='centerContinuous')
+
+			# for i in range (7,10):
+			#     G30.cell(row=52,column=i).alignment=Alignment (horizontal='centerContinuous')
+
+			# for i in range (4,10):
+			#   G30.cell(row=52, column=i).font=font2
+			#   G30.cell(row=52, column=i).border=solidborder
+			#   G30.cell(row=52, column=i).fill=lbluefill
+
+
+			G30.cell(row=50, column=1).value="2801"
+			G30.cell(row=51, column=1).value="2803"
+			G30.cell(row=52, column=1).value="2805 & 2808"
+			G30.cell(row=53, column=1).value="2807"
+			G30.cell(row=54, column=1).value="2806"
+
+			G30.cell(row=55, column=1).value="Total depreciation of intangible assets"
+			G30.cell(row=55, column=1).font=font2
+
+			G30.cell(row=57,column=1).value='-Depreciation of tangible assets'
+			G30.cell(row=57,column=1).font=greenbolditalic
+
+			G30.cell(row=58, column=1).value="Account"
+			G30.cell(row=58, column=2).value="Description"
+			G30.cell(row=58, column=3).value="OB 01.01."+str(yearentry)
+			G30.cell(row=58, column=6).value="Depreciation Charge"
+			G30.cell(row=58, column=9).value="Accumulated depreciation of disposals"
+			G30.cell(row=58, column=10).value="Recomputed CB as per Nexia"
+			G30.cell(row=58, column=11).value="CB 31.12."+str(yearentry)+" as per TB"
+			G30.cell(row=58, column=12).value="Diff"
+
+			for i in range (1,13):
+			  G30.cell(row=58,column=i).font=workingsblue2
+			  G30.cell(row=58,column=i).fill=lbluefill
+			  G30.cell(row=58,column=i).border= solidborder
+
+
+			G30.cell(row=59, column=1).value="2811"
+			G30.cell(row=60, column=1).value="2812"
+			G30.cell(row=61, column=1).value="2813"
+			G30.cell(row=62, column=1).value="2814"
+			G30.cell(row=63, column=1).value="2815"
+			G30.cell(row=64, column=1).value="2816"
+			G30.cell(row=65, column=1).value="2817"
+			G30.cell(row=66, column=1).value="Total Depreciation of tangible assets"
+			G30.cell(row=66, column=1).font=font2
+
+			G30.cell(row=67, column=1).value="Total depreciation"
+			G30.cell(row=67, column=1).font=font2
+
+			# for i in range(1,13):
+			#   G30.cell(row=95, column=i).fill=grifill
+
+			# G30.cell(row=98, column=1).value="Working 5: Depreciation, impairment and goodwill check"
+			# G30.cell(row=98, column=1).font=workingsblue
+
+			# G30.cell(row=99, column=1).value="Check"
+			# G30.cell(row=99, column=2).value="As per FAR"
+			# G30.cell(row=99, column=3).value="As per TB"
+			# G30.cell(row=99, column=6).value="Diff"
+
+			# for i in range (1,7):
+			#   G30.cell(row=99,column=i).font=font2
+			#   G30.cell(row=99,column=i).fill=lbluefill
+			#   G30.cell(row=99,column=i).border= solidborder
+			#   # G30.cell(row=105,column=i).border= solidborder
+
+
+			# G30.cell(row=100, column=1).value="Depreciation charge"
+			# G30.cell(row=101, column=1).value="Impairment charge"
+			# G30.cell(row=102, column=1).value="Goodwill charge"
+
+
+			G30.cell(row=72, column=1).value="Working 3: NBV"
+			G30.cell(row=72, column=1).font=workingsblue
+
+			G30.cell(row=73, column=1).value="Account"
+			G30.cell(row=73, column=2).value="Description"
+			G30.cell(row=73, column=3).value="Recomputed NBV 01.01."+str(yearentry)+" as per Nexia"
+			# G30.cell(row=105, column=4).value="Accumulated depreciation"
+			# G30.cell(row=105, column=5).value="Accumulated impairment"
+			G30.cell(row=73, column=6).value="Recomputed NBV 31.12."+str(yearentry)+" as per Nexia"
+
+			for i in range (1,7):
+			  G30.cell(row=73,column=i).font=workingsblue2
+			  G30.cell(row=73,column=i).fill=lbluefill
+			  G30.cell(row=73,column=i).border= solidborder
+
+			G30.cell(row=74, column=1).value="201,2801"
+			G30.cell(row=75, column=1).value="203,2803"
+			G30.cell(row=76, column=1).value="205 & 208, 2805 & 2808"
+			G30.cell(row=77, column=1).value="2071,2807"
+			G30.cell(row=78, column=1).value="206, 2806"
+			G30.cell(row=79, column=1).value="4094"
+			G30.cell(row=80, column=1).value="Total NBV intangibles"
+
+			G30.cell(row=83, column=1).value="211, 212, 2811, 2812"
+			G30.cell(row=84, column=1).value="213 & 223, 2813"
+			G30.cell(row=85, column=1).value="214 & 224, 2814"
+			G30.cell(row=86, column=1).value="215, 2815"
+			G30.cell(row=87, column=1).value="216, 2816"
+			G30.cell(row=88, column=1).value="217, 2817"
+			G30.cell(row=89, column=1).value="4093"
+			G30.cell(row=90, column=1).value="231"
+			G30.cell(row=91, column=1).value="235"
+			G30.cell(row=92, column=1).value="Total NBV tangibles"
+
+			G30.cell(row=94, column=1).value="Total Intangible and Tangible Assets NBV"
+			G30.cell(row=94, column=1).font=font2
+
+			G30.cell(row=96,column=1).value="Findings:"
+			G30.cell(row=96,column=1).font=font2
+			#mai punem niste borduri
+
+			# G30.cell(row=15,column=3).border=rightmedium
+			# G30.cell(row=15,column=6).border=rightmedium
+			# G30.cell(row=15,column=9).border=rightmedium
+
+			# G30.cell(row=14,column=6).border=rightmedium
+			# G30.cell(row=14,column=9).border=rightmedium
+
+			# G30.cell(row=20,column=3).border=rightdouble
+			# G30.cell(row=20,column=6).border=rightdouble
+			# G30.cell(row=20,column=9).border=rightdouble
+
+			# G30.cell(row=31,column=3).border=rightdouble
+			# G30.cell(row=31,column=6).border=rightdouble
+			# G30.cell(row=31,column=9).border=rightdouble
+
+
+			# G30.cell(row=24,column=3).border=rightdouble
+			# G30.cell(row=24,column=6).border=rightdouble
+			# G30.cell(row=24,column=9).border=rightdouble
+
+
+			# G30.cell(row=38,column=3).border=rightmedium
+			# G30.cell(row=38,column=6).border=rightmedium
+			# G30.cell(row=38,column=9).border=rightmedium
+
+			# G30.cell(row=40,column=3).border=rightdouble
+			# G30.cell(row=40,column=6).border=rightdouble
+			# G30.cell(row=40,column=9).border=rightdouble
+
+
+			# # G30.cell(row=52,column=3).border=rightborder
+			# # G30.cell(row=52,column=6).border=rightmedium
+			# # G30.cell(row=52,column=9).border=rightmedium
+			# G30.cell(row=49,column=3).border=rightmedium
+			# G30.cell(row=49,column=6).border=rightmedium
+			# G30.cell(row=49,column=9).border=rightmedium
+
+			# G30.cell(row=58,column=3).border=rightdouble
+			# G30.cell(row=58,column=6).border=rightdouble
+			# G30.cell(row=58,column=9).border=rightdouble
+
+
+
+
+			#descrieri
+			G30.cell(row=16, column=2).value="Set-up costs"
+			G30.cell(row=17, column=2).value="Development costs"
+			G30.cell(row=18, column=2).value="Licenses, Trademarks and Other intangibles"
+			G30.cell(row=19, column=2).value="Goodwill"
+			G30.cell(row=20, column=2).value="Intangible assets for mineral resources"
+
+			G30.cell(row=25, column=2).value="Land"
+			G30.cell(row=26, column=2).value="Buildings"
+			G30.cell(row=1+26, column=2).value="Equipments and Machines"
+			G30.cell(row=1+27, column=2).value="Furniture, office equipments"
+			G30.cell(row=1+28, column=2).value="Investment properties"
+			G30.cell(row=1+29, column=2).value="Tangible assets for mineral resources"
+			G30.cell(row=1+30, column=2).value="Biological assets"
+
+			G30.cell(row=1+38, column=2).value="WIP Tangible Assets"
+			G30.cell(row=1+39, column=2).value="WIP Investment properties"
+
+			G30.cell(row=50, column=2).value="Depreciation for set-up costs"
+			G30.cell(row=51, column=2).value="Depreciation for development costs"
+			G30.cell(row=52, column=2).value="Depreciation for Licenses, Trademarks and Other intangibles "
+			G30.cell(row=53, column=2).value="Depreciation for Goodwill"
+			G30.cell(row=54, column=2).value="Depreciation for intangible assets for mineral resources "
+
+			G30.cell(row=59, column=2).value="Depreciation for Land"
+			G30.cell(row=60, column=2).value="Depreciation for Buildings"
+			G30.cell(row=61, column=2).value="Depreciation for Equipments and Machines"
+			G30.cell(row=62, column=2).value="Depreciation for Furniture, office equipments"
+			G30.cell(row=63, column=2).value="Depreciation for investment properties"
+			G30.cell(row=64, column=2).value="Depreciation for tangible assets for mineral resources"
+			G30.cell(row=65, column=2).value="Depreciation for biological assets"
+
+
+
+			G30.cell(row=74, column=2).value="Set-up costs"
+			G30.cell(row=75, column=2).value="Development costs"
+			G30.cell(row=76, column=2).value="Licenses, Trademarks and Other intangibles"
+			G30.cell(row=77, column=2).value="Goodwill"
+			G30.cell(row=78, column=2).value="Intangible assets for mineral resources"
+			G30.cell(row=79, column=2).value="Advances for intangibles"
+
+			G30.cell(row=83, column=2).value="Land and Buildings"
+			G30.cell(row=84, column=2).value="Equipments and Machines"
+			G30.cell(row=85, column=2).value="Furniture, office equipments"
+			G30.cell(row=86, column=2).value="Investment properties"
+			G30.cell(row=87, column=2).value="Tangible assets for mineral resources"
+			G30.cell(row=88, column=2).value="Biological assets"
+			G30.cell(row=89, column=2).value="Advances for tangibles"
+
+			G30.cell(row=90, column=2).value="WIP Tangible Assets"
+			G30.cell(row=91, column=2).value="WIP investment properties"
+
+			#formule
+
+			G30.cell(row=16, column=3).value='=SUMIF(F10_TB!B:B,"201",F10_TB!E:E)'
+			G30.cell(row=17, column=3).value='=SUMIF(F10_TB!B:B,"203",F10_TB!E:E)'
+			G30.cell(row=18, column=3).value='=SUMIF(F10_TB!B:B,"205",F10_TB!E:E)+SUMIF(F10_TB!B:B,"208",F10_TB!E:E)'
+			G30.cell(row=19, column=3).value='=SUMIF(F10_TB!B:B,"207",F10_TB!E:E)'
+			G30.cell(row=20, column=3).value='=SUMIF(F10_TB!B:B,"206",F10_TB!E:E)'
+			G30.cell(row=21, column=3).value='=SUM(C16:C20)'
+
+			G30.cell(row=16, column=4).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"201",PBC_Add!H:H,"Pure")'
+			G30.cell(row=17, column=4).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"203",PBC_Add!H:H,"Pure")'
+			G30.cell(row=18, column=4).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"205",PBC_Add!H:H,"Pure")+SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"208",PBC_Add!H:H,"Pure")'
+			G30.cell(row=19, column=4).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"207",PBC_Add!H:H,"Pure")'
+			G30.cell(row=20, column=4).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"206",PBC_Add!H:H,"Pure")'
+			G30.cell(row=21, column=4).value='=SUM(D16:D20)'
+
+			G30.cell(row=16, column=5).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"201",PBC_Add!H:H,"Transfer")'
+			G30.cell(row=17, column=5).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"203",PBC_Add!H:H,"Transfer")'
+			G30.cell(row=18, column=5).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"205",PBC_Add!H:H,"Transfer")+SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"208",PBC_Add!H:H,"Transfer")'
+			G30.cell(row=19, column=5).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"207",PBC_Add!H:H,"Transfer")'
+			G30.cell(row=20, column=5).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"206",PBC_Add!H:H,"Transfer")'
+			G30.cell(row=21, column=5).value='=SUM(E16:E20)'
+
+			G30.cell(row=16, column=6).value="=SUM(D16:E16)"
+			G30.cell(row=17, column=6).value="=SUM(D17:E17)"
+			G30.cell(row=18, column=6).value="=SUM(D18:E18)"
+			G30.cell(row=19, column=6).value="=SUM(D19:E19)"
+			G30.cell(row=20, column=6).value="=SUM(D20:E20)"
+			G30.cell(row=21, column=6).value="=SUM(F16:F20)"
+
+			# G30.cell(row=17, column=7).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"201",PBC_Disposals!K:K,"Sale")'
+			# G30.cell(row=18, column=7).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"203",PBC_Disposals!K:K,"Sale")'
+			# G30.cell(row=19, column=7).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"205",PBC_Disposals!K:K,"Sale")+SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"208",PBC_Disposals!K:K,"Sale")'
+			# G30.cell(row=20, column=7).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"207",PBC_Disposals!K:K,"Sale")'
+			# G30.cell(row=21, column=7).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"206",PBC_Disposals!K:K,"Sale")'
+			# G30.cell(row=22, column=7).value="=SUM(G17:G21)"
+
+
+			# # G30.cell(row=17, column=8).value=0
+			# # G30.cell(row=18, column=8).value=0
+			# # G30.cell(row=19, column=8).value=0
+			# # G30.cell(row=20, column=8).value=0
+			# # G30.cell(row=21, column=8).value=0
+			# # G30.cell(row=22, column=8).value="=SUM(H17:H21)"
+			# G30.cell(row=17, column=8).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"201",PBC_Disposals!K:K,"Scrap")'
+			# G30.cell(row=18, column=8).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"203",PBC_Disposals!K:K,"Scrap")'
+			# G30.cell(row=19, column=8).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"205",PBC_Disposals!K:K,"Scrap")+SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"208",PBC_Disposals!K:K,"Scrap")'
+			# G30.cell(row=20, column=8).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"207",PBC_Disposals!K:K,"Scrap")'
+			# G30.cell(row=21, column=8).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"206",PBC_Disposals!K:K,"Scrap")'
+			# G30.cell(row=22, column=8).value="=SUM(H17:H21)"
+
+			G30.cell(row=16, column=9).value='=SUMIF(PBC_Disposals!A:A,"201",PBC_Disposals!H:H)'
+			G30.cell(row=17, column=9).value='=SUMIF(PBC_Disposals!A:A,"203",PBC_Disposals!H:H)'
+			G30.cell(row=18, column=9).value='=SUMIF(PBC_Disposals!A:A,"205",PBC_Disposals!H:H)+SUMIF(PBC_Disposals!A:A,"208",PBC_Disposals!H:H)'
+			G30.cell(row=19, column=9).value='=SUMIF(PBC_Disposals!A:A,"207",PBC_Disposals!H:H)'
+			G30.cell(row=20, column=9).value='=SUMIF(PBC_Disposals!A:A,"206",PBC_Disposals!H:H)'
+			G30.cell(row=21, column=9).value="=SUM(I16:I20)"
+
+			G30.cell(row=16, column=10).value='=IF(I16<0,C16+F16+I16,C16+F16-I16)'
+			G30.cell(row=17, column=10).value='=IF(I17<0,C17+F17+I17,C17+F17-I17)'
+			G30.cell(row=18, column=10).value='=IF(I18<0,C18+F18+I18,C18+F18-I18)'
+			G30.cell(row=19, column=10).value='=IF(I19<0,C19+F19+I19,C19+F19-I19)'
+			G30.cell(row=20, column=10).value='=IF(I20<0,C20+F20+I20,C20+F20-I20)'
+			G30.cell(row=21, column=10).value="=SUM(J16:J20)"
+
+
+			G30.cell(row=16, column=11).value='=SUMIF(F10_TB!B:B,"201",F10_TB!H:H)'
+			G30.cell(row=17, column=11).value='=SUMIF(F10_TB!B:B,"203",F10_TB!H:H)'
+			G30.cell(row=18, column=11).value='=SUMIF(F10_TB!B:B,"205",F10_TB!H:H)+SUMIF(F10_TB!B:B,"208",F10_TB!H:H)'
+			G30.cell(row=19, column=11).value='=SUMIF(F10_TB!B:B,"207",F10_TB!H:H)'
+			G30.cell(row=20, column=11).value='=SUMIF(F10_TB!B:B,"206",F10_TB!H:H)'
+			G30.cell(row=21, column=11).value="=SUM(K16:K20)"
+
+			G30.cell(row=16, column=12).value='=J16-K16'
+			G30.cell(row=17, column=12).value='=J17-K17'
+			G30.cell(row=18, column=12).value='=J18-K18'
+			G30.cell(row=19, column=12).value='=J19-K19'
+			G30.cell(row=20, column=12).value='=J20-K20'
+			G30.cell(row=21, column=12).value="=SUM(L16:L20)"
+
+			G30.cell(row=25, column=3).value='=SUMIF(F10_TB!B:B,"211",F10_TB!E:E)'
+			G30.cell(row=26, column=3).value='=SUMIF(F10_TB!B:B,"212",F10_TB!E:E)'
+			G30.cell(row=27, column=3).value='=SUMIF(F10_TB!B:B,"213",F10_TB!E:E)+SUMIF(F10_TB!B:B,"223",F10_TB!E:E)'
+			G30.cell(row=28, column=3).value='=SUMIF(F10_TB!B:B,"214",F10_TB!E:E)+SUMIF(F10_TB!B:B,"224",F10_TB!E:E)'
+			G30.cell(row=29, column=3).value='=SUMIF(F10_TB!B:B,"215",F10_TB!E:E)'
+			G30.cell(row=30, column=3).value='=SUMIF(F10_TB!B:B,"216",F10_TB!E:E)'
+			G30.cell(row=31, column=3).value='=SUMIF(F10_TB!B:B,"217",F10_TB!E:E)+SUMIF(F10_TB!B:B,"227",F10_TB!E:E)'
+			G30.cell(row=32, column=3).value='=SUM(C25:C31)'
+
+			G30.cell(row=25, column=4).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"211",PBC_Add!H:H,"Pure")'
+			G30.cell(row=26, column=4).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"212",PBC_Add!H:H,"Pure")'
+			G30.cell(row=27, column=4).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"213",PBC_Add!H:H,"Pure")+SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"223",PBC_Add!H:H,"Pure")'
+			G30.cell(row=28, column=4).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"214",PBC_Add!H:H,"Pure")+SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"224",PBC_Add!H:H,"Pure")'
+			G30.cell(row=29, column=4).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"215",PBC_Add!H:H,"Pure")'
+			G30.cell(row=30, column=4).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"216",PBC_Add!H:H,"Pure")'
+			G30.cell(row=31, column=4).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"217",PBC_Add!H:H,"Pure")+SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"227",PBC_Add!H:H,"Pure")'
+			G30.cell(row=32, column=4).value='=SUM(D25:D31)'
+
+			G30.cell(row=25, column=5).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"211",PBC_Add!H:H,"Transfer")'
+			G30.cell(row=26, column=5).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"212",PBC_Add!H:H,"Transfer")'
+			G30.cell(row=27, column=5).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"213",PBC_Add!H:H,"Transfer")+SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"223",PBC_Add!H:H,"Transfer")'
+			G30.cell(row=28, column=5).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"214",PBC_Add!H:H,"Transfer")+SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"224",PBC_Add!H:H,"Transfer")'
+			G30.cell(row=29, column=5).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"215",PBC_Add!H:H,"Transfer")'
+			G30.cell(row=30, column=5).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"216",PBC_Add!H:H,"Transfer")'
+			G30.cell(row=31, column=5).value='=SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"217",PBC_Add!H:H,"Transfer")+SUMIFS(PBC_Add!C:C,PBC_Add!G:G,"227",PBC_Add!H:H,"Transfer")'
+			G30.cell(row=32, column=5).value='=SUM(E25:E31)'
+
+			G30.cell(row=25, column=6).value="=SUM(D25:E25)"
+			G30.cell(row=26, column=6).value="=SUM(D26:E26)"
+			G30.cell(row=27, column=6).value="=SUM(D27:E27)"
+			G30.cell(row=28, column=6).value="=SUM(D28:E28)"
+			G30.cell(row=29, column=6).value="=SUM(D29:E29)"
+			G30.cell(row=30, column=6).value="=SUM(D30:E30)"
+			G30.cell(row=31, column=6).value="=SUM(D31:E31)"
+			G30.cell(row=32, column=6).value="=SUM(F25:F31)"
+
+			G30.cell(row=25, column=7).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"211",PBC_Disposals!K:K,"Sale")'
+			G30.cell(row=26, column=7).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"212",PBC_Disposals!K:K,"Sale")'
+			G30.cell(row=27, column=7).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"213",PBC_Disposals!K:K,"Sale")+SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"223",PBC_Disposals!K:K,"Sale")'
+			G30.cell(row=28, column=7).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"214",PBC_Disposals!K:K,"Sale")+SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"224",PBC_Disposals!K:K,"Sale")'
+			G30.cell(row=29, column=7).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"215",PBC_Disposals!K:K,"Sale")'
+			G30.cell(row=30, column=7).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"216",PBC_Disposals!K:K,"Sale")'
+			G30.cell(row=31, column=7).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"217",PBC_Disposals!K:K,"Sale")+SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"227",PBC_Disposals!K:K,"Sale")'
+			G30.cell(row=32, column=7).value="=SUM(G25:G31)"
+
+
+			# G30.cell(row=25, column=8).value=0
+			# G30.cell(row=26, column=8).value=0
+			# G30.cell(row=27, column=8).value=0
+			# G30.cell(row=28, column=8).value=0
+			# G30.cell(row=29, column=8).value=0
+			# G30.cell(row=30, column=8).value=0
+			# G30.cell(row=31, column=8).value="=SUM(H25:H30)"
+
+			G30.cell(row=25, column=8).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"211",PBC_Disposals!K:K,"Scrap")'
+			G30.cell(row=26, column=8).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"212",PBC_Disposals!K:K,"Scrap")'
+			G30.cell(row=27, column=8).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"213",PBC_Disposals!K:K,"Scrap")+SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"223",PBC_Disposals!K:K,"Scrap")'
+			G30.cell(row=28, column=8).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"214",PBC_Disposals!K:K,"Scrap")+SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"224",PBC_Disposals!K:K,"Scrap")'
+			G30.cell(row=29, column=8).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"215",PBC_Disposals!K:K,"Scrap")'
+			G30.cell(row=30, column=8).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"216",PBC_Disposals!K:K,"Scrap")'
+			G30.cell(row=31, column=8).value='=SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"217",PBC_Disposals!K:K,"Scrap")+SUMIFS(PBC_Disposals!H:H,PBC_Disposals!A:A,"227",PBC_Disposals!K:K,"Scrap")'
+			G30.cell(row=32, column=8).value="=SUM(H25:H31)"
+
+			G30.cell(row=25, column=9).value='=SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!H:H)'
+			G30.cell(row=26, column=9).value='=SUMIF(PBC_Disposals!A:A,"212",PBC_Disposals!H:H)'
+			G30.cell(row=27, column=9).value='=SUMIF(PBC_Disposals!A:A,"213",PBC_Disposals!H:H)+SUMIF(PBC_Disposals!A:A,"223",PBC_Disposals!H:H)'
+			G30.cell(row=28, column=9).value='=SUMIF(PBC_Disposals!A:A,"214",PBC_Disposals!H:H)+SUMIF(PBC_Disposals!A:A,"224",PBC_Disposals!H:H)'
+			G30.cell(row=29, column=9).value='=SUMIF(PBC_Disposals!A:A,"215",PBC_Disposals!H:H)'
+			G30.cell(row=30, column=9).value='=SUMIF(PBC_Disposals!A:A,"216",PBC_Disposals!H:H)'
+			G30.cell(row=31, column=9).value='=SUMIF(PBC_Disposals!A:A,"217",PBC_Disposals!H:H)+SUMIF(PBC_Disposals!A:A,"227",PBC_Disposals!H:H)'
+			G30.cell(row=32, column=9).value="=SUM(I25:I31)"
+
+			G30.cell(row=25, column=10).value='=IF(I25<0,C25+F25+I25,C25+F25-I25)'
+			G30.cell(row=26, column=10).value='=IF(I26<0,C26+F26+I26,C26+F26-I26)'
+			G30.cell(row=27, column=10).value='=IF(I27<0,C27+F27+I27,C27+F27-I27)'
+			G30.cell(row=28, column=10).value='=IF(I28<0,C28+F28+I28,C28+F28-I28)'
+			G30.cell(row=29, column=10).value='=IF(I29<0,C29+F29+I29,C29+F29-I29)'
+			G30.cell(row=30, column=10).value='=IF(I30<0,C30+F30+I30,C30+F30-I30)'
+			G30.cell(row=31, column=10).value='=IF(I31<0,C31+F31+I31,C31+F31-I31)'
+			G30.cell(row=32, column=10).value="=SUM(J25:J31)"
+
+
+			G30.cell(row=25, column=11).value='=SUMIF(F10_TB!B:B,"211",F10_TB!H:H)'
+			G30.cell(row=26, column=11).value='=SUMIF(F10_TB!B:B,"212",F10_TB!H:H)'
+			G30.cell(row=27, column=11).value='=SUMIF(F10_TB!B:B,"213",F10_TB!H:H)+SUMIF(F10_TB!B:B,"223",F10_TB!H:H)'
+			G30.cell(row=28, column=11).value='=SUMIF(F10_TB!B:B,"214",F10_TB!H:H)+SUMIF(F10_TB!B:B,"224",F10_TB!H:H)'
+			G30.cell(row=29, column=11).value='=SUMIF(F10_TB!B:B,"215",F10_TB!H:H)'
+			G30.cell(row=30, column=11).value='=SUMIF(F10_TB!B:B,"216",F10_TB!H:H)'
+			G30.cell(row=31, column=11).value='=SUMIF(F10_TB!B:B,"217",F10_TB!H:H)+SUMIF(F10_TB!B:B,"227",F10_TB!H:H)'
+			G30.cell(row=32, column=11).value="=SUM(K25:K31)"
+
+			G30.cell(row=25, column=12).value='=J25-K25'
+			G30.cell(row=26, column=12).value='=J26-K26'
+			G30.cell(row=27, column=12).value='=J27-K27'
+			G30.cell(row=28, column=12).value='=J28-K28'
+			G30.cell(row=29, column=12).value='=J29-K29'
+			G30.cell(row=30, column=12).value='=J30-K30'
+			G30.cell(row=31, column=12).value='=J31-K31'
+			G30.cell(row=32, column=12).value="=SUM(L25:L31)"
+
+			# G30.cell(row=34,column=3).value="=C22+C32"
+			# G30.cell(row=34,column=4).value="=D22+D32"
+			# G30.cell(row=34,column=5).value="=E22+E32"
+			# G30.cell(row=34,column=6).value="=F22+F32"
+			# # G30.cell(row=34,column=7).value="=G22+G32"
+			# # G30.cell(row=34,column=8).value="=H22+H32"
+			# G30.cell(row=34,column=9).value="=I22+I32"
+			# G30.cell(row=34,column=10).value="=J22+J32"
+			# G30.cell(row=34,column=11).value="=K22+K32"
+			# G30.cell(row=34,column=12).value="=L22+L32"
+
+
+			G30.cell(row=39, column=3).value='=SUMIF(F10_TB!B:B,"231",F10_TB!E:E)'
+			G30.cell(row=40, column=3).value='=SUMIF(F10_TB!B:B,"235",F10_TB!E:E)'
+			G30.cell(row=41,column=3).value='=SUM(C39:C40)'
+
+			# G30.cell(row=39,column=4).value='=SUMIF(PBC_CIP!F:F,"231",PBC_CIP!C:C)'
+			# G30.cell(row=40,column=4).value='=SUMIF(PBC_CIP!F:F,"235",PBC_CIP!C:C)'
+			G30.cell(row=41,column=4).value='=SUM(D39:D40)'
+
+			G30.cell(row=39,column=6).value='=SUM(D39:E39)'
+			G30.cell(row=40,column=6).value='=SUM(D40:E40)'
+			G30.cell(row=41,column=6).value='=SUM(F39:F40)'
+
+			# G30.cell(row=39,column=7).value='=SUMIFS(PBC_CIP!D:D,PBC_CIP!F:F,"231",PBC_CIP!E:E,"Sales")+SUMIFS(PBC_CIP!D:D,PBC_CIP!F:F,"231",PBC_CIP!E:E,"Scrapped")'
+			# G30.cell(row=40,column=7).value='=SUMIFS(PBC_CIP!D:D,PBC_CIP!F:F,"235",PBC_CIP!E:E,"Sales")+SUMIFS(PBC_CIP!D:D,PBC_CIP!F:F,"235",PBC_CIP!E:E,"Scrapped")'
+			# G30.cell(row=41,column=7).value='=SUM(G39:G40)'
+
+			# G30.cell(row=39,column=8).value='=SUMIFS(PBC_CIP!D:D,PBC_CIP!F:F,"231",PBC_CIP!E:E,"Transfer")'
+			# G30.cell(row=40,column=8).value='=SUMIFS(PBC_CIP!D:D,PBC_CIP!F:F,"235",PBC_CIP!E:E,"Transfer")'
+			G30.cell(row=41,column=8).value='=SUM(H39:H40)'
+
+			G30.cell(row=39,column=9).value='=SUM(G39:H39)'
+			G30.cell(row=40,column=9).value='=SUM(G40:H40)'
+			G30.cell(row=41,column=9).value='=SUM(I39:I40)'
+
+			G30.cell(row=39,column=10).value='=IF(I39<0,C39+F39+I39,C39+F39-I39)'
+			G30.cell(row=40,column=10).value='=IF(I40<0,C40+F40+I40,C40+F40-I40)'
+			G30.cell(row=41,column=10).value='=SUM(J39:J40)'
+
+			G30.cell(row=39,column=11).value='=SUMIF(F10_TB!B:B,"231",F10_TB!H:H)'
+			G30.cell(row=40,column=11).value='=SUMIF(F10_TB!B:B,"235",F10_TB!H:H)'
+			G30.cell(row=41,column=11).value='=SUM(K39:K40)'
+
+			G30.cell(row=39,column=12).value='=J39-K39'
+			G30.cell(row=40,column=12).value='=J40-K40'
+			G30.cell(row=41,column=12).value='=SUM(L39:L40)'
+			#################################################
+
+
+
+
+			G30.cell(row=44, column=3).value='=C21+C32+C41'
+			G30.cell(row=44, column=6).value='=F21+F32+F41'
+			G30.cell(row=44, column=9).value='=I21+I32+I41'
+			G30.cell(row=44, column=10).value='=J21+J32+J41'
+			G30.cell(row=44, column=11).value='=K21+K32+K41'
+			G30.cell(row=44, column=12).value='=L21+L32+L41'
+			for i in range(1,13):
+				G30.cell(row=44,column=i).fill=total
+			G30.cell(row=50,column=3).value='=SUMIF(F10_TB!J:J,"2801",F10_TB!E:E)'
+			G30.cell(row=51,column=3).value='=SUMIF(F10_TB!J:J,"2803",F10_TB!E:E)'
+			G30.cell(row=52,column=3).value='=SUMIF(F10_TB!J:J,"2805",F10_TB!E:E)+SUMIF(F10_TB!J:J,"2808",F10_TB!E:E)'
+			G30.cell(row=53,column=3).value='=SUMIF(F10_TB!J:J,"2807",F10_TB!E:E)'
+			G30.cell(row=54,column=3).value='=SUMIF(F10_TB!J:J,"2806",F10_TB!E:E)'
+			G30.cell(row=55,column=3).value='=SUM(C50:C54)'
+
+			G30.cell(row=50,column=6).value='=IF(SUMIF(PBC_FAR!F:F,"2801",PBC_FAR!I:I)>0,-SUMIF(PBC_FAR!F:F,"2801",PBC_FAR!I:I),SUMIF(PBC_FAR!F:F,"2801",PBC_FAR!I:I))+IF(SUMIF(PBC_Disposals!A:A,"201",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"201",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"201",PBC_Disposals!I:I))'
+			G30.cell(row=51,column=6).value='=IF(SUMIF(PBC_FAR!F:F,"2803",PBC_FAR!I:I)>0,-SUMIF(PBC_FAR!F:F,"2803",PBC_FAR!I:I),SUMIF(PBC_FAR!F:F,"2803",PBC_FAR!I:I))+IF(SUMIF(PBC_Disposals!A:A,"203",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"201",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"203",PBC_Disposals!I:I))'
+			G30.cell(row=52,column=6).value='=IF(SUMIF(PBC_FAR!F:F,"2805",PBC_FAR!I:I)+SUMIF(PBC_FAR!F:F,"2808",PBC_FAR!I:I)>0,-SUMIF(PBC_FAR!F:F,"2805",PBC_FAR!I:I)-SUMIF(PBC_FAR!F:F,"2808",PBC_FAR!I:I),SUMIF(PBC_FAR!F:F,"2805",PBC_FAR!I:I)+SUMIF(PBC_FAR!F:F,"2808",PBC_FAR!I:I))+IF(SUMIF(PBC_Disposals!A:A,"205",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"205",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"205",PBC_Disposals!I:I))+IF(SUMIF(PBC_Disposals!A:A,"208",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"208",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"208",PBC_Disposals!I:I))'
+			G30.cell(row=53,column=6).value='=IF(SUMIF(PBC_FAR!F:F,"2807",PBC_FAR!I:I)>0,-SUMIF(PBC_FAR!F:F,"2807",PBC_FAR!I:I),SUMIF(PBC_FAR!F:F,"2807",PBC_FAR!I:I))+IF(SUMIF(PBC_Disposals!A:A,"207",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"207",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"207",PBC_Disposals!I:I))'
+			G30.cell(row=54,column=6).value='=IF(SUMIF(PBC_FAR!F:F,"2806",PBC_FAR!I:I)>0,-SUMIF(PBC_FAR!F:F,"2806",PBC_FAR!I:I),SUMIF(PBC_FAR!F:F,"2806",PBC_FAR!I:I))+IF(SUMIF(PBC_Disposals!A:A,"206",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"206",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"206",PBC_Disposals!I:I))'
+			G30.cell(row=55,column=6).value='=SUM(F50:F54)'
+
+			G30.cell(row=50,column=9).value='=SUMIF(PBC_Disposals!L:L,"2801",PBC_Disposals!J:J)'
+			G30.cell(row=51,column=9).value='=SUMIF(PBC_Disposals!L:L,"2803",PBC_Disposals!J:J)'
+			G30.cell(row=52,column=9).value='=SUMIF(PBC_Disposals!L:L,"2805",PBC_Disposals!J:J)+SUMIF(PBC_Disposals!L:L,"2808",PBC_Disposals!J:J)'
+			G30.cell(row=53,column=9).value='=SUMIF(PBC_Disposals!L:L,"2807",PBC_Disposals!J:J)'
+			G30.cell(row=54,column=9).value='=SUMIF(PBC_Disposals!L:L,"2806",PBC_Disposals!J:J)'
+			G30.cell(row=55,column=9).value='=SUM(I50:I54)'
+
+			G30.cell(row=50,column=10).value='=C50+F50+I50'
+			G30.cell(row=51,column=10).value='=C51+F51+I51'
+			G30.cell(row=52,column=10).value='=C52+F52+I52'
+			G30.cell(row=53,column=10).value='=C53+F53+I53'
+			G30.cell(row=54,column=10).value='=C54+F54+I54'
+			G30.cell(row=55,column=10).value='=SUM(J50:J54)'
+
+
+			G30.cell(row=50,column=11).value='=SUMIF(F10_TB!J:J,"2801",F10_TB!H:H)'
+			G30.cell(row=51,column=11).value='=SUMIF(F10_TB!J:J,"2803",F10_TB!H:H)'
+			G30.cell(row=52,column=11).value='=SUMIF(F10_TB!J:J,"2805",F10_TB!H:H)+SUMIF(F10_TB!J:J,"2808",F10_TB!H:H)'
+			G30.cell(row=53,column=11).value='=SUMIF(F10_TB!J:J,"2807",F10_TB!H:H)'
+			G30.cell(row=54,column=11).value='=SUMIF(F10_TB!J:J,"2806",F10_TB!H:H)'
+			G30.cell(row=55,column=11).value='=SUM(K50:K54)'
+
+
+			G30.cell(row=50,column=12).value='=J50-K50'
+			G30.cell(row=51,column=12).value='=J51-K51'
+			G30.cell(row=52,column=12).value='=J52-K52'
+			G30.cell(row=53,column=12).value='=J53-K53'
+			G30.cell(row=54,column=12).value='=J54-K54'
+			G30.cell(row=55,column=12).value='=SUM(L50:L54)'
+
+			G30.cell(row=59,column=3).value='=SUMIF(F10_TB!J:J,"2811",F10_TB!E:E)'
+			G30.cell(row=60,column=3).value='=SUMIF(F10_TB!J:J,"2812",F10_TB!E:E)'
+			G30.cell(row=61,column=3).value='=SUMIF(F10_TB!J:J,"2813",F10_TB!E:E)'
+			G30.cell(row=62,column=3).value='=SUMIF(F10_TB!J:J,"2814",F10_TB!E:E)'
+			G30.cell(row=63,column=3).value='=SUMIF(F10_TB!J:J,"2815",F10_TB!E:E)'
+			G30.cell(row=64,column=3).value='=SUMIF(F10_TB!J:J,"2816",F10_TB!E:E)'
+			G30.cell(row=65,column=3).value='=SUMIF(F10_TB!J:J,"2817",F10_TB!E:E)'
+			G30.cell(row=66,column=3).value='=SUM(C59:C65)'
+
+			G30.cell(row=59,column=6).value='=IF(SUMIF(PBC_FAR!F:F,"2811",PBC_FAR!I:I)>0,-SUMIF(PBC_FAR!F:F,"2811",PBC_FAR!I:I),SUMIF(PBC_FAR!F:F,"2811",PBC_FAR!I:I))+IF(SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"211",PBC_Disposals!I:I))'
+			G30.cell(row=60,column=6).value='=IF(SUMIF(PBC_FAR!F:F,"2812",PBC_FAR!I:I)>0,-SUMIF(PBC_FAR!F:F,"2812",PBC_FAR!I:I),SUMIF(PBC_FAR!F:F,"2812",PBC_FAR!I:I))+IF(SUMIF(PBC_Disposals!A:A,"212",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"212",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"212",PBC_Disposals!I:I))'
+			G30.cell(row=61,column=6).value='=IF(SUMIF(PBC_FAR!F:F,"2813",PBC_FAR!I:I)>0,-SUMIF(PBC_FAR!F:F,"2813",PBC_FAR!I:I),SUMIF(PBC_FAR!F:F,"2813",PBC_FAR!I:I))+IF(SUMIF(PBC_Disposals!A:A,"213",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"213",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"213",PBC_Disposals!I:I))'
+			G30.cell(row=62,column=6).value='=IF(SUMIF(PBC_FAR!F:F,"2814",PBC_FAR!I:I)>0,-SUMIF(PBC_FAR!F:F,"2814",PBC_FAR!I:I),SUMIF(PBC_FAR!F:F,"2814",PBC_FAR!I:I))+IF(SUMIF(PBC_Disposals!A:A,"214",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"214",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"214",PBC_Disposals!I:I))'
+			G30.cell(row=63,column=6).value='=IF(SUMIF(PBC_FAR!F:F,"2815",PBC_FAR!I:I)>0,-SUMIF(PBC_FAR!F:F,"2815",PBC_FAR!I:I),SUMIF(PBC_FAR!F:F,"2815",PBC_FAR!I:I))+IF(SUMIF(PBC_Disposals!A:A,"215",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"215",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"215",PBC_Disposals!I:I))'
+			G30.cell(row=64,column=6).value='=IF(SUMIF(PBC_FAR!F:F,"2816",PBC_FAR!I:I)>0,-SUMIF(PBC_FAR!F:F,"2816",PBC_FAR!I:I),SUMIF(PBC_FAR!F:F,"2816",PBC_FAR!I:I))+IF(SUMIF(PBC_Disposals!A:A,"216",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"216",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"216",PBC_Disposals!I:I))'
+			G30.cell(row=65,column=6).value='=IF(SUMIF(PBC_FAR!F:F,"2817",PBC_FAR!I:I)>0,-SUMIF(PBC_FAR!F:F,"2817",PBC_FAR!I:I),SUMIF(PBC_FAR!F:F,"2817",PBC_FAR!I:I))+IF(SUMIF(PBC_Disposals!A:A,"217",PBC_Disposals!I:I)>0,-SUMIF(PBC_Disposals!A:A,"217",PBC_Disposals!I:I),SUMIF(PBC_Disposals!A:A,"217",PBC_Disposals!I:I))'
+			G30.cell(row=66,column=6).value='=SUM(F59:F65)'#AICI STOP
+
+			G30.cell(row=59,column=9).value='=SUMIF(PBC_Disposals!L:L,"2811",PBC_Disposals!J:J)'
+			G30.cell(row=60,column=9).value='=SUMIF(PBC_Disposals!L:L,"2812",PBC_Disposals!J:J)'
+			G30.cell(row=61,column=9).value='=SUMIF(PBC_Disposals!L:L,"2813",PBC_Disposals!J:J)'
+			G30.cell(row=62,column=9).value='=SUMIF(PBC_Disposals!L:L,"2814",PBC_Disposals!J:J)'
+			G30.cell(row=63,column=9).value='=SUMIF(PBC_Disposals!L:L,"2815",PBC_Disposals!J:J)'
+			G30.cell(row=64,column=9).value='=SUMIF(PBC_Disposals!L:L,"2816",PBC_Disposals!J:J)'
+			G30.cell(row=65,column=9).value='=SUMIF(PBC_Disposals!L:L,"2817",PBC_Disposals!J:J)'
+			G30.cell(row=66,column=9).value='=SUM(I59:I65)'
+
+			G30.cell(row=59,column=10).value='=C59+F59+I59'
+			G30.cell(row=60,column=10).value='=C60+F60+I60'
+			G30.cell(row=61,column=10).value='=C61+F61+I61'
+			G30.cell(row=62,column=10).value='=C62+F62+I62'
+			G30.cell(row=63,column=10).value='=C63+F63+I63'
+			G30.cell(row=64,column=10).value='=C64+F64+I64'
+			G30.cell(row=65,column=10).value='=C65+F65+I65'
+			G30.cell(row=66,column=10).value='=SUM(J59:J65)'
+
+			G30.cell(row=59,column=11).value='=SUMIF(F10_TB!J:J,"2811",F10_TB!H:H)'
+			G30.cell(row=60,column=11).value='=SUMIF(F10_TB!J:J,"2812",F10_TB!H:H)'
+			G30.cell(row=61,column=11).value='=SUMIF(F10_TB!J:J,"2813",F10_TB!H:H)'
+			G30.cell(row=62,column=11).value='=SUMIF(F10_TB!J:J,"2814",F10_TB!H:H)'
+			G30.cell(row=63,column=11).value='=SUMIF(F10_TB!J:J,"2815",F10_TB!H:H)'
+			G30.cell(row=64,column=11).value='=SUMIF(F10_TB!J:J,"2816",F10_TB!H:H)'
+			G30.cell(row=65,column=11).value='=SUMIF(F10_TB!J:J,"2817",F10_TB!H:H)'
+			G30.cell(row=66,column=11).value='=SUM(K59:K65)'
+
+			G30.cell(row=59,column=12).value='=J59-K59'
+			G30.cell(row=60,column=12).value='=J60-K60'
+			G30.cell(row=61,column=12).value='=J61-K61'
+			G30.cell(row=62,column=12).value='=J62-K62'
+			G30.cell(row=63,column=12).value='=J63-K63'
+			G30.cell(row=64,column=12).value='=J64-K64'
+			G30.cell(row=65,column=12).value='=J65-K65'
+			G30.cell(row=66,column=12).value='=SUM(L59:L65)'
+
+			G30.cell(row=67,column=3).value="=C55+C66"
+			G30.cell(row=67,column=6).value="=F55+F66"
+			G30.cell(row=67,column=9).value="=I55+I66"
+			G30.cell(row=67,column=10).value="=J55+J66"
+			G30.cell(row=67,column=11).value="=K55+K66"
+			G30.cell(row=67,column=12).value="=L55+L66"
+
+
+
+
+
+
+
+			G30.cell(row=74,column=3).value="=C16+C50"
+			G30.cell(row=75,column=3).value="=C17+C51"
+			G30.cell(row=76,column=3).value="=C18+C52"
+			G30.cell(row=77,column=3).value="=C19+C53"
+			G30.cell(row=78,column=3).value="=C20+C54"
+
+
+			G30.cell(row=80,column=3).value="=SUM(C74:C79)"
+			G30.cell(row=80,column=6).value="=SUM(F74:F79)"
+
+			G30.cell(row=83,column=3).value="=C25+C59+C26+C60"
+			G30.cell(row=84,column=3).value="=C27+C61"
+			G30.cell(row=85,column=3).value="=C28+C62"
+			G30.cell(row=86,column=3).value="=C29+C63"
+			G30.cell(row=87,column=3).value="=C30+C64"
+			G30.cell(row=88,column=3).value="=C31+C65"
+
+			G30.cell(row=90,column=3).value="=C39"
+			G30.cell(row=91,column=3).value="=C40"
+
+			G30.cell(row=92,column=3).value="=SUM(C83:C91)"
+			G30.cell(row=92,column=6).value="=SUM(F83:F91)"
+
+			G30.cell(row=74,column=6).value="=J16+J50"
+			G30.cell(row=75,column=6).value="=J17+J51"
+			G30.cell(row=76,column=6).value="=J18+J52"
+			G30.cell(row=77,column=6).value="=J19+J53"
+			G30.cell(row=78,column=6).value="=J20+J54"
+
+			# G30.cell(row=111,column=6).value="=J45"
+
+			G30.cell(row=83,column=6).value="=J25+J59+J26+J60"
+			G30.cell(row=84,column=6).value="=J27+J61"
+			G30.cell(row=85,column=6).value="=J28+J62"
+			G30.cell(row=86,column=6).value="=J29+J63"
+			G30.cell(row=87,column=6).value="=J30+J64"
+			G30.cell(row=88,column=6).value="=J31+J65"
+
+			# G30.cell(row=120,column=6).value="=J46"
+			G30.cell(row=90,column=6).value="=J39"
+			G30.cell(row=91,column=6).value="=J40"
+
+			G30.cell(row=94,column=3).value="=C80+C92"
+			G30.cell(row=94,column=6).value="=F80+F92"
+
+			for i in range(17,126):
+			  G30.cell(row=i,column=3).number_format="#,##0_);(#,##0)"
+			  G30.cell(row=i,column=4).number_format="#,##0_);(#,##0)"
+			  G30.cell(row=i,column=5).number_format="#,##0_);(#,##0)"
+			  G30.cell(row=i,column=6).number_format="#,##0_);(#,##0)"
+			  G30.cell(row=i,column=7).number_format="#,##0_);(#,##0)"
+			  G30.cell(row=i,column=8).number_format="#,##0_);(#,##0)"
+			  G30.cell(row=i,column=9).number_format="#,##0_);(#,##0)"
+			  G30.cell(row=i,column=10).number_format="#,##0_);(#,##0)"
+			  G30.cell(row=i,column=11).number_format="#,##0_);(#,##0)"
+			  G30.cell(row=i,column=12).number_format="#,##0_);(#,##0)"
+
+			for i in range(1,13):
+			  G30.cell(row=21,column=i).font=font2
+			  G30.cell(row=32,column=i).font=font2
+			  G30.cell(row=41,column=i).font=font2
+			  G30.cell(row=47,column=i).font=font2
+			  G30.cell(row=55,column=i).font=font2
+			  G30.cell(row=66,column=i).font=font2
+			  G30.cell(row=67,column=i).font=font2
+			  G30.cell(row=80,column=i).font=font2
+			  G30.cell(row=92,column=i).font=font2
+			  G30.cell(row=94,column=i).font=font2
+			  G30.cell(row=96,column=i).font=font2
+
+			for i in range(15,103):
+			  G30.cell(row=i,column=12).font=fontRed
+
+
+
+			G30.cell(row=37,column=6).border=rightmedium
+			G30.cell(row=37,column=9).border=rightmedium
+
+			for i in range(17,22):
+			  G30.cell(row=i,column=12).font=fontRedDiff
+			for i in range(25,32):
+			  G30.cell(row=i,column=12).font=fontRedDiff
+			for i in range(39,41):
+			  G30.cell(row=i,column=12).font=fontRedDiff
+			for i in range(45,47):
+			  G30.cell(row=i,column=12).font=fontRedDiff
+			for i in range(55,60):
+			  G30.cell(row=i,column=12).font=fontRedDiff
+			for i in range(63,70):
+			  G30.cell(row=i,column=12).font=fontRedDiff
+			for i in range(79,82):
+			  G30.cell(row=i,column=12).font=fontRedDiff
+			for i in range(85,94):
+			  G30.cell(row=i,column=12).font=fontRedDiff
+
+
+			for i in range(16,21):
+			  for j in range(1,12):
+				  G30.cell(row=i,column=j).font=font1
+			for i in range(25,32):
+			  for j in range(1,12):
+				  G30.cell(row=i,column=j).font=font1
+			for i in range(39,41):
+			  for j in range(1,12):
+				  G30.cell(row=i,column=j).font=font1
+			for i in range(50,55):
+			  for j in range(1,12):
+				  G30.cell(row=i,column=j).font=font1
+			for i in range(59,66):
+			  for j in range(1,12):
+				  G30.cell(row=i,column=j).font=font1
+			for i in range(74,80):
+			  for j in range(1,12):
+				  G30.cell(row=i,column=j).font=font1
+			for i in range(83,92):
+			  for j in range(1,12):
+				  G30.cell(row=i,column=j).font=font1
+
+
+			G30.column_dimensions.group('D','E',hidden=True)
+			G30.column_dimensions.group('G','H',hidden=True)
+
+			G30.cell(row=42,column=7).value="Check"
+			G30.cell(row=42,column=8).value="=IF(OR(H41<0),E32+E22+H41,E32+E22-H41)"
+
+			G30.cell(row=42,column=7).font=fontRed
+			G30.cell(row=42,column=8).font=fontRed
+
+
+
+			for i in range(1,13):
+			  G30.cell(row=15,column=i).alignment = Alignment(horizontal='center',vertical='center',wrap_text=True)
+			  G30.cell(row=24,column=i).alignment = Alignment(horizontal='center',vertical='center',wrap_text=True)
+			  G30.cell(row=38,column=i).alignment = Alignment(horizontal='center',vertical='center',wrap_text=True)
+			  G30.cell(row=44,column=i).alignment = Alignment(horizontal='center',vertical='center',wrap_text=True)
+			  G30.cell(row=49,column=i).alignment = Alignment(horizontal='center',vertical='center',wrap_text=True)
+			  G30.cell(row=58,column=i).alignment = Alignment(horizontal='center',vertical='center',wrap_text=True)
+			  G30.cell(row=73,column=i).alignment = Alignment(horizontal='center',vertical='center',wrap_text=True)
+
+
+			G30.column_dimensions['A'].width=27
+			G30.column_dimensions['B'].width=32
+
+			G30.sheet_view.showGridLines = False
+
+
+		balanta=FAR.create_sheet('Trial Balance')
+		mr = TB1.max_row
+		mc = TB1.max_column
+		# copying the cell values from source
+		# excel file to destination excel file
+		for i in range (1, mr + 1):
+			for j in range (1, mc + 1):
+			# reading cell value from source excel file
+				c = TB1.cell(row = i, column = j)
+
+			# writing the read value to destination excel file
+				balanta.cell(row = i, column = j).value = c.value
+
+		folderpath = "home/auditappnexia/Output/FAR/"
+		folder_path=""
+		os.mkdir(folderpath+namec)
+		print(val1,val2,val3)
+		if(val1==1 and val2==1 and val3==1):
+			print("Yes")
+			folder_path=os.path.join(folderpath+namec, 'G10, 20, 30 FA Reconciliation, TOM, Depreciation Expenses.xlsx')
+			myorder=[4,5,6,0,9,1,2,3,7,8]
+		if(val1==1 and val2==0 and val3==0):
+			print("Yes")            
+			myorder=[4,0,1,2,3]
+			folder_path=os.path.join(folderpath+namec, 'G10 FA Reconciliation.xlsx')
+		if(val1==0 and val2==1 and val3==0):
+			print("Yes")            
+			myorder=[4,0,1,2,3]
+			folder_path=os.path.join(folderpath+namec, 'G20 FA Depreciation Expenses.xlsx')
+		if(val1==0 and val2==0 and val3==1):
+			print("Yes")            
+			myorder=[4,0,1,2,3,5,6,7]
+			folder_path=os.path.join(folderpath+namec, 'G30 TOM.xlsx')
+		if(val1==1 and val2==1 and val3==0):
+			print("Yes")            
+			folder_path=os.path.join(folderpath+namec, 'G10,20 FA Reconciliation,Depreciation Expenses.xlsx')
+			myorder=[4,5,0,1,2,3,6]
+		if(val1==1 and val2==0 and val3==1):
+			print("Yes")            
+			myorder=[4,5,0,1,2,3,6,7,8]
+			folder_path=os.path.join(folderpath+namec, 'G10,30 FA Reconciliation,TOM.xlsx')
+		if(val1==0 and val2==1 and val3==1):
+			print("Yes")            
+			myorder=[4,5,0,1,2,3,6,7,8]
+			folder_path=os.path.join(folderpath+namec, 'G20,30 Depreciation Expenses,TOM.xlsx')
+		# FAR._sheets =[FAR._sheets[i] for i in myorder]
+
+
+
+		FAR.save(folder_path)
+		make_archive(folder_path,"home/auditappnexia/Output/FAR/FAR "+namec+".zip")
+		return send_from_directory(folderpath,"FAR "+namec+".zip", as_attachment=True)
+	return "0"      
 
 
 @app.route('/JournalEntries/Instructions', methods=['GET'])
 def downloadJE():
-		filepath = "C:\\Users\\Cristian.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Instructions"
+		filepath = "C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Instructions"
  
-		return send_from_directory(filepath,"Instructions Journal Entries App.docx", as_attachment=True)  
+		return send_from_directory(filepath,"Instructions - Journal Entries.docx", as_attachment=True)  
 @app.route('/JournalEntries/GTv5Wjk1PboB5kRZ8elnBUECePO')
 def JE():
 	return render_template('JE.html')
@@ -9198,7 +10141,7 @@ def JE_process():
 	# else:
 	#     isChecked=0
 	
-	folderpath="C:\\Users\\denis.david\\Work\\IT\\Web apps-v2-login\\Web apps-v2-login\\Output\\JE"
+	folderpath="home/auditappnexia/Output/JE"
 	os.mkdir(folderpath+"\\"+namec)
 	def make_archive(source, destination):
 		base = os.path.basename(destination)
@@ -9218,8 +10161,8 @@ def JE_process():
 							fill_type='solid')
 		grifill=PatternFill(start_color='c4d79b',end_color='c4d79b',fill_type='solid')
 		yellow=PatternFill(start_color='ffff00',end_color='ffff00',fill_type='solid')
-		blueFill = PatternFill(start_color='ccd9ff',
-							end_color='ccd9ff',
+		blueFill = PatternFill(start_color='00AEAC',
+							end_color='00AEAC',
 							fill_type='solid')
 		doubleborder = Border(bottom=Side(style='double'))
 		solidborder = Border(bottom=Side(style='thick'))
@@ -9231,17 +10174,17 @@ def JE_process():
 		solidbordersus = Border(top=Side(style='thin'))
 		fontitalic = Font(name='Tahoma', size=8, bold=True, italic=True)
 		font1 = Font(name='Tahoma', size=8)
-		font2 = Font(name='Calibri', size=10, bold=True)
-		fontRed = Font(name='Calibri', size=10, bold=True, color= 'FF0000')
-		fontRedDiff=Font(name="Calibri", color='FF0000', size=11, )
+		font2 = Font(name='Tahoma', size=8, bold=True)
+		fontRed = Font(name='Tahoma', size=8, bold=True, color= 'FF0000')
+		fontRedDiff=Font(name="Tahoma", color='FF0000', size=11, )
 		fontGT = Font (name='GT Logo', size=8)
 		workingsblue = Font(color='2F75B5', bold=True, name='Tahoma', size=8 )
 		headers= Font(bold=True, italic=True, name='Tahoma', size=8,color='FFFFFF') 
 		headersblue = PatternFill(start_color='7030A0',
 						end_color='7030A0',
 						fill_type='solid')
-		headerspurple= PatternFill(start_color='CCC0DA',
-							end_color='CCC0DA',
+		headerspurple= PatternFill(start_color='65CDCC',
+							end_color='65CDCC',
 							fill_type='solid')
 		total=PatternFill(start_color='DDD9C4',
 						end_color='DDD9C4',
@@ -9508,6 +10451,7 @@ def JE_process():
 		 
 			output=Workbook()
 			out=output.active
+			out.sheet_view.showGridLines = False
 
 			out.title="Journal Entries Reconciliation"
 
@@ -9560,6 +10504,7 @@ def JE_process():
 
 
 			out2=output.create_sheet("Trial Balance")
+			out2.sheet_view.showGridLines = False
 
 			out2.cell(row=1,column=1).value="Synt(3)"
 			out2.cell(row=1,column=2).value="Account"
@@ -9690,6 +10635,7 @@ def JE_process():
 
 			c=mpl['A14']
 			mpl.freeze_panes = c
+			mpl.sheet_view.showGridLines = False
 
 			mpl.cell(row=4,column=1).value="Monthly P&L"
 			mpl.cell(row=4,column=1).font=font2
@@ -9758,7 +10704,7 @@ def JE_process():
 			mpltb.cell(row=1,column=5).value="DM"
 			mpltb.cell(row=1,column=6).value="CM"
 			mpltb.cell(row=1,column=7).value="CB"
-
+			mpltb.sheet_view.showGridLines = False
 
 			for k in range(0,len(Account)):
 						mpltb.cell(row=2+k,column=2).value=Account[k]
@@ -9771,7 +10717,7 @@ def JE_process():
 						mpltb.cell(row=2+k,column=8).value=str(Account[k])[:1]
 
 			mplje=outputmpl.create_sheet("JE")
-
+			mplje.sheet_view.showGridLines = False
 
 			mplje.cell(row=1,column=1).value="JE number"
 			mplje.cell(row=1,column=2).value="Date"
@@ -9963,7 +10909,10 @@ def JE_process():
 					ws.title="Database"
 					ws1=excel.create_sheet("Trial Balance")
 					ws3=excel.create_sheet("Overview")
-					
+					ws.sheet_view.showGridLines = False
+					ws1.sheet_view.showGridLines = False
+					ws3.sheet_view.showGridLines = False
+
 					for o in range(1,9):
 						ws.cell(row=1,column=o).border=doubleborder
 						ws.cell(row=1,column=o).font=font2
@@ -10183,6 +11132,7 @@ def JE_process():
 
 
 					ws4=excel.create_sheet("Sheet")
+					ws4.sheet_view.showGridLines = False
 					ws4.cell(row=1,column=1).value="Month"
 					ws4.cell(row=2,column=1).value="January"
 					ws4.cell(row=3,column=1).value="February"
@@ -10506,10 +11456,10 @@ def JE_process():
 					ws3.add_chart(chart, "A"+str(14+len(uniclistglcredit)+randuri))
 					ws4.sheet_state='hidden'
 					myorder=[2,0,1,3]
-					folderpath="C:\\Users\\denis.david\\Work\\IT\\Web apps-v2-login\\Web apps-v2-login\\Output\\JE"
+					folderpath="home/auditappnexia/Output/JE"
 					excel._sheets =[excel._sheets[i] for i in myorder]
 					excel.save(folderpath+"\\"+str(namec)+"\\"+str(listaunica[i])+"db.xlsx")
-		make_archive("C:\\Users\\denis.david\\Work\\IT\\Web apps-v2-login\\Web apps-v2-login\\Output\\JE\\"+str(namec),"C:\\Users\\denis.david\\Work\\IT\\Web apps-v2-login\\Web apps-v2-login\\Output\\JE\\"+str(namec)+"\\JE "+namec+".zip")                
+		make_archive("home/auditappnexia/Output/JE/"+str(namec),"home/auditappnexia/Output/JE/"+str(namec)+"/JE "+namec+".zip")                
 				# shutil.make_archive(name, format, archive_from, archive_to)
 		file_pathFS = os.path.join(folderpath, namec)    
 		return send_from_directory(file_pathFS,"JE "+ namec+".zip",as_attachment=True)    
@@ -10518,9 +11468,9 @@ def JE_process():
 	return render_template('JE.html')
 @app.route('/Payroll/Instructions', methods=['GET'])
 def downloadPayroll():
-		filepath = "C:\\Users\\Cristian.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Instructions"
+		filepath = "C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Instructions"
  
-		return send_from_directory(filepath,"Payroll App instructions_v1.3.docx", as_attachment=True)
+		return send_from_directory(filepath,"Instructions - Payroll.docx", as_attachment=True)
 
 
 @app.route('/Payroll/GTaNuOQQZKTcQDsHcaAcqBLKmv3')
@@ -10598,13 +11548,13 @@ def payroll_process():
 		f_info = Font(name='Arial', size=10, color='614C77', bold=True)
 		cap_tabel = Font(name='Arial', size=10, color="FFFFFF", bold=True)
 		cap_tabel_color_PBC = PatternFill(start_color='808080', end_color='808080', fill_type='solid')  # grey
-		cap_tabel_color_GT = PatternFill(start_color='60497A', end_color='60497A', fill_type='solid')  # indigo #B1A0C7
+		cap_tabel_color_GT = PatternFill(start_color='00AEAC', end_color='00AEAC', fill_type='solid')  # indigo #B1A0C7
 		fprocentaj = Font(name='Arial', size=10, color="FF0000", bold=True)
 		font_worksheet = Font(name='Arial', size=10)
 		check_font = Font(name='Arial', size=10, color="FF0000", bold=True)
 		check_font_1 = Font(name='Arial', size=10, color="FF0000", bold=False)
-		cap_tabel_color_GT_movdeschis = PatternFill(start_color='E4DFEC', end_color='E4DFEC', fill_type='solid')
-		cap_tabel_color_GT_movinchis = PatternFill(start_color='CCC0DA', end_color='CCC0DA', fill_type='solid')
+		cap_tabel_color_GT_movdeschis = PatternFill(start_color='00AEAC', end_color='00AEAC', fill_type='solid')
+		cap_tabel_color_GT_movinchis = PatternFill(start_color='00AEAC', end_color='00AEAC', fill_type='solid')
 		TB_font = Font(name='Arial', size=10, color="0070C0", bold=True)
 
 		thin = Side(border_style='thin', color='000000')
@@ -10664,8 +11614,10 @@ def payroll_process():
 
 		Sheet1.cell(row=1, column=13).value = "Prepared by:"
 		Sheet1.cell(row=2, column=13).value = "Date:"
-		Sheet1.cell(row=3, column=13).value = "Reviewed by:"
+		Sheet1.cell(row=3, column=13).value = "Reference"
+		Sheet1.cell(row=3, column=14).value = refference1
 		Sheet1.cell(row=4, column=13).value = "Date:"
+		Sheet1.cell(row=5, column=13).value = "Reviewed by:"
 
 		Sheet1.cell(row=1, column=2).value = clientname1
 		Sheet1.cell(row=2, column=2).value = periodEnd1
@@ -10713,7 +11665,7 @@ def payroll_process():
 		Sheet1.cell(row=50, column=1).value ="We checked if the monthly payroll expense recorded by the Company is equal to the salary from the monthly payroll sheet;"
 
 		Sheet1.cell(row=52, column=1).value = "V10.5 Meal Tickets Reasonableness"
-		Sheet1.cell(row=53, column=1).value ="We obtained the number of monthy meal tickes provided to Company employees;"
+		Sheet1.cell(row=53, column=1).value ="We obtained the number of monthy meal tickets provided to Company employees;"
 		Sheet1.cell(row=54, column=1).value ="According to Romanian Legislation the Companies can spend between 9.57 and 20 RON/ ticket;"
 		Sheet1.cell(row=55, column=1).value ="The value of the tickets is established, internally at RON XX/ticket;"
 		Sheet1.cell(row=56, column=1).value ="We have recomputed the monthly M.T expense based on the info received;"
@@ -10721,7 +11673,7 @@ def payroll_process():
 		Sheet1.cell(row=58, column=1).value = "V10.6 Untaken Holiday "
 		Sheet1.cell(row=59, column=1).value ="We obtained the detail of untaken holidays from the client;"
 		Sheet1.cell(row=60, column=1).value ="We recomputed the provision amount, based on the information received;"
-		Sheet1.cell(row=61, column=1).value ="We agreed totals to general ledger; "
+		Sheet1.cell(row=61, column=1).value ="We reconciled the recalculated amounts with the ones in the Trial Balance. "
 
 		Sheet1.cell(row=63, column=1).value = "Findings & Conclusion"
 		Sheet1.cell(row=65, column=1).value ="Based on our tests, no material differences were identified."
@@ -10743,6 +11695,7 @@ def payroll_process():
 		Sheet1.cell(row=2, column=13).font = ft1
 		Sheet1.cell(row=3, column=13).font = ft1
 		Sheet1.cell(row=4, column=13).font = ft1
+		Sheet1.cell(row=5, column=13).font = ft1
 
 		Sheet1.cell(row=1, column=2).font = font_worksheet
 		Sheet1.cell(row=2, column=2).font = font_worksheet
@@ -11025,8 +11978,6 @@ def payroll_process():
 		Sheet2.cell(row=3, column=1).value = "Audit area:"
 		Sheet2.cell(row=3, column=2).value = "Payroll"
 		Sheet2.cell(row=5, column=1).value = "Accounts Reconciliation & SA"
-		Sheet2.cell(row=8, column=1).value = "To be added manually"
-
 
 		try:
 			Sheet2.cell(row=1, column=2).value = clientname1
@@ -11043,8 +11994,6 @@ def payroll_process():
 
 		Sheet2.cell(row=1, column=2).font = font_worksheet
 		Sheet2.cell(row=2, column=2).font = font_worksheet
-
-		Sheet2.cell(row=8, column=1).font = font_worksheet
 
 		Sheet3 = wb.create_sheet("V10.1 Payroll Analysis")
 
@@ -12468,6 +13417,21 @@ def payroll_process():
 		Sheet4.cell(row=27, column=16).style = 'Percent'
 		Sheet4.cell(row=27, column=17).style = 'Percent'
 
+		Sheet4.cell(row=27, column=5).number_format='0.00%'
+		Sheet4.cell(row=27, column=6).number_format='0.00%'
+		Sheet4.cell(row=27, column=7).number_format='0.00%'
+		Sheet4.cell(row=27, column=8).number_format='0.00%'
+		Sheet4.cell(row=27, column=9).number_format='0.00%'
+		Sheet4.cell(row=27, column=10).number_format='0.00%'
+		Sheet4.cell(row=27, column=11).number_format='0.00%'
+		Sheet4.cell(row=27, column=12).number_format='0.00%'
+		Sheet4.cell(row=27, column=13).number_format='0.00%'
+		Sheet4.cell(row=27, column=14).number_format='0.00%'
+		Sheet4.cell(row=27, column=15).number_format='0.00%'
+		Sheet4.cell(row=27, column=16).number_format='0.00%'
+		Sheet4.cell(row=27, column=17).number_format='0.00%'
+
+
 		Sheet4.cell(row=31, column=5).number_format = '#,##0_);(#,##0)'
 		Sheet4.cell(row=31, column=6).number_format = '#,##0_);(#,##0)'
 		Sheet4.cell(row=31, column=7).number_format = '#,##0_);(#,##0)'
@@ -12616,7 +13580,7 @@ def payroll_process():
 		Sheet5.cell(row=41, column=3).value = "Total diff"
 
 		Sheet5.cell(row=43, column=2).value = "Reconciliation of taxes payment"
-		Sheet5.cell(row=45, column=2).value = "As per bank statement"
+		Sheet5.cell(row=45, column=2).value = "As per D112 Statement"
 		Sheet5.cell(row=46, column=2).value = "As per TB"
 		Sheet5.cell(row=47, column=2).value = "Check"
 
@@ -13396,13 +14360,13 @@ def payroll_process():
 			None
 
 		Sheet8.cell(row=7, column=1).value ="Objective"
-		Sheet8.cell(row=7, column=2).value ="To ensure that holidays not taken in "+currYear1+" had been correctly included in the payroll acruall, "
+		Sheet8.cell(row=7, column=2).value ="To ensure that holidays not taken in "+currYear1+" had been correctly included in the payroll accrual, "
 		Sheet8.cell(row=8, column=2).value ="or that transactions were consistently complete, valid and compliant with applicable policies, procedures and regulations;"
 
 		Sheet8.cell(row=10, column=1).value ="Work done"
 		Sheet8.cell(row=10, column=2).value ="We obtained the detail of untaken holidays from the client;"
 		Sheet8.cell(row=11, column=2).value ="We recomputed the provision amount, based on the information received;"
-		Sheet8.cell(row=12, column=2).value ="We agreed totals to general ledger; "
+		Sheet8.cell(row=12, column=2).value ="We reconciled the recalculated amounts with the ones in the Trial Balance. "
 		Sheet8.cell(row=13, column=2).value ="Please see below:"
 
 		Sheet8.cell(row=15, column=2).value ="a. Provision recomputation for untaken holidays:"
@@ -13417,7 +14381,7 @@ def payroll_process():
 		Sheet8.cell(row=24, column=2).value ="Total provision"
 
 		Sheet8.cell(row=27, column=2).value ="b. Agree totals to Trial Balance"
-		Sheet8.cell(row=29, column=2).value ="GT recomputation"
+		Sheet8.cell(row=29, column=2).value ="Nexia recomputation"
 		Sheet8.cell(row=30, column=2).value ="Trial Balance:"
 		Sheet8.cell(row=31, column=5).value = "Please asses if the Company booked an untaken provision, otherwise, please asses if any ADJE is required"
 		Sheet8.cell(row=31, column=2).value ="Difference:"
@@ -14555,7 +15519,7 @@ def payroll_process():
 		Sheet3.add_chart(chart, "K3")
 
 
-		folderpath = "C:\\Users\\denis.david\\Work\\IT\\Web apps-v2-login\\Web apps-v2-login\\Output\\Payroll"
+		folderpath = "home/auditappnexia/Output/Payroll"
 		file_pathFS = os.path.join(folderpath, "V10 Payroll Analysis " + clientname1 + ".xlsx")
 		# messagebox.showinfo("Success!", "Succesful task.")
 
@@ -14568,9 +15532,9 @@ def payroll_process():
 
 @app.route('/Equity/GTRWhSrzitah41yuSieMuQ6KVpn/Instructions', methods=['GET'])
 def downloadEquity():
-		filepath = "C:\\Users\\Cristian.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Instructions"
+		filepath = "C:\\Users\\denis.david\\Work\\IT\\Web apps-v2-login\Web apps-v2-login\\Instructions"
  
-		return send_from_directory(filepath,"Equity.docx", as_attachment=True)
+		return send_from_directory(filepath,"Instructions - Equity.docx", as_attachment=True)
 
 
 @app.route('/Equity/GTRWhSrzitah41yuSieMuQ6KVpn')
@@ -14618,12 +15582,12 @@ def equity_process():
 						end_color='4B0082',
 						fill_type='solid')
 
-		headersorange= PatternFill(start_color='ED7D31',
-						end_color='ED7D31',
+		headersorange= PatternFill(start_color='EE2A1C',
+						end_color='EE2A1C',
 						fill_type='solid')
 
-		headersblack = PatternFill(start_color='4B0082',
-						end_color='4B0082',
+		headersblack = PatternFill(start_color='00AEAC',
+						end_color='00AEAC',
 						fill_type='solid')
 		grifill=PatternFill(start_color='c4d79b',end_color='c4d79b',fill_type='solid')
 
@@ -14817,6 +15781,7 @@ def equity_process():
 		tom.column_dimensions['H'].width=12
 		tom.column_dimensions['I'].width=12
 		tom.column_dimensions['J'].width=30
+		tom.sheet_view.showGridLines = False
 
 
 
@@ -14945,8 +15910,8 @@ def equity_process():
 		tom.cell(row=46, column=2).value="<p.y. accounting losses covered>"
 		tom.cell(row=47, column=2).value="<correction of errors>"
 		tom.cell(row=48, column=2).value="<transfer from 105>"
-		tom.cell(row=49, column=2).value="Check CMvm account 117"
-		tom.cell(row=49, column=2).font=fontRedNormal
+		# tom.cell(row=49, column=2).value="Check CMvm account 117"
+		# tom.cell(row=49, column=2).font=fontRedNormal
 		tom.cell(row=49, column=3).font=fontRedNormal
 
 		tom.cell(row=51, column=2).value="Working 2) Reconciliation of Profit and Loss"
@@ -15130,8 +16095,8 @@ def equity_process():
 		tom.cell(row=41, column=3).value="=D32"
 		tom.cell(row=42, column=3).value="=D33"
 		tom.cell(row=43, column=3).value="=F31"
-		tom.cell(row=44, column=3).value="=C41+C42-C43"
-		tom.cell(row=49, column=3).value="=C43+SUM(C44:C47)"
+		tom.cell(row=44, column=3).value="=C41+C42+C43"
+		# tom.cell(row=49, column=3).value="=C43+SUM(C44:C47)"
 
 		tom.cell(row=53, column=3).value='=SUMIF(F10_TB!H:H,"7",F10_TB!G:G)'
 		tom.cell(row=54, column=3).value='=SUMIF(F10_TB!H:H,"6",F10_TB!G:G)'
@@ -15241,13 +16206,13 @@ def equity_process():
 			tom.cell(row=34, column=i).font=white
 			tom.cell(row=37, column=i).font=white
 
-		tom.cell(row=13, column=10).fill=headersblue
-		tom.cell(row=19, column=10).fill=headersblue
-		tom.cell(row=21, column=10).fill=headersblue
-		tom.cell(row=23, column=10).fill=headersblue
-		tom.cell(row=27, column=10).fill=headersblue
-		tom.cell(row=34, column=10).fill=headersblue
-		tom.cell(row=37, column=10).fill=headersblue
+		tom.cell(row=13, column=10).fill=headersblack
+		tom.cell(row=19, column=10).fill=headersblack
+		tom.cell(row=21, column=10).fill=headersblack
+		tom.cell(row=23, column=10).fill=headersblack
+		tom.cell(row=27, column=10).fill=headersblack
+		tom.cell(row=34, column=10).fill=headersblack
+		tom.cell(row=37, column=10).fill=headersblack
 		tom.cell(row=13, column=10).font=white
 		tom.cell(row=19, column=10).font=white
 		tom.cell(row=21, column=10).font=white
@@ -15273,7 +16238,7 @@ def equity_process():
 
 		# save1=tk.Tk()
 		# save1.withdraw()
-		folderpath="C:\\Users\\denis.david\\Work\\IT\\Web apps-v2-login\\Web apps-v2-login\\Output\\Equity"
+		folderpath="home/auditappnexia/Output/Equity"
 		file_pathFS = os.path.join(folderpath, 'TOM Equity.xlsx')
 		output.save(file_pathFS)
 
@@ -15281,9 +16246,9 @@ def equity_process():
 	return send_from_directory(folderpath, "TOM Equity.xlsx", as_attachment=True)
 @app.route('/MergeFiles/Instructions', methods=['GET'])
 def downloadMerge():
-		filepath = "C:\\Users\\Cristian.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Instructions"
+		filepath = "C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Instructions"
  
-		return send_from_directory(filepath,"Merge Files Instructions.docx", as_attachment=True)
+		return send_from_directory(filepath,"Instructions - Merge Files.docx", as_attachment=True)
 @app.route('/MergeFiles/GT2hAORxnRTx8HrE2mSyYRiqgOp')
 def Merge():
 	return render_template('Merge.html')
@@ -15368,7 +16333,7 @@ def Merge_process():
 		# folderpath = filedialog.askdirectory()
 		# file_pathFS = os.path.join(folderpath, "Dabatase "+" "+clientname1+".xlsx")
 		# tk.messagebox.showinfo('Notice', 'Merging data is complete.')
-		folderpath="C:\\Users\\Cristian.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Output\\Merge"
+		folderpath="home/auditappnexia/Output/Merge"
 		file_pathFS = os.path.join(folderpath, 'Database '+ str(clientname1) +'.xlsx')
 		wb.save(file_pathFS)
 
@@ -15376,9 +16341,170 @@ def Merge_process():
 
 @app.route('/JournalEntriesRoutines/GTRk1PboB5knZ8elePOv5WjBUEC/Instructions', methods=['GET'])
 def downloadJET():
-		filepath = "C:\\Users\\Cristian.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Instructions"
+		filepath = "C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Instructions"
  
-		return send_from_directory(filepath,"Instructions Journal Entries Routines.docx", as_attachment=True)
+		return send_from_directory(filepath,"Instructions - Journal Entries Routines.docx", as_attachment=True)
+
+@app.route('/SplitFiles/Instructions', methods=['GET'])
+def downloadSplit():
+		filepath = "C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Instructions"
+ 
+		return send_from_directory(filepath,"Instructions - Split Files.docx", as_attachment=True)
+@app.route('/SplitFiles/GTuKs87BZEXuVAXP57qjmBZkwj2')
+def Split():
+	return render_template('split.html')
+@app.route('/SplitFiles/GTuKs87BZEXuVAXP57qjmBZkwj2', methods=['POST', 'GET'])
+def Split_process():
+	namec = request.form['client']
+	folderpath="home/auditappnexia/Output/Split"
+	os.mkdir(folderpath+"\\"+namec)
+	def make_archive(source, destination):
+		base = os.path.basename(destination)
+		name = base.split('.')[0]
+		format = base.split('.')[1]
+		archive_from = os.path.dirname(source)
+		archive_to = os.path.basename(source.strip(os.sep))
+		shutil.make_archive(name, format, archive_from, archive_to)
+		shutil.move('%s.%s'%(name,format), destination)
+
+	if request.method == 'POST':
+
+		workingsblue2= Font(bold=True, italic=True, name='Tahoma', size=8,color='FFFFFF')
+		lbluefill = PatternFill(start_color='7030A0',
+							end_color='7030A0',
+							fill_type='solid')
+		grifill=PatternFill(start_color='c4d79b',end_color='c4d79b',fill_type='solid')
+		yellow=PatternFill(start_color='ffff00',end_color='ffff00',fill_type='solid')
+		blueFill = PatternFill(start_color='00AEAC',
+							end_color='00AEAC',
+							fill_type='solid')
+		doubleborder = Border(bottom=Side(style='double'))
+		solidborder = Border(bottom=Side(style='thick'))
+		solidborderstanga = Border(left=Side(style='thin'))
+		rightborder = Border(right=Side(style='thin'))
+		rightdouble = Border (right=Side(style='thin'), bottom=Side(style='double'))
+		rightmedium = Border (right=Side(style='thin'), bottom=Side(style='medium'))
+		solidborderdreapta = Border(right=Side(style='thin'))
+		solidbordersus = Border(top=Side(style='thin'))
+		fontitalic = Font(name='Tahoma', size=8, bold=True, italic=True)
+		font1 = Font(name='Tahoma', size=8)
+		font2 = Font(name='Tahoma', size=8, bold=True)
+		fontRed = Font(name='Tahoma', size=8, bold=True, color= 'FF0000')
+		fontRedDiff=Font(name="Tahoma", color='FF0000', size=11, )
+		fontGT = Font (name='GT Logo', size=8)
+		workingsblue = Font(color='2F75B5', bold=True, name='Tahoma', size=8 )
+		headers= Font(bold=True, italic=True, name='Tahoma', size=8,color='FFFFFF') 
+		headersblue = PatternFill(start_color='7030A0',
+						end_color='7030A0',
+						fill_type='solid')
+		headerspurple= PatternFill(start_color='65CDCC',
+							end_color='65CDCC',
+							fill_type='solid')
+		total=PatternFill(start_color='DDD9C4',
+						end_color='DDD9C4',
+						fill_type='solid')
+		greenbolditalic= Font(bold=True, italic=True,  color='C0504D', name='Tahoma', size=8)
+		greenbolditalic= Font(bold=True, italic=True,  color='00af50')
+		fontalb = Font(italic=True, color="bfbfbf", size=8, name='Tahoma')
+		# trialb=request.files["TB"]
+		je=request.files["JE"]
+
+		tb=openpyxl.load_workbook(je,data_only='True')
+		tb1=tb.active
+
+		for row in tb1.iter_rows():
+			for cell in row :
+
+				if cell.value=="Coloana Split" :
+					
+					glac=cell.column
+					glrow=cell.row
+
+
+		try:
+			lungl=len(tb1[glac])
+		except:
+			flash("Please insert the correct header for Account GL Debit in Journal Entries file")
+			return render_template("index.html")
+
+		try:
+			accountgldebit=[b.value for b in tb1[glac][glrow:lungl]]
+		except:
+			flash("Please insert the correct header for Account GL Debit in Journal Entries file")
+			return render_template("index.html")
+
+
+
+		syntaccgldebit1=[]
+		syntaccglcredit1=[]
+		listadenis=[]
+		
+		row_denis=tb1['1']
+		column_denis=tb1.max_column
+
+
+		for i in range(0,len(accountgldebit)):
+				syntaccgldebit1.append(str(accountgldebit[i]))
+		# for i in range(0,len(accountglcredit)):
+		# 		syntaccglcredit1.append(str(accountglcredit[i]))
+
+		syntaccgldebit=[]
+		syntaccglcredit=[]
+
+		for i in range(0,len(syntaccgldebit1)):
+			try:
+				syntaccgldebit1[i]=str(syntaccgldebit1[i])
+				syntaccgldebit.append(syntaccgldebit1[i])
+			except:
+				pass
+		lisunicaacd=list(set(syntaccgldebit))
+		listaunica=list(set(lisunicaacd))
+		print()
+		for i in range(0,len(listaunica)):
+
+			for i in range(0,len(listaunica)):
+				if(str(listaunica[i])!="6"):
+					excel=Workbook()
+					ws=excel.active
+					ws.title="Database"
+					ws.sheet_view.showGridLines = False
+					ws.cell(row=1,column=1).value="Coloana Split"
+					row=1
+
+					listagldebit=[]
+					for j in range(0,len(accountgldebit)):
+						if(str(listaunica[i])==str(accountgldebit[j])):
+							ws.cell(row=row+1,column=1).value=accountgldebit[j]
+							listagldebit.append(accountgldebit[j])		
+							row=row+1
+							row_value=[]
+							column_value=[]
+							for cell in row_denis:
+								row_value.append(str(cell.value))
+							for z in range(0,len(row_value)):
+								ws.cell(row=1,column=z+1).value=row_value[z]
+							for o in range(1,len(row_value)+1):
+								ws.cell(row=1,column=o).border=doubleborder
+								ws.cell(row=1,column=o).font=font2
+								ws.cell(row=1,column=o).fill=headerspurple
+								for g in range(1,column_denis):
+									ws.cell(row=row	,column=1+g).value=tb1.cell(row=j+glrow+1,column=g+1).value
+									# ws.save()
+							# listanoua=['A',column_denis]
+							# for column in listanoua:
+							# 	column_value.append(row.value)
+							# 	for g in listanoua:
+							# 		ws.cell(row=2+g,column=g).value=column_value[g]
+					# 	print(row_value)
+					folderpath="home/auditappnexia/Output/Split"
+					# excel._sheets =[excel._sheets[i] for i in myorder]
+					excel.save(folderpath+"\\"+str(namec)+"\\"+str(listaunica[i])+".xlsx")
+		make_archive("home/auditappnexia/Output/Split/"+str(namec),"home/auditappnexia/Output/Split/"+str(namec)+"/Split "+namec+".zip")                
+				# shutil.make_archive(name, format, archive_from, archive_to)
+		file_pathFS = os.path.join(folderpath, namec)    
+		return send_from_directory(file_pathFS,"Split "+ namec+".zip",as_attachment=True)    
+
+
 
 @app.route('/JournalEntriesRoutines/GTRk1PboB5knZ8elePOv5WjBUEC/')
 def JET():
@@ -15405,8 +16531,7 @@ def JET_process():
         largeAm = request.form["largeAm"]
         try:
             spDays = request.form['specD'].split(",")
-            listaCostica = [datetime.strptime(x,'%m/%d/%Y') for x in spDays]
-            # print(listaCostica)
+            listaCostica = [datetime.datetime.strptime(x,'%m/%d/%Y') for x in spDays]
         except:
             pass
         
@@ -15506,13 +16631,13 @@ def JET_process():
         f_info = Font(name='Arial', size=10, color='614C77', bold=True)
         cap_tabel = Font(name='Arial', size=10, color="FFFFFF", bold=True)
         cap_tabel_color_PBC = PatternFill(start_color='808080', end_color='808080', fill_type='solid')  # grey
-        cap_tabel_color_GT = PatternFill(start_color='60497A', end_color='60497A', fill_type='solid')  # indigo #B1A0C7
+        cap_tabel_color_GT = PatternFill(start_color='00AEAC', end_color='00AEAC', fill_type='solid')  # indigo #B1A0C7
         fprocentaj = Font(name='Arial', size=10, color="FF0000", bold=True)
         font_worksheet = Font(name='Arial', size=10)
         check_font = Font(name='Arial', size=10, color="FF0000", bold=True)
         check_font_1 = Font(name='Arial', size=10, color="FF0000", bold=False)
-        cap_tabel_color_GT_movdeschis = PatternFill(start_color='8064A2', end_color='8064A2', fill_type='solid')
-        cap_tabel_color_GT_movinchis = PatternFill(start_color='403151', end_color='403151', fill_type='solid')
+        cap_tabel_color_GT_movdeschis = PatternFill(start_color='00AEAC', end_color='00AEAC', fill_type='solid')
+        cap_tabel_color_GT_movinchis = PatternFill(start_color='00AEAC', end_color='00AEAC', fill_type='solid')
         blue_bold_font = Font(name='Arial', size=10, color="0070C0", bold=True)
         blue_thin_font = Font(name='Arial', size=10, color="0070C0", bold=False)
         # hyperlink_color=PatternFill(start_color='0563C1', end_color='0563C1', fill_type='solid')
@@ -15689,7 +16814,13 @@ def JET_process():
                         column_usr = cell.column
                         lun = len(details1[cell.column])
             users = [b.value for b in details1[column_usr][row_tb:lun]]
-
+            for row in details1.iter_rows():
+                for cell in row:
+                    if cell.value == "Debit/Credit":
+                        row_tb = cell.row
+                        column_usr = cell.column
+                        lun = len(details1[cell.column])
+            dbcd = [b.value for b in details1[column_usr][row_tb:lun]]
             descriptionFull=[]
             for c in range(0, len(description)):
                 if description[c] == None:
@@ -15719,7 +16850,7 @@ def JET_process():
             # print(amount)
             amountDb=amDeb1
             amountCr=amCre1
-            amountss=amount
+            # amountss=amount
             # for i in range(0, len(acDeb)):
             #     if acDeb[i] == None:
             #         flag.append("Credit")
@@ -15802,7 +16933,13 @@ def JET_process():
                             column_usr = cell.column
                             lun = len(details1[cell.column])
                 users = [b.value for b in details1[column_usr][row_tb:lun]]
-
+                for row in details1.iter_rows():
+                    for cell in row:
+                        if cell.value == "Debit/Credit":
+                            row_tb = cell.row
+                            column_usr = cell.column
+                            lun = len(details1[cell.column])
+                dbcd = [b.value for b in details1[column_usr][row_tb:lun]]
                 amountDb=[]
                 amountCr=[]
 
@@ -15824,7 +16961,7 @@ def JET_process():
                         typeOfTr.append("Debit")
                     else:
                         typeOfTr.append("Credit")
-                amountss=amount
+                # amountss=amount
                 typeAccount=typeOfTr
                     
             except:
@@ -15902,7 +17039,7 @@ def JET_process():
                             amount.append(amDeb[i])
                             typeOfTr.append("Debit")
                     # print(typeOfTr)
-                    amountss=amount
+                    # amountss=amount
                     typeAccount=typeOfTr
 
                     for row in details1.iter_rows():
@@ -15912,7 +17049,13 @@ def JET_process():
                                 column_usr = cell.column
                                 lun = len(details1[cell.column])
                     users = [b.value for b in details1[column_usr][row_tb:lun]]
-
+                    for row in details1.iter_rows():
+                        for cell in row:
+                            if cell.value == "Debit/Credit":
+                                row_tb = cell.row
+                                column_usr = cell.column
+                                lun = len(details1[cell.column])
+                    dbcd = [b.value for b in details1[column_usr][row_tb:lun]]
                     amountDb=[]
                     amountCr=[]
 
@@ -16014,7 +17157,13 @@ def JET_process():
                                 column_usr = cell.column
                                 lun = len(details1[cell.column])
                     users = [b.value for b in details1[column_usr][row_tb:lun]]
-
+                    for row in details1.iter_rows():
+                        for cell in row:
+                            if cell.value == "Debit/Credit":
+                                row_tb = cell.row
+                                column_usr = cell.column
+                                lun = len(details1[cell.column])
+                    dbcd = [b.value for b in details1[column_usr][row_tb:lun]]
                     amountsDeb=[]
                     amountsCre=[]
                     jeNoje=[]
@@ -16048,15 +17197,15 @@ def JET_process():
                             usersJe.append(users[x])
                         
                     
-                    typeOfTr = typeOfTrDb + typeOfTrCr
+                    # typeOfTr = typeOfTrDb + typeOfTrCr
                     
-                    amountss=amountsDeb + amountsCre
-                    amount=amountss
+                    # amountss=amountsDeb + amountsCre
+                    # amount=amountss
                     
                     jeNo=jeNoje
-                    postDate=postDateje
-                    descriptionFull=descriptionFullje
-                    users=usersJe
+                    # postDate=postDateje
+                    # descriptionFull=descriptionFullje
+                    # users=usersJe
                     
                     amountDb=[]
                     amountCr=[]
@@ -16074,11 +17223,11 @@ def JET_process():
                             amountDb.append(0)
             
 
-        # for i in range(0,len(jeNoo)):
-        #     je.cell(row=9+i, column=1).value=jeNoo[i]
+        for i in range(0,len(jeNoo)):
+            je.cell(row=9+i, column=1).value=jeNoo[i]
         
-        for i in range(0,len(jeNo)):
-            je.cell(row=9+i, column=1).value=jeNo[i]
+        # for i in range(0,len(jeNo)):
+        #     je.cell(row=9+i, column=1).value=jeNo[i]
 
         for i in range(0,len(postDate)):
             je.cell(row=9+i, column=2).value=postDate[i]
@@ -16086,17 +17235,17 @@ def JET_process():
         for i in range(0,len(descriptionFull)):
             je.cell(row=9+i, column=3).value=descriptionFull[i]
 
-        for i in range(0,len(amountss)):
-            je.cell(row=9+i, column=4).value=amountss[i]
+        for i in range(0,len(amount)):
+            je.cell(row=9+i, column=4).value=amount[i]
             
-        for i in range(0,len(account)):
+        for i in range(0,len(jeNoo)):
             je.cell(row=9+i, column=5).value=account[i]
 
         for i in range(0,len(users)):
             je.cell(row=9+i, column=6).value=users[i]
 
-        for i in range(0,len(typeOfTr)):
-            je.cell(row=9+i, column=7).value=typeOfTr[i]
+        for i in range(0,len(dbcd)):
+            je.cell(row=9+i, column=7).value=dbcd[i]
 
         # try:
         #     for i in range(0,len(users)):
@@ -16171,9 +17320,9 @@ def JET_process():
 
             absAmount=[abs(number) for number in amount]
 
-            for i in range (0, len(amountss)):
-                if amount[i] > PM:
-                    amounts.append(amountss[i])
+            for i in range (0, len(amount)):
+                if amount[i] > PM or amount[i]< -(PM):
+                    amounts.append(amount[i])
                     try:
                         # jeNo1.append(jeNo[i])
                         jeNo1.append(jeNoo[i])
@@ -16192,7 +17341,7 @@ def JET_process():
                 greaterPM.cell(row=8+k, column=3).value=descript1[k]
                 greaterPM.cell(row=8+k, column=5).value=amounts[k]
                 greaterPM.cell(row=8+k, column=4).value=acct[k]
-                greaterPM.cell(row=8+k, column=6).value=typeAccount[k]
+                # greaterPM.cell(row=8+k, column=6).value=typeAccount[k]
 
             # sumElements=sum(amounts)
             # greaterPM.cell(row=2, column=11).value=str(len(amounts))
@@ -16920,8 +18069,12 @@ def JET_process():
                 specificDate.cell(row=1, column=1).value="Client name:"
                 specificDate.cell(row=2, column=1).value="Period end:"
 
-                # specificDate.cell(row=1, column=2).value=clientname1
-                # specificDate.cell(row=2, column=2).value=yearEnd1
+                specificDate.cell(row=1, column=2).value=clientname1
+                try:
+                    specificDate.cell(row=2, column=2).value=yearEnd1
+                    specificDate.cell(row=2, column=2).number_format="mm/dd/yyyy"
+                except:
+                    pass
 
                 specificDate.cell(row=5, column=1).value="Transactions by specific date"
 
@@ -16946,13 +18099,14 @@ def JET_process():
                 for x in range(0, len(listaCostica)):
                     # print(listaCostica[x])
                     for i in range(0, len(postDate)):
-                        if postDate[i] == listaCostica[x]:
+                        if listaCostica[x] == postDate[i]:
                             # print("sunt la fel")
                             jeNo9.append(jeNo[i])
                             postDate9.append(postDate[i])
                             descript9.append(descriptionFull[i])
                             acct9.append(account[i])
                             amount9.append(amount[i])
+                
                     
                 for k in range(0, len(postDate9)):
                     specificDate.cell(row=10+k, column=1).value=jeNo9[k]
@@ -16964,8 +18118,8 @@ def JET_process():
             
                 #-----------------------------------------FORMATS AND COLORS------------------------------------------------
 
-                specificDate.cell(row=1, column=1).font=ft1
-                specificDate.cell(row=2, column=1).font=ft1
+                # specificDate.cell(row=1, column=1).font=ft1
+                # specificDate.cell(row=2, column=1).font=ft1
 
                 specificDate.cell(row=1, column=2).font=font_worksheet
                 specificDate.cell(row=2, column=2).font=font_worksheet
@@ -16977,11 +18131,11 @@ def JET_process():
                         cell.font = cap_tabel
                         cell.fill = cap_tabel_color_GT
                 
-                for k in range(0, len(amounts)):
+                for k in range(0, len(amount)):
                     specificDate.cell(row=10+k, column=2).number_format='MM/DD/YYYY'
                     specificDate.cell(row=10+k, column=5).number_format='#,##0_);(#,##0)'
 
-                for k in range(0, len(amounts)):
+                for k in range(0, len(amount)):
                     specificDate.cell(row=10+k, column=1).font=font_worksheet
                     specificDate.cell(row=10+k, column=2).font=font_worksheet
                     specificDate.cell(row=10+k, column=3).font=font_worksheet
@@ -17000,7 +18154,39 @@ def JET_process():
 
                 print("specific date")
             except:
-                pass
+                specificDate.cell(row=1, column=1).font=ft1
+                specificDate.cell(row=2, column=1).font=ft1
+
+                specificDate.cell(row=1, column=2).font=font_worksheet
+                specificDate.cell(row=2, column=2).font=font_worksheet
+
+                specificDate.cell(row=5, column=1).font=f_testname
+
+                for row in specificDate["A9:E9"]:
+                    for cell in row:
+                        cell.font = cap_tabel
+                        cell.fill = cap_tabel_color_GT
+                
+                for k in range(0, len(amount)):
+                    specificDate.cell(row=10+k, column=2).number_format='MM/DD/YYYY'
+                    specificDate.cell(row=10+k, column=5).number_format='#,##0_);(#,##0)'
+
+                for k in range(0, len(amount)):
+                    specificDate.cell(row=10+k, column=1).font=font_worksheet
+                    specificDate.cell(row=10+k, column=2).font=font_worksheet
+                    specificDate.cell(row=10+k, column=3).font=font_worksheet
+                    specificDate.cell(row=10+k, column=5).font=font_worksheet
+                    specificDate.cell(row=10+k, column=4).font=font_worksheet
+
+
+                listaColoane=['A','B','C','D','E']
+                for column in ascii_uppercase:
+                    for i in listaColoane:
+                        if (column==i):
+                            specificDate.column_dimensions[column].width = 12
+
+                specificDate.column_dimensions['H'].width = 12
+                specificDate.column_dimensions['I'].width = 12
 
         #----------------------------------------------------------------MISSING JOURNAL ENTRIES------------------------------------
         if(misJE==1):
@@ -17176,10 +18362,10 @@ def JET_process():
             summary.cell(row=13+i, column=2).font=hyperlink_font
         # folderpath = ('D:\\WEBDEV\\Platforma apps web\\Audit\\JET\\output')
         # folderpath = ('D:\\Python Projects\\JET\\JET\\output')
-        folderpath = ('C:\\Users\\Cristian.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Output\\JET\\')
-        file_pathFS = os.path.join(folderpath, "JET"+".xlsx")
+        folderpath = ('home/auditappnexia/Output/JET/')
+        file_pathFS = os.path.join(folderpath, "JET "+clientname1+".xlsx")
         wb.save(file_pathFS)
-    return send_from_directory(folderpath, "JET"+".xlsx", as_attachment=True)
+    return send_from_directory(folderpath, "JET "+clientname1+".xlsx", as_attachment=True)
     # return render_template('JET.html')
 
 @app.route('/password')
@@ -17289,6 +18475,4 @@ def LogIn_process():
 
 	#     return render_template("password.html")
 	return redirect("/")
-
-if __name__ == '__main__':
-   app.run()
+app.run(debug="True", port=2000,host="0.0.0.0")
