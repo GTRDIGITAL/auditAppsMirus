@@ -1,93 +1,28 @@
-from flask import Flask, render_template, request, send_from_directory , url_for
-from jinja2 import pass_eval_context
-# from numpy import append
 import shutil
-import re
-import PyPDF2
-from werkzeug.utils import secure_filename
-# from tkinter import *
-from flask import flash
-from openpyxl.worksheet.datavalidation import DataValidation 
+from time import sleep
+import ctypes
+from openpyxl.descriptors.serialisable import Serialisable
+# import PIL
+import ssl
+import random2 as random
 from openpyxl.styles.borders import Border, Side
 from openpyxl import Workbook
-#import pypiwin32
-import itertools as it
-import datetime
-from datetime import datetime
-# import tkinter as tk
-# from tkinter.filedialog import askopenfilename
+from openpyxl.cell import cell
+from openpyxl.chart import LineChart, Reference
+import xml.etree.ElementTree as ET
+from openpyxl.descriptors import (
+	String,
+	Sequence,
+	Integer,
+	)
+from openpyxl.descriptors.serialisable import Serialisable
 from openpyxl.styles import Color, PatternFill, Font, Border
 from openpyxl.styles import colors
-from openpyxl.styles import Alignment
-from openpyxl import *
-import openpyxl
-from openpyxl.formatting import Rule
-from openpyxl.styles import Font, PatternFill, Border
-from openpyxl.utils import get_column_letter
-from openpyxl import Workbook
-from openpyxl.styles import  Font
-from openpyxl.styles import  Color
-from openpyxl.styles import Alignment
-import requests
-import time
-
-# from tkinter import filedialog
-
-from openpyxl.chart import (
-    LineChart,
-    Series,
-    Reference,
-)
-
-from openpyxl.cell import Cell
-from openpyxl.descriptors import (
-    String,
-    Sequence,
-    Integer,
-)
-from openpyxl.descriptors.serialisable import Serialisable
-import sys, string, os
-import os
-from flask import Flask, render_template, request, send_from_directory
-import datetime
-from werkzeug.utils import secure_filename
-import PyPDF2 as pf
-# import tkinter
-# import PIL
-# from tkinter import *
-# import tkinter as tk
-# from tkinter import messagebox
-import openpyxl
-from openpyxl import *
-from openpyxl.styles import Border, Side
-from openpyxl import Workbook
-from openpyxl.cell import cell
-from openpyxl.descriptors import (
-    String,
-    Sequence,
-    Integer,
-)
-from openpyxl.chart import LineChart, Reference
-import string
-# from PIL import ImageTk, Image
-# from tkinter.filedialog import askopenfilename
-from openpyxl.styles import Color, PatternFill, Font, borders
-from openpyxl.worksheet.dimensions import ColumnDimension
-
-
-# from openpyxl.styles import colors
-# from PIL import ImageTk, Image
-# import pandas as pd
 from openpyxl.styles import Alignment, alignment
-
+from string import ascii_uppercase
+# import datetime
+# from datetime import datetime
 import os
-import xml.etree.ElementTree as ET
-
-import base64
-# from tkinter import filedialog
-import io
-
-import webbrowser
 app=Flask(__name__)
 app.secret_key = "GT ROMANIA Delivery Center"
 var_list=[]
