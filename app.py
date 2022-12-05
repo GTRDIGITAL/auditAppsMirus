@@ -42,7 +42,7 @@ def downloadAgeing():
  
 		return send_from_directory(filepath,"Instructions - Ageing.docx", as_attachment=True)
 @app.route('/Ageing/GTv51bfdGKkuaKo9ggrm7plxbjn')
-def Ageing()
+def Ageing():
 	return render_template('Ageing.html')
 @app.route('/Ageing/GTv51bfdGKkuaKo9ggrm7plxbjn', methods=['POST', 'GET'])
 def Ageing_process():
@@ -11443,7 +11443,7 @@ def JE_process():
 					ws3.add_chart(chart, "A"+str(14+len(uniclistglcredit)+randuri))
 					ws4.sheet_state='hidden'
 					myorder=[2,0,1,3]
-					folderpath="home/auditappnexia/output/je
+					folderpath="home/auditappnexia/output/je"
 					excel._sheets =[excel._sheets[i] for i in myorder]
 					excel.save(folderpath+"\\"+str(namec)+"\\"+str(listaunica[i])+"db.xlsx")
 		make_archive("home/auditappnexia/output/je/"+str(namec),"home/auditappnexia/output/je/"+str(namec)+"/JE "+namec+".zip")                
