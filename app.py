@@ -38,11 +38,11 @@ var_rute=[]
 #     return render_template("index.html")
 @app.route('/Ageing/Instructions', methods=['GET'])
 def downloadAgeing():
-		filepath = "C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Instructions"
+		filepath = "/home/auditappnexia/output/Ageing"
  
 		return send_from_directory(filepath,"Instructions - Ageing.docx", as_attachment=True)
 @app.route('/Ageing/GTv51bfdGKkuaKo9ggrm7plxbjn')
-def Ageing():
+def Ageing()
 	return render_template('Ageing.html')
 @app.route('/Ageing/GTv51bfdGKkuaKo9ggrm7plxbjn', methods=['POST', 'GET'])
 def Ageing_process():
@@ -1862,7 +1862,7 @@ def Ageing_process():
 				Sheet6.cell(row = i, column = j).value = a.value
 
 
-		folderpath = "home/auditappnexia/Output/Ageing" 
+		folderpath = "home/auditappnexia/output/Ageing" 
 		file_pathFS = os.path.join(folderpath, "Ageing Test"+" "+clientname1+".xlsx")
 		wb.save(file_pathFS)
 		# print("ceva")
@@ -1870,7 +1870,7 @@ def Ageing_process():
 
 @app.route('/VAT/Instructions', methods=['GET'])
 def downloadVAT():
-		filepath = "C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Instructions"
+		filepath = "/home/auditappnexia/output/vat"
  
 		return send_from_directory(filepath,"Instructions - VAT.docx", as_attachment=True)
 @app.route('/VAT/GTbJY47MKf1oajfEqntaRFSt8fw')
@@ -2223,8 +2223,8 @@ def my_form_post():
 			a=str(*dictionary.values())
 			b=a.replace('\\n','').replace("b'","").replace("></declaratie300>'","></declaratie300>").replace('encoding="utf-8"', "").replace('''"/>''', "</declaratie300>").replace("</declaratie300>'", '"></declaratie300>').replace('\\r', '')
 			# print(b)
-			f=open("home/auditappnexia/Output/VAT/"+str(nr)+str(now.year)+str(now.month)+str(now.day)+str(now.hour)+str(now.minute)+str(now.second)+".xml","w").write(b)
-			abc.append("home/auditappnexia/Output/VAT/"+str(nr)+str(now.year)+str(now.month)+str(now.day)+str(now.hour)+str(now.minute)+str(now.second)+".xml")
+			f=open("home/auditappnexia/output/vat/"+str(nr)+str(now.year)+str(now.month)+str(now.day)+str(now.hour)+str(now.minute)+str(now.second)+".xml","w").write(b)
+			abc.append("home/auditappnexia/output/vat/"+str(nr)+str(now.year)+str(now.month)+str(now.day)+str(now.hour)+str(now.minute)+str(now.second)+".xml")
 			
 		fisiere=list(abc)
 		for v in range(0,len(fisiere)):
@@ -3443,7 +3443,7 @@ def my_form_post():
 
 		std = wb["Sheet"]
 		wb.remove(std)
-		folderpath = "home/auditappnexia/Output/VAT"
+		folderpath = "home/auditappnexia/output/vat"
 		file_pathFS = os.path.join(folderpath, "VAT test"+" "+clientname1+".xlsx")
 		wb.save(file_pathFS)
 		# out.save(folderpath + "/" + "T10 - VAT Test" + ".xlsx")
@@ -3462,7 +3462,7 @@ def Monthly():
 	return render_template('MonthlyPL.html')
 @app.route('/MonthlyPL/Instructions', methods=['GET'])
 def downloadMonthly():
-		filepath = "C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Instructions"
+		filepath = "/home/auditappnexia/output/MonthlyPL"
  
 		return send_from_directory(filepath,"Instructions - Monthly P&L.docx", as_attachment=True)
 @app.route('/MonthlyPL/GTbSJ64rDiFqoNeQyowqNh9pzcE', methods=['POST', 'GET'])
@@ -4316,7 +4316,7 @@ def Monthly_process():
 
 		std = wb["Sheet"]
 		wb.remove(std)
-		folderpath="home/auditappnexia/Output/MonthlyPL"
+		folderpath="home/auditappnexia/output/MonthlyPL"
 		file_pathFS = os.path.join(folderpath, "Monthly P&L" + " " + clientname1 + ".xlsx")
 		wb.save(file_pathFS)
 		
@@ -4341,7 +4341,7 @@ def Monthly_process():
 	return render_template('MonthlyPL.html')
 @app.route('/Reco/Instructions', methods=['GET'])
 def downloadReco():
-        filepath = "C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Instructions"
+        filepath = "/home/auditappnexia/output/Reco"
  
         return send_from_directory(filepath,"Instructions - Reconciliation details vs TB.docx", as_attachment=True)
 @app.route('/Reco/GT2ls9r79v3pr7L844am9wHNPCp')
@@ -4360,7 +4360,7 @@ def Reco_process():
         shutil.move('%s.%s'%(name,format), destination)
 
     clientname1 = request.form['client']
-    filename="home/auditappnexia/Output/Reco/"
+    filename="home/auditappnexia/output/Reco/"
     os.mkdir(filename+str(clientname1))
     yearEnd1= datetime.datetime.strptime(
                      request.form['yearEnd'],
@@ -4942,7 +4942,7 @@ def Reco_process():
             wb.save(file_path)
         make_archive(filename+str(clientname1),filename+str(clientname1)+".zip")
         # return send_from_directory("C:\\Users\\Cristin.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Output\\Reco\\",clientname1+".zip",as_attachment=True)
-        return send_from_directory("home/auditappnexia/Output/Reco/",clientname1+".zip",as_attachment=True)
+        return send_from_directory("home/auditappnexia/output/Reco/",clientname1+".zip",as_attachment=True)
     return render_template('Reco.html')
 
         # 	filename="C:\\Users\\Cristian.Iordache\\Documents\\Automation Projects\\Web apps-v2-login\\Output\\Reco"
@@ -4953,7 +4953,7 @@ def Reco_process():
 
 @app.route('/TrialBalances/Instructions', methods=['GET'])
 def downloadTB():
-		filepath = "C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Instructions"
+		filepath = "/home/auditappnexia/output/tb"
  
 		return send_from_directory(filepath,"Instructions - Trial Balance.docx", as_attachment=True)
 @app.route('/TrialBalances/GT3SjGyxpbcxV35PeSUpKJQIOgY')
@@ -4979,7 +4979,7 @@ def TB_process():
 	# else:
 	#     isChecked=0
 	
-	folderpath="home/auditappnexia/Output/TB"
+	folderpath="home/auditappnexia/output/tb"
 
 	def make_archive(source, destination):
 		base = os.path.basename(destination)
@@ -5218,9 +5218,9 @@ def TB_process():
 			output=openpyxl.load_workbook(mapp,data_only=True)
 		else:
 			if isChecked2=="":
-				output=openpyxl.load_workbook("home/auditappnexia/Output/Other files/TB/Mapping/Mapping Forma Lunga.xlsx",data_only=True)
+				output=openpyxl.load_workbook("home/auditappnexia/output/Other files/tb/Mapping/Mapping Forma Lunga.xlsx",data_only=True)
 			else:
-				output=openpyxl.load_workbook("home/auditappnexia/Output/Other files/TB/Mapping/Mapping Forma Scurta.xlsx",data_only=True)
+				output=openpyxl.load_workbook("home/auditappnexia/output/Other files/tb/Mapping/Mapping Forma Scurta.xlsx",data_only=True)
 
 		PBC_CY =output.create_sheet("PBC_CY")
 
@@ -5720,7 +5720,7 @@ def TB_process():
 
 @app.route('/LSFS/Instructions', methods=['GET'])
 def downloadLSFS():
-		filepath = "C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Instructions"
+		filepath = "/home/auditappnexia/output/LSFS"
  
 		return send_from_directory(filepath,"Instructions - Leadsheets.docx", as_attachment=True)
 
@@ -5755,7 +5755,7 @@ def LSFS_process():
 	
 	if(isChecked6==1):
 
-		folderpath="home/auditappnexia/Output/LSFS" #aici era inainte fara LSFS
+		folderpath="home/auditappnexia/output/LSFS" #aici era inainte fara LSFS
 		os.mkdir(folderpath+"LSFS "+namec)
 		
 
@@ -6194,7 +6194,7 @@ def LSFS_process():
 			
 	else:
 		
-		folderpath="home/auditappnexia/Output/LSFS" #aici era inainte fara LSFS
+		folderpath="home/auditappnexia/output/LSFS" #aici era inainte fara LSFS
 		os.mkdir(folderpath+"LSFS "+namec)
 		
 
@@ -6644,7 +6644,7 @@ def LSFS_process():
 
 @app.route('/FAR/Instructions', methods=['GET'])
 def downloadFAR():
-		filepath = "C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Instructions"
+		filepath = "/home/auditappnexia/output/FAR"
  
 		return send_from_directory(filepath,"Instructions - FAR-Reconciliation.docx", as_attachment=True)  
 @app.route('/FAR/GTlM4R8dQS5LxdPkpfkPphvCgjq')
@@ -10056,7 +10056,7 @@ def FAR_process():
 			# writing the read value to destination excel file
 				balanta.cell(row = i, column = j).value = c.value
 
-		folderpath = "home/auditappnexia/Output/FAR/"
+		folderpath = "home/auditappnexia/output/FAR/"
 		folder_path=""
 		os.mkdir(folderpath+namec)
 		print(val1,val2,val3)
@@ -10093,14 +10093,14 @@ def FAR_process():
 
 
 		FAR.save(folder_path)
-		make_archive(folder_path,"home/auditappnexia/Output/FAR/FAR "+namec+".zip")
+		make_archive(folder_path,"home/auditappnexia/output/FAR/FAR "+namec+".zip")
 		return send_from_directory(folderpath,"FAR "+namec+".zip", as_attachment=True)
 	return "0"      
 
 
 @app.route('/JournalEntries/Instructions', methods=['GET'])
 def downloadJE():
-		filepath = "C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Instructions"
+		filepath = "/home/auditappnexia/output/je"
  
 		return send_from_directory(filepath,"Instructions - Journal Entries.docx", as_attachment=True)  
 @app.route('/JournalEntries/GTv5Wjk1PboB5kRZ8elnBUECePO')
@@ -10128,7 +10128,7 @@ def JE_process():
 	# else:
 	#     isChecked=0
 	
-	folderpath="home/auditappnexia/Output/JE"
+	folderpath="home/auditappnexia/output/je"
 	os.mkdir(folderpath+"\\"+namec)
 	def make_archive(source, destination):
 		base = os.path.basename(destination)
@@ -11443,10 +11443,10 @@ def JE_process():
 					ws3.add_chart(chart, "A"+str(14+len(uniclistglcredit)+randuri))
 					ws4.sheet_state='hidden'
 					myorder=[2,0,1,3]
-					folderpath="home/auditappnexia/Output/JE"
+					folderpath="home/auditappnexia/output/je
 					excel._sheets =[excel._sheets[i] for i in myorder]
 					excel.save(folderpath+"\\"+str(namec)+"\\"+str(listaunica[i])+"db.xlsx")
-		make_archive("home/auditappnexia/Output/JE/"+str(namec),"home/auditappnexia/Output/JE/"+str(namec)+"/JE "+namec+".zip")                
+		make_archive("home/auditappnexia/output/je/"+str(namec),"home/auditappnexia/output/je/"+str(namec)+"/JE "+namec+".zip")                
 				# shutil.make_archive(name, format, archive_from, archive_to)
 		file_pathFS = os.path.join(folderpath, namec)    
 		return send_from_directory(file_pathFS,"JE "+ namec+".zip",as_attachment=True)    
@@ -11455,7 +11455,7 @@ def JE_process():
 	return render_template('JE.html')
 @app.route('/Payroll/Instructions', methods=['GET'])
 def downloadPayroll():
-		filepath = "C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Instructions"
+		filepath = "/home/auditappnexia/output/payroll"
  
 		return send_from_directory(filepath,"Instructions - Payroll.docx", as_attachment=True)
 
@@ -15506,7 +15506,7 @@ def payroll_process():
 		Sheet3.add_chart(chart, "K3")
 
 
-		folderpath = "home/auditappnexia/Output/Payroll"
+		folderpath = "home/auditappnexia/output/Payroll"
 		file_pathFS = os.path.join(folderpath, "V10 Payroll Analysis " + clientname1 + ".xlsx")
 		# messagebox.showinfo("Success!", "Succesful task.")
 
@@ -15519,7 +15519,7 @@ def payroll_process():
 
 @app.route('/Equity/GTRWhSrzitah41yuSieMuQ6KVpn/Instructions', methods=['GET'])
 def downloadEquity():
-		filepath = "C:\\Users\\denis.david\\Work\\IT\\Web apps-v2-login\Web apps-v2-login\\Instructions"
+		filepath = "/home/auditappnexia/output/Equity"
  
 		return send_from_directory(filepath,"Instructions - Equity.docx", as_attachment=True)
 
@@ -16225,7 +16225,7 @@ def equity_process():
 
 		# save1=tk.Tk()
 		# save1.withdraw()
-		folderpath="home/auditappnexia/Output/Equity"
+		folderpath="home/auditappnexia/output/Equity"
 		file_pathFS = os.path.join(folderpath, 'TOM Equity.xlsx')
 		output.save(file_pathFS)
 
@@ -16233,7 +16233,7 @@ def equity_process():
 	return send_from_directory(folderpath, "TOM Equity.xlsx", as_attachment=True)
 @app.route('/MergeFiles/Instructions', methods=['GET'])
 def downloadMerge():
-		filepath = "C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Instructions"
+		filepath = "/home/auditappnexia/output/Merge"
  
 		return send_from_directory(filepath,"Instructions - Merge Files.docx", as_attachment=True)
 @app.route('/MergeFiles/GT2hAORxnRTx8HrE2mSyYRiqgOp')
@@ -16320,7 +16320,7 @@ def Merge_process():
 		# folderpath = filedialog.askdirectory()
 		# file_pathFS = os.path.join(folderpath, "Dabatase "+" "+clientname1+".xlsx")
 		# tk.messagebox.showinfo('Notice', 'Merging data is complete.')
-		folderpath="home/auditappnexia/Output/Merge"
+		folderpath="home/auditappnexia/output/Merge"
 		file_pathFS = os.path.join(folderpath, 'Database '+ str(clientname1) +'.xlsx')
 		wb.save(file_pathFS)
 
@@ -16328,13 +16328,13 @@ def Merge_process():
 
 @app.route('/JournalEntriesRoutines/GTRk1PboB5knZ8elePOv5WjBUEC/Instructions', methods=['GET'])
 def downloadJET():
-		filepath = "C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Instructions"
+		filepath = "/home/auditappnexia/output/jet"
  
 		return send_from_directory(filepath,"Instructions - Journal Entries Routines.docx", as_attachment=True)
 
 @app.route('/SplitFiles/Instructions', methods=['GET'])
 def downloadSplit():
-		filepath = "C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Instructions"
+		filepath = "/home/auditappnexia/output/Split"
  
 		return send_from_directory(filepath,"Instructions - Split Files.docx", as_attachment=True)
 @app.route('/SplitFiles/GTuKs87BZEXuVAXP57qjmBZkwj2')
@@ -16343,7 +16343,7 @@ def Split():
 @app.route('/SplitFiles/GTuKs87BZEXuVAXP57qjmBZkwj2', methods=['POST', 'GET'])
 def Split_process():
 	namec = request.form['client']
-	folderpath="home/auditappnexia/Output/Split"
+	folderpath="home/auditappnexia/output/Split"
 	os.mkdir(folderpath+"\\"+namec)
 	def make_archive(source, destination):
 		base = os.path.basename(destination)
@@ -16483,10 +16483,10 @@ def Split_process():
 							# 	for g in listanoua:
 							# 		ws.cell(row=2+g,column=g).value=column_value[g]
 					# 	print(row_value)
-					folderpath="home/auditappnexia/Output/Split"
+					folderpath="home/auditappnexia/output/Split"
 					# excel._sheets =[excel._sheets[i] for i in myorder]
 					excel.save(folderpath+"\\"+str(namec)+"\\"+str(listaunica[i])+".xlsx")
-		make_archive("home/auditappnexia/Output/Split/"+str(namec),"home/auditappnexia/Output/Split/"+str(namec)+"/Split "+namec+".zip")                
+		make_archive("home/auditappnexia/output/Split/"+str(namec),"home/auditappnexia/output/Split/"+str(namec)+"/Split "+namec+".zip")                
 				# shutil.make_archive(name, format, archive_from, archive_to)
 		file_pathFS = os.path.join(folderpath, namec)    
 		return send_from_directory(file_pathFS,"Split "+ namec+".zip",as_attachment=True)    
@@ -18349,7 +18349,7 @@ def JET_process():
             summary.cell(row=13+i, column=2).font=hyperlink_font
         # folderpath = ('D:\\WEBDEV\\Platforma apps web\\Audit\\JET\\output')
         # folderpath = ('D:\\Python Projects\\JET\\JET\\output')
-        folderpath = ('home/auditappnexia/Output/JET/')
+        folderpath = ('home/auditappnexia/output/jet/')
         file_pathFS = os.path.join(folderpath, "JET "+clientname1+".xlsx")
         wb.save(file_pathFS)
     return send_from_directory(folderpath, "JET "+clientname1+".xlsx", as_attachment=True)
