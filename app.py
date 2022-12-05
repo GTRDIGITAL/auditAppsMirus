@@ -1,5 +1,6 @@
 import shutil
 from time import sleep
+from random import choice
 import ctypes
 from openpyxl.descriptors.serialisable import Serialisable
 # import PIL
@@ -10,6 +11,7 @@ from openpyxl import Workbook
 from openpyxl.cell import cell
 from openpyxl.chart import LineChart, Reference
 import xml.etree.ElementTree as ET
+from werkzeug.utils import secure_filename
 from flask import flash
 from flask import Flask, render_template, request, send_from_directory, after_this_request, redirect, url_for
 from openpyxl.descriptors import (
@@ -16484,7 +16486,7 @@ def Split_process():
 							# 	for g in listanoua:
 							# 		ws.cell(row=2+g,column=g).value=column_value[g]
 					# 	print(row_value)
-					folderpath="/home/auditappnexia/output/Split/"+str(namec)
+					folderpath="/home/auditappnexia/output/Split"
 					# excel._sheets =[excel._sheets[i] for i in myorder]
 					excel.save(folderpath+"/"+str(namec)+"/"+str(listaunica[i])+".xlsx")
 		make_archive("/home/auditappnexia/output/Split/"+str(namec),"/home/auditappnexia/output/Split/"+str(namec)+"/Split "+namec+".zip")                
