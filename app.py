@@ -22,6 +22,7 @@ from openpyxl.styles import Color, PatternFill, Font, Border
 from openpyxl.styles import colors
 from openpyxl.styles import Alignment, alignment
 from string import ascii_uppercase
+import openpyxl
 # import datetime
 # from datetime import datetime
 import os
@@ -6644,7 +6645,7 @@ def LSFS_process():
 
 @app.route('/FAR/Instructions', methods=['GET'])
 def downloadFAR():
-		filepath = "/home/auditappnexia/output/FAR"
+		filepath = "/home/auditappnexia/output/far"
  
 		return send_from_directory(filepath,"Instructions - FAR-Reconciliation.docx", as_attachment=True)  
 @app.route('/FAR/GTlM4R8dQS5LxdPkpfkPphvCgjq')
@@ -10056,7 +10057,7 @@ def FAR_process():
 			# writing the read value to destination excel file
 				balanta.cell(row = i, column = j).value = c.value
 
-		folderpath = "home/auditappnexia/output/FAR/"
+		folderpath = "home/auditappnexia/output/far/"
 		folder_path=""
 		os.mkdir(folderpath+namec)
 		print(val1,val2,val3)
@@ -10093,7 +10094,7 @@ def FAR_process():
 
 
 		FAR.save(folder_path)
-		make_archive(folder_path,"home/auditappnexia/output/FAR/FAR "+namec+".zip")
+		make_archive(folder_path,"home/auditappnexia/output/far/FAR "+namec+".zip")
 		return send_from_directory(folderpath,"FAR "+namec+".zip", as_attachment=True)
 	return "0"      
 
