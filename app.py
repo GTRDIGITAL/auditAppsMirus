@@ -5716,7 +5716,7 @@ def TB_process():
 		file_path=os.path.join(folderpath, "F100 Trial Balance.xlsx")
 		myorder=[4,0,1,2,3]
 		output._sheets =[output._sheets[i] for i in myorder]
-		output.save(folderpath+"\Trial Balance.xlsx")
+		output.save(folderpath+"/Trial Balance.xlsx")
 		return send_from_directory(folderpath,"Trial Balance.xlsx",as_attachment=True)
 
 		# print(text)
