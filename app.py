@@ -6648,7 +6648,7 @@ def LSFS_process():
 
 @app.route('/FAR/Instructions', methods=['GET'])
 def downloadFAR():
-		filepath = "/home/auditappnexia/output/far"
+		filepath = "/home/auditappnexia/output/"
  
 		return send_from_directory(filepath,"Instructions - FAR-Reconciliation.docx", as_attachment=True)  
 @app.route('/FAR/GTlM4R8dQS5LxdPkpfkPphvCgjq')
