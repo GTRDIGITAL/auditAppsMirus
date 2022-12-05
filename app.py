@@ -5222,9 +5222,9 @@ def TB_process():
 			output=openpyxl.load_workbook(mapp,data_only=True)
 		else:
 			if isChecked2=="":
-				output=openpyxl.load_workbook("/home/auditappnexia/output/Other files/tb/Mapping/Mapping Forma Lunga.xlsx",data_only=True)
+				output=openpyxl.load_workbook("/home/auditappnexia/output/otherfiles/Mapping Forma Lunga.xlsx",data_only=True)
 			else:
-				output=openpyxl.load_workbook("/home/auditappnexia/output/Other files/tb/Mapping/Mapping Forma Scurta.xlsx",data_only=True)
+				output=openpyxl.load_workbook("/home/auditappnexia/output/otherfiles/Mapping Forma Scurta.xlsx",data_only=True)
 
 		PBC_CY =output.create_sheet("PBC_CY")
 
