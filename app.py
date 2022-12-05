@@ -23,7 +23,7 @@ from openpyxl.styles import colors
 from openpyxl.styles import Alignment, alignment
 from string import ascii_uppercase
 import openpyxl
-import datetime
+
 from datetime import datetime
 import os
 app=Flask(__name__)
@@ -10130,7 +10130,7 @@ def JE_process():
 	#     isChecked=0
 	
 	folderpath="home/auditappnexia/output/je"
-	os.mkdir(folderpath+"\\"+namec)
+	os.mkdir(folderpath+"/"+namec)
 	def make_archive(source, destination):
 		base = os.path.basename(destination)
 		name = base.split('.')[0]
@@ -10598,7 +10598,7 @@ def JE_process():
 
 			out.auto_filter.ref = "B10:J"+str(out.max_row)
 			
-			output.save(folderpath+"\\"+str(namec)+"\\Reco JE "+namec+".xlsx")
+			output.save(folderpath+"/"+str(namec)+"/Reco JE "+namec+".xlsx")
 			
 		if isChecked2=="":
 			
@@ -10885,7 +10885,7 @@ def JE_process():
 			mpl.auto_filter.ref = "A13:S"+str(mpl.max_row)
 			
 			
-			outputmpl.save(folderpath+"\\"+str(namec)+"\\MonthlyPL JE" + " " + namec + ".xlsx")
+			outputmpl.save(folderpath+"/"+str(namec)+"/MonthlyPL JE" + " " + namec + ".xlsx")
 			
 
 		if isChecked3=="":
@@ -11446,7 +11446,7 @@ def JE_process():
 					myorder=[2,0,1,3]
 					folderpath="home/auditappnexia/output/je"
 					excel._sheets =[excel._sheets[i] for i in myorder]
-					excel.save(folderpath+"\\"+str(namec)+"\\"+str(listaunica[i])+"db.xlsx")
+					excel.save(folderpath+"/"+str(namec)+"/"+str(listaunica[i])+"db.xlsx")
 		make_archive("home/auditappnexia/output/je/"+str(namec),"home/auditappnexia/output/je/"+str(namec)+"/JE "+namec+".zip")                
 				# shutil.make_archive(name, format, archive_from, archive_to)
 		file_pathFS = os.path.join(folderpath, namec)    
@@ -16345,7 +16345,7 @@ def Split():
 def Split_process():
 	namec = request.form['client']
 	folderpath="home/auditappnexia/output/Split"
-	os.mkdir(folderpath+"\\"+namec)
+	os.mkdir(folderpath+"/"+namec)
 	def make_archive(source, destination):
 		base = os.path.basename(destination)
 		name = base.split('.')[0]
