@@ -23,8 +23,8 @@ from openpyxl.styles import colors
 from openpyxl.styles import Alignment, alignment
 from string import ascii_uppercase
 import openpyxl
-# import datetime
-# from datetime import datetime
+import datetime
+from datetime import datetime
 import os
 app=Flask(__name__)
 app.secret_key = "GT ROMANIA Delivery Center"
@@ -16484,9 +16484,9 @@ def Split_process():
 							# 	for g in listanoua:
 							# 		ws.cell(row=2+g,column=g).value=column_value[g]
 					# 	print(row_value)
-					folderpath="home/auditappnexia/output/Split"
+					folderpath="home/auditappnexia/output/Split/"+str(namec)
 					# excel._sheets =[excel._sheets[i] for i in myorder]
-					excel.save(folderpath+"\\"+str(namec)+"\\"+str(listaunica[i])+".xlsx")
+					excel.save(folderpath+"/"+str(namec)+"/"+str(listaunica[i])+".xlsx")
 		make_archive("home/auditappnexia/output/Split/"+str(namec),"home/auditappnexia/output/Split/"+str(namec)+"/Split "+namec+".zip")                
 				# shutil.make_archive(name, format, archive_from, archive_to)
 		file_pathFS = os.path.join(folderpath, namec)    
