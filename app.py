@@ -10132,7 +10132,7 @@ def JE_process():
 	# else:
 	#     isChecked=0
 	
-	folderpath="C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Output\\JE"
+	folderpath="/home/auditappnexia/output/je"
 	os.mkdir(folderpath+"/"+namec)
 	def make_archive(source, destination):
 		base = os.path.basename(destination)
