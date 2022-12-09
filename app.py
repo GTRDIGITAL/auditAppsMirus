@@ -10132,7 +10132,7 @@ def JE_process():
 	# else:
 	#     isChecked=0
 	
-	folderpath="/home/auditappnexia/output/je/"
+	folderpath="C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Output\\JE"
 	os.mkdir(folderpath+"/"+namec)
 	def make_archive(source, destination):
 		base = os.path.basename(destination)
@@ -10367,39 +10367,23 @@ def JE_process():
 		# 	flash("Please insert the correct header for Account GL Debit in Journal Entries file")
 		# 	return render_template("index.html")
 
-		try:
-			lungl=len(tb1[glje])
-		except:
-			flash("Please insert the correct header for JE Number in Journal Entries file")
-			return render_template("index.html")
 
-		try:
-			lungl=len(tb1[glje])
-			gldate=[b.value for b in tb1[glde][glrow:lungl]]
-		except:
-			flash("Please insert the correct header for Date in Journal Entries file")
-			return render_template("index.html")
-
-		try:
-			lungl=len(tb1[glje])
-			gljenr=[b.value for b in tb1[glje][glrow:lungl]]
-		except:
-			flash("Please insert the correct header for JE Number in Journal Entries file")
-			return render_template("index.html")
 
 
 		try:
-			
+			lungl=len(tb1[glac])
 			accountgldebit=[b.value for b in tb1[glac][glrow:lungl]]
 			accountglcredit=[b.value for b in tb1[glacc][glrow:lungl]]
 		except:
+
 			for row in tb1.iter_rows():
 				for cell in row :
 
 					if cell.value=="Account" :
 						
 						glac=cell.column
-						glarow=cell.row
+						glrow=cell.row
+			lungl=len(tb1[glac])
 			accountgldebit=[b.value for b in tb1[glac][glrow:lungl]]
 			accountglcredit=[b.value for b in tb1[glac][glrow:lungl]]
 
@@ -10415,15 +10399,34 @@ def JE_process():
 						
 						glamc=cell.column
 						glarow=cell.row
-			glamountdebit=[b.value for b in tb1[glamc][glrow:lungl]]
-			glamountcredit=[b.value for b in tb1[glamc][glrow:lungl]]
+			glamountdebit=[b.value for b in tb1[glamc][glarow:lungl]]
+			glamountcredit=[b.value for b in tb1[glamc][glarow:lungl]]
 
-		print("Conturi credit",len(accountglcredit),len(gljenr))
-		print("Conturi debit",len(accountgldebit))
+		# print("Conturi credit",len(accountglcredit),len(gljenr))
+		# print("Conturi debit",len(accountgldebit))
 
 		syntaccgldebit1=[]
 		syntaccglcredit1=[]
 
+		# try:
+		# 	lungl=len(tb1[glje])
+		# except:
+		# 	flash("Please insert the correct header for JE Number in Journal Entries file")
+		# 	return render_template("index.html")
+
+		try:
+			# lungl=len(tb1[glje])
+			gldate=[b.value for b in tb1[glde][glrow:lungl]]
+		except:
+			flash("Please insert the correct header for Date in Journal Entries file")
+			return render_template("index.html")
+
+		try:
+			# lungl=len(tb1[glje])
+			gljenr=[b.value for b in tb1[glje][glrow:lungl]]
+		except:
+			flash("Please insert the correct header for JE Number in Journal Entries file")
+			return render_template("index.html")
 
 		for i in range(0,len(accountgldebit)):
 				syntaccgldebit1.append(str(accountgldebit[i])[0:3])
