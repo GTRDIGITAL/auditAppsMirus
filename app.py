@@ -10132,7 +10132,7 @@ def JE_process():
 	# else:
 	#     isChecked=0
 	
-	folderpath="/home/auditappnexia/output/je"
+	folderpath="/home/auditappnexia/output/je/"
 	os.mkdir(folderpath+"/"+namec)
 	def make_archive(source, destination):
 		base = os.path.basename(destination)
@@ -10277,6 +10277,8 @@ def JE_process():
 			return render_template("index.html")
 
 		Account=[b.value for b in TBls1[Acc][acr:luntb+1]]
+		print("lungime========",luntb)
+		print(len(Account))
 		Description=[b.value for b in TBls1[desc][acr:luntb+1]]
 		OB=[b.value for b in TBls1[aob][acr:luntb+1]]
 		DM=[b.value for b in TBls1[adm][acr:luntb+1]]
@@ -10340,30 +10342,36 @@ def JE_process():
 					glarow=cell.row
 
 
-		try:
-			lungl=len(tb1[glac])
-		except:
-			flash("Please insert the correct header for Account GL Debit in Journal Entries file")
-			return render_template("index.html")
+		# try:
+		# 	lungl=len(tb1[glac])
+		# except:
+		# 	flash("Please insert the correct header for Account GL Debit in Journal Entries file")
+		# 	return render_template("index.html")
 			# messagebox.showerror("Error", "File: G/L. Please insert the correct header for 'Account'")
 			# sys.exit()
 
+		# print(glac)
+		# print(glacc)
 
+		# try:
+		# 	accountgldebit=[b.value for b in tb1[glac][glrow:lungl]]
+		# except:
+		# 	flash("Please insert the correct header for Account GL Debit in Journal Entries file")
+		# 	return render_template("index.html")
+		# 	# messagebox.showerror("Error", "File: G/L. Please insert the correct header for 'Account Debit'")
+		# 	# sys.exit()
+
+		# try:
+		# 	accountglcredit=[b.value for b in tb1[glacc][glrow:lungl]]
+		# except:
+		# 	flash("Please insert the correct header for Account GL Debit in Journal Entries file")
+		# 	return render_template("index.html")
 
 		try:
-			accountgldebit=[b.value for b in tb1[glac][glrow:lungl]]
+			lungl=len(tb1[glje])
 		except:
-			flash("Please insert the correct header for Account GL Debit in Journal Entries file")
+			flash("Please insert the correct header for JE Number in Journal Entries file")
 			return render_template("index.html")
-			# messagebox.showerror("Error", "File: G/L. Please insert the correct header for 'Account Debit'")
-			# sys.exit()
-
-		try:
-			accountglcredit=[b.value for b in tb1[glacc][glrow:lungl]]
-		except:
-			flash("Please insert the correct header for Account GL Debit in Journal Entries file")
-			return render_template("index.html")
-
 
 		try:
 			gldate=[b.value for b in tb1[glde][glrow:lungl]]
@@ -10376,6 +10384,23 @@ def JE_process():
 		except:
 			flash("Please insert the correct header for JE Number in Journal Entries file")
 			return render_template("index.html")
+
+
+		try:
+			
+			accountgldebit=[b.value for b in tb1[glac][glrow:lungl]]
+			accountglcredit=[b.value for b in tb1[glacc][glrow:lungl]]
+		except:
+			for row in tb1.iter_rows():
+				for cell in row :
+
+					if cell.value=="Account" :
+						
+						glac=cell.column
+						glarow=cell.row
+			accountgldebit=[b.value for b in tb1[glac][glrow:lungl]]
+			accountglcredit=[b.value for b in tb1[glac][glrow:lungl]]
+
 
 		try:
 			glamountdebit=[b.value for b in tb1[glamd][glrow:lungl]]
@@ -10391,7 +10416,8 @@ def JE_process():
 			glamountdebit=[b.value for b in tb1[glamc][glrow:lungl]]
 			glamountcredit=[b.value for b in tb1[glamc][glrow:lungl]]
 
-
+		print("Conturi credit",len(accountglcredit),len(gljenr))
+		print("Conturi debit",len(accountgldebit))
 
 		syntaccgldebit1=[]
 		syntaccglcredit1=[]
@@ -10926,7 +10952,8 @@ def JE_process():
 					ws1.cell(row=1,column=6).value="CM"
 					ws1.cell(row=1,column=7).value="CB"
 
-
+					print("lungime=======",luntb)
+					print(len(Account))
 					for k in range(0,len(Account)):
 						ws1.cell(row=2+k,column=2).value=Account[k]
 						ws1.cell(row=2+k,column=1).value=str(Account[k])[:3]
@@ -10935,7 +10962,7 @@ def JE_process():
 						ws1.cell(row=2+k,column=5).value=DM[k]
 						ws1.cell(row=2+k,column=6).value=CM[k]
 						ws1.cell(row=2+k,column=7).value=CB[k]
-						ws1.cell(row=2+k,column=8).value=str(Account[k])[:1]
+						ws1.cell(row=2+k,column=8).value="=left(A"+str(2+k)+",1)"
 
 					listagldebit=[]
 					for j in range(0,len(accountgldebit)):
