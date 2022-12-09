@@ -10374,12 +10374,14 @@ def JE_process():
 			return render_template("index.html")
 
 		try:
+			lungl=len(tb1[glje])
 			gldate=[b.value for b in tb1[glde][glrow:lungl]]
 		except:
 			flash("Please insert the correct header for Date in Journal Entries file")
 			return render_template("index.html")
 
 		try:
+			lungl=len(tb1[glje])
 			gljenr=[b.value for b in tb1[glje][glrow:lungl]]
 		except:
 			flash("Please insert the correct header for JE Number in Journal Entries file")
