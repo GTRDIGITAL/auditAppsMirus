@@ -19744,7 +19744,7 @@ def JET_process():
             summary.cell(row=13+i, column=2).value=i
             summary.cell(row=13+i, column=2).font=hyperlink_font
         # folderpath = ('D:\\WEBDEV\\Platforma apps web\\Audit\\JET\\output')
-        # folderpath = ('D:\\Python Projects\\JET\\JET\\output')
+        # folderpath = ('D:\\Python Projects\\JET\\JET\\dasdasdaoutput')
         folderpath = ('/home/auditappnexia/output/jet/')
         file_pathFS = os.path.join(folderpath, "JET "+clientname1+" "+str(denis)+".xlsx")
         wb.save(file_pathFS)
