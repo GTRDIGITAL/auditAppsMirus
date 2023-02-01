@@ -60,6 +60,8 @@ def Ageing_process():
 		request.form['preparedDate'],
 		'%Y-%m-%d')
 	refference1 = request.form['reff']
+	denis=datetime.datetime.now()
+	print(denis)
 
 	if request.method == 'POST':
 		file_Details = request.files["details"]
@@ -1867,10 +1869,10 @@ def Ageing_process():
 
 
 		folderpath = "/home/auditappnexia/output/Ageing" 
-		file_pathFS = os.path.join(folderpath, "Ageing Test"+" "+clientname1+".xlsx")
+		file_pathFS = os.path.join(folderpath, "Ageing Test"+" "+clientname1+" "+str(denis)+".xlsx")
 		wb.save(file_pathFS)
 		# print("ceva")
-	return send_from_directory(folderpath, "Ageing Test" + " " + clientname1 + ".xlsx", as_attachment=True)
+	return send_from_directory(folderpath, "Ageing Test" + " " + clientname1 +" "+str(denis)+ ".xlsx", as_attachment=True)
 
 @app.route('/VAT/Instructions', methods=['GET'])
 def downloadVAT():
@@ -1891,6 +1893,7 @@ def my_form_post():
 		request.form['preparedDate'],
 		'%Y-%m-%d')
 	refference1 = request.form['reff']
+	denis=datetime.datetime.now()
 #
 # 	# yearEnd = str(request.form['yearEnd'])
 # 	# processed_text = client.upper()
@@ -2106,7 +2109,7 @@ def my_form_post():
 		Sheet1.column_dimensions['K'].width = 14
 		Sheet1.column_dimensions['L'].width = 14
 
-		Sheet2 = wb.create_sheet("T10 VAT Test")
+		Sheet2 = wb.create_sheet("VAT Test")
 		Sheet2.sheet_view.showGridLines = False
 
 		Sheet2.cell(row = 1, column = 2).value ="Client Name:"
@@ -2836,12 +2839,12 @@ def my_form_post():
 		Sheet2['BA16'].alignment = Alignment(wrapText=True, vertical='center')
 		Sheet2['BB16'].alignment = Alignment(wrapText=True, vertical='center')
 
-		Sheet3 = wb.create_sheet("T10.1 VAT Test")
+		Sheet3 = wb.create_sheet("VAT Test 2")
 		Sheet3.sheet_view.showGridLines = False
 
 		Sheet3.cell(row = 1, column = 1).value ="Client Name:"
 		Sheet3.cell(row = 2, column = 1).value ="Period End:"
-		Sheet3.cell(row = 1, column = 14).value ="Prepared By:"
+		Sheet3.cell(row = 1, column = 14).value ="Prepared By:" 
 		Sheet3.cell(row = 2, column = 14).value ="Date:"
 		Sheet3.cell(row = 3, column = 14).value ="Reviewed by:"
 
@@ -2997,46 +3000,46 @@ def my_form_post():
 		Sheet3.cell(row = 2, column = 15).value =datePrepared1
 		Sheet3.cell(row = 2, column = 15).number_format='mm/dd/yyyy'
 		
-		Sheet3.cell(row = 19, column = 3).value ="='T10 VAT Test'!V17"
-		Sheet3.cell(row = 19, column = 4).value ="='T10 VAT Test'!V18"
-		Sheet3.cell(row = 19, column = 5).value ="='T10 VAT Test'!V19"
-		Sheet3.cell(row = 19, column = 6).value ="='T10 VAT Test'!V20"
-		Sheet3.cell(row = 19, column = 7).value ="='T10 VAT Test'!V21"
-		Sheet3.cell(row = 19, column = 8).value ="='T10 VAT Test'!V22"
-		Sheet3.cell(row = 19, column = 9).value ="='T10 VAT Test'!V23"
-		Sheet3.cell(row = 19, column = 10).value ="='T10 VAT Test'!V24"
-		Sheet3.cell(row = 19, column = 11).value ="='T10 VAT Test'!V25"
-		Sheet3.cell(row = 19, column = 12).value ="='T10 VAT Test'!V26"
-		Sheet3.cell(row = 19, column = 13).value ="='T10 VAT Test'!V27"
-		Sheet3.cell(row = 19, column = 14).value ="='T10 VAT Test'!V28"
+		Sheet3.cell(row = 19, column = 3).value ="='VAT Test'!V17"
+		Sheet3.cell(row = 19, column = 4).value ="='VAT Test'!V18"
+		Sheet3.cell(row = 19, column = 5).value ="='VAT Test'!V19"
+		Sheet3.cell(row = 19, column = 6).value ="='VAT Test'!V20"
+		Sheet3.cell(row = 19, column = 7).value ="='VAT Test'!V21"
+		Sheet3.cell(row = 19, column = 8).value ="='VAT Test'!V22"
+		Sheet3.cell(row = 19, column = 9).value ="='VAT Test'!V23"
+		Sheet3.cell(row = 19, column = 10).value ="='VAT Test'!V24"
+		Sheet3.cell(row = 19, column = 11).value ="='VAT Test'!V25"
+		Sheet3.cell(row = 19, column = 12).value ="='VAT Test'!V26"
+		Sheet3.cell(row = 19, column = 13).value ="='VAT Test'!V27"
+		Sheet3.cell(row = 19, column = 14).value ="='VAT Test'!V28"
 		Sheet3.cell(row = 19, column = 15).value ="=SUM(C19:N19)"
 
-		Sheet3.cell(row = 20, column = 3).value ="='T10 VAT Test'!AP17"
-		Sheet3.cell(row = 20, column = 4).value ="='T10 VAT Test'!AP18"
-		Sheet3.cell(row = 20, column = 5).value ="='T10 VAT Test'!AP19"
-		Sheet3.cell(row = 20, column = 6).value ="='T10 VAT Test'!AP20"
-		Sheet3.cell(row = 20, column = 7).value ="='T10 VAT Test'!AP21"
-		Sheet3.cell(row = 20, column = 8).value ="='T10 VAT Test'!AP22"
-		Sheet3.cell(row = 20, column = 9).value ="='T10 VAT Test'!AP23"
-		Sheet3.cell(row = 20, column = 10).value ="='T10 VAT Test'!AP24"
-		Sheet3.cell(row = 20, column = 11).value ="='T10 VAT Test'!AP25"
-		Sheet3.cell(row = 20, column = 12).value ="='T10 VAT Test'!AP26"
-		Sheet3.cell(row = 20, column = 13).value ="='T10 VAT Test'!AP27"
-		Sheet3.cell(row = 20, column = 14).value ="='T10 VAT Test'!AP28"
+		Sheet3.cell(row = 20, column = 3).value ="='VAT Test'!AP17"
+		Sheet3.cell(row = 20, column = 4).value ="='VAT Test'!AP18"
+		Sheet3.cell(row = 20, column = 5).value ="='VAT Test'!AP19"
+		Sheet3.cell(row = 20, column = 6).value ="='VAT Test'!AP20"
+		Sheet3.cell(row = 20, column = 7).value ="='VAT Test'!AP21"
+		Sheet3.cell(row = 20, column = 8).value ="='VAT Test'!AP22"
+		Sheet3.cell(row = 20, column = 9).value ="='VAT Test'!AP23"
+		Sheet3.cell(row = 20, column = 10).value ="='VAT Test'!AP24"
+		Sheet3.cell(row = 20, column = 11).value ="='VAT Test'!AP25"
+		Sheet3.cell(row = 20, column = 12).value ="='VAT Test'!AP26"
+		Sheet3.cell(row = 20, column = 13).value ="='VAT Test'!AP27"
+		Sheet3.cell(row = 20, column = 14).value ="='VAT Test'!AP28"
 		Sheet3.cell(row = 20, column = 15).value ="=SUM(C20:N20)"
 
-		# Sheet3.cell(row = 22, column = 3).value ="='T10 VAT Test'!K17"
-		# Sheet3.cell(row = 22, column = 4).value ="='T10 VAT Test'!K18"
-		# Sheet3.cell(row = 22, column = 5).value ="='T10 VAT Test'!K19"
-		# Sheet3.cell(row = 22, column = 6).value ="='T10 VAT Test'!K20"
-		# Sheet3.cell(row = 22, column = 7).value ="='T10 VAT Test'!K21"
-		# Sheet3.cell(row = 22, column = 8).value ="='T10 VAT Test'!K22"
-		# Sheet3.cell(row = 22, column = 9).value ="='T10 VAT Test'!K23"
-		# Sheet3.cell(row = 22, column = 10).value ="='T10 VAT Test'!K24"
-		# Sheet3.cell(row = 22, column = 11).value ="='T10 VAT Test'!K25"
-		# Sheet3.cell(row = 22, column = 12).value ="='T10 VAT Test'!K26"
-		# Sheet3.cell(row = 22, column = 13).value ="='T10 VAT Test'!K27"
-		# Sheet3.cell(row = 22, column = 14).value ="='T10 VAT Test'!K28"
+		# Sheet3.cell(row = 22, column = 3).value ="='VAT Test'!K17"
+		# Sheet3.cell(row = 22, column = 4).value ="='VAT Test'!K18"
+		# Sheet3.cell(row = 22, column = 5).value ="='VAT Test'!K19"
+		# Sheet3.cell(row = 22, column = 6).value ="='VAT Test'!K20"
+		# Sheet3.cell(row = 22, column = 7).value ="='VAT Test'!K21"
+		# Sheet3.cell(row = 22, column = 8).value ="='VAT Test'!K22"
+		# Sheet3.cell(row = 22, column = 9).value ="='VAT Test'!K23"
+		# Sheet3.cell(row = 22, column = 10).value ="='VAT Test'!K24"
+		# Sheet3.cell(row = 22, column = 11).value ="='VAT Test'!K25"
+		# Sheet3.cell(row = 22, column = 12).value ="='VAT Test'!K26"
+		# Sheet3.cell(row = 22, column = 13).value ="='VAT Test'!K27"
+		# Sheet3.cell(row = 22, column = 14).value ="='VAT Test'!K28"
 		# Sheet3.cell(row = 22, column = 15).value ="=SUM(C22:N22)"
 
 		Sheet3.cell(row = 25, column = 3).value ="=C24+C20-C19"
@@ -3448,10 +3451,10 @@ def my_form_post():
 		std = wb["Sheet"]
 		wb.remove(std)
 		folderpath = "/home/auditappnexia/output/vat"
-		file_pathFS = os.path.join(folderpath, "VAT test"+" "+clientname1+".xlsx")
+		file_pathFS = os.path.join(folderpath, "VAT test"+" "+clientname1+" "+str(denis)+".xlsx")
 		wb.save(file_pathFS)
 		# out.save(folderpath + "/" + "T10 - VAT Test" + ".xlsx")
-		return send_from_directory(folderpath, "VAT Test" + " " + clientname1 + ".xlsx", as_attachment=True)
+		return send_from_directory(folderpath, "VAT Test" + " " + clientname1 +" "+str(denis)+ ".xlsx", as_attachment=True)
 
 	return render_template("VAT.html")
 		
@@ -3483,6 +3486,7 @@ def Monthly_process():
 	datePrepared1= datetime.datetime.now().date()
 	refference1 = request.form['reff']
 	isChecked1=request.form.get("tbSubtotals")
+	denis=datetime.datetime.now()
 	print(isChecked1)
 	if isChecked1=="": #daca e bifat
 		isChecked=0
@@ -4321,7 +4325,7 @@ def Monthly_process():
 		std = wb["Sheet"]
 		wb.remove(std)
 		folderpath="/home/auditappnexia/output/MonthlyPL"
-		file_pathFS = os.path.join(folderpath, "Monthly P&L" + " " + clientname1 + ".xlsx")
+		file_pathFS = os.path.join(folderpath, "Monthly P&L" + " " + clientname1 + " "+str(denis)+".xlsx")
 		wb.save(file_pathFS)
 		
 		for i in file_Details:
@@ -4329,7 +4333,7 @@ def Monthly_process():
 		
 				
 		
-		return send_from_directory(folderpath, "Monthly P&L" + " " + clientname1 + ".xlsx",as_attachment=True)
+		return send_from_directory(folderpath, "Monthly P&L" + " " + clientname1 + " "+str(denis)+".xlsx",as_attachment=True)
 
 	   
 
@@ -4370,6 +4374,7 @@ def Reco_process():
                      request.form['yearEnd'],
                      '%Y-%m-%d')
     preparedBy1=request.form['preparedBy']
+    denis=datetime.datetime.now()
     if request.method == 'POST':
         ft2=Font(name='Tahoma',size=8,bold=True)
         ft1=Font(name='KPMG Logo',size=8)
@@ -4976,6 +4981,7 @@ def TB_process():
 	isChecked2=request.form.get("forml")
 	isChecked3=request.form.get("forms")
 	isChecked4=request.form.get("pyEx")
+	denis=datetime.datetime.now()
 
 
 		# if isChecked1=="": #daca e bifat
@@ -5748,6 +5754,7 @@ def LSFS_process():
 	# isChecked4=request.form.get("forml")
 	# isChecked5=request.form.get("forms")
 	isChecked6=request.form.get("mctb")
+	denis=datetime.datetime.now()
 	
 	if isChecked6=="": #daca e bifat
 		isChecked6=1
@@ -6667,6 +6674,7 @@ def FAR_process():
 	yearentry = datetime.datetime.strptime(
 		request.form['startDep'],
 		'%Y-%m-%d')
+	denis=datetime.datetime.now()
 	def make_archive(source, destination):
 		base = os.path.basename(destination)
 		name = base.split('.')[0]
@@ -7472,7 +7480,7 @@ def FAR_process():
 			G100FAR=FAR.create_sheet("G10 FAR Recon")
 			
 
-			G100FAR.title="G10 FAR Recon"
+			G100FAR.title="FAR Recon"
 
 			for i in range(1, 114):
 				for j in range(1, 10):
@@ -8003,7 +8011,7 @@ def FAR_process():
 			G100FAR.sheet_view.showGridLines = False
 
 		if(val2==1):
-			  G20=FAR.create_sheet("G20 Depr Recomp")
+			  G20=FAR.create_sheet("Depr Recomp")
 
 
 			  G20.column_dimensions['A'].width=15
@@ -8886,7 +8894,7 @@ def FAR_process():
 			  G20.sheet_view.showGridLines = False
 
 		if(val3==1):
-			G30=FAR.create_sheet("G30 FA TOM")
+			G30=FAR.create_sheet("FA TOM")
 
 			# G30.title="G30 FA TOM"
 
@@ -10126,1367 +10134,2716 @@ def JE_process():
 	isChecked1=request.form.get("JEReco")
 	isChecked2=request.form.get("MPL")
 	isChecked3=request.form.get("AccountDetail")
+	isChecked4=request.form.get("nonsd")
 	print(isChecked3,isChecked2,isChecked1,namec,ant,threshol)
+	denis=datetime.datetime.now()
 	# if isChecked1=="": #daca e bifat
 	#     isChecked=1
 	# else:
 	#     isChecked=0
 	
-	folderpath="/home/auditappnexia/output/je"
-	os.mkdir(folderpath+"/"+namec)
-	def make_archive(source, destination):
-		base = os.path.basename(destination)
-		name = base.split('.')[0]
-		format = base.split('.')[1]
-		archive_from = os.path.dirname(source)
-		archive_to = os.path.basename(source.strip(os.sep))
-		shutil.make_archive(name, format, archive_from, archive_to)
-		shutil.move('%s.%s'%(name,format), destination)
-	# yearEnd = str(request.form['yearEnd'])
-	# processed_text = client.upper()
-	# fisier=request.files.get('monthlyTB')
-	if request.method == 'POST':
-		workingsblue2= Font(bold=True, italic=True, name='Tahoma', size=8,color='FFFFFF')
-		lbluefill = PatternFill(start_color='7030A0',
+	if(isChecked4==""):
+		folderpath="/home/auditappnexia/output/je"
+		os.mkdir(folderpath+"\\"+namec+str(denis))
+		def make_archive(source, destination):
+			base = os.path.basename(destination)
+			name = base.split('.')[0]
+			format = base.split('.')[1]
+			archive_from = os.path.dirname(source)
+			archive_to = os.path.basename(source.strip(os.sep))
+			shutil.make_archive(name, format, archive_from, archive_to)
+			shutil.move('%s.%s'%(name,format), destination)
+		# yearEnd = str(request.form['yearEnd'])
+		# processed_text = client.upper()
+		# fisier=request.files.get('monthlyTB')
+		if request.method == 'POST':
+			workingsblue2= Font(bold=True, italic=True, name='Tahoma', size=8,color='FFFFFF')
+			lbluefill = PatternFill(start_color='7030A0',
+								end_color='7030A0',
+								fill_type='solid')
+			grifill=PatternFill(start_color='c4d79b',end_color='c4d79b',fill_type='solid')
+			yellow=PatternFill(start_color='ffff00',end_color='ffff00',fill_type='solid')
+			blueFill = PatternFill(start_color='ccd9ff',
+								end_color='ccd9ff',
+								fill_type='solid')
+			doubleborder = Border(bottom=Side(style='double'))
+			solidborder = Border(bottom=Side(style='thick'))
+			solidborderstanga = Border(left=Side(style='thin'))
+			rightborder = Border(right=Side(style='thin'))
+			rightdouble = Border (right=Side(style='thin'), bottom=Side(style='double'))
+			rightmedium = Border (right=Side(style='thin'), bottom=Side(style='medium'))
+			solidborderdreapta = Border(right=Side(style='thin'))
+			solidbordersus = Border(top=Side(style='thin'))
+			fontitalic = Font(name='Tahoma', size=8, bold=True, italic=True)
+			font1 = Font(name='Tahoma', size=8)
+			font2 = Font(name='Calibri', size=10, bold=True)
+			fontRed = Font(name='Calibri', size=10, bold=True, color= 'FF0000')
+			fontRedDiff=Font(name="Calibri", color='FF0000', size=11, )
+			fontGT = Font (name='GT Logo', size=8)
+			workingsblue = Font(color='2F75B5', bold=True, name='Tahoma', size=8 )
+			headers= Font(bold=True, italic=True, name='Tahoma', size=8,color='FFFFFF') 
+			headersblue = PatternFill(start_color='7030A0',
 							end_color='7030A0',
 							fill_type='solid')
-		grifill=PatternFill(start_color='c4d79b',end_color='c4d79b',fill_type='solid')
-		yellow=PatternFill(start_color='ffff00',end_color='ffff00',fill_type='solid')
-		blueFill = PatternFill(start_color='00AEAC',
-							end_color='00AEAC',
+			headerspurple= PatternFill(start_color='CCC0DA',
+								end_color='CCC0DA',
+								fill_type='solid')
+			total=PatternFill(start_color='DDD9C4',
+							end_color='DDD9C4',
 							fill_type='solid')
-		doubleborder = Border(bottom=Side(style='double'))
-		solidborder = Border(bottom=Side(style='thick'))
-		solidborderstanga = Border(left=Side(style='thin'))
-		rightborder = Border(right=Side(style='thin'))
-		rightdouble = Border (right=Side(style='thin'), bottom=Side(style='double'))
-		rightmedium = Border (right=Side(style='thin'), bottom=Side(style='medium'))
-		solidborderdreapta = Border(right=Side(style='thin'))
-		solidbordersus = Border(top=Side(style='thin'))
-		fontitalic = Font(name='Tahoma', size=8, bold=True, italic=True)
-		font1 = Font(name='Tahoma', size=8)
-		font2 = Font(name='Tahoma', size=8, bold=True)
-		fontRed = Font(name='Tahoma', size=8, bold=True, color= 'FF0000')
-		fontRedDiff=Font(name="Tahoma", color='FF0000', size=11, )
-		fontGT = Font (name='GT Logo', size=8)
-		workingsblue = Font(color='2F75B5', bold=True, name='Tahoma', size=8 )
-		headers= Font(bold=True, italic=True, name='Tahoma', size=8,color='FFFFFF') 
-		headersblue = PatternFill(start_color='7030A0',
-						end_color='7030A0',
-						fill_type='solid')
-		headerspurple= PatternFill(start_color='65CDCC',
-							end_color='65CDCC',
-							fill_type='solid')
-		total=PatternFill(start_color='DDD9C4',
-						end_color='DDD9C4',
-						fill_type='solid')
-		greenbolditalic= Font(bold=True, italic=True,  color='C0504D', name='Tahoma', size=8)
-		greenbolditalic= Font(bold=True, italic=True,  color='00af50')
-		fontalb = Font(italic=True, color="bfbfbf", size=8, name='Tahoma')
-		trialb=request.files["TB"]
-		je=request.files["JE"]
+			greenbolditalic= Font(bold=True, italic=True,  color='C0504D', name='Tahoma', size=8)
+			greenbolditalic= Font(bold=True, italic=True,  color='00af50')
+			fontalb = Font(italic=True, color="bfbfbf", size=8, name='Tahoma')
+			trialb=request.files["TB"]
+			je=request.files["JE"]
 
-		tb=openpyxl.load_workbook(je,data_only='True')
-		tb1=tb.active
+			tb=openpyxl.load_workbook(je,data_only='True')
+			tb1=tb.active
 
-		TB=openpyxl.load_workbook(trialb,data_only='True')
-		TBls1=TB.active
-		for row in TBls1.iter_rows():
-					for cell in row:
-						if cell.value=="Account":
-							Acc=cell.column
-							acr=cell.row
+			TB=openpyxl.load_workbook(trialb,data_only='True')
+			TBls1=TB.active
+			for row in TBls1.iter_rows():
+						for cell in row:
+							if cell.value=="Account":
+								Acc=cell.column
+								acr=cell.row
 
-		for row in TBls1.iter_rows():
-			for cell in row:
-				if cell.value=="Description":
-					desc=cell.column
+			for row in TBls1.iter_rows():
+				for cell in row:
+					if cell.value=="Description":
+						desc=cell.column
 
-		for row in TBls1.iter_rows():
-			for cell in row:
-				if cell.value=="OB":
-					aob=cell.column
+			for row in TBls1.iter_rows():
+				for cell in row:
+					if cell.value=="OB":
+						aob=cell.column
 
-		for row in TBls1.iter_rows():
+			for row in TBls1.iter_rows():
 
-			for cell in row:
-				if cell.value=="DM":
-					adm=cell.column
-				
-		for row in TBls1.iter_rows():
-			for cell in row:
-				if cell.value=="CM":
-					acm=cell.column
-
-		for row in TBls1.iter_rows():
-			for cell in row:
-				if cell.value=="CB":
-					acb=cell.column
-
-		try:
-			lungl=len(TBls1[Acc])
-		except:
-			flash("Please insert the correct header for Account in Trial Balance file")
-			return render_template("index.html")
-
-
-
-		try:
-			lungl=len(TBls1[desc])
-		except:
-			flash("Please insert the correct header for Description in Trial Balance file")
-			return render_template("index.html")
-			# messagebox.showerror("Error", "File: TB. Please insert the correct header for 'Description'")
-			# sys.exit()
-
-		try:
-			lungl=len(TBls1[aob])
-		except:
-			flash("Please insert the correct header for OB in Trial Balance file")
-			return render_template("index.html")
-			# messagebox.showerror("Error", "File: TB. Please insert the correct header for 'Opening Balance'")
-			# sys.exit()
-
-		try:
-			lungl=len(TBls1[adm])
-		except:
-			flash("Please insert the correct header for DM in Trial Balance file")
-			return render_template("index.html")
-			# messagebox.showerror("Error", "File: TB. Please insert the correct header for 'Debit Movement'")
-			# sys.exit()
-
-		try:
-			lungl=len(TBls1[acm])
-		except:
-			flash("Please insert the correct header for CM in Trial Balance file")
-			return render_template("index.html")
-			# messagebox.showerror("Error", "File: TB. Please insert the correct header for 'Credit Movement'")
-			# sys.exit()
-
-		try:
-			lungl=len(TBls1[acb])
-		except:
-			flash("Please insert the correct header for CB in Trial Balance file")
-			return render_template("index.html")
-			# messagebox.showerror("Error", "File: TB. Please insert the correct header for 'Closing Balance'")
-			# sys.exit()
-		try:
-			luntb=len(TBls1[Acc])
-		except:
-			flash("Please insert the correct header for Account in Trial Balance file")
-			return render_template("index.html")
-
-		Account=[b.value for b in TBls1[Acc][acr:luntb+1]]
-		print("lungime========",luntb)
-		print(len(Account))
-		Description=[b.value for b in TBls1[desc][acr:luntb+1]]
-		OB=[b.value for b in TBls1[aob][acr:luntb+1]]
-		DM=[b.value for b in TBls1[adm][acr:luntb+1]]
-		CM=[b.value for b in TBls1[acm][acr:luntb+1]]
-		CB=[b.value for b in TBls1[acb][acr:luntb+1]]
-
-
-		for row in tb1.iter_rows():
-			for cell in row :
-
-				if cell.value=="Account Debit" :
+				for cell in row:
+					if cell.value=="DM":
+						adm=cell.column
 					
-					glac=cell.column
-					glrow=cell.row
-		for row in tb1.iter_rows():
-			for cell in row :
+			for row in TBls1.iter_rows():
+				for cell in row:
+					if cell.value=="CM":
+						acm=cell.column
 
-				if cell.value=="Account Credit" :
-					
-					glacc=cell.column
-					glrow=cell.row
+			for row in TBls1.iter_rows():
+				for cell in row:
+					if cell.value=="CB":
+						acb=cell.column
 
-
-		for row in tb1.iter_rows():
-			for cell in row :
-
-				if cell.value=="Description" :
-					
-					gld=cell.column
-					gldrow=cell.row
-		for row in tb1.iter_rows():
-			for cell in row :
-
-				if cell.value=="JE Number" :
-					
-					glje=cell.column
-					gldrow=cell.row
-
-		for row in tb1.iter_rows():
-			for cell in row :
-
-				if cell.value=="Date" :
-					
-					glde=cell.column
-					gldrow=cell.row
-
-		for row in tb1.iter_rows():
-			for cell in row :
-
-				if cell.value=="Amount Debit" :
-					
-					glamd=cell.column
-					glarow=cell.row
-
-		for row in tb1.iter_rows():
-			for cell in row :
-
-				if cell.value=="Amount Credit" :
-					
-					glamc=cell.column
-					glarow=cell.row
-
-
-		# try:
-		# 	lungl=len(tb1[glac])
-		# except:
-		# 	flash("Please insert the correct header for Account GL Debit in Journal Entries file")
-		# 	return render_template("index.html")
-			# messagebox.showerror("Error", "File: G/L. Please insert the correct header for 'Account'")
-			# sys.exit()
-
-		# print(glac)
-		# print(glacc)
-
-		# try:
-		# 	accountgldebit=[b.value for b in tb1[glac][glrow:lungl]]
-		# except:
-		# 	flash("Please insert the correct header for Account GL Debit in Journal Entries file")
-		# 	return render_template("index.html")
-		# 	# messagebox.showerror("Error", "File: G/L. Please insert the correct header for 'Account Debit'")
-		# 	# sys.exit()
-
-		# try:
-		# 	accountglcredit=[b.value for b in tb1[glacc][glrow:lungl]]
-		# except:
-		# 	flash("Please insert the correct header for Account GL Debit in Journal Entries file")
-		# 	return render_template("index.html")
+			try:
+				lungl=len(TBls1[Acc])
+			except:
+				flash("Please insert the correct header for Account in Trial Balance file")
+				return render_template("index.html")
 
 
 
+			try:
+				lungl=len(TBls1[desc])
+			except:
+				flash("Please insert the correct header for Description in Trial Balance file")
+				return render_template("index.html")
+				# messagebox.showerror("Error", "File: TB. Please insert the correct header for 'Description'")
+				# sys.exit()
 
-		try:
-			lungl=len(tb1[glac])
-			accountgldebit=[b.value for b in tb1[glac][glrow:lungl]]
-			accountglcredit=[b.value for b in tb1[glacc][glrow:lungl]]
-		except:
+			try:
+				lungl=len(TBls1[aob])
+			except:
+				flash("Please insert the correct header for OB in Trial Balance file")
+				return render_template("index.html")
+				# messagebox.showerror("Error", "File: TB. Please insert the correct header for 'Opening Balance'")
+				# sys.exit()
+
+			try:
+				lungl=len(TBls1[adm])
+			except:
+				flash("Please insert the correct header for DM in Trial Balance file")
+				return render_template("index.html")
+				# messagebox.showerror("Error", "File: TB. Please insert the correct header for 'Debit Movement'")
+				# sys.exit()
+
+			try:
+				lungl=len(TBls1[acm])
+			except:
+				flash("Please insert the correct header for CM in Trial Balance file")
+				return render_template("index.html")
+				# messagebox.showerror("Error", "File: TB. Please insert the correct header for 'Credit Movement'")
+				# sys.exit()
+
+			try:
+				lungl=len(TBls1[acb])
+			except:
+				flash("Please insert the correct header for CB in Trial Balance file")
+				return render_template("index.html")
+				# messagebox.showerror("Error", "File: TB. Please insert the correct header for 'Closing Balance'")
+				# sys.exit()
+			try:
+				luntb=len(TBls1[Acc])
+			except:
+				flash("Please insert the correct header for Account in Trial Balance file")
+				return render_template("index.html")
+
+			Account=[b.value for b in TBls1[Acc][acr:luntb+1]]
+			Description=[b.value for b in TBls1[desc][acr:luntb+1]]
+			OB=[b.value for b in TBls1[aob][acr:luntb+1]]
+			DM=[b.value for b in TBls1[adm][acr:luntb+1]]
+			CM=[b.value for b in TBls1[acm][acr:luntb+1]]
+			CB=[b.value for b in TBls1[acb][acr:luntb+1]]
+
 
 			for row in tb1.iter_rows():
 				for cell in row :
 
-					if cell.value=="Account" :
+					if cell.value=="Account Debit" :
 						
 						glac=cell.column
 						glrow=cell.row
-			lungl=len(tb1[glac])
-			accountgldebit=[b.value for b in tb1[glac][glrow:lungl]]
-			accountglcredit=[b.value for b in tb1[glac][glrow:lungl]]
-
-
-		try:
-			glamountdebit=[b.value for b in tb1[glamd][glrow:lungl]]
-			glamountcredit=[b.value for b in tb1[glamc][glrow:lungl]]
-		except:
 			for row in tb1.iter_rows():
 				for cell in row :
 
-					if cell.value=="Amount" :
+					if cell.value=="Account Credit" :
+						
+						glacc=cell.column
+						glrow=cell.row
+
+
+			for row in tb1.iter_rows():
+				for cell in row :
+
+					if cell.value=="Description" :
+						
+						gld=cell.column
+						gldrow=cell.row
+			for row in tb1.iter_rows():
+				for cell in row :
+
+					if cell.value=="JE Number" :
+						
+						glje=cell.column
+						gldrow=cell.row
+
+			for row in tb1.iter_rows():
+				for cell in row :
+
+					if cell.value=="Date" :
+						
+						glde=cell.column
+						gldrow=cell.row
+
+			for row in tb1.iter_rows():
+				for cell in row :
+
+					if cell.value=="Amount Debit" :
+						
+						glamd=cell.column
+						glarow=cell.row
+
+			for row in tb1.iter_rows():
+				for cell in row :
+
+					if cell.value=="Amount Credit" :
 						
 						glamc=cell.column
 						glarow=cell.row
-			glamountdebit=[b.value for b in tb1[glamc][glarow:lungl]]
-			glamountcredit=[b.value for b in tb1[glamc][glarow:lungl]]
 
-		# print("Conturi credit",len(accountglcredit),len(gljenr))
-		# print("Conturi debit",len(accountgldebit))
+			rddesc=None
+			cddesc=None         
+			for row in tb1.iter_rows():
+				for cell in row:
+					if cell.value=="Debit descriptions":
+						rddesc=cell.row
+						cddesc=cell.column
 
-		syntaccgldebit1=[]
-		syntaccglcredit1=[]
+			rcdesc=None
+			ccdesc=None         
+			for row in tb1.iter_rows():
+				for cell in row:
+					if cell.value=="Credit descriptions":
+						rcdesc=cell.row
+						ccdesc=cell.column
 
-		# try:
-		# 	lungl=len(tb1[glje])
-		# except:
-		# 	flash("Please insert the correct header for JE Number in Journal Entries file")
-		# 	return render_template("index.html")
 
-		try:
-			# lungl=len(tb1[glje])
-			gldate=[b.value for b in tb1[glde][glrow:lungl]]
-		except:
-			flash("Please insert the correct header for Date in Journal Entries file")
-			return render_template("index.html")
-
-		try:
-			# lungl=len(tb1[glje])
-			gljenr=[b.value for b in tb1[glje][glrow:lungl]]
-		except:
-			flash("Please insert the correct header for JE Number in Journal Entries file")
-			return render_template("index.html")
-
-		for i in range(0,len(accountgldebit)):
-				syntaccgldebit1.append(str(accountgldebit[i])[0:3])
-		for i in range(0,len(accountglcredit)):
-				syntaccglcredit1.append(str(accountglcredit[i])[0:3])
-
-		syntaccgldebit=[]
-		syntaccglcredit=[]
-
-		for i in range(0,len(syntaccgldebit1)):
 			try:
-				syntaccgldebit1[i]=int(syntaccgldebit1[i])
-				syntaccgldebit.append(syntaccgldebit1[i])
+				lungl=len(tb1[glac])
 			except:
-				pass
-		for i in range(0,len(syntaccglcredit1)):
+				flash("Please insert the correct header for Account GL Debit in Journal Entries file")
+				return render_template("index.html")
+				# messagebox.showerror("Error", "File: G/L. Please insert the correct header for 'Account'")
+				# sys.exit()
+
+			dd=[]
+			cd=[]
+
+			if rddesc is not None:
+				dd=[b.value for b in tb1[cddesc][rddesc:lungl]]
+			if rcdesc is not None:
+				cd=[b.value for b in tb1[ccdesc][rcdesc:lungl]]
+
 			try:
-				syntaccglcredit1[i]=int(syntaccglcredit1[i])
-				syntaccglcredit.append(syntaccglcredit1[i])
+				accountgldebit=[b.value for b in tb1[glac][glrow:lungl]]
 			except:
-				pass
-		lisunicaacd=list(set(syntaccgldebit))
-		lisunicaacc=list(set(syntaccglcredit))
-		listaunica=list(set(lisunicaacc+lisunicaacd))
-		listasumec=[]
-		listasumed=[]
-		for i in range(0,len(listaunica)):
-			sumad=0
-			sumac=0
-			for j in range(0,len(accountglcredit)):
-				if(str(listaunica[i])==str(accountglcredit[j])[0:3]):
-					try:
-						sumac=sumac+glamountcredit[j]
-					except:
-						pass
-				if(str(listaunica[i])==str(accountgldebit[j])[0:3]):
-					try:
-						sumad=sumad+glamountdebit[j]
-					except:
-						pass
-			listasumed.append(sumad)
-			listasumec.append(sumac)
-		if isChecked1=="":
-		 
-			output=Workbook()
-			out=output.active
-			out.sheet_view.showGridLines = False
+				flash("Please insert the correct header for Account GL Debit in Journal Entries file")
+				return render_template("index.html")
+				# messagebox.showerror("Error", "File: G/L. Please insert the correct header for 'Account Debit'")
+				# sys.exit()
 
-			out.title="Journal Entries Reconciliation"
+			try:
+				accountglcredit=[b.value for b in tb1[glacc][glrow:lungl]]
+			except:
+				flash("Please insert the correct header for Account GL Debit in Journal Entries file")
+				return render_template("index.html")
 
-			out.cell(row=1,column=1).value="Client:"
-			out.cell(row=2,column=1).value="Period End:"
 
-			out.cell(row=1,column=2).value=namec
-			out.cell(row=2,column=2).value=ant
-			out.cell(row=2,column=2).number_format='mm/dd/yyyy'
+			try:
+				gldate=[b.value for b in tb1[glde][glrow:lungl]]
+			except:
+				flash("Please insert the correct header for Date in Journal Entries file")
+				return render_template("index.html")
 
-			out.cell(row=1,column=1).font=font2
-			out.cell(row=2,column=1).font=font2
-			out.cell(row=4,column=4).value="Reconciliation Trial Balance vs Journal Entries"
-			out.cell(row=4,column=4).font=font2
+			try:
+				gljenr=[b.value for b in tb1[glje][glrow:lungl]]
+			except:
+				flash("Please insert the correct header for JE Number in Journal Entries file")
+				return render_template("index.html")
 
-			out.cell(row=7,column=3).value="As per JE"
-			out.cell(row=7,column=3).font=font2
-			out.cell(row=7,column=6).value="As per TB"
-			out.cell(row=7,column=6).font=font2
+			try:
+				glamountdebit=[b.value for b in tb1[glamd][glrow:lungl]]
+				glamountcredit=[b.value for b in tb1[glamc][glrow:lungl]]
+			except:
+				for row in tb1.iter_rows():
+					for cell in row :
 
-			out.cell(row=7,column=9).value="Difference"
-			out.cell(row=7,column=9).font=font2
+						if cell.value=="Amount" :
+							
+							glamc=cell.column
+							glarow=cell.row
+				glamountdebit=[b.value for b in tb1[glamc][glrow:lungl]]
+				glamountcredit=[b.value for b in tb1[glamc][glrow:lungl]]
 
 
 
-			out.cell(row=10,column=2).value="Account"
-			out.cell(row=10,column=3).value="Amount Debit"
-			out.cell(row=10,column=4).value="Amount Credit"
-
-			out.cell(row=10,column=6).value="Amount Debit"
-			out.cell(row=10,column=7).value="Amount Credit"
-
-			out.cell(row=10,column=9).value="Amount Debit"
-			out.cell(row=10,column=10).value="Amount Credit"
-
-			for o in range(2,5):
-				out.cell(row=10,column=o).border=doubleborder
-				out.cell(row=10,column=o).font=font2
-				out.cell(row=10,column=o).fill=headerspurple
-
-			for o in range(6,8):
-				out.cell(row=10,column=o).border=doubleborder
-				out.cell(row=10,column=o).font=font2
-				out.cell(row=10,column=o).fill=headerspurple
-
-			for o in range(9,11):
-				out.cell(row=10,column=o).border=doubleborder
-				out.cell(row=10,column=o).font=font2
-				out.cell(row=10,column=o).fill=headerspurple
+			syntaccgldebit1=[]
+			syntaccglcredit1=[]
 
 
-			out2=output.create_sheet("Trial Balance")
-			out2.sheet_view.showGridLines = False
+			for i in range(0,len(accountgldebit)):
+					syntaccgldebit1.append(str(accountgldebit[i])[0:3])
+			for i in range(0,len(accountglcredit)):
+					syntaccglcredit1.append(str(accountglcredit[i])[0:3])
 
-			out2.cell(row=1,column=1).value="Synt(3)"
-			out2.cell(row=1,column=2).value="Account"
-			out2.cell(row=1,column=3).value="Description"
-			out2.cell(row=1,column=4).value="OB"
-			out2.cell(row=1,column=5).value="DM"
-			out2.cell(row=1,column=6).value="CM"
-			out2.cell(row=1,column=7).value="CB"
+			syntaccgldebit=[]
+			syntaccglcredit=[]
 
-			for o in range(1,8):
-				out2.cell(row=1,column=o).border=doubleborder
-				out2.cell(row=1,column=o).font=font2
-				out2.cell(row=1,column=o).fill=headerspurple
-
-			for k in range(0,len(Account)):
-				out2.cell(row=2+k,column=2).value=Account[k]
-				out2.cell(row=2+k,column=1).value=str(Account[k])[:3]
-				out2.cell(row=2+k,column=3).value=Description[k]
-				out2.cell(row=2+k,column=4).value=OB[k]
-				out2.cell(row=2+k,column=5).value=DM[k]
-				out2.cell(row=2+k,column=6).value=CM[k]
-				out2.cell(row=2+k,column=7).value=CB[k]
-
-			listaunica, listasumed, listasumec = (list(t) for t in zip(*sorted(zip(listaunica, listasumed,listasumec))))
-
-			for l in range(0,len(listaunica)):
-				out.cell(row=11+l,column=2).value=listaunica[l]
-				out.cell(row=11+l,column=3).value=listasumed[l]
-				out.cell(row=11+l,column=3).number_format='#,##0_);(#,##0)'
-				out.cell(row=11+l,column=4).value=listasumec[l]
-				out.cell(row=11+l,column=4).number_format='#,##0_);(#,##0)'
-				out.cell(row=11+l,column=6).value="=SUMIF('Trial Balance'!A:A,B"+str(11+l)+",'Trial Balance'!E:E)"
-				out.cell(row=11+l,column=6).number_format='#,##0_);(#,##0)'
-				out.cell(row=11+l,column=7).value="=SUMIF('Trial Balance'!A:A,B"+str(11+l)+",'Trial Balance'!F:F)"
-				out.cell(row=11+l,column=7).number_format='#,##0_);(#,##0)'
-				out.cell(row=11+l,column=9).value="=F"+str(11+l)+"-C"+str(11+l)
-				out.cell(row=11+l,column=9).font=fontRedDiff
-				out.cell(row=11+l,column=9).number_format='#,##0_);(#,##0)'
-				out.cell(row=11+l,column=10).value="=G"+str(11+l)+"-D"+str(11+l)
-				out.cell(row=11+l,column=10).number_format='#,##0_);(#,##0)'
-				out.cell(row=11+l,column=10).font=fontRedDiff
-
-			out.cell(row=6,column=2).value="Total"
-			out.cell(row=6,column=2).font=font2
-
-			out.cell(row=7,column=3).value="Check"
-			out.cell(row=7,column=3).font=fontRedDiff
-
-			out.cell(row=7,column=6).value="Check"
-			out.cell(row=7,column=6).font=fontRedDiff
-
-			out.cell(row=7,column=9).value="Check"
-			out.cell(row=7,column=9).font=fontRedDiff
-
-
-			out.cell(row=6,column=3).value="=sum(C11:C"+str(len(listaunica)+11)+")"
-			out.cell(row=6,column=3).font=font2
-			out.cell(row=6,column=3).number_format='#,##0_);(#,##0)'
-
-			out.cell(row=6,column=4).value="=sum(D11:D"+str(len(listaunica)+11)+")"
-			out.cell(row=6,column=4).font=font2
-			out.cell(row=6,column=4).number_format='#,##0_);(#,##0)'
-
-			out.cell(row=6,column=6).value="=sum(F11:F"+str(len(listaunica)+11)+")"
-			out.cell(row=6,column=6).font=font2
-			out.cell(row=6,column=6).number_format='#,##0_);(#,##0)'
-
-			out.cell(row=6,column=7).value="=sum(G11:G"+str(len(listaunica)+11)+")"
-			out.cell(row=6,column=7).font=font2
-			out.cell(row=6,column=7).number_format='#,##0_);(#,##0)'
-
-			out.cell(row=6,column=9).value="=sum(I11:I"+str(len(listaunica)+11)+")"
-			out.cell(row=6,column=9).font=fontRedDiff
-			out.cell(row=6,column=9).number_format='#,##0_);(#,##0)'
-
-			out.cell(row=6,column=10).value="=sum(J11:J"+str(len(listaunica)+11)+")"
-			out.cell(row=6,column=10).font=fontRedDiff
-			out.cell(row=6,column=10).number_format='#,##0_);(#,##0)'
-
-
-			out.cell(row=7,column=4).value="=C6-D6"
-			out.cell(row=7,column=4).font=fontRedDiff
-			out.cell(row=7,column=4).number_format='#,##0_);(#,##0)'
-			out.cell(row=7,column=7).value="=F6-G6"
-			out.cell(row=7,column=7).font=fontRedDiff
-			out.cell(row=7,column=7).number_format='#,##0_);(#,##0)'
-
-			out.cell(row=7,column=10).value="=I6-J6"
-			out.cell(row=7,column=10).font=fontRedDiff
-			out.cell(row=7,column=10).number_format='#,##0_);(#,##0)'
-
-			c=out['B11']
-			out.freeze_panes = c
-			out.column_dimensions['B'].width=15
-			out.column_dimensions['C'].width=15
-			out.column_dimensions['D'].width=15
-			out.column_dimensions['E'].width=15
-			out.column_dimensions['F'].width=15
-			out.column_dimensions['G'].width=15
-			out.column_dimensions['H'].width=15
-			out.column_dimensions['I'].width=15
-			out.column_dimensions['J'].width=15
-
-			out.auto_filter.ref = "B10:J"+str(out.max_row)
-			
-			output.save(folderpath+"/"+str(namec)+"/Reco JE "+namec+".xlsx")
-			
-		if isChecked2=="":
-			
-			outputmpl=Workbook()
-			listaunicaanalitic=list(set(accountgldebit+accountglcredit))
-			listaunicaanaliticint=[]
-			for i in range(0,len(listaunicaanalitic)):
+			for i in range(0,len(syntaccgldebit1)):
 				try:
-					listaunicaanalitic[i]=int(listaunicaanalitic[i])
-					listaunicaanaliticint.append(listaunicaanalitic[i])
+					syntaccgldebit1[i]=int(syntaccgldebit1[i])
+					syntaccgldebit.append(syntaccgldebit1[i])
 				except:
 					pass
-
-			listaunicaanaliticint.sort()
-
-			mpl=outputmpl.active
-			mpl.title="Monthly P&L"
-			mpl.cell(row=1,column=1).value="Client"
-			mpl.cell(row=1,column=1).font=font2
-			mpl.cell(row=2,column=1).value="Period end:"
-			mpl.cell(row=2,column=1).font=font2
-
-			c=mpl['A14']
-			mpl.freeze_panes = c
-			mpl.sheet_view.showGridLines = False
-
-			mpl.cell(row=4,column=1).value="Monthly P&L"
-			mpl.cell(row=4,column=1).font=font2
-
-			mpl.cell(row=1,column=2).value=namec
-			mpl.cell(row=2,column=2).value=ant
-			mpl.cell(row=2,column=2).number_format='mm/dd/yyyy'
-
-			mpl.cell(row=6,column=4).value="Expenses"
-			mpl.cell(row=7,column=4).value="Revenues"
-			mpl.cell(row=8,column=4).value="Result"
-			mpl.cell(row=9,column=4).value="Acc 121"
-			mpl.cell(row=10,column=4).value="Check"
-			mpl.cell(row=10,column=4).font=fontRedDiff
-
-			mpl.cell(row=5,column=5).value="January"
-			mpl.cell(row=5,column=6).value="February"
-			mpl.cell(row=5,column=7).value="March"
-			mpl.cell(row=5,column=8).value="April"
-			mpl.cell(row=5,column=9).value="May"
-			mpl.cell(row=5,column=10).value="June"
-			mpl.cell(row=5,column=11).value="July"
-			mpl.cell(row=5,column=12).value="August"
-			mpl.cell(row=5,column=13).value="September"
-			mpl.cell(row=5,column=14).value="October"
-			mpl.cell(row=5,column=15).value="November"
-			mpl.cell(row=5,column=16).value="December"
-			mpl.cell(row=5,column=17).value="Total"
-			mpl.cell(row=5,column=18).value="As per TB"
-			mpl.cell(row=5,column=19).value="Difference"
-			for p in range(5,20):
-				mpl.cell(row=5,column=p).border=doubleborder
-				mpl.cell(row=5,column=p).font=font2
-				mpl.cell(row=5,column=p).fill=headerspurple
-
-			for p in range(1,20):
-				mpl.cell(row=13,column=p).border=doubleborder
-				mpl.cell(row=13,column=p).font=font2
-				mpl.cell(row=13,column=p).fill=headerspurple
-			mpl.cell(row=13,column=1).value="Class"
-			mpl.cell(row=13,column=2).value="Synt(3)"
-			mpl.cell(row=13,column=3).value="Account"
-			mpl.cell(row=13,column=4).value="Description"
-			mpl.cell(row=13,column=5).value="January"
-			mpl.cell(row=13,column=6).value="February"
-			mpl.cell(row=13,column=7).value="March"
-			mpl.cell(row=13,column=8).value="April"
-			mpl.cell(row=13,column=9).value="May"
-			mpl.cell(row=13,column=10).value="June"
-			mpl.cell(row=13,column=11).value="July"
-			mpl.cell(row=13,column=12).value="August"
-			mpl.cell(row=13,column=13).value="September"
-			mpl.cell(row=13,column=14).value="October"
-			mpl.cell(row=13,column=15).value="November"
-			mpl.cell(row=13,column=16).value="December"
-			mpl.cell(row=13,column=17).value="Total"
-			mpl.cell(row=13,column=18).value="As per TB"
-			mpl.cell(row=13,column=19).value="Difference"
-			rand=0
-
-			mpltb=outputmpl.create_sheet("Trial Balance")
-			mpltb.cell(row=1,column=1).value="Synt(3)"
-			mpltb.cell(row=1,column=2).value="Account"
-			mpltb.cell(row=1,column=3).value="Description"
-			mpltb.cell(row=1,column=4).value="OB"
-			mpltb.cell(row=1,column=5).value="DM"
-			mpltb.cell(row=1,column=6).value="CM"
-			mpltb.cell(row=1,column=7).value="CB"
-			mpltb.sheet_view.showGridLines = False
-
-			for k in range(0,len(Account)):
-						mpltb.cell(row=2+k,column=2).value=Account[k]
-						mpltb.cell(row=2+k,column=1).value=int(str(Account[k])[:3])
-						mpltb.cell(row=2+k,column=3).value=Description[k]
-						mpltb.cell(row=2+k,column=4).value=OB[k]
-						mpltb.cell(row=2+k,column=5).value=DM[k]
-						mpltb.cell(row=2+k,column=6).value=CM[k]
-						mpltb.cell(row=2+k,column=7).value=CB[k]
-						mpltb.cell(row=2+k,column=8).value=str(Account[k])[:1]
-
-			mplje=outputmpl.create_sheet("JE")
-			mplje.sheet_view.showGridLines = False
-
-			mplje.cell(row=1,column=1).value="JE number"
-			mplje.cell(row=1,column=2).value="Date"
-			mplje.cell(row=1,column=3).value="Account Debit"
-			mplje.cell(row=1,column=4).value="Account Credit"
-			mplje.cell(row=1,column=5).value="Amount Debit"
-			mplje.cell(row=1,column=6).value="Amount Credit"
-			mplje.cell(row=1,column=7).value="Month"
-
-			for k in range(0,len(gljenr)):
-				mplje.cell(row=2+k,column=1).value=gljenr[k]
-				mplje.cell(row=2+k,column=2).value=gldate[k]
-				mplje.cell(row=2+k,column=3).value=str(accountgldebit[k])[:3]
-				mplje.cell(row=2+k,column=4).value=str(accountglcredit[k])[:3]
-
-				mplje.cell(row=2+k,column=5).value=glamountdebit[k]
-				mplje.cell(row=2+k,column=6).value=glamountcredit[k]
-				mplje.cell(row=2+k,column=7).value="=month(B"+str(2+k)+")"
-
-
-
-			rand=0
-			for j in range(0,len(listaunica)):
-				if(int(str(listaunica[j])[:1])>5):
-					rand=rand+1
-					mpl.cell(row=13+rand,column=5).number_format='#,##0_);(#,##0)'
-					mpl.cell(row=13+rand,column=6).number_format='#,##0_);(#,##0)'
-					mpl.cell(row=13+rand,column=7).number_format='#,##0_);(#,##0)'
-					mpl.cell(row=13+rand,column=8).number_format='#,##0_);(#,##0)'
-					mpl.cell(row=13+rand,column=9).number_format='#,##0_);(#,##0)'
-					mpl.cell(row=13+rand,column=10).number_format='#,##0_);(#,##0)'
-					mpl.cell(row=13+rand,column=11).number_format='#,##0_);(#,##0)'
-					mpl.cell(row=13+rand,column=12).number_format='#,##0_);(#,##0)'
-					mpl.cell(row=13+rand,column=13).number_format='#,##0_);(#,##0)'
-					mpl.cell(row=13+rand,column=14).number_format='#,##0_);(#,##0)'
-					mpl.cell(row=13+rand,column=15).number_format='#,##0_);(#,##0)'
-					mpl.cell(row=13+rand,column=16).number_format='#,##0_);(#,##0)'
-					mpl.cell(row=13+rand,column=17).number_format='#,##0_);(#,##0)'
-					mpl.cell(row=13+rand,column=18).number_format='#,##0_);(#,##0)'
-					mpl.cell(row=13+rand,column=19).number_format='#,##0_);(#,##0)'
-					
-
-					mpl.cell(row=13+rand,column=3).value=listaunica[j]
-					mpl.cell(row=13+rand,column=2).value=str(listaunica[j])[:3]
-					mpl.cell(row=13+rand,column=1).value=str(listaunica[j])[:1]
-					mpl.cell(row=13+rand,column=4).value="=VLOOKUP(C"+str(13+rand)+",'Trial Balance'!A:C,3,0)"
-					if(str(listaunica[j])[:1]=="6"):
-						mpl.cell(row=13+rand,column=5).value="=SUMIFS(JE!E:E,JE!G:G,1,JE!C:C,C"+str(rand+13)+")"
-						mpl.cell(row=13+rand,column=6).value="=SUMIFS(JE!E:E,JE!G:G,2,JE!C:C,C"+str(rand+13)+")"
-						mpl.cell(row=13+rand,column=7).value="=SUMIFS(JE!E:E,JE!G:G,3,JE!C:C,C"+str(rand+13)+")"
-						mpl.cell(row=13+rand,column=8).value="=SUMIFS(JE!E:E,JE!G:G,4,JE!C:C,C"+str(rand+13)+")"
-						mpl.cell(row=13+rand,column=9).value="=SUMIFS(JE!E:E,JE!G:G,5,JE!C:C,C"+str(rand+13)+")"
-						mpl.cell(row=13+rand,column=10).value="=SUMIFS(JE!E:E,JE!G:G,6,JE!C:C,C"+str(rand+13)+")"
-						mpl.cell(row=13+rand,column=11).value="=SUMIFS(JE!E:E,JE!G:G,7,JE!C:C,C"+str(rand+13)+")"
-						mpl.cell(row=13+rand,column=12).value="=SUMIFS(JE!E:E,JE!G:G,8,JE!C:C,C"+str(rand+13)+")"
-						mpl.cell(row=13+rand,column=13).value="=SUMIFS(JE!E:E,JE!G:G,9,JE!C:C,C"+str(rand+13)+")"
-						mpl.cell(row=13+rand,column=14).value="=SUMIFS(JE!E:E,JE!G:G,10,JE!C:C,C"+str(rand+13)+")"
-						mpl.cell(row=13+rand,column=15).value="=SUMIFS(JE!E:E,JE!G:G,11,JE!C:C,C"+str(rand+13)+")"
-						mpl.cell(row=13+rand,column=16).value="=SUMIFS(JE!E:E,JE!G:G,12,JE!C:C,C"+str(rand+13)+")"
-					else:
-						mpl.cell(row=13+rand,column=5).value="=-SUMIFS(JE!F:F,JE!G:G,1,JE!D:D,C"+str(rand+13)+")"
-						mpl.cell(row=13+rand,column=6).value="=-SUMIFS(JE!F:F,JE!G:G,2,JE!D:D,C"+str(rand+13)+")"
-						mpl.cell(row=13+rand,column=7).value="=-SUMIFS(JE!F:F,JE!G:G,3,JE!D:D,C"+str(rand+13)+")"
-						mpl.cell(row=13+rand,column=8).value="=-SUMIFS(JE!F:F,JE!G:G,4,JE!D:D,C"+str(rand+13)+")"
-						mpl.cell(row=13+rand,column=9).value="=-SUMIFS(JE!F:F,JE!G:G,5,JE!D:D,C"+str(rand+13)+")"
-						mpl.cell(row=13+rand,column=10).value="=-SUMIFS(JE!F:F,JE!G:G,6,JE!D:D,C"+str(rand+13)+")"
-						mpl.cell(row=13+rand,column=11).value="=-SUMIFS(JE!F:F,JE!G:G,7,JE!D:D,C"+str(rand+13)+")"
-						mpl.cell(row=13+rand,column=12).value="=-SUMIFS(JE!F:F,JE!G:G,8,JE!D:D,C"+str(rand+13)+")"
-						mpl.cell(row=13+rand,column=13).value="=-SUMIFS(JE!F:F,JE!G:G,9,JE!D:D,C"+str(rand+13)+")"
-						mpl.cell(row=13+rand,column=14).value="=-SUMIFS(JE!F:F,JE!G:G,10,JE!D:D,C"+str(rand+13)+")"
-						mpl.cell(row=13+rand,column=15).value="=-SUMIFS(JE!F:F,JE!G:G,11,JE!D:D,C"+str(rand+13)+")"
-						mpl.cell(row=13+rand,column=16).value="=-SUMIFS(JE!F:F,JE!G:G,12,JE!D:D,C"+str(rand+13)+")"
-					mpl.cell(row=13+rand,column=17).value="=sum(E"+str(rand+13)+":P"+str(rand+13)+")"
-					mpl.cell(row=13+rand,column=18).value="=SUMIF('Trial Balance'!A:A,+B"+str(rand+13)+",'Trial Balance'!G:G)"
-					mpl.cell(row=13+rand,column=19).value="=Q"+str(rand+13)+"-R"+str(rand+13)
-					mpl.cell(row=13+rand,column=19).font=fontRedDiff
-			mpl.cell(row=6,column=5).value="=SUMIF($A:$A,6,E:E)"
-			mpl.cell(row=6,column=6).value="=SUMIF($A:$A,6,F:F)"
-			mpl.cell(row=6,column=7).value="=SUMIF($A:$A,6,G:G)"
-			mpl.cell(row=6,column=8).value="=SUMIF($A:$A,6,H:H)"
-			mpl.cell(row=6,column=9).value="=SUMIF($A:$A,6,I:I)"
-			mpl.cell(row=6,column=10).value="=SUMIF($A:$A,6,J:J)"
-			mpl.cell(row=6,column=11).value="=SUMIF($A:$A,6,K:K)"
-			mpl.cell(row=6,column=12).value="=SUMIF($A:$A,6,L:L)"
-			mpl.cell(row=6,column=13).value="=SUMIF($A:$A,6,M:M)"
-			mpl.cell(row=6,column=14).value="=SUMIF($A:$A,6,N:N)"
-			mpl.cell(row=6,column=15).value="=SUMIF($A:$A,6,O:O)"
-			mpl.cell(row=6,column=16).value="=SUMIF($A:$A,6,P:P)"
-			mpl.cell(row=7,column=5).value="=SUMIF($A:$A,7,E:E)"
-			mpl.cell(row=7,column=6).value="=SUMIF($A:$A,7,F:F)"
-			mpl.cell(row=7,column=7).value="=SUMIF($A:$A,7,G:G)"
-			mpl.cell(row=7,column=8).value="=SUMIF($A:$A,7,H:H)"
-			mpl.cell(row=7,column=9).value="=SUMIF($A:$A,7,I:I)"
-			mpl.cell(row=7,column=10).value="=SUMIF($A:$A,7,J:J)"
-			mpl.cell(row=7,column=11).value="=SUMIF($A:$A,7,K:K)"
-			mpl.cell(row=7,column=12).value="=SUMIF($A:$A,7,L:L)"
-			mpl.cell(row=7,column=13).value="=SUMIF($A:$A,7,M:M)"
-			mpl.cell(row=7,column=14).value="=SUMIF($A:$A,7,N:N)"
-			mpl.cell(row=7,column=15).value="=SUMIF($A:$A,7,O:O)"
-			mpl.cell(row=7,column=16).value="=SUMIF($A:$A,7,P:P)"
-
-			mpl.cell(row=8,column=5).value="=SUM(E6:E7)"
-			mpl.cell(row=8,column=6).value="=SUM(F6:F7)"
-			mpl.cell(row=8,column=7).value="=SUM(G6:G7)"
-			mpl.cell(row=8,column=8).value="=SUM(H6:H7)"
-			mpl.cell(row=8,column=9).value="=SUM(I6:I7)"
-			mpl.cell(row=8,column=10).value="=SUM(J6:J7)"
-			mpl.cell(row=8,column=11).value="=SUM(K6:K7)"
-			mpl.cell(row=8,column=12).value="=SUM(L6:L7)"
-			mpl.cell(row=8,column=13).value="=SUM(M6:M7)"
-			mpl.cell(row=8,column=14).value="=SUM(N6:N7)"
-			mpl.cell(row=8,column=15).value="=SUM(O6:O7)"
-			mpl.cell(row=8,column=16).value="=SUM(P6:P7)"
-
-			mpl.cell(row=9,column=5).value='=SUMIFS(JE!E:E,JE!G:G,1,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,1,JE!D:D,"121")'
-			mpl.cell(row=9,column=6).value='=SUMIFS(JE!E:E,JE!G:G,2,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,2,JE!D:D,"121")'
-			mpl.cell(row=9,column=7).value='=SUMIFS(JE!E:E,JE!G:G,3,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,3,JE!D:D,"121")'
-			mpl.cell(row=9,column=8).value='=SUMIFS(JE!E:E,JE!G:G,4,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,4,JE!D:D,"121")'
-			mpl.cell(row=9,column=9).value='=SUMIFS(JE!E:E,JE!G:G,5,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,5,JE!D:D,"121")'
-			mpl.cell(row=9,column=10).value='=SUMIFS(JE!E:E,JE!G:G,6,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,6,JE!D:D,"121")'
-			mpl.cell(row=9,column=11).value='=SUMIFS(JE!E:E,JE!G:G,7,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,7,JE!D:D,"121")'
-			mpl.cell(row=9,column=12).value='=SUMIFS(JE!E:E,JE!G:G,8,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,8,JE!D:D,"121")'
-			mpl.cell(row=9,column=13).value='=SUMIFS(JE!E:E,JE!G:G,9,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,9,JE!D:D,"121")'
-			mpl.cell(row=9,column=14).value='=SUMIFS(JE!E:E,JE!G:G,10,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,10,JE!D:D,"121")'
-			mpl.cell(row=9,column=15).value='=SUMIFS(JE!E:E,JE!G:G,11,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,11,JE!D:D,"121")'
-			mpl.cell(row=9,column=16).value='=SUMIFS(JE!E:E,JE!G:G,12,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,12,JE!D:D,"121")'
-
-
-
-			mpl.cell(row=10,column=5).value="=E8-E9"
-			mpl.cell(row=10,column=6).value="=F8-F9"
-			mpl.cell(row=10,column=7).value="=G8-G9"
-			mpl.cell(row=10,column=8).value="=H8-H9"
-			mpl.cell(row=10,column=9).value="=I8-I9"
-			mpl.cell(row=10,column=10).value="=J8-J9"
-			mpl.cell(row=10,column=11).value="=K8-K9"
-			mpl.cell(row=10,column=12).value="=L8-L9"
-			mpl.cell(row=10,column=13).value="=M8-M9"
-			mpl.cell(row=10,column=14).value="=N8-N9"
-			mpl.cell(row=10,column=15).value="=O8-O9"
-			mpl.cell(row=10,column=16).value="=P8-P9"
-			mpl.cell(row=10,column=17).value="=Q8-Q9"
-			mpl.cell(row=10,column=18).value="=R8-R9"
-			mpl.cell(row=6,column=17).value="=sum(E6:P6)"
-			mpl.cell(row=7,column=17).value="=sum(E7:P7)"
-			mpl.cell(row=8,column=17).value="=sum(E8:P8)"
-			mpl.cell(row=9,column=17).value="=sum(E9:P9)"
-			mpl.cell(row=6,column=18).value="=SUMIF('Trial Balance'!H:H,6,'Trial Balance'!G:G)"
-			mpl.cell(row=7,column=18).value="=SUMIF('Trial Balance'!H:H,7,'Trial Balance'!G:G)"
-			mpl.cell(row=8,column=18).value="=SUM(R6:R7)"
-			mpl.cell(row=9,column=18).value="=SUMIF('Trial Balance'!A:A,121,'Trial Balance'!G:G)"
-			mpl.cell(row=6,column=19).value="=Q6-R6"
-			mpl.cell(row=6,column=19).font=fontRedDiff
-			mpl.cell(row=7,column=19).value="=Q7-R7"
-			mpl.cell(row=7,column=19).font=fontRedDiff
-			mpl.cell(row=8,column=19).font=fontRedDiff
-			mpl.cell(row=9,column=19).font=fontRedDiff
-
-			mpl.cell(row=8,column=19).value="=Q8-R8"
-			mpl.cell(row=9,column=19).value="=Q9-R9"
-
-			mpl.cell(row=1,column=1).value="Client:"
-			mpl.cell(row=2,column=1).value="Period End:"
-
-			mpl.cell(row=1,column=2).value=namec
-			mpl.cell(row=2,column=2).value=ant
-			mpl.cell(row=2,column=2).number_format='mm/dd/yyyy'
-
-			mpl.cell(row=1,column=1).font=font2
-			mpl.cell(row=2,column=1).font=font2
-			for ko in range(5,20):
-				mpl.cell(row=10,column=ko).font=fontRedDiff
-				mpl.cell(row=9,column=ko).border=doubleborder
-			for po in range(6,11):
-				for pop in range(5,20):
-					mpl.cell(row=po,column=pop).number_format='#,##0_);(#,##0)'
-			mpl.auto_filter.ref = "A13:S"+str(mpl.max_row)
-			
-			
-			outputmpl.save(folderpath+"/"+str(namec)+"/MonthlyPL JE" + " " + namec + ".xlsx")
-			
-
-		if isChecked3=="":
-			
+			for i in range(0,len(syntaccglcredit1)):
+				try:
+					syntaccglcredit1[i]=int(syntaccglcredit1[i])
+					syntaccglcredit.append(syntaccglcredit1[i])
+				except:
+					pass
+			lisunicaacd=list(set(syntaccgldebit))
+			lisunicaacc=list(set(syntaccglcredit))
+			listaunica=list(set(lisunicaacc+lisunicaacd))
+			listasumec=[]
+			listasumed=[]
 			for i in range(0,len(listaunica)):
-				if(int(listasumed[i])>int(threshol) and int(str(listaunica[i])[:1])==6):
-					excel=Workbook()
-					ws=excel.active
-					ws.title="Database"
-					ws1=excel.create_sheet("Trial Balance")
-					ws3=excel.create_sheet("Overview")
-					ws.sheet_view.showGridLines = False
-					ws1.sheet_view.showGridLines = False
-					ws3.sheet_view.showGridLines = False
+				sumad=0
+				sumac=0
+				for j in range(0,len(accountglcredit)):
+					if(str(listaunica[i])==str(accountglcredit[j])[0:3]):
+						try:
+							sumac=sumac+glamountcredit[j]
+						except:
+							pass
+					if(str(listaunica[i])==str(accountgldebit[j])[0:3]):
+						try:
+							sumad=sumad+glamountdebit[j]
+						except:
+							pass
+				listasumed.append(sumad)
+				listasumec.append(sumac)
+			if isChecked1=="":
+			
+				output=Workbook()
+				out=output.active
 
-					for o in range(1,9):
-						ws.cell(row=1,column=o).border=doubleborder
-						ws.cell(row=1,column=o).font=font2
-						ws.cell(row=1,column=o).fill=headerspurple
-					ws.cell(row=1,column=1).value="JE Number"
-					ws.cell(row=1,column=2).value="Date"
-					ws.cell(row=1,column=3).value="Description"
-					ws.cell(row=1,column=4).value="Account Debit"
-					ws.cell(row=1,column=5).value="Account Credit"
-					ws.cell(row=1,column=6).value="Amount Debit"
-					ws.cell(row=1,column=7).value="Amount Credit"
-					ws.cell(row=1,column=8).value="Month"
-					row=1
+				out.title="Journal Entries Reconciliation"
 
-					ws1.cell(row=1,column=1).value="Synt(3)"
-					ws1.cell(row=1,column=2).value="Account"
-					ws1.cell(row=1,column=3).value="Description"
-					ws1.cell(row=1,column=4).value="OB"
-					ws1.cell(row=1,column=5).value="DM"
-					ws1.cell(row=1,column=6).value="CM"
-					ws1.cell(row=1,column=7).value="CB"
+				out.cell(row=1,column=1).value="Client:"
+				out.cell(row=2,column=1).value="Period End:"
 
-					print("lungime=======",luntb)
-					print(len(Account))
-					for k in range(0,len(Account)):
-						ws1.cell(row=2+k,column=2).value=Account[k]
-						ws1.cell(row=2+k,column=1).value=str(Account[k])[:3]
-						ws1.cell(row=2+k,column=3).value=Description[k]
-						ws1.cell(row=2+k,column=4).value=OB[k]
-						ws1.cell(row=2+k,column=5).value=DM[k]
-						ws1.cell(row=2+k,column=6).value=CM[k]
-						ws1.cell(row=2+k,column=7).value=CB[k]
-						ws1.cell(row=2+k,column=8).value="=left(A"+str(2+k)+",1)"
+				out.cell(row=1,column=2).value=namec
+				out.cell(row=2,column=2).value=ant
+				out.cell(row=2,column=2).number_format='mm/dd/yyyy'
 
-					listagldebit=[]
-					for j in range(0,len(accountgldebit)):
-						if(str(listaunica[i])==str(accountgldebit[j])[0:3]):
-							ws.cell(row=row+1,column=1).value=gljenr[j]
-							ws.cell(row=row+1,column=2).value=gldate[j]
-							# ws.cell(row=row+1,column=3).value=gldate[j]
-							ws.cell(row=row+1,column=4).value=accountgldebit[j]
-							listagldebit.append(accountgldebit[j])
-							ws.cell(row=row+1,column=5).value=accountglcredit[j]
-							ws.cell(row=row+1,column=6).value=glamountdebit[j]
-							ws.cell(row=row+1,column=7).value=glamountcredit[j]
-							ws.cell(row=row+1,column=8).value="=month("+"B"+str(row+1)+")"
-							row=row+1
+				out.cell(row=1,column=1).font=font2
+				out.cell(row=2,column=1).font=font2
+				out.cell(row=4,column=4).value="Reconciliation Trial Balance vs Journal Entries"
+				out.cell(row=4,column=4).font=font2
 
-					ws3.cell(row=1,column=1).value="Client"
-					ws3.cell(row=1,column=1).font=font2
-					ws3.cell(row=2,column=1).font=font2
-					ws3.cell(row=5,column=2).font=font2
-					ws3.cell(row=2,column=1).value="Period End"
+				out.cell(row=7,column=3).value="As per JE"
+				out.cell(row=7,column=3).font=font2
+				out.cell(row=7,column=6).value="As per TB"
+				out.cell(row=7,column=6).font=font2
 
-					ws3.cell(row=1,column=2).value=namec
-					ws3.cell(row=2,column=2).value=ant
-					ws3.cell(row=2,column=2).number_format='mm/dd/yyyy'
-					ws3.cell(row=5,column=2).value="Detail of account  " + str(listaunica[i])
-					ws3.cell(row=8,column=1).value="Account"
-					ws3.cell(row=8,column=2).value="Amount as per Detail"
-					ws3.cell(row=8,column=3).value="Amount as per TB"
-					ws3.cell(row=8,column=4).value="Difference"
-					uniclistgldebit=list(set(listagldebit))
-					for kk in range(0,len(uniclistgldebit)):
-						ws3.cell(row=9+kk,column=1).value=uniclistgldebit[kk]
-						ws3.cell(row=9+kk,column=2).value="=SUMIF(Database!D:D,"+"A"+str(kk+9)+",Database!F:F)"
-						ws3.cell(row=9+kk,column=3).value="=SUMIF('Trial Balance'!B:B,"+"A"+str(kk+9)+",'Trial Balance'!G:G)"
-						ws3.cell(row=9+kk,column=4).value="=C"+str(kk+9)+"-"+"B"+str(kk+9)
-						ws3.cell(row=9+kk,column=4).font=fontRedDiff
-						ws3.cell(row=9+kk,column=2).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=9+kk,column=3).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=9+kk,column=4).number_format='#,##0_);(#,##0)'
-					ws3.cell(row=9+len(uniclistgldebit),column=1).value="Total"
-					ws3.cell(row=9+len(uniclistgldebit),column=1).font=font2
-					# print(uniclistgldebit)
-					ws3.cell(row=9+len(uniclistgldebit),column=2).value="=sum(B9:B"+str(len(uniclistgldebit)+8)+")"
-					ws3.cell(row=9+len(uniclistgldebit),column=2).font=font2
-					ws3.cell(row=9+len(uniclistgldebit),column=2).number_format='#,##0_);(#,##0)'
+				out.cell(row=7,column=9).value="Difference"
+				out.cell(row=7,column=9).font=font2
 
-					ws3.cell(row=9+len(uniclistgldebit),column=3).value="=sum(C9:C"+str(len(uniclistgldebit)+8)+")"
-					ws3.cell(row=9+len(uniclistgldebit),column=3).font=font2
-					ws3.cell(row=9+len(uniclistgldebit),column=3).number_format='#,##0_);(#,##0)'
 
-					ws3.cell(row=9+len(uniclistgldebit),column=4).value="=sum(D9:D"+str(len(uniclistgldebit)+8)+")"
-					ws3.cell(row=9+len(uniclistgldebit),column=4).font=fontRedDiff
-					ws3.cell(row=9+len(uniclistgldebit),column=4).number_format='#,##0_);(#,##0)'
 
-					for ii in range(1,5):
-						ws3.cell(row=8+len(uniclistgldebit),column=ii).border=doubleborder
+				out.cell(row=10,column=2).value="Account"
+				out.cell(row=10,column=3).value="Amount Debit"
+				out.cell(row=10,column=4).value="Amount Credit"
+
+				out.cell(row=10,column=6).value="Amount Debit"
+				out.cell(row=10,column=7).value="Amount Credit"
+
+				out.cell(row=10,column=9).value="Amount Debit"
+				out.cell(row=10,column=10).value="Amount Credit"
+
+				for o in range(2,5):
+					out.cell(row=10,column=o).border=doubleborder
+					out.cell(row=10,column=o).font=font2
+					out.cell(row=10,column=o).fill=headerspurple
+
+				for o in range(6,8):
+					out.cell(row=10,column=o).border=doubleborder
+					out.cell(row=10,column=o).font=font2
+					out.cell(row=10,column=o).fill=headerspurple
+
+				for o in range(9,11):
+					out.cell(row=10,column=o).border=doubleborder
+					out.cell(row=10,column=o).font=font2
+					out.cell(row=10,column=o).fill=headerspurple
+
+
+				out2=output.create_sheet("Trial Balance")
+
+				out2.cell(row=1,column=1).value="Synt(3)"
+				out2.cell(row=1,column=2).value="Account"
+				out2.cell(row=1,column=3).value="Description"
+				out2.cell(row=1,column=4).value="OB"
+				out2.cell(row=1,column=5).value="DM"
+				out2.cell(row=1,column=6).value="CM"
+				out2.cell(row=1,column=7).value="CB"
+
+				for o in range(1,8):
+					out2.cell(row=1,column=o).border=doubleborder
+					out2.cell(row=1,column=o).font=font2
+					out2.cell(row=1,column=o).fill=headerspurple
+
+				for k in range(0,len(Account)):
+					out2.cell(row=2+k,column=2).value=Account[k]
+					out2.cell(row=2+k,column=1).value=str(Account[k])[:3]
+					out2.cell(row=2+k,column=3).value=Description[k]
+					out2.cell(row=2+k,column=4).value=OB[k]
+					out2.cell(row=2+k,column=5).value=DM[k]
+					out2.cell(row=2+k,column=6).value=CM[k]
+					out2.cell(row=2+k,column=7).value=CB[k]
+
+				listaunica, listasumed, listasumec = (list(t) for t in zip(*sorted(zip(listaunica, listasumed,listasumec))))
+
+				for l in range(0,len(listaunica)):
+					out.cell(row=11+l,column=2).value=listaunica[l]
+					out.cell(row=11+l,column=3).value=listasumed[l]
+					out.cell(row=11+l,column=3).number_format='#,##0_);(#,##0)'
+					out.cell(row=11+l,column=4).value=listasumec[l]
+					out.cell(row=11+l,column=4).number_format='#,##0_);(#,##0)'
+					out.cell(row=11+l,column=6).value="=SUMIF('Trial Balance'!A:A,B"+str(11+l)+",'Trial Balance'!E:E)"
+					out.cell(row=11+l,column=6).number_format='#,##0_);(#,##0)'
+					out.cell(row=11+l,column=7).value="=SUMIF('Trial Balance'!A:A,B"+str(11+l)+",'Trial Balance'!F:F)"
+					out.cell(row=11+l,column=7).number_format='#,##0_);(#,##0)'
+					out.cell(row=11+l,column=9).value="=F"+str(11+l)+"-C"+str(11+l)
+					out.cell(row=11+l,column=9).font=fontRedDiff
+					out.cell(row=11+l,column=9).number_format='#,##0_);(#,##0)'
+					out.cell(row=11+l,column=10).value="=G"+str(11+l)+"-D"+str(11+l)
+					out.cell(row=11+l,column=10).number_format='#,##0_);(#,##0)'
+					out.cell(row=11+l,column=10).font=fontRedDiff
+
+				out.cell(row=6,column=2).value="Total"
+				out.cell(row=6,column=2).font=font2
+
+				out.cell(row=7,column=3).value="Check"
+				out.cell(row=7,column=3).font=fontRedDiff
+
+				out.cell(row=7,column=6).value="Check"
+				out.cell(row=7,column=6).font=fontRedDiff
+
+				out.cell(row=7,column=9).value="Check"
+				out.cell(row=7,column=9).font=fontRedDiff
+
+
+				out.cell(row=6,column=3).value="=sum(C11:C"+str(len(listaunica)+11)+")"
+				out.cell(row=6,column=3).font=font2
+				out.cell(row=6,column=3).number_format='#,##0_);(#,##0)'
+
+				out.cell(row=6,column=4).value="=sum(D11:D"+str(len(listaunica)+11)+")"
+				out.cell(row=6,column=4).font=font2
+				out.cell(row=6,column=4).number_format='#,##0_);(#,##0)'
+
+				out.cell(row=6,column=6).value="=sum(F11:F"+str(len(listaunica)+11)+")"
+				out.cell(row=6,column=6).font=font2
+				out.cell(row=6,column=6).number_format='#,##0_);(#,##0)'
+
+				out.cell(row=6,column=7).value="=sum(G11:G"+str(len(listaunica)+11)+")"
+				out.cell(row=6,column=7).font=font2
+				out.cell(row=6,column=7).number_format='#,##0_);(#,##0)'
+
+				out.cell(row=6,column=9).value="=sum(I11:I"+str(len(listaunica)+11)+")"
+				out.cell(row=6,column=9).font=fontRedDiff
+				out.cell(row=6,column=9).number_format='#,##0_);(#,##0)'
+
+				out.cell(row=6,column=10).value="=sum(J11:J"+str(len(listaunica)+11)+")"
+				out.cell(row=6,column=10).font=fontRedDiff
+				out.cell(row=6,column=10).number_format='#,##0_);(#,##0)'
+
+
+				out.cell(row=7,column=4).value="=C6-D6"
+				out.cell(row=7,column=4).font=fontRedDiff
+				out.cell(row=7,column=4).number_format='#,##0_);(#,##0)'
+				out.cell(row=7,column=7).value="=F6-G6"
+				out.cell(row=7,column=7).font=fontRedDiff
+				out.cell(row=7,column=7).number_format='#,##0_);(#,##0)'
+
+				out.cell(row=7,column=10).value="=I6-J6"
+				out.cell(row=7,column=10).font=fontRedDiff
+				out.cell(row=7,column=10).number_format='#,##0_);(#,##0)'
+
+				c=out['B11']
+				out.freeze_panes = c
+				out.column_dimensions['B'].width=15
+				out.column_dimensions['C'].width=15
+				out.column_dimensions['D'].width=15
+				out.column_dimensions['E'].width=15
+				out.column_dimensions['F'].width=15
+				out.column_dimensions['G'].width=15
+				out.column_dimensions['H'].width=15
+				out.column_dimensions['I'].width=15
+				out.column_dimensions['J'].width=15
+
+				out.auto_filter.ref = "B10:J"+str(out.max_row)
+				
+				output.save(folderpath+"\\"+str(namec)+"\\Reco JE "+namec+".xlsx")
+				
+			if isChecked2=="":
+				
+				outputmpl=Workbook()
+				listaunicaanalitic=list(set(accountgldebit+accountglcredit))
+				listaunicaanaliticint=[]
+				for i in range(0,len(listaunicaanalitic)):
+					try:
+						listaunicaanalitic[i]=int(listaunicaanalitic[i])
+						listaunicaanaliticint.append(listaunicaanalitic[i])
+					except:
+						pass
+
+				listaunicaanaliticint.sort()
+
+				mpl=outputmpl.active
+				mpl.title="Monthly P&L"
+				mpl.cell(row=1,column=1).value="Client"
+				mpl.cell(row=1,column=1).font=font2
+				mpl.cell(row=2,column=1).value="Period end:"
+				mpl.cell(row=2,column=1).font=font2
+
+				c=mpl['A14']
+				mpl.freeze_panes = c
+
+				mpl.cell(row=4,column=1).value="Monthly P&L"
+				mpl.cell(row=4,column=1).font=font2
+
+				mpl.cell(row=1,column=2).value=namec
+				mpl.cell(row=2,column=2).value=ant
+				mpl.cell(row=2,column=2).number_format='mm/dd/yyyy'
+
+				mpl.cell(row=6,column=4).value="Expenses"
+				mpl.cell(row=7,column=4).value="Revenues"
+				mpl.cell(row=8,column=4).value="Result"
+				mpl.cell(row=9,column=4).value="Acc 121"
+				mpl.cell(row=10,column=4).value="Check"
+				mpl.cell(row=10,column=4).font=fontRedDiff
+
+				mpl.cell(row=5,column=5).value="January"
+				mpl.cell(row=5,column=6).value="February"
+				mpl.cell(row=5,column=7).value="March"
+				mpl.cell(row=5,column=8).value="April"
+				mpl.cell(row=5,column=9).value="May"
+				mpl.cell(row=5,column=10).value="June"
+				mpl.cell(row=5,column=11).value="July"
+				mpl.cell(row=5,column=12).value="August"
+				mpl.cell(row=5,column=13).value="September"
+				mpl.cell(row=5,column=14).value="October"
+				mpl.cell(row=5,column=15).value="November"
+				mpl.cell(row=5,column=16).value="December"
+				mpl.cell(row=5,column=17).value="Total"
+				mpl.cell(row=5,column=18).value="As per TB"
+				mpl.cell(row=5,column=19).value="Difference"
+				for p in range(5,20):
+					mpl.cell(row=5,column=p).border=doubleborder
+					mpl.cell(row=5,column=p).font=font2
+					mpl.cell(row=5,column=p).fill=headerspurple
+
+				for p in range(1,20):
+					mpl.cell(row=13,column=p).border=doubleborder
+					mpl.cell(row=13,column=p).font=font2
+					mpl.cell(row=13,column=p).fill=headerspurple
+				mpl.cell(row=13,column=1).value="Class"
+				mpl.cell(row=13,column=2).value="Synt(3)"
+				mpl.cell(row=13,column=3).value="Account"
+				mpl.cell(row=13,column=4).value="Description"
+				mpl.cell(row=13,column=5).value="January"
+				mpl.cell(row=13,column=6).value="February"
+				mpl.cell(row=13,column=7).value="March"
+				mpl.cell(row=13,column=8).value="April"
+				mpl.cell(row=13,column=9).value="May"
+				mpl.cell(row=13,column=10).value="June"
+				mpl.cell(row=13,column=11).value="July"
+				mpl.cell(row=13,column=12).value="August"
+				mpl.cell(row=13,column=13).value="September"
+				mpl.cell(row=13,column=14).value="October"
+				mpl.cell(row=13,column=15).value="November"
+				mpl.cell(row=13,column=16).value="December"
+				mpl.cell(row=13,column=17).value="Total"
+				mpl.cell(row=13,column=18).value="As per TB"
+				mpl.cell(row=13,column=19).value="Difference"
+				rand=0
+
+				mpltb=outputmpl.create_sheet("Trial Balance")
+				mpltb.cell(row=1,column=1).value="Synt(3)"
+				mpltb.cell(row=1,column=2).value="Account"
+				mpltb.cell(row=1,column=3).value="Description"
+				mpltb.cell(row=1,column=4).value="OB"
+				mpltb.cell(row=1,column=5).value="DM"
+				mpltb.cell(row=1,column=6).value="CM"
+				mpltb.cell(row=1,column=7).value="CB"
+
+
+				for k in range(0,len(Account)):
+							mpltb.cell(row=2+k,column=2).value=Account[k]
+							mpltb.cell(row=2+k,column=1).value=int(str(Account[k])[:3])
+							mpltb.cell(row=2+k,column=3).value=Description[k]
+							mpltb.cell(row=2+k,column=4).value=OB[k]
+							mpltb.cell(row=2+k,column=5).value=DM[k]
+							mpltb.cell(row=2+k,column=6).value=CM[k]
+							mpltb.cell(row=2+k,column=7).value=CB[k]
+							mpltb.cell(row=2+k,column=8).value=str(Account[k])[:1]
+
+				mplje=outputmpl.create_sheet("JE")
+
+
+				mplje.cell(row=1,column=1).value="JE number"
+				mplje.cell(row=1,column=2).value="Date"
+				mplje.cell(row=1,column=3).value="Account Debit"
+				mplje.cell(row=1,column=4).value="Account Credit"
+				mplje.cell(row=1,column=5).value="Amount Debit"
+				mplje.cell(row=1,column=6).value="Amount Credit"
+				mplje.cell(row=1,column=7).value="Month"
+
+				for k in range(0,len(gljenr)):
+					mplje.cell(row=2+k,column=1).value=gljenr[k]
+					mplje.cell(row=2+k,column=2).value=gldate[k]
+					mplje.cell(row=2+k,column=3).value=str(accountgldebit[k])[:3]
+					mplje.cell(row=2+k,column=4).value=str(accountglcredit[k])[:3]
+
+					mplje.cell(row=2+k,column=5).value=glamountdebit[k]
+					mplje.cell(row=2+k,column=6).value=glamountcredit[k]
+					mplje.cell(row=2+k,column=7).value="=month(B"+str(2+k)+")"
+
+
+
+				rand=0
+				for j in range(0,len(listaunica)):
+					if(int(str(listaunica[j])[:1])>5):
+						rand=rand+1
+						mpl.cell(row=13+rand,column=5).number_format='#,##0_);(#,##0)'
+						mpl.cell(row=13+rand,column=6).number_format='#,##0_);(#,##0)'
+						mpl.cell(row=13+rand,column=7).number_format='#,##0_);(#,##0)'
+						mpl.cell(row=13+rand,column=8).number_format='#,##0_);(#,##0)'
+						mpl.cell(row=13+rand,column=9).number_format='#,##0_);(#,##0)'
+						mpl.cell(row=13+rand,column=10).number_format='#,##0_);(#,##0)'
+						mpl.cell(row=13+rand,column=11).number_format='#,##0_);(#,##0)'
+						mpl.cell(row=13+rand,column=12).number_format='#,##0_);(#,##0)'
+						mpl.cell(row=13+rand,column=13).number_format='#,##0_);(#,##0)'
+						mpl.cell(row=13+rand,column=14).number_format='#,##0_);(#,##0)'
+						mpl.cell(row=13+rand,column=15).number_format='#,##0_);(#,##0)'
+						mpl.cell(row=13+rand,column=16).number_format='#,##0_);(#,##0)'
+						mpl.cell(row=13+rand,column=17).number_format='#,##0_);(#,##0)'
+						mpl.cell(row=13+rand,column=18).number_format='#,##0_);(#,##0)'
+						mpl.cell(row=13+rand,column=19).number_format='#,##0_);(#,##0)'
 						
 
-					randuri=len(uniclistgldebit)
-					for ii in range(1,5):
-						ws3.cell(row=8,column=ii).border=doubleborder
-						ws3.cell(row=8,column=ii).font=font2
-						ws3.cell(row=8,column=ii).fill=headerspurple
+						mpl.cell(row=13+rand,column=3).value=listaunica[j]
+						mpl.cell(row=13+rand,column=2).value=str(listaunica[j])[:3]
+						mpl.cell(row=13+rand,column=1).value=str(listaunica[j])[:1]
+						mpl.cell(row=13+rand,column=4).value="=VLOOKUP(C"+str(13+rand)+",'Trial Balance'!A:C,3,0)"
+						if(str(listaunica[j])[:1]=="6"):
+							mpl.cell(row=13+rand,column=5).value="=SUMIFS(JE!E:E,JE!G:G,1,JE!C:C,C"+str(rand+13)+")"+"-SUMIFS(JE!F:F,JE!G:G,1,JE!C:C,C"+str(rand+13)+")"
+							mpl.cell(row=13+rand,column=6).value="=SUMIFS(JE!E:E,JE!G:G,2,JE!C:C,C"+str(rand+13)+")"+"-SUMIFS(JE!F:F,JE!G:G,2,JE!C:C,C"+str(rand+13)+")"
+							mpl.cell(row=13+rand,column=7).value="=SUMIFS(JE!E:E,JE!G:G,3,JE!C:C,C"+str(rand+13)+")"+"-SUMIFS(JE!F:F,JE!G:G,3,JE!C:C,C"+str(rand+13)+")"
+							mpl.cell(row=13+rand,column=8).value="=SUMIFS(JE!E:E,JE!G:G,4,JE!C:C,C"+str(rand+13)+")"+"-SUMIFS(JE!F:F,JE!G:G,4,JE!C:C,C"+str(rand+13)+")"
+							mpl.cell(row=13+rand,column=9).value="=SUMIFS(JE!E:E,JE!G:G,5,JE!C:C,C"+str(rand+13)+")"+"-SUMIFS(JE!F:F,JE!G:G,5,JE!C:C,C"+str(rand+13)+")"
+							mpl.cell(row=13+rand,column=10).value="=SUMIFS(JE!E:E,JE!G:G,6,JE!C:C,C"+str(rand+13)+")"+"-SUMIFS(JE!F:F,JE!G:G,6,JE!C:C,C"+str(rand+13)+")"
+							mpl.cell(row=13+rand,column=11).value="=SUMIFS(JE!E:E,JE!G:G,7,JE!C:C,C"+str(rand+13)+")"+"-SUMIFS(JE!F:F,JE!G:G,7,JE!C:C,C"+str(rand+13)+")"
+							mpl.cell(row=13+rand,column=12).value="=SUMIFS(JE!E:E,JE!G:G,8,JE!C:C,C"+str(rand+13)+")"+"-SUMIFS(JE!F:F,JE!G:G,8,JE!C:C,C"+str(rand+13)+")"
+							mpl.cell(row=13+rand,column=13).value="=SUMIFS(JE!E:E,JE!G:G,9,JE!C:C,C"+str(rand+13)+")"+"-SUMIFS(JE!F:F,JE!G:G,9,JE!C:C,C"+str(rand+13)+")"
+							mpl.cell(row=13+rand,column=14).value="=SUMIFS(JE!E:E,JE!G:G,10,JE!C:C,C"+str(rand+13)+")"+"-SUMIFS(JE!F:F,JE!G:G,10,JE!C:C,C"+str(rand+13)+")"
+							mpl.cell(row=13+rand,column=15).value="=SUMIFS(JE!E:E,JE!G:G,11,JE!C:C,C"+str(rand+13)+")"+"-SUMIFS(JE!F:F,JE!G:G,11,JE!C:C,C"+str(rand+13)+")"
+							mpl.cell(row=13+rand,column=16).value="=SUMIFS(JE!E:E,JE!G:G,12,JE!C:C,C"+str(rand+13)+")"+"-SUMIFS(JE!F:F,JE!G:G,12,JE!C:C,C"+str(rand+13)+")"
+						else:
+							mpl.cell(row=13+rand,column=5).value="=-SUMIFS(JE!F:F,JE!G:G,1,JE!D:D,C"+str(rand+13)+")"
+							mpl.cell(row=13+rand,column=6).value="=-SUMIFS(JE!F:F,JE!G:G,2,JE!D:D,C"+str(rand+13)+")"
+							mpl.cell(row=13+rand,column=7).value="=-SUMIFS(JE!F:F,JE!G:G,3,JE!D:D,C"+str(rand+13)+")"
+							mpl.cell(row=13+rand,column=8).value="=-SUMIFS(JE!F:F,JE!G:G,4,JE!D:D,C"+str(rand+13)+")"
+							mpl.cell(row=13+rand,column=9).value="=-SUMIFS(JE!F:F,JE!G:G,5,JE!D:D,C"+str(rand+13)+")"
+							mpl.cell(row=13+rand,column=10).value="=-SUMIFS(JE!F:F,JE!G:G,6,JE!D:D,C"+str(rand+13)+")"
+							mpl.cell(row=13+rand,column=11).value="=-SUMIFS(JE!F:F,JE!G:G,7,JE!D:D,C"+str(rand+13)+")"
+							mpl.cell(row=13+rand,column=12).value="=-SUMIFS(JE!F:F,JE!G:G,8,JE!D:D,C"+str(rand+13)+")"
+							mpl.cell(row=13+rand,column=13).value="=-SUMIFS(JE!F:F,JE!G:G,9,JE!D:D,C"+str(rand+13)+")"
+							mpl.cell(row=13+rand,column=14).value="=-SUMIFS(JE!F:F,JE!G:G,10,JE!D:D,C"+str(rand+13)+")"
+							mpl.cell(row=13+rand,column=15).value="=-SUMIFS(JE!F:F,JE!G:G,11,JE!D:D,C"+str(rand+13)+")"
+							mpl.cell(row=13+rand,column=16).value="=-SUMIFS(JE!F:F,JE!G:G,12,JE!D:D,C"+str(rand+13)+")"
+						mpl.cell(row=13+rand,column=17).value="=sum(E"+str(rand+13)+":P"+str(rand+13)+")"
+						mpl.cell(row=13+rand,column=18).value="=SUMIF('Trial Balance'!A:A,+B"+str(rand+13)+",'Trial Balance'!G:G)"
+						mpl.cell(row=13+rand,column=19).value="=Q"+str(rand+13)+"-R"+str(rand+13)
+						mpl.cell(row=13+rand,column=19).font=fontRedDiff
+				mpl.cell(row=6,column=5).value="=SUMIF($A:$A,6,E:E)"
+				mpl.cell(row=6,column=6).value="=SUMIF($A:$A,6,F:F)"
+				mpl.cell(row=6,column=7).value="=SUMIF($A:$A,6,G:G)"
+				mpl.cell(row=6,column=8).value="=SUMIF($A:$A,6,H:H)"
+				mpl.cell(row=6,column=9).value="=SUMIF($A:$A,6,I:I)"
+				mpl.cell(row=6,column=10).value="=SUMIF($A:$A,6,J:J)"
+				mpl.cell(row=6,column=11).value="=SUMIF($A:$A,6,K:K)"
+				mpl.cell(row=6,column=12).value="=SUMIF($A:$A,6,L:L)"
+				mpl.cell(row=6,column=13).value="=SUMIF($A:$A,6,M:M)"
+				mpl.cell(row=6,column=14).value="=SUMIF($A:$A,6,N:N)"
+				mpl.cell(row=6,column=15).value="=SUMIF($A:$A,6,O:O)"
+				mpl.cell(row=6,column=16).value="=SUMIF($A:$A,6,P:P)"
+				mpl.cell(row=7,column=5).value="=SUMIF($A:$A,7,E:E)"
+				mpl.cell(row=7,column=6).value="=SUMIF($A:$A,7,F:F)"
+				mpl.cell(row=7,column=7).value="=SUMIF($A:$A,7,G:G)"
+				mpl.cell(row=7,column=8).value="=SUMIF($A:$A,7,H:H)"
+				mpl.cell(row=7,column=9).value="=SUMIF($A:$A,7,I:I)"
+				mpl.cell(row=7,column=10).value="=SUMIF($A:$A,7,J:J)"
+				mpl.cell(row=7,column=11).value="=SUMIF($A:$A,7,K:K)"
+				mpl.cell(row=7,column=12).value="=SUMIF($A:$A,7,L:L)"
+				mpl.cell(row=7,column=13).value="=SUMIF($A:$A,7,M:M)"
+				mpl.cell(row=7,column=14).value="=SUMIF($A:$A,7,N:N)"
+				mpl.cell(row=7,column=15).value="=SUMIF($A:$A,7,O:O)"
+				mpl.cell(row=7,column=16).value="=SUMIF($A:$A,7,P:P)"
 
-					for ii in range(1,15):
-						ws3.cell(row=11+randuri,column=ii).border=doubleborder
-						ws3.cell(row=11+randuri,column=ii).font=font2
-						ws3.cell(row=11+randuri,column=ii).fill=headerspurple
+				mpl.cell(row=8,column=5).value="=SUM(E6:E7)"
+				mpl.cell(row=8,column=6).value="=SUM(F6:F7)"
+				mpl.cell(row=8,column=7).value="=SUM(G6:G7)"
+				mpl.cell(row=8,column=8).value="=SUM(H6:H7)"
+				mpl.cell(row=8,column=9).value="=SUM(I6:I7)"
+				mpl.cell(row=8,column=10).value="=SUM(J6:J7)"
+				mpl.cell(row=8,column=11).value="=SUM(K6:K7)"
+				mpl.cell(row=8,column=12).value="=SUM(L6:L7)"
+				mpl.cell(row=8,column=13).value="=SUM(M6:M7)"
+				mpl.cell(row=8,column=14).value="=SUM(N6:N7)"
+				mpl.cell(row=8,column=15).value="=SUM(O6:O7)"
+				mpl.cell(row=8,column=16).value="=SUM(P6:P7)"
+
+				mpl.cell(row=9,column=5).value='=SUMIFS(JE!E:E,JE!G:G,1,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,1,JE!D:D,"121")'
+				mpl.cell(row=9,column=6).value='=SUMIFS(JE!E:E,JE!G:G,2,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,2,JE!D:D,"121")'
+				mpl.cell(row=9,column=7).value='=SUMIFS(JE!E:E,JE!G:G,3,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,3,JE!D:D,"121")'
+				mpl.cell(row=9,column=8).value='=SUMIFS(JE!E:E,JE!G:G,4,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,4,JE!D:D,"121")'
+				mpl.cell(row=9,column=9).value='=SUMIFS(JE!E:E,JE!G:G,5,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,5,JE!D:D,"121")'
+				mpl.cell(row=9,column=10).value='=SUMIFS(JE!E:E,JE!G:G,6,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,6,JE!D:D,"121")'
+				mpl.cell(row=9,column=11).value='=SUMIFS(JE!E:E,JE!G:G,7,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,7,JE!D:D,"121")'
+				mpl.cell(row=9,column=12).value='=SUMIFS(JE!E:E,JE!G:G,8,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,8,JE!D:D,"121")'
+				mpl.cell(row=9,column=13).value='=SUMIFS(JE!E:E,JE!G:G,9,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,9,JE!D:D,"121")'
+				mpl.cell(row=9,column=14).value='=SUMIFS(JE!E:E,JE!G:G,10,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,10,JE!D:D,"121")'
+				mpl.cell(row=9,column=15).value='=SUMIFS(JE!E:E,JE!G:G,11,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,11,JE!D:D,"121")'
+				mpl.cell(row=9,column=16).value='=SUMIFS(JE!E:E,JE!G:G,12,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,12,JE!D:D,"121")'
+
+
+
+				mpl.cell(row=10,column=5).value="=E8-E9"
+				mpl.cell(row=10,column=6).value="=F8-F9"
+				mpl.cell(row=10,column=7).value="=G8-G9"
+				mpl.cell(row=10,column=8).value="=H8-H9"
+				mpl.cell(row=10,column=9).value="=I8-I9"
+				mpl.cell(row=10,column=10).value="=J8-J9"
+				mpl.cell(row=10,column=11).value="=K8-K9"
+				mpl.cell(row=10,column=12).value="=L8-L9"
+				mpl.cell(row=10,column=13).value="=M8-M9"
+				mpl.cell(row=10,column=14).value="=N8-N9"
+				mpl.cell(row=10,column=15).value="=O8-O9"
+				mpl.cell(row=10,column=16).value="=P8-P9"
+				mpl.cell(row=10,column=17).value="=Q8-Q9"
+				mpl.cell(row=10,column=18).value="=R8-R9"
+				mpl.cell(row=6,column=17).value="=sum(E6:P6)"
+				mpl.cell(row=7,column=17).value="=sum(E7:P7)"
+				mpl.cell(row=8,column=17).value="=sum(E8:P8)"
+				mpl.cell(row=9,column=17).value="=sum(E9:P9)"
+				mpl.cell(row=6,column=18).value="=SUMIF('Trial Balance'!H:H,6,'Trial Balance'!G:G)"
+				mpl.cell(row=7,column=18).value="=SUMIF('Trial Balance'!H:H,7,'Trial Balance'!G:G)"
+				mpl.cell(row=8,column=18).value="=SUM(R6:R7)"
+				mpl.cell(row=9,column=18).value="=SUMIF('Trial Balance'!A:A,121,'Trial Balance'!G:G)"
+				mpl.cell(row=6,column=19).value="=Q6-R6"
+				mpl.cell(row=6,column=19).font=fontRedDiff
+				mpl.cell(row=7,column=19).value="=Q7-R7"
+				mpl.cell(row=7,column=19).font=fontRedDiff
+				mpl.cell(row=8,column=19).font=fontRedDiff
+				mpl.cell(row=9,column=19).font=fontRedDiff
+
+				mpl.cell(row=8,column=19).value="=Q8-R8"
+				mpl.cell(row=9,column=19).value="=Q9-R9"
+
+				mpl.cell(row=1,column=1).value="Client:"
+				mpl.cell(row=2,column=1).value="Period End:"
+
+				mpl.cell(row=1,column=2).value=namec
+				mpl.cell(row=2,column=2).value=ant
+				mpl.cell(row=2,column=2).number_format='mm/dd/yyyy'
+
+				mpl.cell(row=1,column=1).font=font2
+				mpl.cell(row=2,column=1).font=font2
+				for ko in range(5,20):
+					mpl.cell(row=10,column=ko).font=fontRedDiff
+					mpl.cell(row=9,column=ko).border=doubleborder
+				for po in range(6,11):
+					for pop in range(5,20):
+						mpl.cell(row=po,column=pop).number_format='#,##0_);(#,##0)'
+				mpl.auto_filter.ref = "A13:S"+str(mpl.max_row)
+				
+				
+				outputmpl.save(folderpath+"\\"+str(namec)+"\\MonthlyPL JE" + " " + namec + ".xlsx")
+				
+
+			if isChecked3=="":
+				
+				for i in range(0,len(listaunica)):
+					if(int(listasumed[i])>int(threshol) and int(str(listaunica[i])[:1])==6):
+						excel=Workbook()
+						ws=excel.active
+						ws.title="Database"
+						ws1=excel.create_sheet("Trial Balance")
+						ws3=excel.create_sheet("Overview")
 						
-					ws3.cell(row=11+randuri,column=1).value="Account"
-					ws3.cell(row=11+randuri,column=2).value="January"
-					ws3.cell(row=11+randuri,column=3).value="February"
-					ws3.cell(row=11+randuri,column=4).value="March"
-					ws3.cell(row=11+randuri,column=5).value="April"
-					ws3.cell(row=11+randuri,column=6).value="May"
-					ws3.cell(row=11+randuri,column=7).value="June"
-					ws3.cell(row=11+randuri,column=8).value="July"
-					ws3.cell(row=11+randuri,column=9).value="August"
-					ws3.cell(row=11+randuri,column=10).value="September"
-					ws3.cell(row=11+randuri,column=11).value="October"
-					ws3.cell(row=11+randuri,column=12).value="November"
-					ws3.cell(row=11+randuri,column=13).value="December"
-					ws3.cell(row=11+randuri,column=14).value="Total"
+						for o in range(1,9):
+							ws.cell(row=1,column=o).border=doubleborder
+							ws.cell(row=1,column=o).font=font2
+							ws.cell(row=1,column=o).fill=headerspurple
+						ws.cell(row=1,column=1).value="JE Number"
+						ws.cell(row=1,column=2).value="Date"
+						ws.cell(row=1,column=3).value="Description"
+						ws.cell(row=1,column=4).value="Account Debit"
+						ws.cell(row=1,column=5).value="Account Credit"
+						ws.cell(row=1,column=6).value="Amount Debit"
+						ws.cell(row=1,column=7).value="Amount Credit"
+						ws.cell(row=1,column=8).value="Month"
+						row=1
+
+						ws1.cell(row=1,column=1).value="Synt(3)"
+						ws1.cell(row=1,column=2).value="Account"
+						ws1.cell(row=1,column=3).value="Description"
+						ws1.cell(row=1,column=4).value="OB"
+						ws1.cell(row=1,column=5).value="DM"
+						ws1.cell(row=1,column=6).value="CM"
+						ws1.cell(row=1,column=7).value="CB"
 
 
-					for z in range(0,len(uniclistgldebit)):
-						ws3.cell(row=12+randuri+z,column=1).value=uniclistgldebit[z]
-						ws3.cell(row=12+randuri+z,column=2).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=3).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=4).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=5).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=6).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=8).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=9).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=10).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=11).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=12).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=13).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=7).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=14).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=2).value="=SUMIFs(Database!F:F,Database!H:H,1,Database!D:D,A"+str(12+randuri+z)+")"
-						ws3.cell(row=12+randuri+z,column=3).value="=SUMIFs(Database!F:F,Database!H:H,2,Database!D:D,A"+str(12+randuri+z)+")"
-						ws3.cell(row=12+randuri+z,column=4).value="=SUMIFs(Database!F:F,Database!H:H,3,Database!D:D,A"+str(12+randuri+z)+")"
-						ws3.cell(row=12+randuri+z,column=5).value="=SUMIFs(Database!F:F,Database!H:H,4,Database!D:D,A"+str(12+randuri+z)+")"
-						ws3.cell(row=12+randuri+z,column=6).value="=SUMIFs(Database!F:F,Database!H:H,5,Database!D:D,A"+str(12+randuri+z)+")"
-						ws3.cell(row=12+randuri+z,column=7).value="=SUMIFs(Database!F:F,Database!H:H,6,Database!D:D,A"+str(12+randuri+z)+")"
-						ws3.cell(row=12+randuri+z,column=8).value="=SUMIFs(Database!F:F,Database!H:H,7,Database!D:D,A"+str(12+randuri+z)+")"
-						ws3.cell(row=12+randuri+z,column=9).value="=SUMIFs(Database!F:F,Database!H:H,8,Database!D:D,A"+str(12+randuri+z)+")"
-						ws3.cell(row=12+randuri+z,column=10).value="=SUMIFs(Database!F:F,Database!H:H,9,Database!D:D,A"+str(12+randuri+z)+")"
-						ws3.cell(row=12+randuri+z,column=11).value="=SUMIFs(Database!F:F,Database!H:H,10,Database!D:D,A"+str(12+randuri+z)+")"
-						ws3.cell(row=12+randuri+z,column=12).value="=SUMIFs(Database!F:F,Database!H:H,11,Database!D:D,A"+str(12+randuri+z)+")"
-						ws3.cell(row=12+randuri+z,column=13).value="=SUMIFs(Database!F:F,Database!H:H,12,Database!D:D,A"+str(12+randuri+z)+")"
-						ws3.cell(row=12+randuri+z,column=14).value="=sum(B"+str(12+randuri+z)+":M"+str(12+randuri+z)+")"
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=1).value="Total"
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=1).font=font2
+						for k in range(0,len(Account)):
+							ws1.cell(row=2+k,column=2).value=Account[k]
+							ws1.cell(row=2+k,column=1).value=str(Account[k])[:3]
+							ws1.cell(row=2+k,column=3).value=Description[k]
+							ws1.cell(row=2+k,column=4).value=OB[k]
+							ws1.cell(row=2+k,column=5).value=DM[k]
+							ws1.cell(row=2+k,column=6).value=CM[k]
+							ws1.cell(row=2+k,column=7).value=CB[k]
+							ws1.cell(row=2+k,column=8).value=str(Account[k])[:1]
 
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=2).value="=sum(B"+str(12+randuri)+":B"+str(11+len(uniclistgldebit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=2).font=font2
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=2).number_format='#,##0_);(#,##0)'
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=3).value="=sum(C"+str(12+randuri)+":C"+str(11+len(uniclistgldebit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=3).font=font2
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=3).number_format='#,##0_);(#,##0)'
+						listagldebit=[]
+						for j in range(0,len(accountgldebit)):
+							if(str(listaunica[i])==str(accountgldebit[j])[0:3]):
+								ws.cell(row=row+1,column=1).value=gljenr[j]
+								ws.cell(row=row+1,column=2).value=gldate[j]
+								# ws.cell(row=row+1,column=3).value=gldate[j]
+								ws.cell(row=row+1,column=4).value=accountgldebit[j]
+								listagldebit.append(accountgldebit[j])
+								ws.cell(row=row+1,column=5).value=accountglcredit[j]
+								ws.cell(row=row+1,column=6).value=glamountdebit[j]
+								ws.cell(row=row+1,column=7).value=glamountcredit[j]
+								ws.cell(row=row+1,column=8).value="=month("+"B"+str(row+1)+")"
+								row=row+1
 
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=4).value="=sum(D"+str(12+randuri)+":D"+str(11+len(uniclistgldebit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=4).font=font2
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=4).number_format='#,##0_);(#,##0)'
+						ws3.cell(row=1,column=1).value="Client"
+						ws3.cell(row=1,column=1).font=font2
+						ws3.cell(row=2,column=1).font=font2
+						ws3.cell(row=5,column=2).font=font2
+						ws3.cell(row=2,column=1).value="Period End"
+						denis=datetime.datetime.now()
+						ws3.cell(row=1,column=2).value=namec
+						ws3.cell(row=2,column=2).value=ant
+						ws3.cell(row=2,column=2).number_format='mm/dd/yyyy'
+						ws3.cell(row=5,column=2).value="Detail of account  " + str(listaunica[i])
+						ws3.cell(row=8,column=1).value="Account"
+						ws3.cell(row=8,column=2).value="Amount as per Detail"
+						ws3.cell(row=8,column=3).value="Amount as per TB"
+						ws3.cell(row=8,column=4).value="Difference"
+						uniclistgldebit=list(set(listagldebit))
+						for kk in range(0,len(uniclistgldebit)):
 
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=5).value="=sum(E"+str(12+randuri)+":E"+str(11+len(uniclistgldebit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=5).font=font2
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=5).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=9+kk,column=1).value=uniclistgldebit[kk]
+							ws3.cell(row=9+kk,column=2).value="=SUMIF(Database!D:D,"+"A"+str(kk+9)+",Database!F:F)"
+							ws3.cell(row=9+kk,column=3).value="=SUMIF('Trial Balance'!B:B,"+"A"+str(kk+9)+",'Trial Balance'!G:G)"
+							ws3.cell(row=9+kk,column=4).value="=C"+str(kk+9)+"-"+"B"+str(kk+9)
+							ws3.cell(row=9+kk,column=4).font=fontRedDiff
+							ws3.cell(row=9+kk,column=2).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=9+kk,column=3).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=9+kk,column=4).number_format='#,##0_);(#,##0)'
+						if len(dd)>0:
+							ws3.cell(row=8,column=5).value="Debit Description"
+							ws3.cell(row=8,column=5).fill=headerspurple
+							ws3.cell(row=8,column=5).font=font2
+							ws3.cell(row=8,column=5).border=doubleborder
+							ws3.cell(row=9+kk,column=5).value=dd[i]
+						if len(cd)>0:						
+							ws3.cell(row=8,column=6).value="Credit Description"
+							ws3.cell(row=8,column=6).fill=headerspurple
+							ws3.cell(row=8,column=6).font=font2
+							ws3.cell(row=8,column=6).border=doubleborder
+							ws3.cell(row=9+kk,column=6).value=cd[i]
+						ws3.cell(row=9+len(uniclistgldebit),column=1).value="Total"
+						ws3.cell(row=9+len(uniclistgldebit),column=1).font=font2
+						# print(uniclistgldebit)
+						ws3.cell(row=9+len(uniclistgldebit),column=2).value="=sum(B9:B"+str(len(uniclistgldebit)+8)+")"
+						ws3.cell(row=9+len(uniclistgldebit),column=2).font=font2
+						ws3.cell(row=9+len(uniclistgldebit),column=2).number_format='#,##0_);(#,##0)'
 
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=6).value="=sum(F"+str(12+randuri)+":F"+str(11+len(uniclistgldebit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=6).font=font2
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=6).number_format='#,##0_);(#,##0)'
+						ws3.cell(row=9+len(uniclistgldebit),column=3).value="=sum(C9:C"+str(len(uniclistgldebit)+8)+")"
+						ws3.cell(row=9+len(uniclistgldebit),column=3).font=font2
+						ws3.cell(row=9+len(uniclistgldebit),column=3).number_format='#,##0_);(#,##0)'
 
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=7).value="=sum(G"+str(12+randuri)+":G"+str(11+len(uniclistgldebit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=7).font=font2
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=7).number_format='#,##0_);(#,##0)'
+						ws3.cell(row=9+len(uniclistgldebit),column=4).value="=sum(D9:D"+str(len(uniclistgldebit)+8)+")"
+						ws3.cell(row=9+len(uniclistgldebit),column=4).font=fontRedDiff
+						ws3.cell(row=9+len(uniclistgldebit),column=4).number_format='#,##0_);(#,##0)'
 
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=8).value="=sum(H"+str(12+randuri)+":H"+str(11+len(uniclistgldebit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=8).font=font2
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=8).number_format='#,##0_);(#,##0)'
+						for ii in range(1,5):
+							ws3.cell(row=8+len(uniclistgldebit),column=ii).border=doubleborder
+							
 
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=9).value="=sum(I"+str(12+randuri)+":I"+str(11+len(uniclistgldebit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=9).font=font2
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=9).number_format='#,##0_);(#,##0)'
+						randuri=len(uniclistgldebit)
+						for ii in range(1,5):
+							ws3.cell(row=8,column=ii).border=doubleborder
+							ws3.cell(row=8,column=ii).font=font2
+							ws3.cell(row=8,column=ii).fill=headerspurple
 
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=10).value="=sum(J"+str(12+randuri)+":J"+str(11+len(uniclistgldebit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=10).font=font2
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=10).number_format='#,##0_);(#,##0)'
-
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=11).value="=sum(K"+str(12+randuri)+":K"+str(11+len(uniclistgldebit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=11).font=font2
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=11).number_format='#,##0_);(#,##0)'
-
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=12).value="=sum(L"+str(12+randuri)+":L"+str(11+len(uniclistgldebit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=12).font=font2
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=12).number_format='#,##0_);(#,##0)'
-
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=13).value="=sum(M"+str(12+randuri)+":M"+str(11+len(uniclistgldebit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=13).font=font2
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=13).number_format='#,##0_);(#,##0)'
-					
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=14).value="=sum(N"+str(12+randuri)+":N"+str(11+len(uniclistgldebit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=14).font=font2
-					ws3.cell(row=12+len(uniclistgldebit)+randuri,column=14).number_format='#,##0_);(#,##0)'
-					
-					for ii in range(1,15):
-						ws3.cell(row=11+len(uniclistgldebit)+randuri,column=ii).border=doubleborder
-
-					ws3.column_dimensions['A'].width=15
-					ws3.column_dimensions['B'].width=15
-					ws3.column_dimensions['C'].width=15
-					ws3.column_dimensions['D'].width=15
-					ws3.column_dimensions['E'].width=15
-					ws3.column_dimensions['F'].width=15
-					ws3.column_dimensions['G'].width=15
-					ws3.column_dimensions['H'].width=15
-					ws3.column_dimensions['I'].width=15
-					ws3.column_dimensions['J'].width=15
-					ws3.column_dimensions['K'].width=15
-					ws3.column_dimensions['L'].width=15
-					ws3.column_dimensions['M'].width=15
-
-
-
-					ws4=excel.create_sheet("Sheet")
-					ws4.sheet_view.showGridLines = False
-					ws4.cell(row=1,column=1).value="Month"
-					ws4.cell(row=2,column=1).value="January"
-					ws4.cell(row=3,column=1).value="February"
-					ws4.cell(row=4,column=1).value="March"
-					ws4.cell(row=5,column=1).value="April"
-					ws4.cell(row=6,column=1).value="May"
-					ws4.cell(row=7,column=1).value="June"
-					ws4.cell(row=8,column=1).value="July"
-					ws4.cell(row=9,column=1).value="August"
-					ws4.cell(row=10,column=1).value="September"
-					ws4.cell(row=11,column=1).value="October"
-					ws4.cell(row=12,column=1).value="November"
-					ws4.cell(row=13,column=1).value="December"
-					ws4.cell(row=1,column=2).value="Monthly Trend"
-					ws4.cell(row=2,column=2).value="=Overview!B"+str(12+len(uniclistgldebit)+randuri)
-					ws4.cell(row=3,column=2).value="=Overview!C"+str(12+len(uniclistgldebit)+randuri)
-					ws4.cell(row=4,column=2).value="=Overview!D"+str(12+len(uniclistgldebit)+randuri)
-					ws4.cell(row=5,column=2).value="=Overview!E"+str(12+len(uniclistgldebit)+randuri)
-					ws4.cell(row=6,column=2).value="=Overview!F"+str(12+len(uniclistgldebit)+randuri)
-					ws4.cell(row=7,column=2).value="=Overview!G"+str(12+len(uniclistgldebit)+randuri)
-					ws4.cell(row=8,column=2).value="=Overview!H"+str(12+len(uniclistgldebit)+randuri)
-					ws4.cell(row=9,column=2).value="=Overview!I"+str(12+len(uniclistgldebit)+randuri)
-					ws4.cell(row=10,column=2).value="=Overview!J"+str(12+len(uniclistgldebit)+randuri)
-					ws4.cell(row=11,column=2).value="=Overview!K"+str(12+len(uniclistgldebit)+randuri)
-					ws4.cell(row=12,column=2).value="=Overview!L"+str(12+len(uniclistgldebit)+randuri)
-					ws4.cell(row=13,column=2).value="=Overview!M"+str(12+len(uniclistgldebit)+randuri)
+						for ii in range(1,15):
+							ws3.cell(row=11+randuri,column=ii).border=doubleborder
+							ws3.cell(row=11+randuri,column=ii).font=font2
+							ws3.cell(row=11+randuri,column=ii).fill=headerspurple
+							
+						ws3.cell(row=11+randuri,column=1).value="Account"
+						ws3.cell(row=11+randuri,column=2).value="January"
+						ws3.cell(row=11+randuri,column=3).value="February"
+						ws3.cell(row=11+randuri,column=4).value="March"
+						ws3.cell(row=11+randuri,column=5).value="April"
+						ws3.cell(row=11+randuri,column=6).value="May"
+						ws3.cell(row=11+randuri,column=7).value="June"
+						ws3.cell(row=11+randuri,column=8).value="July"
+						ws3.cell(row=11+randuri,column=9).value="August"
+						ws3.cell(row=11+randuri,column=10).value="September"
+						ws3.cell(row=11+randuri,column=11).value="October"
+						ws3.cell(row=11+randuri,column=12).value="November"
+						ws3.cell(row=11+randuri,column=13).value="December"
+						ws3.cell(row=11+randuri,column=14).value="Total"
 
 
-					values = Reference(ws4,
-							min_col=2,  # I
-							max_col=2,  # T
-							min_row=1,
-							max_row=13)
-					labels=Reference(ws4,
-							min_col=1,  # I
-							max_col=1,  # T
-							min_row=2,
-							max_row=13)
+						for z in range(0,len(uniclistgldebit)):
+							ws3.cell(row=12+randuri+z,column=1).value=uniclistgldebit[z]
+							ws3.cell(row=12+randuri+z,column=2).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=3).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=4).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=5).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=6).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=8).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=9).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=10).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=11).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=12).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=13).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=7).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=14).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=2).value="=SUMIFs(Database!F:F,Database!H:H,1,Database!D:D,A"+str(12+randuri+z)+")"
+							ws3.cell(row=12+randuri+z,column=3).value="=SUMIFs(Database!F:F,Database!H:H,2,Database!D:D,A"+str(12+randuri+z)+")"
+							ws3.cell(row=12+randuri+z,column=4).value="=SUMIFs(Database!F:F,Database!H:H,3,Database!D:D,A"+str(12+randuri+z)+")"
+							ws3.cell(row=12+randuri+z,column=5).value="=SUMIFs(Database!F:F,Database!H:H,4,Database!D:D,A"+str(12+randuri+z)+")"
+							ws3.cell(row=12+randuri+z,column=6).value="=SUMIFs(Database!F:F,Database!H:H,5,Database!D:D,A"+str(12+randuri+z)+")"
+							ws3.cell(row=12+randuri+z,column=7).value="=SUMIFs(Database!F:F,Database!H:H,6,Database!D:D,A"+str(12+randuri+z)+")"
+							ws3.cell(row=12+randuri+z,column=8).value="=SUMIFs(Database!F:F,Database!H:H,7,Database!D:D,A"+str(12+randuri+z)+")"
+							ws3.cell(row=12+randuri+z,column=9).value="=SUMIFs(Database!F:F,Database!H:H,8,Database!D:D,A"+str(12+randuri+z)+")"
+							ws3.cell(row=12+randuri+z,column=10).value="=SUMIFs(Database!F:F,Database!H:H,9,Database!D:D,A"+str(12+randuri+z)+")"
+							ws3.cell(row=12+randuri+z,column=11).value="=SUMIFs(Database!F:F,Database!H:H,10,Database!D:D,A"+str(12+randuri+z)+")"
+							ws3.cell(row=12+randuri+z,column=12).value="=SUMIFs(Database!F:F,Database!H:H,11,Database!D:D,A"+str(12+randuri+z)+")"
+							ws3.cell(row=12+randuri+z,column=13).value="=SUMIFs(Database!F:F,Database!H:H,12,Database!D:D,A"+str(12+randuri+z)+")"
+							ws3.cell(row=12+randuri+z,column=14).value="=sum(B"+str(12+randuri+z)+":M"+str(12+randuri+z)+")"
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=1).value="Total"
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=1).font=font2
 
-					chart = LineChart()
-					chart.add_data(values, titles_from_data=True)
-					chart.set_categories(labels)
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=2).value="=sum(B"+str(12+randuri)+":B"+str(11+len(uniclistgldebit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=2).font=font2
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=2).number_format='#,##0_);(#,##0)'
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=3).value="=sum(C"+str(12+randuri)+":C"+str(11+len(uniclistgldebit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=3).font=font2
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=3).number_format='#,##0_);(#,##0)'
 
-					chart.title = "Monthly Amount for account " + str(listaunica[i])
-					chart.x_axis.title = ""
-					chart.y_axis.title = "" 
-					ws3.add_chart(chart, "A"+str(14+len(uniclistgldebit)+randuri))
-					ws4.sheet_state='hidden'
-					myorder=[2,0,1,3]
-					
-					excel._sheets =[excel._sheets[i] for i in myorder]
-					excel.save(folderpath+"/"+str(namec)+"/"+str(listaunica[i])+"db.xlsx")
-					
-				if(int(listasumec[i])>int(threshol) and int(str(listaunica[i])[:1])==7):
-					excel=Workbook()
-					ws=excel.active
-					ws.title="Database"
-					ws1=excel.create_sheet("Trial Balance")
-					ws3=excel.create_sheet("Overview")
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=4).value="=sum(D"+str(12+randuri)+":D"+str(11+len(uniclistgldebit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=4).font=font2
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=4).number_format='#,##0_);(#,##0)'
 
-					for o in range(1,9):
-						ws.cell(row=1,column=o).border=doubleborder
-						ws.cell(row=1,column=o).font=font2
-						ws.cell(row=1,column=o).fill=headerspurple
-					ws.cell(row=1,column=1).value="JE Number"
-					ws.cell(row=1,column=2).value="Date"
-					ws.cell(row=1,column=3).value="Description"
-					ws.cell(row=1,column=4).value="Account Debit"
-					ws.cell(row=1,column=5).value="Account Credit"
-					ws.cell(row=1,column=6).value="Amount Debit"
-					ws.cell(row=1,column=7).value="Amount Credit"
-					ws.cell(row=1,column=8).value="Month"
-					row=1
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=5).value="=sum(E"+str(12+randuri)+":E"+str(11+len(uniclistgldebit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=5).font=font2
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=5).number_format='#,##0_);(#,##0)'
 
-					ws1.cell(row=1,column=1).value="Synt(3)"
-					ws1.cell(row=1,column=2).value="Account"
-					ws1.cell(row=1,column=3).value="Description"
-					ws1.cell(row=1,column=4).value="OB"
-					ws1.cell(row=1,column=5).value="DM"
-					ws1.cell(row=1,column=6).value="CM"
-					ws1.cell(row=1,column=7).value="CB"
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=6).value="=sum(F"+str(12+randuri)+":F"+str(11+len(uniclistgldebit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=6).font=font2
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=6).number_format='#,##0_);(#,##0)'
 
-					for k in range(0,len(Account)):
-						ws1.cell(row=2+k,column=2).value=Account[k]
-						ws1.cell(row=2+k,column=1).value=str(Account[k])[:3]
-						ws1.cell(row=2+k,column=3).value=Description[k]
-						ws1.cell(row=2+k,column=4).value=OB[k]
-						ws1.cell(row=2+k,column=5).value=DM[k]
-						ws1.cell(row=2+k,column=6).value=CM[k]
-						ws1.cell(row=2+k,column=7).value=CB[k]
-					listaglcredit=[]
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=7).value="=sum(G"+str(12+randuri)+":G"+str(11+len(uniclistgldebit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=7).font=font2
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=7).number_format='#,##0_);(#,##0)'
+
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=8).value="=sum(H"+str(12+randuri)+":H"+str(11+len(uniclistgldebit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=8).font=font2
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=8).number_format='#,##0_);(#,##0)'
+
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=9).value="=sum(I"+str(12+randuri)+":I"+str(11+len(uniclistgldebit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=9).font=font2
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=9).number_format='#,##0_);(#,##0)'
+
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=10).value="=sum(J"+str(12+randuri)+":J"+str(11+len(uniclistgldebit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=10).font=font2
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=10).number_format='#,##0_);(#,##0)'
+
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=11).value="=sum(K"+str(12+randuri)+":K"+str(11+len(uniclistgldebit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=11).font=font2
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=11).number_format='#,##0_);(#,##0)'
+
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=12).value="=sum(L"+str(12+randuri)+":L"+str(11+len(uniclistgldebit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=12).font=font2
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=12).number_format='#,##0_);(#,##0)'
+
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=13).value="=sum(M"+str(12+randuri)+":M"+str(11+len(uniclistgldebit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=13).font=font2
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=13).number_format='#,##0_);(#,##0)'
+						
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=14).value="=sum(N"+str(12+randuri)+":N"+str(11+len(uniclistgldebit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=14).font=font2
+						ws3.cell(row=12+len(uniclistgldebit)+randuri,column=14).number_format='#,##0_);(#,##0)'
+						
+						for ii in range(1,15):
+							ws3.cell(row=11+len(uniclistgldebit)+randuri,column=ii).border=doubleborder
+
+						ws3.column_dimensions['A'].width=15
+						ws3.column_dimensions['B'].width=15
+						ws3.column_dimensions['C'].width=15
+						ws3.column_dimensions['D'].width=15
+						ws3.column_dimensions['E'].width=15
+						ws3.column_dimensions['F'].width=15
+						ws3.column_dimensions['G'].width=15
+						ws3.column_dimensions['H'].width=15
+						ws3.column_dimensions['I'].width=15
+						ws3.column_dimensions['J'].width=15
+						ws3.column_dimensions['K'].width=15
+						ws3.column_dimensions['L'].width=15
+						ws3.column_dimensions['M'].width=15
+
+
+
+						ws4=excel.create_sheet("Sheet")
+						ws4.cell(row=1,column=1).value="Month"
+						ws4.cell(row=2,column=1).value="January"
+						ws4.cell(row=3,column=1).value="February"
+						ws4.cell(row=4,column=1).value="March"
+						ws4.cell(row=5,column=1).value="April"
+						ws4.cell(row=6,column=1).value="May"
+						ws4.cell(row=7,column=1).value="June"
+						ws4.cell(row=8,column=1).value="July"
+						ws4.cell(row=9,column=1).value="August"
+						ws4.cell(row=10,column=1).value="September"
+						ws4.cell(row=11,column=1).value="October"
+						ws4.cell(row=12,column=1).value="November"
+						ws4.cell(row=13,column=1).value="December"
+						ws4.cell(row=1,column=2).value="Monthly Trend"
+						ws4.cell(row=2,column=2).value="=Overview!B"+str(12+len(uniclistgldebit)+randuri)
+						ws4.cell(row=3,column=2).value="=Overview!C"+str(12+len(uniclistgldebit)+randuri)
+						ws4.cell(row=4,column=2).value="=Overview!D"+str(12+len(uniclistgldebit)+randuri)
+						ws4.cell(row=5,column=2).value="=Overview!E"+str(12+len(uniclistgldebit)+randuri)
+						ws4.cell(row=6,column=2).value="=Overview!F"+str(12+len(uniclistgldebit)+randuri)
+						ws4.cell(row=7,column=2).value="=Overview!G"+str(12+len(uniclistgldebit)+randuri)
+						ws4.cell(row=8,column=2).value="=Overview!H"+str(12+len(uniclistgldebit)+randuri)
+						ws4.cell(row=9,column=2).value="=Overview!I"+str(12+len(uniclistgldebit)+randuri)
+						ws4.cell(row=10,column=2).value="=Overview!J"+str(12+len(uniclistgldebit)+randuri)
+						ws4.cell(row=11,column=2).value="=Overview!K"+str(12+len(uniclistgldebit)+randuri)
+						ws4.cell(row=12,column=2).value="=Overview!L"+str(12+len(uniclistgldebit)+randuri)
+						ws4.cell(row=13,column=2).value="=Overview!M"+str(12+len(uniclistgldebit)+randuri)
+
+
+						values = Reference(ws4,
+								min_col=2,  # I
+								max_col=2,  # T
+								min_row=1,
+								max_row=13)
+						labels=Reference(ws4,
+								min_col=1,  # I
+								max_col=1,  # T
+								min_row=2,
+								max_row=13)
+
+						chart = LineChart()
+						chart.add_data(values, titles_from_data=True)
+						chart.set_categories(labels)
+
+						chart.title = "Monthly Amount for account " + str(listaunica[i])
+						chart.x_axis.title = ""
+						chart.y_axis.title = "" 
+						ws3.add_chart(chart, "A"+str(14+len(uniclistgldebit)+randuri))
+						ws4.sheet_state='hidden'
+						myorder=[2,0,1,3]
+						
+						excel._sheets =[excel._sheets[i] for i in myorder]
+						excel.save(folderpath+"/"+str(namec)+"/"+str(listaunica[i])+"db.xlsx")
+						
+					if(int(listasumec[i])>int(threshol) and int(str(listaunica[i])[:1])==7):
+						excel=Workbook()
+						ws=excel.active
+						ws.title="Database"
+						ws1=excel.create_sheet("Trial Balance")
+						ws3=excel.create_sheet("Overview")
+
+						for o in range(1,9):
+							ws.cell(row=1,column=o).border=doubleborder
+							ws.cell(row=1,column=o).font=font2
+							ws.cell(row=1,column=o).fill=headerspurple
+						ws.cell(row=1,column=1).value="JE Number"
+						ws.cell(row=1,column=2).value="Date"
+						ws.cell(row=1,column=3).value="Description"
+						ws.cell(row=1,column=4).value="Account Debit"
+						ws.cell(row=1,column=5).value="Account Credit"
+						ws.cell(row=1,column=6).value="Amount Debit"
+						ws.cell(row=1,column=7).value="Amount Credit"
+						ws.cell(row=1,column=8).value="Month"
+						row=1
+
+						ws1.cell(row=1,column=1).value="Synt(3)"
+						ws1.cell(row=1,column=2).value="Account"
+						ws1.cell(row=1,column=3).value="Description"
+						ws1.cell(row=1,column=4).value="OB"
+						ws1.cell(row=1,column=5).value="DM"
+						ws1.cell(row=1,column=6).value="CM"
+						ws1.cell(row=1,column=7).value="CB"
+
+						for k in range(0,len(Account)):
+							ws1.cell(row=2+k,column=2).value=Account[k]
+							ws1.cell(row=2+k,column=1).value=str(Account[k])[:3]
+							ws1.cell(row=2+k,column=3).value=Description[k]
+							ws1.cell(row=2+k,column=4).value=OB[k]
+							ws1.cell(row=2+k,column=5).value=DM[k]
+							ws1.cell(row=2+k,column=6).value=CM[k]
+							ws1.cell(row=2+k,column=7).value=CB[k]
+						listaglcredit=[]
+						for j in range(0,len(accountglcredit)):
+							if(str(listaunica[i])==str(accountglcredit[j])[0:3]):
+								ws.cell(row=row+1,column=1).value=gljenr[j]
+								ws.cell(row=row+1,column=2).value=gldate[j]
+								ws.cell(row=row+1,column=4).value=accountgldebit[j]
+								ws.cell(row=row+1,column=5).value=accountglcredit[j]
+								listaglcredit.append(accountglcredit[j])
+								ws.cell(row=row+1,column=6).value=glamountdebit[j]
+								ws.cell(row=row+1,column=7).value=glamountcredit[j]
+								ws.cell(row=row+1,column=8).value="=month("+"B"+str(row+1)+")"
+								row=row+1
+						ws3.cell(row=1,column=1).value="Client"	
+						ws3.cell(row=1,column=1).font=font2
+						ws3.cell(row=2,column=1).font=font2
+						ws3.cell(row=5,column=2).font=font2	
+						ws3.cell(row=2,column=1).value="Period End"
+						ws3.cell(row=1,column=2).value=namec
+						ws3.cell(row=2,column=2).value=ant
+						ws3.cell(row=2,column=2).number_format='mm/dd/yyyy'
+						ws3.cell(row=5,column=2).value="Detail of account " + str(listaunica[i])
+						ws3.cell(row=8,column=1).value="Account"
+						ws3.cell(row=8,column=2).value="Amount as per Detail"
+						ws3.cell(row=8,column=3).value="Amount as per TB"
+						ws3.cell(row=8,column=4).value="Difference"
+						uniclistglcredit=list(set(listaglcredit))
+						for z in range(0,len(uniclistglcredit)):
+							ws3.cell(row=9+z,column=1).value=uniclistglcredit[z]
+							ws3.cell(row=9+z,column=2).value="=-SUMIF(Database!E:E,"+"A"+str(z+9)+",Database!G:G)"
+							ws3.cell(row=9+z,column=2).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=9+z,column=3).value="=SUMIF('Trial Balance'!B:B,"+"A"+str(z+9)+",'Trial Balance'!G:G)"
+							ws3.cell(row=9+z,column=3).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=9+z,column=4).value="=C"+str(z+9)+"-"+"B"+str(z+9)
+							ws3.cell(row=9+z,column=4).font=fontRedDiff
+							ws3.cell(row=9+z,column=4).number_format='#,##0_);(#,##0)'
+						for ii in range(1,5):
+							ws3.cell(row=8,column=ii).border=doubleborder
+							ws3.cell(row=8,column=ii).font=font2
+							ws3.cell(row=8,column=ii).fill=headerspurple
+						ws3.cell(row=9+len(uniclistglcredit),column=1).value="Total"
+						ws3.cell(row=9+len(uniclistglcredit),column=1).font=font2
+
+						ws3.cell(row=9+len(uniclistglcredit),column=2).value="=sum(B9:B"+str(len(uniclistglcredit)+8)+")"
+						ws3.cell(row=9+len(uniclistglcredit),column=2).font=font2
+						ws3.cell(row=9+len(uniclistglcredit),column=2).number_format='#,##0_);(#,##0)'
+
+						ws3.cell(row=9+len(uniclistglcredit),column=3).value="=sum(C9:C"+str(len(uniclistglcredit)+8)+")"
+						ws3.cell(row=9+len(uniclistglcredit),column=3).font=font2
+						ws3.cell(row=9+len(uniclistglcredit),column=3).number_format='#,##0_);(#,##0)'
+
+						ws3.cell(row=9+len(uniclistglcredit),column=4).value="=sum(D9:D"+str(len(uniclistglcredit)+8)+")"
+						ws3.cell(row=9+len(uniclistglcredit),column=4).font=fontRedDiff
+						ws3.cell(row=9+len(uniclistglcredit),column=4).number_format='#,##0_);(#,##0)'
+
+						for ii in range(1,5):
+							ws3.cell(row=8+len(uniclistglcredit),column=ii).border=doubleborder
+						randuri=len(uniclistglcredit)
+
+						for ii in range(1,15):
+							ws3.cell(row=11+randuri,column=ii).border=doubleborder
+							ws3.cell(row=11+randuri,column=ii).font=font2
+							ws3.cell(row=11+randuri,column=ii).fill=headerspurple
+
+						ws3.cell(row=11+randuri,column=1).value="Account"
+						ws3.cell(row=11+randuri,column=2).value="January"
+						ws3.cell(row=11+randuri,column=3).value="February"
+						ws3.cell(row=11+randuri,column=4).value="March"
+						ws3.cell(row=11+randuri,column=5).value="April"
+						ws3.cell(row=11+randuri,column=6).value="May"
+						ws3.cell(row=11+randuri,column=7).value="June"
+						ws3.cell(row=11+randuri,column=8).value="July"
+						ws3.cell(row=11+randuri,column=9).value="August"
+						ws3.cell(row=11+randuri,column=10).value="September"
+						ws3.cell(row=11+randuri,column=11).value="October"
+						ws3.cell(row=11+randuri,column=12).value="November"
+						ws3.cell(row=11+randuri,column=13).value="December"
+						ws3.cell(row=11+randuri,column=14).value="Total"
+
+						for z in range(0,len(uniclistglcredit)):
+							ws3.cell(row=12+randuri+z,column=2).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=3).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=4).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=5).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=6).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=8).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=9).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=10).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=11).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=12).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=13).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=14).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=7).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+randuri+z,column=1).value=uniclistglcredit[z]
+							ws3.cell(row=12+randuri+z,column=2).value="=SUMIFs(Database!G:G,Database!H:H,1,Database!E:E,A"+str(12+randuri+z)+")"
+							ws3.cell(row=12+randuri+z,column=3).value="=SUMIFs(Database!G:G,Database!H:H,2,Database!E:E,A"+str(12+randuri+z)+")"
+							ws3.cell(row=12+randuri+z,column=4).value="=SUMIFs(Database!G:G,Database!H:H,3,Database!E:E,A"+str(12+randuri+z)+")"
+							ws3.cell(row=12+randuri+z,column=5).value="=SUMIFs(Database!G:G,Database!H:H,4,Database!E:E,A"+str(12+randuri+z)+")"
+							ws3.cell(row=12+randuri+z,column=6).value="=SUMIFs(Database!G:G,Database!H:H,5,Database!E:E,A"+str(12+randuri+z)+")"
+							ws3.cell(row=12+randuri+z,column=7).value="=SUMIFs(Database!G:G,Database!H:H,6,Database!E:E,A"+str(12+randuri+z)+")"
+							ws3.cell(row=12+randuri+z,column=8).value="=SUMIFs(Database!G:G,Database!H:H,7,Database!E:E,A"+str(12+randuri+z)+")"
+							ws3.cell(row=12+randuri+z,column=9).value="=SUMIFs(Database!G:G,Database!H:H,8,Database!E:E,A"+str(12+randuri+z)+")"
+							ws3.cell(row=12+randuri+z,column=10).value="=SUMIFs(Database!G:G,Database!H:H,9,Database!E:E,A"+str(12+randuri+z)+")"
+							ws3.cell(row=12+randuri+z,column=11).value="=SUMIFs(Database!G:G,Database!H:H,10,Database!E:E,A"+str(12+randuri+z)+")"
+							ws3.cell(row=12+randuri+z,column=12).value="=SUMIFs(Database!G:G,Database!H:H,11,Database!E:E,A"+str(12+randuri+z)+")"
+							ws3.cell(row=12+randuri+z,column=13).value="=SUMIFs(Database!G:G,Database!H:H,12,Database!E:E,A"+str(12+randuri+z)+")"
+							ws3.cell(row=12+randuri+z,column=14).value="=sum(B"+str(12+randuri+z)+":M"+str(12+randuri+z)+")"
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=1).value="Total"
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=1).font=font2
+
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=2).value="=sum(B"+str(12+randuri)+":B"+str(11+len(uniclistglcredit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=2).font=font2
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=2).number_format='#,##0_);(#,##0)'
+
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=3).value="=sum(C"+str(12+randuri)+":C"+str(11+len(uniclistglcredit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=3).font=font2
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=3).number_format='#,##0_);(#,##0)'
+
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=4).value="=sum(D"+str(12+randuri)+":D"+str(11+len(uniclistglcredit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=4).font=font2
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=4).number_format='#,##0_);(#,##0)'
+
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=5).value="=sum(E"+str(12+randuri)+":E"+str(11+len(uniclistglcredit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=5).font=font2
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=5).number_format='#,##0_);(#,##0)'
+
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=6).value="=sum(F"+str(12+randuri)+":F"+str(11+len(uniclistglcredit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=6).font=font2
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=6).number_format='#,##0_);(#,##0)'
+
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=7).value="=sum(G"+str(12+randuri)+":G"+str(11+len(uniclistglcredit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=7).font=font2
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=7).number_format='#,##0_);(#,##0)'
+
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=8).value="=sum(H"+str(12+randuri)+":H"+str(11+len(uniclistglcredit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=8).font=font2
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=8).number_format='#,##0_);(#,##0)'
+
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=9).value="=sum(I"+str(12+randuri)+":I"+str(11+len(uniclistglcredit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=9).font=font2
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=9).number_format='#,##0_);(#,##0)'
+
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=10).value="=sum(J"+str(12+randuri)+":J"+str(11+len(uniclistglcredit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=10).font=font2
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=10).number_format='#,##0_);(#,##0)'
+
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=11).value="=sum(K"+str(12+randuri)+":K"+str(11+len(uniclistglcredit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=11).font=font2
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=11).number_format='#,##0_);(#,##0)'
+
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=12).value="=sum(L"+str(12+randuri)+":L"+str(11+len(uniclistglcredit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=12).font=font2
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=12).number_format='#,##0_);(#,##0)'
+
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=13).value="=sum(M"+str(12+randuri)+":M"+str(11+len(uniclistglcredit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=13).font=font2
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=13).number_format='#,##0_);(#,##0)'
+
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=14).value="=sum(N"+str(12+randuri)+":N"+str(11+len(uniclistglcredit)+randuri)+")"
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=14).font=font2
+						ws3.cell(row=12+len(uniclistglcredit)+randuri,column=14).number_format='#,##0_);(#,##0)'
+						
+
+						ws4=excel.create_sheet("Sheet")
+						ws4.cell(row=1,column=1).value="Month"
+						ws4.cell(row=2,column=1).value="January"
+						ws4.cell(row=3,column=1).value="February"
+						ws4.cell(row=4,column=1).value="March"
+						ws4.cell(row=5,column=1).value="April"
+						ws4.cell(row=6,column=1).value="May"
+						ws4.cell(row=7,column=1).value="June"
+						ws4.cell(row=8,column=1).value="July"
+						ws4.cell(row=9,column=1).value="August"
+						ws4.cell(row=10,column=1).value="September"
+						ws4.cell(row=11,column=1).value="October"
+						ws4.cell(row=12,column=1).value="November"
+						ws4.cell(row=13,column=1).value="December"
+						ws4.cell(row=1,column=2).value="Monthly Trend"
+						ws4.cell(row=2,column=2).value="=Overview!B"+str(12+len(uniclistglcredit)+randuri)
+						ws4.cell(row=3,column=2).value="=Overview!C"+str(12+len(uniclistglcredit)+randuri)
+						ws4.cell(row=4,column=2).value="=Overview!D"+str(12+len(uniclistglcredit)+randuri)
+						ws4.cell(row=5,column=2).value="=Overview!E"+str(12+len(uniclistglcredit)+randuri)
+						ws4.cell(row=6,column=2).value="=Overview!F"+str(12+len(uniclistglcredit)+randuri)
+						ws4.cell(row=7,column=2).value="=Overview!G"+str(12+len(uniclistglcredit)+randuri)
+						ws4.cell(row=8,column=2).value="=Overview!H"+str(12+len(uniclistglcredit)+randuri)
+						ws4.cell(row=9,column=2).value="=Overview!I"+str(12+len(uniclistglcredit)+randuri)
+						ws4.cell(row=10,column=2).value="=Overview!J"+str(12+len(uniclistglcredit)+randuri)
+						ws4.cell(row=11,column=2).value="=Overview!K"+str(12+len(uniclistglcredit)+randuri)
+						ws4.cell(row=12,column=2).value="=Overview!L"+str(12+len(uniclistglcredit)+randuri)
+						ws4.cell(row=13,column=2).value="=Overview!M"+str(12+len(uniclistglcredit)+randuri)
+
+
+
+
+						for ii in range(1,15):
+							ws3.cell(row=11+len(uniclistglcredit)+randuri,column=ii).border=doubleborder
+							
+						ws3.column_dimensions['A'].width=15
+						ws3.column_dimensions['B'].width=15
+						ws3.column_dimensions['C'].width=15
+						ws3.column_dimensions['D'].width=15
+						ws3.column_dimensions['E'].width=15
+						ws3.column_dimensions['F'].width=15
+						ws3.column_dimensions['G'].width=15
+						ws3.column_dimensions['H'].width=15
+						ws3.column_dimensions['I'].width=15
+						ws3.column_dimensions['J'].width=15
+						ws3.column_dimensions['K'].width=15
+						ws3.column_dimensions['L'].width=15
+						ws3.column_dimensions['M'].width=15
+
+
+
+						values = Reference(ws4,
+								min_col=2,  # I
+								max_col=2,  # T
+								min_row=1,
+								max_row=13)
+						labels=Reference(ws4,
+								min_col=1,  # I
+								max_col=1,  # T
+								min_row=2,
+								max_row=13)
+
+						chart = LineChart()
+						chart.add_data(values, titles_from_data=True)
+						chart.set_categories(labels)
+
+						chart.title = "Monthly Amount for account " + str(listaunica[i])
+						chart.x_axis.title = ""
+						chart.y_axis.title = "" 
+						ws3.add_chart(chart, "A"+str(14+len(uniclistglcredit)+randuri))
+						ws4.sheet_state='hidden'
+						myorder=[2,0,1,3]
+						folderpath="/home/auditappnexia/output/je"
+						excel._sheets =[excel._sheets[i] for i in myorder]
+						excel.save(folderpath+"\\"+str(namec)+"\\"+str(listaunica[i])+"db.xlsx")
+			make_archive("/home/auditappnexia/output/je"+str(namec),"/home/auditappnexia/output/je"+str(namec)+"\\JE "+namec+".zip")                
+					# shutil.make_archive(name, format, archive_from, archive_to)
+			file_pathFS = os.path.join(folderpath, namec)    
+			return send_from_directory(file_pathFS,"JE "+ namec+".zip",as_attachment=True)    
+	else:
+			folderpath="/home/auditappnexia/output/je"
+			os.mkdir(folderpath+"\\"+namec)
+			def make_archive(source, destination):
+				base = os.path.basename(destination)
+				name = base.split('.')[0]
+				format = base.split('.')[1]
+				archive_from = os.path.dirname(source)
+				archive_to = os.path.basename(source.strip(os.sep))
+				shutil.make_archive(name, format, archive_from, archive_to)
+				shutil.move('%s.%s'%(name,format), destination)
+			# yearEnd = str(request.form['yearEnd'])
+			# processed_text = client.upper()
+			# fisier=request.files.get('monthlyTB')
+			if request.method == 'POST':
+				workingsblue2= Font(bold=True, italic=True, name='Tahoma', size=8,color='FFFFFF')
+				lbluefill = PatternFill(start_color='7030A0',
+									end_color='7030A0',
+									fill_type='solid')
+				grifill=PatternFill(start_color='c4d79b',end_color='c4d79b',fill_type='solid')
+				yellow=PatternFill(start_color='ffff00',end_color='ffff00',fill_type='solid')
+				blueFill = PatternFill(start_color='ccd9ff',
+									end_color='ccd9ff',
+									fill_type='solid')
+				doubleborder = Border(bottom=Side(style='double'))
+				solidborder = Border(bottom=Side(style='thick'))
+				solidborderstanga = Border(left=Side(style='thin'))
+				rightborder = Border(right=Side(style='thin'))
+				rightdouble = Border (right=Side(style='thin'), bottom=Side(style='double'))
+				rightmedium = Border (right=Side(style='thin'), bottom=Side(style='medium'))
+				solidborderdreapta = Border(right=Side(style='thin'))
+				solidbordersus = Border(top=Side(style='thin'))
+				fontitalic = Font(name='Tahoma', size=8, bold=True, italic=True)
+				font1 = Font(name='Tahoma', size=8)
+				font2 = Font(name='Calibri', size=10, bold=True)
+				fontRed = Font(name='Calibri', size=10, bold=True, color= 'FF0000')
+				fontRedDiff=Font(name="Calibri", color='FF0000', size=11, )
+				fontGT = Font (name='GT Logo', size=8)
+				workingsblue = Font(color='2F75B5', bold=True, name='Tahoma', size=8 )
+				headers= Font(bold=True, italic=True, name='Tahoma', size=8,color='FFFFFF') 
+				headersblue = PatternFill(start_color='7030A0',
+								end_color='7030A0',
+								fill_type='solid')
+				headerspurple= PatternFill(start_color='CCC0DA',
+									end_color='CCC0DA',
+									fill_type='solid')
+				total=PatternFill(start_color='DDD9C4',
+								end_color='DDD9C4',
+								fill_type='solid')
+				greenbolditalic= Font(bold=True, italic=True,  color='C0504D', name='Tahoma', size=8)
+				greenbolditalic= Font(bold=True, italic=True,  color='00af50')
+				fontalb = Font(italic=True, color="bfbfbf", size=8, name='Tahoma')
+				trialb=request.files["TB"]
+				je=request.files["JE"]
+
+				tb=openpyxl.load_workbook(je,data_only='True')
+				tb1=tb.active
+
+				TB=openpyxl.load_workbook(trialb,data_only='True')
+				TBls1=TB.active
+				for row in TBls1.iter_rows():
+							for cell in row:
+								if cell.value=="Account":
+									Acc=cell.column
+									acr=cell.row
+
+				for row in TBls1.iter_rows():
+					for cell in row:
+						if cell.value=="Description":
+							desc=cell.column
+
+				for row in TBls1.iter_rows():
+					for cell in row:
+						if cell.value=="OB":
+							aob=cell.column
+
+				for row in TBls1.iter_rows():
+
+					for cell in row:
+						if cell.value=="DM":
+							adm=cell.column
+						
+				for row in TBls1.iter_rows():
+					for cell in row:
+						if cell.value=="CM":
+							acm=cell.column
+
+				for row in TBls1.iter_rows():
+					for cell in row:
+						if cell.value=="CB":
+							acb=cell.column
+
+				try:
+					lungl=len(TBls1[Acc])
+				except:
+					flash("Please insert the correct header for Account in Trial Balance file")
+					return render_template("index.html")
+
+
+
+				try:
+					lungl=len(TBls1[desc])
+				except:
+					flash("Please insert the correct header for Description in Trial Balance file")
+					return render_template("index.html")
+					# messagebox.showerror("Error", "File: TB. Please insert the correct header for 'Description'")
+					# sys.exit()
+
+				try:
+					lungl=len(TBls1[aob])
+				except:
+					flash("Please insert the correct header for OB in Trial Balance file")
+					return render_template("index.html")
+					# messagebox.showerror("Error", "File: TB. Please insert the correct header for 'Opening Balance'")
+					# sys.exit()
+
+				try:
+					lungl=len(TBls1[adm])
+				except:
+					flash("Please insert the correct header for DM in Trial Balance file")
+					return render_template("index.html")
+					# messagebox.showerror("Error", "File: TB. Please insert the correct header for 'Debit Movement'")
+					# sys.exit()
+
+				try:
+					lungl=len(TBls1[acm])
+				except:
+					flash("Please insert the correct header for CM in Trial Balance file")
+					return render_template("index.html")
+					# messagebox.showerror("Error", "File: TB. Please insert the correct header for 'Credit Movement'")
+					# sys.exit()
+
+				try:
+					lungl=len(TBls1[acb])
+				except:
+					flash("Please insert the correct header for CB in Trial Balance file")
+					return render_template("index.html")
+					# messagebox.showerror("Error", "File: TB. Please insert the correct header for 'Closing Balance'")
+					# sys.exit()
+				try:
+					luntb=len(TBls1[Acc])
+				except:
+					flash("Please insert the correct header for Account in Trial Balance file")
+					return render_template("index.html")
+
+				Account=[b.value for b in TBls1[Acc][acr:luntb+1]]
+				Description=[b.value for b in TBls1[desc][acr:luntb+1]]
+				OB=[b.value for b in TBls1[aob][acr:luntb+1]]
+				DM=[b.value for b in TBls1[adm][acr:luntb+1]]
+				CM=[b.value for b in TBls1[acm][acr:luntb+1]]
+				CB=[b.value for b in TBls1[acb][acr:luntb+1]]
+
+
+				for row in tb1.iter_rows():
+					for cell in row :
+
+						if cell.value=="Account Debit" :
+							
+							glac=cell.column
+							glrow=cell.row
+				for row in tb1.iter_rows():
+					for cell in row :
+
+						if cell.value=="Account Credit" :
+							
+							glacc=cell.column
+							glrow=cell.row
+
+
+				for row in tb1.iter_rows():
+					for cell in row :
+
+						if cell.value=="Description" :
+							
+							gld=cell.column
+							gldrow=cell.row
+				for row in tb1.iter_rows():
+					for cell in row :
+
+						if cell.value=="JE Number" :
+							
+							glje=cell.column
+							gldrow=cell.row
+
+				for row in tb1.iter_rows():
+					for cell in row :
+
+						if cell.value=="Date" :
+							
+							glde=cell.column
+							gldrow=cell.row
+
+				for row in tb1.iter_rows():
+					for cell in row :
+
+						if cell.value=="Amount Debit" :
+							
+							glamd=cell.column
+							glarow=cell.row
+
+				for row in tb1.iter_rows():
+					for cell in row :
+
+						if cell.value=="Amount Credit" :
+							
+							glamc=cell.column
+							glarow=cell.row
+
+				rddesc=None
+				cddesc=None         
+				for row in tb1.iter_rows():
+					for cell in row:
+						if cell.value=="Debit descriptions":
+							rddesc=cell.row
+							cddesc=cell.column
+
+				rcdesc=None
+				ccdesc=None         
+				for row in tb1.iter_rows():
+					for cell in row:
+						if cell.value=="Credit descriptions":
+							rcdesc=cell.row
+							ccdesc=cell.column
+
+
+				try:
+					lungl=len(tb1[glac])
+				except:
+					flash("Please insert the correct header for Account GL Debit in Journal Entries file")
+					return render_template("index.html")
+					# messagebox.showerror("Error", "File: G/L. Please insert the correct header for 'Account'")
+					# sys.exit()
+
+				dd=[]
+				cd=[]
+
+				if rddesc is not None:
+					dd=[b.value for b in tb1[cddesc][rddesc:lungl]]
+				if rcdesc is not None:
+					cd=[b.value for b in tb1[ccdesc][rcdesc:lungl]]
+
+				try:
+					accountgldebit=[b.value for b in tb1[glac][glrow:lungl]]
+				except:
+					flash("Please insert the correct header for Account GL Debit in Journal Entries file")
+					return render_template("index.html")
+					# messagebox.showerror("Error", "File: G/L. Please insert the correct header for 'Account Debit'")
+					# sys.exit()
+
+				try:
+					accountglcredit=[b.value for b in tb1[glacc][glrow:lungl]]
+				except:
+					flash("Please insert the correct header for Account GL Debit in Journal Entries file")
+					return render_template("index.html")
+
+
+				try:
+					gldate=[b.value for b in tb1[glde][glrow:lungl]]
+				except:
+					flash("Please insert the correct header for Date in Journal Entries file")
+					return render_template("index.html")
+
+				try:
+					gljenr=[b.value for b in tb1[glje][glrow:lungl]]
+				except:
+					flash("Please insert the correct header for JE Number in Journal Entries file")
+					return render_template("index.html")
+
+				try:
+					glamountdebit=[b.value for b in tb1[glamd][glrow:lungl]]
+					glamountcredit=[b.value for b in tb1[glamc][glrow:lungl]]
+				except:
+					for row in tb1.iter_rows():
+						for cell in row :
+
+							if cell.value=="Amount" :
+								
+								glamc=cell.column
+								glarow=cell.row
+					glamountdebit=[b.value for b in tb1[glamc][glrow:lungl]]
+					glamountcredit=[b.value for b in tb1[glamc][glrow:lungl]]
+
+
+
+				syntaccgldebit1=[]
+				syntaccglcredit1=[]
+
+
+				for i in range(0,len(accountgldebit)):
+						syntaccgldebit1.append(str(accountgldebit[i])[0:3])
+				for i in range(0,len(accountglcredit)):
+						syntaccglcredit1.append(str(accountglcredit[i])[0:3])
+
+				syntaccgldebit=[]
+				syntaccglcredit=[]
+
+				for i in range(0,len(syntaccgldebit1)):
+					try:
+						syntaccgldebit1[i]=int(syntaccgldebit1[i])
+						syntaccgldebit.append(syntaccgldebit1[i])
+					except:
+						pass
+				for i in range(0,len(syntaccglcredit1)):
+					try:
+						syntaccglcredit1[i]=int(syntaccglcredit1[i])
+						syntaccglcredit.append(syntaccglcredit1[i])
+					except:
+						pass
+				lisunicaacd=list(set(syntaccgldebit))
+				lisunicaacc=list(set(syntaccglcredit))
+				listaunica=list(set(lisunicaacc+lisunicaacd))
+				listasumec=[]
+				listasumed=[]
+				for i in range(0,len(listaunica)):
+					sumad=0
+					sumac=0
 					for j in range(0,len(accountglcredit)):
 						if(str(listaunica[i])==str(accountglcredit[j])[0:3]):
-							ws.cell(row=row+1,column=1).value=gljenr[j]
-							ws.cell(row=row+1,column=2).value=gldate[j]
-							ws.cell(row=row+1,column=4).value=accountgldebit[j]
-							ws.cell(row=row+1,column=5).value=accountglcredit[j]
-							listaglcredit.append(accountglcredit[j])
-							ws.cell(row=row+1,column=6).value=glamountdebit[j]
-							ws.cell(row=row+1,column=7).value=glamountcredit[j]
-							ws.cell(row=row+1,column=8).value="=month("+"B"+str(row+1)+")"
-							row=row+1
-					ws3.cell(row=1,column=1).value="Client"	
-					ws3.cell(row=1,column=1).font=font2
-					ws3.cell(row=2,column=1).font=font2
-					ws3.cell(row=5,column=2).font=font2	
-					ws3.cell(row=2,column=1).value="Period End"
-					ws3.cell(row=1,column=2).value=namec
-					ws3.cell(row=2,column=2).value=ant
-					ws3.cell(row=2,column=2).number_format='mm/dd/yyyy'
-					ws3.cell(row=5,column=2).value="Detail of account " + str(listaunica[i])
-					ws3.cell(row=8,column=1).value="Account"
-					ws3.cell(row=8,column=2).value="Amount as per Detail"
-					ws3.cell(row=8,column=3).value="Amount as per TB"
-					ws3.cell(row=8,column=4).value="Difference"
-					uniclistglcredit=list(set(listaglcredit))
-					for z in range(0,len(uniclistglcredit)):
-						ws3.cell(row=9+z,column=1).value=uniclistglcredit[z]
-						ws3.cell(row=9+z,column=2).value="=-SUMIF(Database!E:E,"+"A"+str(z+9)+",Database!G:G)"
-						ws3.cell(row=9+z,column=2).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=9+z,column=3).value="=SUMIF('Trial Balance'!B:B,"+"A"+str(z+9)+",'Trial Balance'!G:G)"
-						ws3.cell(row=9+z,column=3).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=9+z,column=4).value="=C"+str(z+9)+"-"+"B"+str(z+9)
-						ws3.cell(row=9+z,column=4).font=fontRedDiff
-						ws3.cell(row=9+z,column=4).number_format='#,##0_);(#,##0)'
-					for ii in range(1,5):
-						ws3.cell(row=8,column=ii).border=doubleborder
-						ws3.cell(row=8,column=ii).font=font2
-						ws3.cell(row=8,column=ii).fill=headerspurple
-					ws3.cell(row=9+len(uniclistglcredit),column=1).value="Total"
-					ws3.cell(row=9+len(uniclistglcredit),column=1).font=font2
+							try:
+								sumac=sumac+glamountcredit[j]
+							except:
+								pass
+						if(str(listaunica[i])==str(accountgldebit[j])[0:3]):
+							try:
+								sumad=sumad+glamountdebit[j]
+							except:
+								pass
+					listasumed.append(sumad)
+					listasumec.append(sumac)
+				if isChecked1=="":
+				
+					output=Workbook()
+					out=output.active
 
-					ws3.cell(row=9+len(uniclistglcredit),column=2).value="=sum(B9:B"+str(len(uniclistglcredit)+8)+")"
-					ws3.cell(row=9+len(uniclistglcredit),column=2).font=font2
-					ws3.cell(row=9+len(uniclistglcredit),column=2).number_format='#,##0_);(#,##0)'
+					out.title="Journal Entries Reconciliation"
 
-					ws3.cell(row=9+len(uniclistglcredit),column=3).value="=sum(C9:C"+str(len(uniclistglcredit)+8)+")"
-					ws3.cell(row=9+len(uniclistglcredit),column=3).font=font2
-					ws3.cell(row=9+len(uniclistglcredit),column=3).number_format='#,##0_);(#,##0)'
+					out.cell(row=1,column=1).value="Client:"
+					out.cell(row=2,column=1).value="Period End:"
 
-					ws3.cell(row=9+len(uniclistglcredit),column=4).value="=sum(D9:D"+str(len(uniclistglcredit)+8)+")"
-					ws3.cell(row=9+len(uniclistglcredit),column=4).font=fontRedDiff
-					ws3.cell(row=9+len(uniclistglcredit),column=4).number_format='#,##0_);(#,##0)'
+					out.cell(row=1,column=2).value=namec
+					out.cell(row=2,column=2).value=ant
+					out.cell(row=2,column=2).number_format='mm/dd/yyyy'
 
-					for ii in range(1,5):
-						ws3.cell(row=8+len(uniclistglcredit),column=ii).border=doubleborder
-					randuri=len(uniclistglcredit)
+					out.cell(row=1,column=1).font=font2
+					out.cell(row=2,column=1).font=font2
+					out.cell(row=4,column=4).value="Reconciliation Trial Balance vs Journal Entries"
+					out.cell(row=4,column=4).font=font2
 
-					for ii in range(1,15):
-						ws3.cell(row=11+randuri,column=ii).border=doubleborder
-						ws3.cell(row=11+randuri,column=ii).font=font2
-						ws3.cell(row=11+randuri,column=ii).fill=headerspurple
+					out.cell(row=7,column=3).value="As per JE"
+					out.cell(row=7,column=3).font=font2
+					out.cell(row=7,column=6).value="As per TB"
+					out.cell(row=7,column=6).font=font2
 
-					ws3.cell(row=11+randuri,column=1).value="Account"
-					ws3.cell(row=11+randuri,column=2).value="January"
-					ws3.cell(row=11+randuri,column=3).value="February"
-					ws3.cell(row=11+randuri,column=4).value="March"
-					ws3.cell(row=11+randuri,column=5).value="April"
-					ws3.cell(row=11+randuri,column=6).value="May"
-					ws3.cell(row=11+randuri,column=7).value="June"
-					ws3.cell(row=11+randuri,column=8).value="July"
-					ws3.cell(row=11+randuri,column=9).value="August"
-					ws3.cell(row=11+randuri,column=10).value="September"
-					ws3.cell(row=11+randuri,column=11).value="October"
-					ws3.cell(row=11+randuri,column=12).value="November"
-					ws3.cell(row=11+randuri,column=13).value="December"
-					ws3.cell(row=11+randuri,column=14).value="Total"
+					out.cell(row=7,column=9).value="Difference"
+					out.cell(row=7,column=9).font=font2
 
-					for z in range(0,len(uniclistglcredit)):
-						ws3.cell(row=12+randuri+z,column=2).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=3).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=4).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=5).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=6).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=8).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=9).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=10).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=11).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=12).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=13).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=14).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=7).number_format='#,##0_);(#,##0)'
-						ws3.cell(row=12+randuri+z,column=1).value=uniclistglcredit[z]
-						ws3.cell(row=12+randuri+z,column=2).value="=SUMIFs(Database!G:G,Database!H:H,1,Database!E:E,A"+str(12+randuri+z)+")"
-						ws3.cell(row=12+randuri+z,column=3).value="=SUMIFs(Database!G:G,Database!H:H,2,Database!E:E,A"+str(12+randuri+z)+")"
-						ws3.cell(row=12+randuri+z,column=4).value="=SUMIFs(Database!G:G,Database!H:H,3,Database!E:E,A"+str(12+randuri+z)+")"
-						ws3.cell(row=12+randuri+z,column=5).value="=SUMIFs(Database!G:G,Database!H:H,4,Database!E:E,A"+str(12+randuri+z)+")"
-						ws3.cell(row=12+randuri+z,column=6).value="=SUMIFs(Database!G:G,Database!H:H,5,Database!E:E,A"+str(12+randuri+z)+")"
-						ws3.cell(row=12+randuri+z,column=7).value="=SUMIFs(Database!G:G,Database!H:H,6,Database!E:E,A"+str(12+randuri+z)+")"
-						ws3.cell(row=12+randuri+z,column=8).value="=SUMIFs(Database!G:G,Database!H:H,7,Database!E:E,A"+str(12+randuri+z)+")"
-						ws3.cell(row=12+randuri+z,column=9).value="=SUMIFs(Database!G:G,Database!H:H,8,Database!E:E,A"+str(12+randuri+z)+")"
-						ws3.cell(row=12+randuri+z,column=10).value="=SUMIFs(Database!G:G,Database!H:H,9,Database!E:E,A"+str(12+randuri+z)+")"
-						ws3.cell(row=12+randuri+z,column=11).value="=SUMIFs(Database!G:G,Database!H:H,10,Database!E:E,A"+str(12+randuri+z)+")"
-						ws3.cell(row=12+randuri+z,column=12).value="=SUMIFs(Database!G:G,Database!H:H,11,Database!E:E,A"+str(12+randuri+z)+")"
-						ws3.cell(row=12+randuri+z,column=13).value="=SUMIFs(Database!G:G,Database!H:H,12,Database!E:E,A"+str(12+randuri+z)+")"
-						ws3.cell(row=12+randuri+z,column=14).value="=sum(B"+str(12+randuri+z)+":M"+str(12+randuri+z)+")"
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=1).value="Total"
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=1).font=font2
 
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=2).value="=sum(B"+str(12+randuri)+":B"+str(11+len(uniclistglcredit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=2).font=font2
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=2).number_format='#,##0_);(#,##0)'
 
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=3).value="=sum(C"+str(12+randuri)+":C"+str(11+len(uniclistglcredit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=3).font=font2
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=3).number_format='#,##0_);(#,##0)'
+					out.cell(row=10,column=2).value="Account"
+					out.cell(row=10,column=3).value="Amount Debit"
+					out.cell(row=10,column=4).value="Amount Credit"
 
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=4).value="=sum(D"+str(12+randuri)+":D"+str(11+len(uniclistglcredit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=4).font=font2
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=4).number_format='#,##0_);(#,##0)'
+					out.cell(row=10,column=6).value="Amount Debit"
+					out.cell(row=10,column=7).value="Amount Credit"
 
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=5).value="=sum(E"+str(12+randuri)+":E"+str(11+len(uniclistglcredit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=5).font=font2
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=5).number_format='#,##0_);(#,##0)'
+					out.cell(row=10,column=9).value="Amount Debit"
+					out.cell(row=10,column=10).value="Amount Credit"
 
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=6).value="=sum(F"+str(12+randuri)+":F"+str(11+len(uniclistglcredit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=6).font=font2
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=6).number_format='#,##0_);(#,##0)'
+					for o in range(2,5):
+						out.cell(row=10,column=o).border=doubleborder
+						out.cell(row=10,column=o).font=font2
+						out.cell(row=10,column=o).fill=headerspurple
 
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=7).value="=sum(G"+str(12+randuri)+":G"+str(11+len(uniclistglcredit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=7).font=font2
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=7).number_format='#,##0_);(#,##0)'
+					for o in range(6,8):
+						out.cell(row=10,column=o).border=doubleborder
+						out.cell(row=10,column=o).font=font2
+						out.cell(row=10,column=o).fill=headerspurple
 
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=8).value="=sum(H"+str(12+randuri)+":H"+str(11+len(uniclistglcredit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=8).font=font2
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=8).number_format='#,##0_);(#,##0)'
+					for o in range(9,11):
+						out.cell(row=10,column=o).border=doubleborder
+						out.cell(row=10,column=o).font=font2
+						out.cell(row=10,column=o).fill=headerspurple
 
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=9).value="=sum(I"+str(12+randuri)+":I"+str(11+len(uniclistglcredit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=9).font=font2
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=9).number_format='#,##0_);(#,##0)'
 
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=10).value="=sum(J"+str(12+randuri)+":J"+str(11+len(uniclistglcredit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=10).font=font2
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=10).number_format='#,##0_);(#,##0)'
+					out2=output.create_sheet("Trial Balance")
 
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=11).value="=sum(K"+str(12+randuri)+":K"+str(11+len(uniclistglcredit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=11).font=font2
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=11).number_format='#,##0_);(#,##0)'
+					out2.cell(row=1,column=1).value="Synt(3)"
+					out2.cell(row=1,column=2).value="Account"
+					out2.cell(row=1,column=3).value="Description"
+					out2.cell(row=1,column=4).value="OB"
+					out2.cell(row=1,column=5).value="DM"
+					out2.cell(row=1,column=6).value="CM"
+					out2.cell(row=1,column=7).value="CB"
 
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=12).value="=sum(L"+str(12+randuri)+":L"+str(11+len(uniclistglcredit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=12).font=font2
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=12).number_format='#,##0_);(#,##0)'
+					for o in range(1,8):
+						out2.cell(row=1,column=o).border=doubleborder
+						out2.cell(row=1,column=o).font=font2
+						out2.cell(row=1,column=o).fill=headerspurple
 
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=13).value="=sum(M"+str(12+randuri)+":M"+str(11+len(uniclistglcredit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=13).font=font2
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=13).number_format='#,##0_);(#,##0)'
+					for k in range(0,len(Account)):
+						out2.cell(row=2+k,column=2).value=Account[k]
+						out2.cell(row=2+k,column=1).value=str(Account[k])[:3]
+						out2.cell(row=2+k,column=3).value=Description[k]
+						out2.cell(row=2+k,column=4).value=OB[k]
+						out2.cell(row=2+k,column=5).value=DM[k]
+						out2.cell(row=2+k,column=6).value=CM[k]
+						out2.cell(row=2+k,column=7).value=CB[k]
 
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=14).value="=sum(N"+str(12+randuri)+":N"+str(11+len(uniclistglcredit)+randuri)+")"
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=14).font=font2
-					ws3.cell(row=12+len(uniclistglcredit)+randuri,column=14).number_format='#,##0_);(#,##0)'
+					listaunica, listasumed, listasumec = (list(t) for t in zip(*sorted(zip(listaunica, listasumed,listasumec))))
+
+					for l in range(0,len(listaunica)):
+						out.cell(row=11+l,column=2).value=listaunica[l]
+						out.cell(row=11+l,column=3).value=listasumed[l]
+						out.cell(row=11+l,column=3).number_format='#,##0_);(#,##0)'
+						out.cell(row=11+l,column=4).value=listasumec[l]
+						out.cell(row=11+l,column=4).number_format='#,##0_);(#,##0)'
+						out.cell(row=11+l,column=6).value="=SUMIF('Trial Balance'!A:A,B"+str(11+l)+",'Trial Balance'!E:E)"
+						out.cell(row=11+l,column=6).number_format='#,##0_);(#,##0)'
+						out.cell(row=11+l,column=7).value="=SUMIF('Trial Balance'!A:A,B"+str(11+l)+",'Trial Balance'!F:F)"
+						out.cell(row=11+l,column=7).number_format='#,##0_);(#,##0)'
+						out.cell(row=11+l,column=9).value="=F"+str(11+l)+"-C"+str(11+l)
+						out.cell(row=11+l,column=9).font=fontRedDiff
+						out.cell(row=11+l,column=9).number_format='#,##0_);(#,##0)'
+						out.cell(row=11+l,column=10).value="=G"+str(11+l)+"-D"+str(11+l)
+						out.cell(row=11+l,column=10).number_format='#,##0_);(#,##0)'
+						out.cell(row=11+l,column=10).font=fontRedDiff
+
+					out.cell(row=6,column=2).value="Total"
+					out.cell(row=6,column=2).font=font2
+
+					out.cell(row=7,column=3).value="Check"
+					out.cell(row=7,column=3).font=fontRedDiff
+
+					out.cell(row=7,column=6).value="Check"
+					out.cell(row=7,column=6).font=fontRedDiff
+
+					out.cell(row=7,column=9).value="Check"
+					out.cell(row=7,column=9).font=fontRedDiff
+
+
+					out.cell(row=6,column=3).value="=sum(C11:C"+str(len(listaunica)+11)+")"
+					out.cell(row=6,column=3).font=font2
+					out.cell(row=6,column=3).number_format='#,##0_);(#,##0)'
+
+					out.cell(row=6,column=4).value="=sum(D11:D"+str(len(listaunica)+11)+")"
+					out.cell(row=6,column=4).font=font2
+					out.cell(row=6,column=4).number_format='#,##0_);(#,##0)'
+
+					out.cell(row=6,column=6).value="=sum(F11:F"+str(len(listaunica)+11)+")"
+					out.cell(row=6,column=6).font=font2
+					out.cell(row=6,column=6).number_format='#,##0_);(#,##0)'
+
+					out.cell(row=6,column=7).value="=sum(G11:G"+str(len(listaunica)+11)+")"
+					out.cell(row=6,column=7).font=font2
+					out.cell(row=6,column=7).number_format='#,##0_);(#,##0)'
+
+					out.cell(row=6,column=9).value="=sum(I11:I"+str(len(listaunica)+11)+")"
+					out.cell(row=6,column=9).font=fontRedDiff
+					out.cell(row=6,column=9).number_format='#,##0_);(#,##0)'
+
+					out.cell(row=6,column=10).value="=sum(J11:J"+str(len(listaunica)+11)+")"
+					out.cell(row=6,column=10).font=fontRedDiff
+					out.cell(row=6,column=10).number_format='#,##0_);(#,##0)'
+
+
+					out.cell(row=7,column=4).value="=C6-D6"
+					out.cell(row=7,column=4).font=fontRedDiff
+					out.cell(row=7,column=4).number_format='#,##0_);(#,##0)'
+					out.cell(row=7,column=7).value="=F6-G6"
+					out.cell(row=7,column=7).font=fontRedDiff
+					out.cell(row=7,column=7).number_format='#,##0_);(#,##0)'
+
+					out.cell(row=7,column=10).value="=I6-J6"
+					out.cell(row=7,column=10).font=fontRedDiff
+					out.cell(row=7,column=10).number_format='#,##0_);(#,##0)'
+
+					c=out['B11']
+					out.freeze_panes = c
+					out.column_dimensions['B'].width=15
+					out.column_dimensions['C'].width=15
+					out.column_dimensions['D'].width=15
+					out.column_dimensions['E'].width=15
+					out.column_dimensions['F'].width=15
+					out.column_dimensions['G'].width=15
+					out.column_dimensions['H'].width=15
+					out.column_dimensions['I'].width=15
+					out.column_dimensions['J'].width=15
+
+					out.auto_filter.ref = "B10:J"+str(out.max_row)
+					
+					output.save(folderpath+"\\"+str(namec)+"\\Reco JE "+namec+".xlsx")
+					
+				if isChecked2=="":
+					
+					outputmpl=Workbook()
+					listaunicaanalitic=list(set(accountgldebit+accountglcredit))
+					listaunicaanaliticint=[]
+					for i in range(0,len(listaunicaanalitic)):
+						try:
+							listaunicaanalitic[i]=int(listaunicaanalitic[i])
+							listaunicaanaliticint.append(listaunicaanalitic[i])
+						except:
+							pass
+
+					listaunicaanaliticint.sort()
+
+					mpl=outputmpl.active
+					mpl.title="Monthly P&L"
+					mpl.cell(row=1,column=1).value="Client"
+					mpl.cell(row=1,column=1).font=font2
+					mpl.cell(row=2,column=1).value="Period end:"
+					mpl.cell(row=2,column=1).font=font2
+
+					c=mpl['A14']
+					mpl.freeze_panes = c
+
+					mpl.cell(row=4,column=1).value="Monthly P&L"
+					mpl.cell(row=4,column=1).font=font2
+
+					mpl.cell(row=1,column=2).value=namec
+					mpl.cell(row=2,column=2).value=ant
+					mpl.cell(row=2,column=2).number_format='mm/dd/yyyy'
+
+					mpl.cell(row=6,column=4).value="Expenses"
+					mpl.cell(row=7,column=4).value="Revenues"
+					mpl.cell(row=8,column=4).value="Result"
+					mpl.cell(row=9,column=4).value="Acc 121"
+					mpl.cell(row=10,column=4).value="Check"
+					mpl.cell(row=10,column=4).font=fontRedDiff
+
+					mpl.cell(row=5,column=5).value="January"
+					mpl.cell(row=5,column=6).value="February"
+					mpl.cell(row=5,column=7).value="March"
+					mpl.cell(row=5,column=8).value="April"
+					mpl.cell(row=5,column=9).value="May"
+					mpl.cell(row=5,column=10).value="June"
+					mpl.cell(row=5,column=11).value="July"
+					mpl.cell(row=5,column=12).value="August"
+					mpl.cell(row=5,column=13).value="September"
+					mpl.cell(row=5,column=14).value="October"
+					mpl.cell(row=5,column=15).value="November"
+					mpl.cell(row=5,column=16).value="December"
+					mpl.cell(row=5,column=17).value="Total"
+					mpl.cell(row=5,column=18).value="As per TB"
+					mpl.cell(row=5,column=19).value="Difference"
+					for p in range(5,20):
+						mpl.cell(row=5,column=p).border=doubleborder
+						mpl.cell(row=5,column=p).font=font2
+						mpl.cell(row=5,column=p).fill=headerspurple
+
+					for p in range(1,20):
+						mpl.cell(row=13,column=p).border=doubleborder
+						mpl.cell(row=13,column=p).font=font2
+						mpl.cell(row=13,column=p).fill=headerspurple
+					mpl.cell(row=13,column=1).value="Class"
+					mpl.cell(row=13,column=2).value="Synt(3)"
+					mpl.cell(row=13,column=3).value="Account"
+					mpl.cell(row=13,column=4).value="Description"
+					mpl.cell(row=13,column=5).value="January"
+					mpl.cell(row=13,column=6).value="February"
+					mpl.cell(row=13,column=7).value="March"
+					mpl.cell(row=13,column=8).value="April"
+					mpl.cell(row=13,column=9).value="May"
+					mpl.cell(row=13,column=10).value="June"
+					mpl.cell(row=13,column=11).value="July"
+					mpl.cell(row=13,column=12).value="August"
+					mpl.cell(row=13,column=13).value="September"
+					mpl.cell(row=13,column=14).value="October"
+					mpl.cell(row=13,column=15).value="November"
+					mpl.cell(row=13,column=16).value="December"
+					mpl.cell(row=13,column=17).value="Total"
+					mpl.cell(row=13,column=18).value="As per TB"
+					mpl.cell(row=13,column=19).value="Difference"
+					rand=0
+
+					mpltb=outputmpl.create_sheet("Trial Balance")
+					mpltb.cell(row=1,column=1).value="Synt(3)"
+					mpltb.cell(row=1,column=2).value="Account"
+					mpltb.cell(row=1,column=3).value="Description"
+					mpltb.cell(row=1,column=4).value="OB"
+					mpltb.cell(row=1,column=5).value="DM"
+					mpltb.cell(row=1,column=6).value="CM"
+					mpltb.cell(row=1,column=7).value="CB"
+
+
+					for k in range(0,len(Account)):
+								mpltb.cell(row=2+k,column=2).value=Account[k]
+								mpltb.cell(row=2+k,column=1).value=int(str(Account[k])[:3])
+								mpltb.cell(row=2+k,column=3).value=Description[k]
+								mpltb.cell(row=2+k,column=4).value=OB[k]
+								mpltb.cell(row=2+k,column=5).value=DM[k]
+								mpltb.cell(row=2+k,column=6).value=CM[k]
+								mpltb.cell(row=2+k,column=7).value=CB[k]
+								mpltb.cell(row=2+k,column=8).value=str(Account[k])[:1]
+
+					mplje=outputmpl.create_sheet("JE")
+
+
+					mplje.cell(row=1,column=1).value="JE number"
+					mplje.cell(row=1,column=2).value="Date"
+					mplje.cell(row=1,column=3).value="Account Debit"
+					mplje.cell(row=1,column=4).value="Account Credit"
+					mplje.cell(row=1,column=5).value="Amount Debit"
+					mplje.cell(row=1,column=6).value="Amount Credit"
+					mplje.cell(row=1,column=7).value="Month"
+
+					for k in range(0,len(gljenr)):
+						mplje.cell(row=2+k,column=1).value=gljenr[k]
+						mplje.cell(row=2+k,column=2).value=gldate[k]
+						mplje.cell(row=2+k,column=3).value=str(accountgldebit[k])[:3]
+						mplje.cell(row=2+k,column=4).value=str(accountglcredit[k])[:3]
+
+						mplje.cell(row=2+k,column=5).value=glamountdebit[k]
+						mplje.cell(row=2+k,column=6).value=glamountcredit[k]
+						mplje.cell(row=2+k,column=7).value="=month(B"+str(2+k)+")"
+
+
+
+					rand=0
+					for j in range(0,len(listaunica)):
+						if(int(str(listaunica[j])[:1])>5):
+							rand=rand+1
+							mpl.cell(row=13+rand,column=5).number_format='#,##0_);(#,##0)'
+							mpl.cell(row=13+rand,column=6).number_format='#,##0_);(#,##0)'
+							mpl.cell(row=13+rand,column=7).number_format='#,##0_);(#,##0)'
+							mpl.cell(row=13+rand,column=8).number_format='#,##0_);(#,##0)'
+							mpl.cell(row=13+rand,column=9).number_format='#,##0_);(#,##0)'
+							mpl.cell(row=13+rand,column=10).number_format='#,##0_);(#,##0)'
+							mpl.cell(row=13+rand,column=11).number_format='#,##0_);(#,##0)'
+							mpl.cell(row=13+rand,column=12).number_format='#,##0_);(#,##0)'
+							mpl.cell(row=13+rand,column=13).number_format='#,##0_);(#,##0)'
+							mpl.cell(row=13+rand,column=14).number_format='#,##0_);(#,##0)'
+							mpl.cell(row=13+rand,column=15).number_format='#,##0_);(#,##0)'
+							mpl.cell(row=13+rand,column=16).number_format='#,##0_);(#,##0)'
+							mpl.cell(row=13+rand,column=17).number_format='#,##0_);(#,##0)'
+							mpl.cell(row=13+rand,column=18).number_format='#,##0_);(#,##0)'
+							mpl.cell(row=13+rand,column=19).number_format='#,##0_);(#,##0)'
+							
+
+							mpl.cell(row=13+rand,column=3).value=listaunica[j]
+							mpl.cell(row=13+rand,column=2).value=str(listaunica[j])[:3]
+							mpl.cell(row=13+rand,column=1).value=str(listaunica[j])[:1]
+							mpl.cell(row=13+rand,column=4).value="=VLOOKUP(C"+str(13+rand)+",'Trial Balance'!A:C,3,0)"
+							if(str(listaunica[j])[:1]=="6"):
+								mpl.cell(row=13+rand,column=5).value="=SUMIFS(JE!E:E,JE!G:G,1,JE!C:C,C"+str(rand+13)+")"
+								mpl.cell(row=13+rand,column=6).value="=SUMIFS(JE!E:E,JE!G:G,2,JE!C:C,C"+str(rand+13)+")"
+								mpl.cell(row=13+rand,column=7).value="=SUMIFS(JE!E:E,JE!G:G,3,JE!C:C,C"+str(rand+13)+")"
+								mpl.cell(row=13+rand,column=8).value="=SUMIFS(JE!E:E,JE!G:G,4,JE!C:C,C"+str(rand+13)+")"
+								mpl.cell(row=13+rand,column=9).value="=SUMIFS(JE!E:E,JE!G:G,5,JE!C:C,C"+str(rand+13)+")"
+								mpl.cell(row=13+rand,column=10).value="=SUMIFS(JE!E:E,JE!G:G,6,JE!C:C,C"+str(rand+13)+")"
+								mpl.cell(row=13+rand,column=11).value="=SUMIFS(JE!E:E,JE!G:G,7,JE!C:C,C"+str(rand+13)+")"
+								mpl.cell(row=13+rand,column=12).value="=SUMIFS(JE!E:E,JE!G:G,8,JE!C:C,C"+str(rand+13)+")"
+								mpl.cell(row=13+rand,column=13).value="=SUMIFS(JE!E:E,JE!G:G,9,JE!C:C,C"+str(rand+13)+")"
+								mpl.cell(row=13+rand,column=14).value="=SUMIFS(JE!E:E,JE!G:G,10,JE!C:C,C"+str(rand+13)+")"
+								mpl.cell(row=13+rand,column=15).value="=SUMIFS(JE!E:E,JE!G:G,11,JE!C:C,C"+str(rand+13)+")"
+								mpl.cell(row=13+rand,column=16).value="=SUMIFS(JE!E:E,JE!G:G,12,JE!C:C,C"+str(rand+13)+")"
+							else:
+								mpl.cell(row=13+rand,column=5).value="=-SUMIFS(JE!F:F,JE!G:G,1,JE!D:D,C"+str(rand+13)+")"
+								mpl.cell(row=13+rand,column=6).value="=-SUMIFS(JE!F:F,JE!G:G,2,JE!D:D,C"+str(rand+13)+")"
+								mpl.cell(row=13+rand,column=7).value="=-SUMIFS(JE!F:F,JE!G:G,3,JE!D:D,C"+str(rand+13)+")"
+								mpl.cell(row=13+rand,column=8).value="=-SUMIFS(JE!F:F,JE!G:G,4,JE!D:D,C"+str(rand+13)+")"
+								mpl.cell(row=13+rand,column=9).value="=-SUMIFS(JE!F:F,JE!G:G,5,JE!D:D,C"+str(rand+13)+")"
+								mpl.cell(row=13+rand,column=10).value="=-SUMIFS(JE!F:F,JE!G:G,6,JE!D:D,C"+str(rand+13)+")"
+								mpl.cell(row=13+rand,column=11).value="=-SUMIFS(JE!F:F,JE!G:G,7,JE!D:D,C"+str(rand+13)+")"
+								mpl.cell(row=13+rand,column=12).value="=-SUMIFS(JE!F:F,JE!G:G,8,JE!D:D,C"+str(rand+13)+")"
+								mpl.cell(row=13+rand,column=13).value="=-SUMIFS(JE!F:F,JE!G:G,9,JE!D:D,C"+str(rand+13)+")"
+								mpl.cell(row=13+rand,column=14).value="=-SUMIFS(JE!F:F,JE!G:G,10,JE!D:D,C"+str(rand+13)+")"
+								mpl.cell(row=13+rand,column=15).value="=-SUMIFS(JE!F:F,JE!G:G,11,JE!D:D,C"+str(rand+13)+")"
+								mpl.cell(row=13+rand,column=16).value="=-SUMIFS(JE!F:F,JE!G:G,12,JE!D:D,C"+str(rand+13)+")"
+							mpl.cell(row=13+rand,column=17).value="=sum(E"+str(rand+13)+":P"+str(rand+13)+")"
+							mpl.cell(row=13+rand,column=18).value="=SUMIF('Trial Balance'!A:A,+B"+str(rand+13)+",'Trial Balance'!G:G)"
+							mpl.cell(row=13+rand,column=19).value="=Q"+str(rand+13)+"-R"+str(rand+13)
+							mpl.cell(row=13+rand,column=19).font=fontRedDiff
+					mpl.cell(row=6,column=5).value="=SUMIF($A:$A,6,E:E)"
+					mpl.cell(row=6,column=6).value="=SUMIF($A:$A,6,F:F)"
+					mpl.cell(row=6,column=7).value="=SUMIF($A:$A,6,G:G)"
+					mpl.cell(row=6,column=8).value="=SUMIF($A:$A,6,H:H)"
+					mpl.cell(row=6,column=9).value="=SUMIF($A:$A,6,I:I)"
+					mpl.cell(row=6,column=10).value="=SUMIF($A:$A,6,J:J)"
+					mpl.cell(row=6,column=11).value="=SUMIF($A:$A,6,K:K)"
+					mpl.cell(row=6,column=12).value="=SUMIF($A:$A,6,L:L)"
+					mpl.cell(row=6,column=13).value="=SUMIF($A:$A,6,M:M)"
+					mpl.cell(row=6,column=14).value="=SUMIF($A:$A,6,N:N)"
+					mpl.cell(row=6,column=15).value="=SUMIF($A:$A,6,O:O)"
+					mpl.cell(row=6,column=16).value="=SUMIF($A:$A,6,P:P)"
+					mpl.cell(row=7,column=5).value="=SUMIF($A:$A,7,E:E)"
+					mpl.cell(row=7,column=6).value="=SUMIF($A:$A,7,F:F)"
+					mpl.cell(row=7,column=7).value="=SUMIF($A:$A,7,G:G)"
+					mpl.cell(row=7,column=8).value="=SUMIF($A:$A,7,H:H)"
+					mpl.cell(row=7,column=9).value="=SUMIF($A:$A,7,I:I)"
+					mpl.cell(row=7,column=10).value="=SUMIF($A:$A,7,J:J)"
+					mpl.cell(row=7,column=11).value="=SUMIF($A:$A,7,K:K)"
+					mpl.cell(row=7,column=12).value="=SUMIF($A:$A,7,L:L)"
+					mpl.cell(row=7,column=13).value="=SUMIF($A:$A,7,M:M)"
+					mpl.cell(row=7,column=14).value="=SUMIF($A:$A,7,N:N)"
+					mpl.cell(row=7,column=15).value="=SUMIF($A:$A,7,O:O)"
+					mpl.cell(row=7,column=16).value="=SUMIF($A:$A,7,P:P)"
+
+					mpl.cell(row=8,column=5).value="=SUM(E6:E7)"
+					mpl.cell(row=8,column=6).value="=SUM(F6:F7)"
+					mpl.cell(row=8,column=7).value="=SUM(G6:G7)"
+					mpl.cell(row=8,column=8).value="=SUM(H6:H7)"
+					mpl.cell(row=8,column=9).value="=SUM(I6:I7)"
+					mpl.cell(row=8,column=10).value="=SUM(J6:J7)"
+					mpl.cell(row=8,column=11).value="=SUM(K6:K7)"
+					mpl.cell(row=8,column=12).value="=SUM(L6:L7)"
+					mpl.cell(row=8,column=13).value="=SUM(M6:M7)"
+					mpl.cell(row=8,column=14).value="=SUM(N6:N7)"
+					mpl.cell(row=8,column=15).value="=SUM(O6:O7)"
+					mpl.cell(row=8,column=16).value="=SUM(P6:P7)"
+
+					mpl.cell(row=9,column=5).value='=SUMIFS(JE!E:E,JE!G:G,1,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,1,JE!D:D,"121")'
+					mpl.cell(row=9,column=6).value='=SUMIFS(JE!E:E,JE!G:G,2,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,2,JE!D:D,"121")'
+					mpl.cell(row=9,column=7).value='=SUMIFS(JE!E:E,JE!G:G,3,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,3,JE!D:D,"121")'
+					mpl.cell(row=9,column=8).value='=SUMIFS(JE!E:E,JE!G:G,4,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,4,JE!D:D,"121")'
+					mpl.cell(row=9,column=9).value='=SUMIFS(JE!E:E,JE!G:G,5,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,5,JE!D:D,"121")'
+					mpl.cell(row=9,column=10).value='=SUMIFS(JE!E:E,JE!G:G,6,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,6,JE!D:D,"121")'
+					mpl.cell(row=9,column=11).value='=SUMIFS(JE!E:E,JE!G:G,7,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,7,JE!D:D,"121")'
+					mpl.cell(row=9,column=12).value='=SUMIFS(JE!E:E,JE!G:G,8,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,8,JE!D:D,"121")'
+					mpl.cell(row=9,column=13).value='=SUMIFS(JE!E:E,JE!G:G,9,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,9,JE!D:D,"121")'
+					mpl.cell(row=9,column=14).value='=SUMIFS(JE!E:E,JE!G:G,10,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,10,JE!D:D,"121")'
+					mpl.cell(row=9,column=15).value='=SUMIFS(JE!E:E,JE!G:G,11,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,11,JE!D:D,"121")'
+					mpl.cell(row=9,column=16).value='=SUMIFS(JE!E:E,JE!G:G,12,JE!C:C,"121")-SUMIFS(JE!F:F,JE!G:G,12,JE!D:D,"121")'
+
+
+
+					mpl.cell(row=10,column=5).value="=E8-E9"
+					mpl.cell(row=10,column=6).value="=F8-F9"
+					mpl.cell(row=10,column=7).value="=G8-G9"
+					mpl.cell(row=10,column=8).value="=H8-H9"
+					mpl.cell(row=10,column=9).value="=I8-I9"
+					mpl.cell(row=10,column=10).value="=J8-J9"
+					mpl.cell(row=10,column=11).value="=K8-K9"
+					mpl.cell(row=10,column=12).value="=L8-L9"
+					mpl.cell(row=10,column=13).value="=M8-M9"
+					mpl.cell(row=10,column=14).value="=N8-N9"
+					mpl.cell(row=10,column=15).value="=O8-O9"
+					mpl.cell(row=10,column=16).value="=P8-P9"
+					mpl.cell(row=10,column=17).value="=Q8-Q9"
+					mpl.cell(row=10,column=18).value="=R8-R9"
+					mpl.cell(row=6,column=17).value="=sum(E6:P6)"
+					mpl.cell(row=7,column=17).value="=sum(E7:P7)"
+					mpl.cell(row=8,column=17).value="=sum(E8:P8)"
+					mpl.cell(row=9,column=17).value="=sum(E9:P9)"
+					mpl.cell(row=6,column=18).value="=SUMIF('Trial Balance'!H:H,6,'Trial Balance'!G:G)"
+					mpl.cell(row=7,column=18).value="=SUMIF('Trial Balance'!H:H,7,'Trial Balance'!G:G)"
+					mpl.cell(row=8,column=18).value="=SUM(R6:R7)"
+					mpl.cell(row=9,column=18).value="=SUMIF('Trial Balance'!A:A,121,'Trial Balance'!G:G)"
+					mpl.cell(row=6,column=19).value="=Q6-R6"
+					mpl.cell(row=6,column=19).font=fontRedDiff
+					mpl.cell(row=7,column=19).value="=Q7-R7"
+					mpl.cell(row=7,column=19).font=fontRedDiff
+					mpl.cell(row=8,column=19).font=fontRedDiff
+					mpl.cell(row=9,column=19).font=fontRedDiff
+
+					mpl.cell(row=8,column=19).value="=Q8-R8"
+					mpl.cell(row=9,column=19).value="=Q9-R9"
+
+					mpl.cell(row=1,column=1).value="Client:"
+					mpl.cell(row=2,column=1).value="Period End:"
+
+					mpl.cell(row=1,column=2).value=namec
+					mpl.cell(row=2,column=2).value=ant
+					mpl.cell(row=2,column=2).number_format='mm/dd/yyyy'
+
+					mpl.cell(row=1,column=1).font=font2
+					mpl.cell(row=2,column=1).font=font2
+					for ko in range(5,20):
+						mpl.cell(row=10,column=ko).font=fontRedDiff
+						mpl.cell(row=9,column=ko).border=doubleborder
+					for po in range(6,11):
+						for pop in range(5,20):
+							mpl.cell(row=po,column=pop).number_format='#,##0_);(#,##0)'
+					mpl.auto_filter.ref = "A13:S"+str(mpl.max_row)
+					
+					
+					outputmpl.save(folderpath+"\\"+str(namec)+"\\MonthlyPL JE" + " " + namec + ".xlsx")
 					
 
-					ws4=excel.create_sheet("Sheet")
-					ws4.cell(row=1,column=1).value="Month"
-					ws4.cell(row=2,column=1).value="January"
-					ws4.cell(row=3,column=1).value="February"
-					ws4.cell(row=4,column=1).value="March"
-					ws4.cell(row=5,column=1).value="April"
-					ws4.cell(row=6,column=1).value="May"
-					ws4.cell(row=7,column=1).value="June"
-					ws4.cell(row=8,column=1).value="July"
-					ws4.cell(row=9,column=1).value="August"
-					ws4.cell(row=10,column=1).value="September"
-					ws4.cell(row=11,column=1).value="October"
-					ws4.cell(row=12,column=1).value="November"
-					ws4.cell(row=13,column=1).value="December"
-					ws4.cell(row=1,column=2).value="Monthly Trend"
-					ws4.cell(row=2,column=2).value="=Overview!B"+str(12+len(uniclistglcredit)+randuri)
-					ws4.cell(row=3,column=2).value="=Overview!C"+str(12+len(uniclistglcredit)+randuri)
-					ws4.cell(row=4,column=2).value="=Overview!D"+str(12+len(uniclistglcredit)+randuri)
-					ws4.cell(row=5,column=2).value="=Overview!E"+str(12+len(uniclistglcredit)+randuri)
-					ws4.cell(row=6,column=2).value="=Overview!F"+str(12+len(uniclistglcredit)+randuri)
-					ws4.cell(row=7,column=2).value="=Overview!G"+str(12+len(uniclistglcredit)+randuri)
-					ws4.cell(row=8,column=2).value="=Overview!H"+str(12+len(uniclistglcredit)+randuri)
-					ws4.cell(row=9,column=2).value="=Overview!I"+str(12+len(uniclistglcredit)+randuri)
-					ws4.cell(row=10,column=2).value="=Overview!J"+str(12+len(uniclistglcredit)+randuri)
-					ws4.cell(row=11,column=2).value="=Overview!K"+str(12+len(uniclistglcredit)+randuri)
-					ws4.cell(row=12,column=2).value="=Overview!L"+str(12+len(uniclistglcredit)+randuri)
-					ws4.cell(row=13,column=2).value="=Overview!M"+str(12+len(uniclistglcredit)+randuri)
+				if isChecked3=="":
+					
+					for i in range(0,len(listaunica)):
+						if(int(listasumed[i])>int(threshol) and int(str(listaunica[i])[:1])==6):
+							excel=Workbook()
+							ws=excel.active
+							ws.title="Database"
+							ws1=excel.create_sheet("Trial Balance")
+							ws3=excel.create_sheet("Overview")
+							
+							for o in range(1,9):
+								ws.cell(row=1,column=o).border=doubleborder
+								ws.cell(row=1,column=o).font=font2
+								ws.cell(row=1,column=o).fill=headerspurple
+							ws.cell(row=1,column=1).value="JE Number"
+							ws.cell(row=1,column=2).value="Date"
+							ws.cell(row=1,column=3).value="Description"
+							ws.cell(row=1,column=4).value="Account Debit"
+							ws.cell(row=1,column=5).value="Account Credit"
+							ws.cell(row=1,column=6).value="Amount Debit"
+							ws.cell(row=1,column=7).value="Amount Credit"
+							ws.cell(row=1,column=8).value="Month"
+							row=1
+
+							ws1.cell(row=1,column=1).value="Synt(3)"
+							ws1.cell(row=1,column=2).value="Account"
+							ws1.cell(row=1,column=3).value="Description"
+							ws1.cell(row=1,column=4).value="OB"
+							ws1.cell(row=1,column=5).value="DM"
+							ws1.cell(row=1,column=6).value="CM"
+							ws1.cell(row=1,column=7).value="CB"
+
+
+							for k in range(0,len(Account)):
+								ws1.cell(row=2+k,column=2).value=Account[k]
+								ws1.cell(row=2+k,column=1).value=str(Account[k])[:3]
+								ws1.cell(row=2+k,column=3).value=Description[k]
+								ws1.cell(row=2+k,column=4).value=OB[k]
+								ws1.cell(row=2+k,column=5).value=DM[k]
+								ws1.cell(row=2+k,column=6).value=CM[k]
+								ws1.cell(row=2+k,column=7).value=CB[k]
+								ws1.cell(row=2+k,column=8).value=str(Account[k])[:1]
+
+							listagldebit=[]
+							for j in range(0,len(accountgldebit)):
+								if(str(listaunica[i])==str(accountgldebit[j])[0:3]):
+									ws.cell(row=row+1,column=1).value=gljenr[j]
+									ws.cell(row=row+1,column=2).value=gldate[j]
+									# ws.cell(row=row+1,column=3).value=gldate[j]
+									ws.cell(row=row+1,column=4).value=accountgldebit[j]
+									listagldebit.append(accountgldebit[j])
+									ws.cell(row=row+1,column=5).value=accountglcredit[j]
+									ws.cell(row=row+1,column=6).value=glamountdebit[j]
+									ws.cell(row=row+1,column=7).value=glamountcredit[j]
+									ws.cell(row=row+1,column=8).value="=month("+"B"+str(row+1)+")"
+									row=row+1
+
+							ws3.cell(row=1,column=1).value="Client"
+							ws3.cell(row=1,column=1).font=font2
+							ws3.cell(row=2,column=1).font=font2
+							ws3.cell(row=5,column=2).font=font2
+							ws3.cell(row=2,column=1).value="Period End"
+							denis=datetime.datetime.now()
+							ws3.cell(row=1,column=2).value=namec
+							ws3.cell(row=2,column=2).value=ant
+							ws3.cell(row=2,column=2).number_format='mm/dd/yyyy'
+							ws3.cell(row=5,column=2).value="Detail of account  " + str(listaunica[i])
+							ws3.cell(row=8,column=1).value="Account"
+							ws3.cell(row=8,column=2).value="Amount as per Detail"
+							ws3.cell(row=8,column=3).value="Amount as per TB"
+							ws3.cell(row=8,column=4).value="Difference"
+							uniclistgldebit=list(set(listagldebit))
+							for kk in range(0,len(uniclistgldebit)):
+
+								ws3.cell(row=9+kk,column=1).value=uniclistgldebit[kk]
+								ws3.cell(row=9+kk,column=2).value="=SUMIF(Database!D:D,"+"A"+str(kk+9)+",Database!F:F)"
+								ws3.cell(row=9+kk,column=3).value="=SUMIF('Trial Balance'!B:B,"+"A"+str(kk+9)+",'Trial Balance'!G:G)"
+								ws3.cell(row=9+kk,column=4).value="=C"+str(kk+9)+"-"+"B"+str(kk+9)
+								ws3.cell(row=9+kk,column=4).font=fontRedDiff
+								ws3.cell(row=9+kk,column=2).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=9+kk,column=3).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=9+kk,column=4).number_format='#,##0_);(#,##0)'
+							if len(dd)>0:
+								ws3.cell(row=8,column=5).value="Debit Description"
+								ws3.cell(row=8,column=5).fill=headerspurple
+								ws3.cell(row=8,column=5).font=font2
+								ws3.cell(row=8,column=5).border=doubleborder
+								ws3.cell(row=9+kk,column=5).value=dd[i]
+							if len(cd)>0:						
+								ws3.cell(row=8,column=6).value="Credit Description"
+								ws3.cell(row=8,column=6).fill=headerspurple
+								ws3.cell(row=8,column=6).font=font2
+								ws3.cell(row=8,column=6).border=doubleborder
+								ws3.cell(row=9+kk,column=6).value=cd[i]
+							ws3.cell(row=9+len(uniclistgldebit),column=1).value="Total"
+							ws3.cell(row=9+len(uniclistgldebit),column=1).font=font2
+							# print(uniclistgldebit)
+							ws3.cell(row=9+len(uniclistgldebit),column=2).value="=sum(B9:B"+str(len(uniclistgldebit)+8)+")"
+							ws3.cell(row=9+len(uniclistgldebit),column=2).font=font2
+							ws3.cell(row=9+len(uniclistgldebit),column=2).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=9+len(uniclistgldebit),column=3).value="=sum(C9:C"+str(len(uniclistgldebit)+8)+")"
+							ws3.cell(row=9+len(uniclistgldebit),column=3).font=font2
+							ws3.cell(row=9+len(uniclistgldebit),column=3).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=9+len(uniclistgldebit),column=4).value="=sum(D9:D"+str(len(uniclistgldebit)+8)+")"
+							ws3.cell(row=9+len(uniclistgldebit),column=4).font=fontRedDiff
+							ws3.cell(row=9+len(uniclistgldebit),column=4).number_format='#,##0_);(#,##0)'
+
+							for ii in range(1,5):
+								ws3.cell(row=8+len(uniclistgldebit),column=ii).border=doubleborder
+								
+
+							randuri=len(uniclistgldebit)
+							for ii in range(1,5):
+								ws3.cell(row=8,column=ii).border=doubleborder
+								ws3.cell(row=8,column=ii).font=font2
+								ws3.cell(row=8,column=ii).fill=headerspurple
+
+							for ii in range(1,15):
+								ws3.cell(row=11+randuri,column=ii).border=doubleborder
+								ws3.cell(row=11+randuri,column=ii).font=font2
+								ws3.cell(row=11+randuri,column=ii).fill=headerspurple
+								
+							ws3.cell(row=11+randuri,column=1).value="Account"
+							ws3.cell(row=11+randuri,column=2).value="January"
+							ws3.cell(row=11+randuri,column=3).value="February"
+							ws3.cell(row=11+randuri,column=4).value="March"
+							ws3.cell(row=11+randuri,column=5).value="April"
+							ws3.cell(row=11+randuri,column=6).value="May"
+							ws3.cell(row=11+randuri,column=7).value="June"
+							ws3.cell(row=11+randuri,column=8).value="July"
+							ws3.cell(row=11+randuri,column=9).value="August"
+							ws3.cell(row=11+randuri,column=10).value="September"
+							ws3.cell(row=11+randuri,column=11).value="October"
+							ws3.cell(row=11+randuri,column=12).value="November"
+							ws3.cell(row=11+randuri,column=13).value="December"
+							ws3.cell(row=11+randuri,column=14).value="Total"
+
+
+							for z in range(0,len(uniclistgldebit)):
+								ws3.cell(row=12+randuri+z,column=1).value=uniclistgldebit[z]
+								ws3.cell(row=12+randuri+z,column=2).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=3).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=4).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=5).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=6).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=8).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=9).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=10).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=11).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=12).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=13).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=7).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=14).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=2).value="=SUMIFs(Database!F:F,Database!H:H,1,Database!D:D,A"+str(12+randuri+z)+")"
+								ws3.cell(row=12+randuri+z,column=3).value="=SUMIFs(Database!F:F,Database!H:H,2,Database!D:D,A"+str(12+randuri+z)+")"
+								ws3.cell(row=12+randuri+z,column=4).value="=SUMIFs(Database!F:F,Database!H:H,3,Database!D:D,A"+str(12+randuri+z)+")"
+								ws3.cell(row=12+randuri+z,column=5).value="=SUMIFs(Database!F:F,Database!H:H,4,Database!D:D,A"+str(12+randuri+z)+")"
+								ws3.cell(row=12+randuri+z,column=6).value="=SUMIFs(Database!F:F,Database!H:H,5,Database!D:D,A"+str(12+randuri+z)+")"
+								ws3.cell(row=12+randuri+z,column=7).value="=SUMIFs(Database!F:F,Database!H:H,6,Database!D:D,A"+str(12+randuri+z)+")"
+								ws3.cell(row=12+randuri+z,column=8).value="=SUMIFs(Database!F:F,Database!H:H,7,Database!D:D,A"+str(12+randuri+z)+")"
+								ws3.cell(row=12+randuri+z,column=9).value="=SUMIFs(Database!F:F,Database!H:H,8,Database!D:D,A"+str(12+randuri+z)+")"
+								ws3.cell(row=12+randuri+z,column=10).value="=SUMIFs(Database!F:F,Database!H:H,9,Database!D:D,A"+str(12+randuri+z)+")"
+								ws3.cell(row=12+randuri+z,column=11).value="=SUMIFs(Database!F:F,Database!H:H,10,Database!D:D,A"+str(12+randuri+z)+")"
+								ws3.cell(row=12+randuri+z,column=12).value="=SUMIFs(Database!F:F,Database!H:H,11,Database!D:D,A"+str(12+randuri+z)+")"
+								ws3.cell(row=12+randuri+z,column=13).value="=SUMIFs(Database!F:F,Database!H:H,12,Database!D:D,A"+str(12+randuri+z)+")"
+								ws3.cell(row=12+randuri+z,column=14).value="=sum(B"+str(12+randuri+z)+":M"+str(12+randuri+z)+")"
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=1).value="Total"
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=1).font=font2
+
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=2).value="=sum(B"+str(12+randuri)+":B"+str(11+len(uniclistgldebit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=2).font=font2
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=2).number_format='#,##0_);(#,##0)'
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=3).value="=sum(C"+str(12+randuri)+":C"+str(11+len(uniclistgldebit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=3).font=font2
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=3).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=4).value="=sum(D"+str(12+randuri)+":D"+str(11+len(uniclistgldebit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=4).font=font2
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=4).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=5).value="=sum(E"+str(12+randuri)+":E"+str(11+len(uniclistgldebit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=5).font=font2
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=5).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=6).value="=sum(F"+str(12+randuri)+":F"+str(11+len(uniclistgldebit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=6).font=font2
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=6).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=7).value="=sum(G"+str(12+randuri)+":G"+str(11+len(uniclistgldebit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=7).font=font2
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=7).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=8).value="=sum(H"+str(12+randuri)+":H"+str(11+len(uniclistgldebit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=8).font=font2
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=8).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=9).value="=sum(I"+str(12+randuri)+":I"+str(11+len(uniclistgldebit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=9).font=font2
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=9).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=10).value="=sum(J"+str(12+randuri)+":J"+str(11+len(uniclistgldebit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=10).font=font2
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=10).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=11).value="=sum(K"+str(12+randuri)+":K"+str(11+len(uniclistgldebit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=11).font=font2
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=11).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=12).value="=sum(L"+str(12+randuri)+":L"+str(11+len(uniclistgldebit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=12).font=font2
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=12).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=13).value="=sum(M"+str(12+randuri)+":M"+str(11+len(uniclistgldebit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=13).font=font2
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=13).number_format='#,##0_);(#,##0)'
+							
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=14).value="=sum(N"+str(12+randuri)+":N"+str(11+len(uniclistgldebit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=14).font=font2
+							ws3.cell(row=12+len(uniclistgldebit)+randuri,column=14).number_format='#,##0_);(#,##0)'
+							
+							for ii in range(1,15):
+								ws3.cell(row=11+len(uniclistgldebit)+randuri,column=ii).border=doubleborder
+
+							ws3.column_dimensions['A'].width=15
+							ws3.column_dimensions['B'].width=15
+							ws3.column_dimensions['C'].width=15
+							ws3.column_dimensions['D'].width=15
+							ws3.column_dimensions['E'].width=15
+							ws3.column_dimensions['F'].width=15
+							ws3.column_dimensions['G'].width=15
+							ws3.column_dimensions['H'].width=15
+							ws3.column_dimensions['I'].width=15
+							ws3.column_dimensions['J'].width=15
+							ws3.column_dimensions['K'].width=15
+							ws3.column_dimensions['L'].width=15
+							ws3.column_dimensions['M'].width=15
+
+
+
+							ws4=excel.create_sheet("Sheet")
+							ws4.cell(row=1,column=1).value="Month"
+							ws4.cell(row=2,column=1).value="January"
+							ws4.cell(row=3,column=1).value="February"
+							ws4.cell(row=4,column=1).value="March"
+							ws4.cell(row=5,column=1).value="April"
+							ws4.cell(row=6,column=1).value="May"
+							ws4.cell(row=7,column=1).value="June"
+							ws4.cell(row=8,column=1).value="July"
+							ws4.cell(row=9,column=1).value="August"
+							ws4.cell(row=10,column=1).value="September"
+							ws4.cell(row=11,column=1).value="October"
+							ws4.cell(row=12,column=1).value="November"
+							ws4.cell(row=13,column=1).value="December"
+							ws4.cell(row=1,column=2).value="Monthly Trend"
+							ws4.cell(row=2,column=2).value="=Overview!B"+str(12+len(uniclistgldebit)+randuri)
+							ws4.cell(row=3,column=2).value="=Overview!C"+str(12+len(uniclistgldebit)+randuri)
+							ws4.cell(row=4,column=2).value="=Overview!D"+str(12+len(uniclistgldebit)+randuri)
+							ws4.cell(row=5,column=2).value="=Overview!E"+str(12+len(uniclistgldebit)+randuri)
+							ws4.cell(row=6,column=2).value="=Overview!F"+str(12+len(uniclistgldebit)+randuri)
+							ws4.cell(row=7,column=2).value="=Overview!G"+str(12+len(uniclistgldebit)+randuri)
+							ws4.cell(row=8,column=2).value="=Overview!H"+str(12+len(uniclistgldebit)+randuri)
+							ws4.cell(row=9,column=2).value="=Overview!I"+str(12+len(uniclistgldebit)+randuri)
+							ws4.cell(row=10,column=2).value="=Overview!J"+str(12+len(uniclistgldebit)+randuri)
+							ws4.cell(row=11,column=2).value="=Overview!K"+str(12+len(uniclistgldebit)+randuri)
+							ws4.cell(row=12,column=2).value="=Overview!L"+str(12+len(uniclistgldebit)+randuri)
+							ws4.cell(row=13,column=2).value="=Overview!M"+str(12+len(uniclistgldebit)+randuri)
+
+
+							values = Reference(ws4,
+									min_col=2,  # I
+									max_col=2,  # T
+									min_row=1,
+									max_row=13)
+							labels=Reference(ws4,
+									min_col=1,  # I
+									max_col=1,  # T
+									min_row=2,
+									max_row=13)
+
+							chart = LineChart()
+							chart.add_data(values, titles_from_data=True)
+							chart.set_categories(labels)
+
+							chart.title = "Monthly Amount for account " + str(listaunica[i])
+							chart.x_axis.title = ""
+							chart.y_axis.title = "" 
+							ws3.add_chart(chart, "A"+str(14+len(uniclistgldebit)+randuri))
+							ws4.sheet_state='hidden'
+							myorder=[2,0,1,3]
+							
+							excel._sheets =[excel._sheets[i] for i in myorder]
+							excel.save(folderpath+"/"+str(namec)+"/"+str(listaunica[i])+"db.xlsx")
+							
+						if(int(listasumec[i])>int(threshol) and int(str(listaunica[i])[:1])==7):
+							excel=Workbook()
+							ws=excel.active
+							ws.title="Database"
+							ws1=excel.create_sheet("Trial Balance")
+							ws3=excel.create_sheet("Overview")
+
+							for o in range(1,9):
+								ws.cell(row=1,column=o).border=doubleborder
+								ws.cell(row=1,column=o).font=font2
+								ws.cell(row=1,column=o).fill=headerspurple
+							ws.cell(row=1,column=1).value="JE Number"
+							ws.cell(row=1,column=2).value="Date"
+							ws.cell(row=1,column=3).value="Description"
+							ws.cell(row=1,column=4).value="Account Debit"
+							ws.cell(row=1,column=5).value="Account Credit"
+							ws.cell(row=1,column=6).value="Amount Debit"
+							ws.cell(row=1,column=7).value="Amount Credit"
+							ws.cell(row=1,column=8).value="Month"
+							row=1
+
+							ws1.cell(row=1,column=1).value="Synt(3)"
+							ws1.cell(row=1,column=2).value="Account"
+							ws1.cell(row=1,column=3).value="Description"
+							ws1.cell(row=1,column=4).value="OB"
+							ws1.cell(row=1,column=5).value="DM"
+							ws1.cell(row=1,column=6).value="CM"
+							ws1.cell(row=1,column=7).value="CB"
+
+							for k in range(0,len(Account)):
+								ws1.cell(row=2+k,column=2).value=Account[k]
+								ws1.cell(row=2+k,column=1).value=str(Account[k])[:3]
+								ws1.cell(row=2+k,column=3).value=Description[k]
+								ws1.cell(row=2+k,column=4).value=OB[k]
+								ws1.cell(row=2+k,column=5).value=DM[k]
+								ws1.cell(row=2+k,column=6).value=CM[k]
+								ws1.cell(row=2+k,column=7).value=CB[k]
+							listaglcredit=[]
+							for j in range(0,len(accountglcredit)):
+								if(str(listaunica[i])==str(accountglcredit[j])[0:3]):
+									ws.cell(row=row+1,column=1).value=gljenr[j]
+									ws.cell(row=row+1,column=2).value=gldate[j]
+									ws.cell(row=row+1,column=4).value=accountgldebit[j]
+									ws.cell(row=row+1,column=5).value=accountglcredit[j]
+									listaglcredit.append(accountglcredit[j])
+									ws.cell(row=row+1,column=6).value=glamountdebit[j]
+									ws.cell(row=row+1,column=7).value=glamountcredit[j]
+									ws.cell(row=row+1,column=8).value="=month("+"B"+str(row+1)+")"
+									row=row+1
+							ws3.cell(row=1,column=1).value="Client"	
+							ws3.cell(row=1,column=1).font=font2
+							ws3.cell(row=2,column=1).font=font2
+							ws3.cell(row=5,column=2).font=font2	
+							ws3.cell(row=2,column=1).value="Period End"
+							ws3.cell(row=1,column=2).value=namec
+							ws3.cell(row=2,column=2).value=ant
+							ws3.cell(row=2,column=2).number_format='mm/dd/yyyy'
+							ws3.cell(row=5,column=2).value="Detail of account " + str(listaunica[i])
+							ws3.cell(row=8,column=1).value="Account"
+							ws3.cell(row=8,column=2).value="Amount as per Detail"
+							ws3.cell(row=8,column=3).value="Amount as per TB"
+							ws3.cell(row=8,column=4).value="Difference"
+							uniclistglcredit=list(set(listaglcredit))
+							for z in range(0,len(uniclistglcredit)):
+								ws3.cell(row=9+z,column=1).value=uniclistglcredit[z]
+								ws3.cell(row=9+z,column=2).value="=-SUMIF(Database!E:E,"+"A"+str(z+9)+",Database!G:G)"
+								ws3.cell(row=9+z,column=2).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=9+z,column=3).value="=SUMIF('Trial Balance'!B:B,"+"A"+str(z+9)+",'Trial Balance'!G:G)"
+								ws3.cell(row=9+z,column=3).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=9+z,column=4).value="=C"+str(z+9)+"-"+"B"+str(z+9)
+								ws3.cell(row=9+z,column=4).font=fontRedDiff
+								ws3.cell(row=9+z,column=4).number_format='#,##0_);(#,##0)'
+							for ii in range(1,5):
+								ws3.cell(row=8,column=ii).border=doubleborder
+								ws3.cell(row=8,column=ii).font=font2
+								ws3.cell(row=8,column=ii).fill=headerspurple
+							ws3.cell(row=9+len(uniclistglcredit),column=1).value="Total"
+							ws3.cell(row=9+len(uniclistglcredit),column=1).font=font2
+
+							ws3.cell(row=9+len(uniclistglcredit),column=2).value="=sum(B9:B"+str(len(uniclistglcredit)+8)+")"
+							ws3.cell(row=9+len(uniclistglcredit),column=2).font=font2
+							ws3.cell(row=9+len(uniclistglcredit),column=2).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=9+len(uniclistglcredit),column=3).value="=sum(C9:C"+str(len(uniclistglcredit)+8)+")"
+							ws3.cell(row=9+len(uniclistglcredit),column=3).font=font2
+							ws3.cell(row=9+len(uniclistglcredit),column=3).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=9+len(uniclistglcredit),column=4).value="=sum(D9:D"+str(len(uniclistglcredit)+8)+")"
+							ws3.cell(row=9+len(uniclistglcredit),column=4).font=fontRedDiff
+							ws3.cell(row=9+len(uniclistglcredit),column=4).number_format='#,##0_);(#,##0)'
+
+							for ii in range(1,5):
+								ws3.cell(row=8+len(uniclistglcredit),column=ii).border=doubleborder
+							randuri=len(uniclistglcredit)
+
+							for ii in range(1,15):
+								ws3.cell(row=11+randuri,column=ii).border=doubleborder
+								ws3.cell(row=11+randuri,column=ii).font=font2
+								ws3.cell(row=11+randuri,column=ii).fill=headerspurple
+
+							ws3.cell(row=11+randuri,column=1).value="Account"
+							ws3.cell(row=11+randuri,column=2).value="January"
+							ws3.cell(row=11+randuri,column=3).value="February"
+							ws3.cell(row=11+randuri,column=4).value="March"
+							ws3.cell(row=11+randuri,column=5).value="April"
+							ws3.cell(row=11+randuri,column=6).value="May"
+							ws3.cell(row=11+randuri,column=7).value="June"
+							ws3.cell(row=11+randuri,column=8).value="July"
+							ws3.cell(row=11+randuri,column=9).value="August"
+							ws3.cell(row=11+randuri,column=10).value="September"
+							ws3.cell(row=11+randuri,column=11).value="October"
+							ws3.cell(row=11+randuri,column=12).value="November"
+							ws3.cell(row=11+randuri,column=13).value="December"
+							ws3.cell(row=11+randuri,column=14).value="Total"
+
+							for z in range(0,len(uniclistglcredit)):
+								ws3.cell(row=12+randuri+z,column=2).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=3).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=4).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=5).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=6).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=8).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=9).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=10).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=11).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=12).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=13).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=14).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=7).number_format='#,##0_);(#,##0)'
+								ws3.cell(row=12+randuri+z,column=1).value=uniclistglcredit[z]
+								ws3.cell(row=12+randuri+z,column=2).value="=SUMIFs(Database!G:G,Database!H:H,1,Database!E:E,A"+str(12+randuri+z)+")"
+								ws3.cell(row=12+randuri+z,column=3).value="=SUMIFs(Database!G:G,Database!H:H,2,Database!E:E,A"+str(12+randuri+z)+")"
+								ws3.cell(row=12+randuri+z,column=4).value="=SUMIFs(Database!G:G,Database!H:H,3,Database!E:E,A"+str(12+randuri+z)+")"
+								ws3.cell(row=12+randuri+z,column=5).value="=SUMIFs(Database!G:G,Database!H:H,4,Database!E:E,A"+str(12+randuri+z)+")"
+								ws3.cell(row=12+randuri+z,column=6).value="=SUMIFs(Database!G:G,Database!H:H,5,Database!E:E,A"+str(12+randuri+z)+")"
+								ws3.cell(row=12+randuri+z,column=7).value="=SUMIFs(Database!G:G,Database!H:H,6,Database!E:E,A"+str(12+randuri+z)+")"
+								ws3.cell(row=12+randuri+z,column=8).value="=SUMIFs(Database!G:G,Database!H:H,7,Database!E:E,A"+str(12+randuri+z)+")"
+								ws3.cell(row=12+randuri+z,column=9).value="=SUMIFs(Database!G:G,Database!H:H,8,Database!E:E,A"+str(12+randuri+z)+")"
+								ws3.cell(row=12+randuri+z,column=10).value="=SUMIFs(Database!G:G,Database!H:H,9,Database!E:E,A"+str(12+randuri+z)+")"
+								ws3.cell(row=12+randuri+z,column=11).value="=SUMIFs(Database!G:G,Database!H:H,10,Database!E:E,A"+str(12+randuri+z)+")"
+								ws3.cell(row=12+randuri+z,column=12).value="=SUMIFs(Database!G:G,Database!H:H,11,Database!E:E,A"+str(12+randuri+z)+")"
+								ws3.cell(row=12+randuri+z,column=13).value="=SUMIFs(Database!G:G,Database!H:H,12,Database!E:E,A"+str(12+randuri+z)+")"
+								ws3.cell(row=12+randuri+z,column=14).value="=sum(B"+str(12+randuri+z)+":M"+str(12+randuri+z)+")"
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=1).value="Total"
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=1).font=font2
+
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=2).value="=sum(B"+str(12+randuri)+":B"+str(11+len(uniclistglcredit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=2).font=font2
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=2).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=3).value="=sum(C"+str(12+randuri)+":C"+str(11+len(uniclistglcredit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=3).font=font2
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=3).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=4).value="=sum(D"+str(12+randuri)+":D"+str(11+len(uniclistglcredit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=4).font=font2
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=4).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=5).value="=sum(E"+str(12+randuri)+":E"+str(11+len(uniclistglcredit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=5).font=font2
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=5).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=6).value="=sum(F"+str(12+randuri)+":F"+str(11+len(uniclistglcredit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=6).font=font2
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=6).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=7).value="=sum(G"+str(12+randuri)+":G"+str(11+len(uniclistglcredit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=7).font=font2
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=7).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=8).value="=sum(H"+str(12+randuri)+":H"+str(11+len(uniclistglcredit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=8).font=font2
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=8).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=9).value="=sum(I"+str(12+randuri)+":I"+str(11+len(uniclistglcredit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=9).font=font2
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=9).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=10).value="=sum(J"+str(12+randuri)+":J"+str(11+len(uniclistglcredit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=10).font=font2
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=10).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=11).value="=sum(K"+str(12+randuri)+":K"+str(11+len(uniclistglcredit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=11).font=font2
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=11).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=12).value="=sum(L"+str(12+randuri)+":L"+str(11+len(uniclistglcredit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=12).font=font2
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=12).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=13).value="=sum(M"+str(12+randuri)+":M"+str(11+len(uniclistglcredit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=13).font=font2
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=13).number_format='#,##0_);(#,##0)'
+
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=14).value="=sum(N"+str(12+randuri)+":N"+str(11+len(uniclistglcredit)+randuri)+")"
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=14).font=font2
+							ws3.cell(row=12+len(uniclistglcredit)+randuri,column=14).number_format='#,##0_);(#,##0)'
+							
+
+							ws4=excel.create_sheet("Sheet")
+							ws4.cell(row=1,column=1).value="Month"
+							ws4.cell(row=2,column=1).value="January"
+							ws4.cell(row=3,column=1).value="February"
+							ws4.cell(row=4,column=1).value="March"
+							ws4.cell(row=5,column=1).value="April"
+							ws4.cell(row=6,column=1).value="May"
+							ws4.cell(row=7,column=1).value="June"
+							ws4.cell(row=8,column=1).value="July"
+							ws4.cell(row=9,column=1).value="August"
+							ws4.cell(row=10,column=1).value="September"
+							ws4.cell(row=11,column=1).value="October"
+							ws4.cell(row=12,column=1).value="November"
+							ws4.cell(row=13,column=1).value="December"
+							ws4.cell(row=1,column=2).value="Monthly Trend"
+							ws4.cell(row=2,column=2).value="=Overview!B"+str(12+len(uniclistglcredit)+randuri)
+							ws4.cell(row=3,column=2).value="=Overview!C"+str(12+len(uniclistglcredit)+randuri)
+							ws4.cell(row=4,column=2).value="=Overview!D"+str(12+len(uniclistglcredit)+randuri)
+							ws4.cell(row=5,column=2).value="=Overview!E"+str(12+len(uniclistglcredit)+randuri)
+							ws4.cell(row=6,column=2).value="=Overview!F"+str(12+len(uniclistglcredit)+randuri)
+							ws4.cell(row=7,column=2).value="=Overview!G"+str(12+len(uniclistglcredit)+randuri)
+							ws4.cell(row=8,column=2).value="=Overview!H"+str(12+len(uniclistglcredit)+randuri)
+							ws4.cell(row=9,column=2).value="=Overview!I"+str(12+len(uniclistglcredit)+randuri)
+							ws4.cell(row=10,column=2).value="=Overview!J"+str(12+len(uniclistglcredit)+randuri)
+							ws4.cell(row=11,column=2).value="=Overview!K"+str(12+len(uniclistglcredit)+randuri)
+							ws4.cell(row=12,column=2).value="=Overview!L"+str(12+len(uniclistglcredit)+randuri)
+							ws4.cell(row=13,column=2).value="=Overview!M"+str(12+len(uniclistglcredit)+randuri)
 
 
 
 
-					for ii in range(1,15):
-						ws3.cell(row=11+len(uniclistglcredit)+randuri,column=ii).border=doubleborder
-						
-					ws3.column_dimensions['A'].width=15
-					ws3.column_dimensions['B'].width=15
-					ws3.column_dimensions['C'].width=15
-					ws3.column_dimensions['D'].width=15
-					ws3.column_dimensions['E'].width=15
-					ws3.column_dimensions['F'].width=15
-					ws3.column_dimensions['G'].width=15
-					ws3.column_dimensions['H'].width=15
-					ws3.column_dimensions['I'].width=15
-					ws3.column_dimensions['J'].width=15
-					ws3.column_dimensions['K'].width=15
-					ws3.column_dimensions['L'].width=15
-					ws3.column_dimensions['M'].width=15
+							for ii in range(1,15):
+								ws3.cell(row=11+len(uniclistglcredit)+randuri,column=ii).border=doubleborder
+								
+							ws3.column_dimensions['A'].width=15
+							ws3.column_dimensions['B'].width=15
+							ws3.column_dimensions['C'].width=15
+							ws3.column_dimensions['D'].width=15
+							ws3.column_dimensions['E'].width=15
+							ws3.column_dimensions['F'].width=15
+							ws3.column_dimensions['G'].width=15
+							ws3.column_dimensions['H'].width=15
+							ws3.column_dimensions['I'].width=15
+							ws3.column_dimensions['J'].width=15
+							ws3.column_dimensions['K'].width=15
+							ws3.column_dimensions['L'].width=15
+							ws3.column_dimensions['M'].width=15
 
 
 
-					values = Reference(ws4,
-							min_col=2,  # I
-							max_col=2,  # T
-							min_row=1,
-							max_row=13)
-					labels=Reference(ws4,
-							min_col=1,  # I
-							max_col=1,  # T
-							min_row=2,
-							max_row=13)
+							values = Reference(ws4,
+									min_col=2,  # I
+									max_col=2,  # T
+									min_row=1,
+									max_row=13)
+							labels=Reference(ws4,
+									min_col=1,  # I
+									max_col=1,  # T
+									min_row=2,
+									max_row=13)
 
-					chart = LineChart()
-					chart.add_data(values, titles_from_data=True)
-					chart.set_categories(labels)
+							chart = LineChart()
+							chart.add_data(values, titles_from_data=True)
+							chart.set_categories(labels)
 
-					chart.title = "Monthly Amount for account " + str(listaunica[i])
-					chart.x_axis.title = ""
-					chart.y_axis.title = "" 
-					ws3.add_chart(chart, "A"+str(14+len(uniclistglcredit)+randuri))
-					ws4.sheet_state='hidden'
-					myorder=[2,0,1,3]
-					folderpath="/home/auditappnexia/output/je"
-					excel._sheets =[excel._sheets[i] for i in myorder]
-					excel.save(folderpath+"/"+str(namec)+"/"+str(listaunica[i])+"db.xlsx")
-		make_archive("/home/auditappnexia/output/je/"+str(namec),"/home/auditappnexia/output/je/"+str(namec)+"/JE "+namec+".zip")                
-				# shutil.make_archive(name, format, archive_from, archive_to)
-		file_pathFS = os.path.join(folderpath, namec)    
-		return send_from_directory(file_pathFS,"JE "+ namec+".zip",as_attachment=True)    
-		
+							chart.title = "Monthly Amount for account " + str(listaunica[i])
+							chart.x_axis.title = ""
+							chart.y_axis.title = "" 
+							ws3.add_chart(chart, "A"+str(14+len(uniclistglcredit)+randuri))
+							ws4.sheet_state='hidden'
+							myorder=[2,0,1,3]
+							folderpath="/home/auditappnexia/output/je"
+							excel._sheets =[excel._sheets[i] for i in myorder]
+							excel.save(folderpath+"\\"+str(namec)+"\\"+str(listaunica[i])+"db.xlsx")
+				make_archive("/home/auditappnexia/output/je"+str(namec),"/home/auditappnexia/output/je"+str(namec)+"\\JE "+namec+".zip")                
+						# shutil.make_archive(name, format, archive_from, archive_to)
+				file_pathFS = os.path.join(folderpath, namec)    
+				return send_from_directory(file_pathFS,"JE "+ namec+".zip",as_attachment=True)  		
 			
 	return render_template('JE.html')
 @app.route('/Payroll/Instructions', methods=['GET'])
@@ -11513,6 +12870,7 @@ def payroll_process():
 	refference1 = request.form['reff']
 	currYear1 = request.form['CY']
 	prevYear1 = request.form['PY']
+	denis=datetime.datetime.now()
 
 	if request.method == 'POST':
 		# file_Details = request.file('monthlyTB')
@@ -11667,7 +13025,7 @@ def payroll_process():
 		Sheet1.cell(row=27, column=1).value ="Payroll and related taxes understated or not recorded in correct period (e.g., accruals, prepaids, etc.)."
 
 		Sheet1.cell(row=30, column=1).value = "Work done (description of procedures performed)"
-		Sheet1.cell(row=32, column=1).value = "V10.1 Payroll Analysis"
+		Sheet1.cell(row=32, column=1).value = "Payroll Analysis"
 		Sheet1.cell(row=33, column=1).value ="We made variations for this account by comparing current year with the prior year;"
 		Sheet1.cell(row=34, column=1).value ="We obtained the monthly number of the employees for "+prevYear1 +" and "+currYear1 +"; "
 		Sheet1.cell(row=35, column=1).value ="We divided the value of payroll costs to the no. of employees to obtain the monthly averge salary for "+prevYear1 + " and " +currYear1+";"
@@ -11687,13 +13045,13 @@ def payroll_process():
 		Sheet1.cell(row=49, column=1).value ="We obtained the montly payroll expenses for current year;"
 		Sheet1.cell(row=50, column=1).value ="We checked if the monthly payroll expense recorded by the Company is equal to the salary from the monthly payroll sheet;"
 
-		Sheet1.cell(row=52, column=1).value = "V10.5 Meal Tickets Reasonableness"
+		Sheet1.cell(row=52, column=1).value = "Meal Tickets Reasonableness"
 		Sheet1.cell(row=53, column=1).value ="We obtained the number of monthy meal tickets provided to Company employees;"
 		Sheet1.cell(row=54, column=1).value ="According to Romanian Legislation the Companies can spend between 9.57 and 20 RON/ ticket;"
 		Sheet1.cell(row=55, column=1).value ="The value of the tickets is established, internally at RON XX/ticket;"
 		Sheet1.cell(row=56, column=1).value ="We have recomputed the monthly M.T expense based on the info received;"
 
-		Sheet1.cell(row=58, column=1).value = "V10.6 Untaken Holiday "
+		Sheet1.cell(row=58, column=1).value = "Untaken Holiday "
 		Sheet1.cell(row=59, column=1).value ="We obtained the detail of untaken holidays from the client;"
 		Sheet1.cell(row=60, column=1).value ="We recomputed the provision amount, based on the information received;"
 		Sheet1.cell(row=61, column=1).value ="We reconciled the recalculated amounts with the ones in the Trial Balance. "
@@ -12018,7 +13376,7 @@ def payroll_process():
 		Sheet2.cell(row=1, column=2).font = font_worksheet
 		Sheet2.cell(row=2, column=2).font = font_worksheet
 
-		Sheet3 = wb.create_sheet("V10.1 Payroll Analysis")
+		Sheet3 = wb.create_sheet("Payroll Analysis")
 
 		Sheet3.sheet_view.showGridLines = False
 
@@ -13024,7 +14382,7 @@ def payroll_process():
 		pbc = openpyxl.load_workbook(openPBC, data_only=True)
 		pbc_1 = pbc.active
 
-		Sheet4 = wb.create_sheet("V10.2 Contribution Reaso")
+		Sheet4 = wb.create_sheet("Contribution Reaso")
 
 		Sheet4.sheet_view.showGridLines = False
 
@@ -13149,18 +14507,18 @@ def payroll_process():
 		Sheet4.cell(row=17, column=18).value = "=SUMIF('TB 12'!A:A,646,'TB 12'!H:H)"
 		Sheet4.cell(row=17, column=19).value = "=R17-Q17"
 
-		Sheet4.cell(row=21, column=5).value = "='V10.1 Payroll Analysis'!E33"
-		Sheet4.cell(row=21, column=6).value = "='V10.1 Payroll Analysis'!F33"
-		Sheet4.cell(row=21, column=7).value = "='V10.1 Payroll Analysis'!G33"
-		Sheet4.cell(row=21, column=8).value = "='V10.1 Payroll Analysis'!H33"
-		Sheet4.cell(row=21, column=9).value = "='V10.1 Payroll Analysis'!I33"
-		Sheet4.cell(row=21, column=10).value = "='V10.1 Payroll Analysis'!J33"
-		Sheet4.cell(row=21, column=11).value = "='V10.1 Payroll Analysis'!K33"
-		Sheet4.cell(row=21, column=12).value = "='V10.1 Payroll Analysis'!L33"
-		Sheet4.cell(row=21, column=13).value = "='V10.1 Payroll Analysis'!M33"
-		Sheet4.cell(row=21, column=14).value = "='V10.1 Payroll Analysis'!N33"
-		Sheet4.cell(row=21, column=15).value = "='V10.1 Payroll Analysis'!O33"
-		Sheet4.cell(row=21, column=16).value = "='V10.1 Payroll Analysis'!P33"
+		Sheet4.cell(row=21, column=5).value = "='Payroll Analysis'!E33"
+		Sheet4.cell(row=21, column=6).value = "='Payroll Analysis'!F33"
+		Sheet4.cell(row=21, column=7).value = "='Payroll Analysis'!G33"
+		Sheet4.cell(row=21, column=8).value = "='Payroll Analysis'!H33"
+		Sheet4.cell(row=21, column=9).value = "='Payroll Analysis'!I33"
+		Sheet4.cell(row=21, column=10).value = "='Payroll Analysis'!J33"
+		Sheet4.cell(row=21, column=11).value = "='Payroll Analysis'!K33"
+		Sheet4.cell(row=21, column=12).value = "='Payroll Analysis'!L33"
+		Sheet4.cell(row=21, column=13).value = "='Payroll Analysis'!M33"
+		Sheet4.cell(row=21, column=14).value = "='Payroll Analysis'!N33"
+		Sheet4.cell(row=21, column=15).value = "='Payroll Analysis'!O33"
+		Sheet4.cell(row=21, column=16).value = "='Payroll Analysis'!P33"
 
 		Sheet4.cell(row=21, column=17).value = "=SUM(E21:P21)"
 		Sheet4.cell(row=21, column=18).value = "=SUMIF('TB 12'!A:A,641,'TB 12'!H:H)"
@@ -13537,7 +14895,7 @@ def payroll_process():
 		Sheet4.column_dimensions['V'].width = 15
 		Sheet4.column_dimensions['W'].width = 15
 
-		Sheet5 = wb.create_sheet("V10.3 D112")
+		Sheet5 = wb.create_sheet("D112")
 
 		Sheet5.sheet_view.showGridLines = False
 
@@ -13797,7 +15155,7 @@ def payroll_process():
 			for cell in row:
 				cell.border = border_centered
 
-		Sheet6 = wb.create_sheet("V10.4 Payroll Reconciliation")
+		Sheet6 = wb.create_sheet("Payroll Reconciliation")
 
 		Sheet6.sheet_view.showGridLines = False
 
@@ -14051,7 +15409,7 @@ def payroll_process():
 		Sheet6.column_dimensions['F'].width = 20
 		Sheet6.column_dimensions['G'].width = 10
 
-		Sheet7 = wb.create_sheet("V10.5 Meal tickets ")
+		Sheet7 = wb.create_sheet("Meal tickets ")
 
 		Sheet7.sheet_view.showGridLines = False
 
@@ -14124,7 +15482,7 @@ def payroll_process():
 		Sheet7.cell(row=29, column=20).value = "Variation %"
 
 		# formule
-		Sheet7.cell(row=19, column=3).value = "='V10.1 Payroll Analysis'!U23"
+		Sheet7.cell(row=19, column=3).value = "='Payroll Analysis'!U23"
 		Sheet7.cell(row=24, column=3).value = "=C21-C22"
 		Sheet7.cell(row=25, column=3).value = "=C19*C20*C24"
 		Sheet7.cell(row=26, column=3).value = "=C25-P30"
@@ -14366,7 +15724,7 @@ def payroll_process():
 		Sheet7.column_dimensions['P'].width = 15
 		Sheet7.column_dimensions['R'].width = 15
 
-		Sheet8 = wb.create_sheet("V10.6 Untaken Holiday")
+		Sheet8 = wb.create_sheet("Untaken Holiday")
 
 		Sheet8.sheet_view.showGridLines = False
 
@@ -14413,7 +15771,7 @@ def payroll_process():
 
 		#FORMULE
 		Sheet8.cell(row=17, column=3).value = "=SUMIF('TB 12'!A:A,641,'TB 12'!H:H)"
-		Sheet8.cell(row=18, column=3).value = "='V10.1 Payroll Analysis'!U23"
+		Sheet8.cell(row=18, column=3).value = "='Payroll Analysis'!U23"
 		Sheet8.cell(row=19, column=3).value = int(261)
 		Sheet8.cell(row=20, column=3).value = "=C17/C18/C19"
 		Sheet8.cell(row=21, column=3).value = "=PBC!B8"
@@ -15482,47 +16840,47 @@ def payroll_process():
 		Sheet13.sheet_state = 'hidden'
 		Sheet13.protection.sheet = True
 
-		Sheet13.cell(row=3, column=2).value ="='V10.1 Payroll Analysis'!H22"
-		Sheet13.cell(row=4, column=2).value ="='V10.1 Payroll Analysis'!I22"
-		Sheet13.cell(row=5, column=2).value ="='V10.1 Payroll Analysis'!J22"
-		Sheet13.cell(row=6, column=2).value ="='V10.1 Payroll Analysis'!K22"
-		Sheet13.cell(row=7, column=2).value ="='V10.1 Payroll Analysis'!L22"
-		Sheet13.cell(row=8, column=2).value ="='V10.1 Payroll Analysis'!M22"
-		Sheet13.cell(row=9, column=2).value ="='V10.1 Payroll Analysis'!N22"
-		Sheet13.cell(row=10, column=2).value ="='V10.1 Payroll Analysis'!O22"
-		Sheet13.cell(row=11, column=2).value ="='V10.1 Payroll Analysis'!P22"
-		Sheet13.cell(row=12, column=2).value ="='V10.1 Payroll Analysis'!Q22"
-		Sheet13.cell(row=13, column=2).value ="='V10.1 Payroll Analysis'!R22"
-		Sheet13.cell(row=14, column=2).value ="='V10.1 Payroll Analysis'!S22"
-		Sheet13.cell(row=15, column=2).value ="='V10.1 Payroll Analysis'!T22"
+		Sheet13.cell(row=3, column=2).value ="='Payroll Analysis'!H22"
+		Sheet13.cell(row=4, column=2).value ="='Payroll Analysis'!I22"
+		Sheet13.cell(row=5, column=2).value ="='Payroll Analysis'!J22"
+		Sheet13.cell(row=6, column=2).value ="='Payroll Analysis'!K22"
+		Sheet13.cell(row=7, column=2).value ="='Payroll Analysis'!L22"
+		Sheet13.cell(row=8, column=2).value ="='Payroll Analysis'!M22"
+		Sheet13.cell(row=9, column=2).value ="='Payroll Analysis'!N22"
+		Sheet13.cell(row=10, column=2).value ="='Payroll Analysis'!O22"
+		Sheet13.cell(row=11, column=2).value ="='Payroll Analysis'!P22"
+		Sheet13.cell(row=12, column=2).value ="='Payroll Analysis'!Q22"
+		Sheet13.cell(row=13, column=2).value ="='Payroll Analysis'!R22"
+		Sheet13.cell(row=14, column=2).value ="='Payroll Analysis'!S22"
+		Sheet13.cell(row=15, column=2).value ="='Payroll Analysis'!T22"
 
-		Sheet13.cell(row=3, column=3).value = "='V10.1 Payroll Analysis'!H26"
-		Sheet13.cell(row=4, column=3).value = "='V10.1 Payroll Analysis'!I26"
-		Sheet13.cell(row=5, column=3).value = "='V10.1 Payroll Analysis'!J26"
-		Sheet13.cell(row=6, column=3).value = "='V10.1 Payroll Analysis'!K26"
-		Sheet13.cell(row=7, column=3).value = "='V10.1 Payroll Analysis'!L26"
-		Sheet13.cell(row=8, column=3).value = "='V10.1 Payroll Analysis'!M26"
-		Sheet13.cell(row=9, column=3).value = "='V10.1 Payroll Analysis'!N26"
-		Sheet13.cell(row=10, column=3).value = "='V10.1 Payroll Analysis'!O26"
-		Sheet13.cell(row=11, column=3).value = "='V10.1 Payroll Analysis'!P26"
-		Sheet13.cell(row=12, column=3).value = "='V10.1 Payroll Analysis'!Q26"
-		Sheet13.cell(row=13, column=3).value = "='V10.1 Payroll Analysis'!R26"
-		Sheet13.cell(row=14, column=3).value = "='V10.1 Payroll Analysis'!S26"
-		Sheet13.cell(row=15, column=3).value = "='V10.1 Payroll Analysis'!T26"
+		Sheet13.cell(row=3, column=3).value = "='Payroll Analysis'!H26"
+		Sheet13.cell(row=4, column=3).value = "='Payroll Analysis'!I26"
+		Sheet13.cell(row=5, column=3).value = "='Payroll Analysis'!J26"
+		Sheet13.cell(row=6, column=3).value = "='Payroll Analysis'!K26"
+		Sheet13.cell(row=7, column=3).value = "='Payroll Analysis'!L26"
+		Sheet13.cell(row=8, column=3).value = "='Payroll Analysis'!M26"
+		Sheet13.cell(row=9, column=3).value = "='Payroll Analysis'!N26"
+		Sheet13.cell(row=10, column=3).value = "='Payroll Analysis'!O26"
+		Sheet13.cell(row=11, column=3).value = "='Payroll Analysis'!P26"
+		Sheet13.cell(row=12, column=3).value = "='Payroll Analysis'!Q26"
+		Sheet13.cell(row=13, column=3).value = "='Payroll Analysis'!R26"
+		Sheet13.cell(row=14, column=3).value = "='Payroll Analysis'!S26"
+		Sheet13.cell(row=15, column=3).value = "='Payroll Analysis'!T26"
 
-		Sheet13.cell(row=3, column=4).value = "='V10.1 Payroll Analysis'!H27"
-		Sheet13.cell(row=4, column=4).value = "='V10.1 Payroll Analysis'!I27"
-		Sheet13.cell(row=5, column=4).value = "='V10.1 Payroll Analysis'!J27"
-		Sheet13.cell(row=6, column=4).value = "='V10.1 Payroll Analysis'!K27"
-		Sheet13.cell(row=7, column=4).value = "='V10.1 Payroll Analysis'!L27"
-		Sheet13.cell(row=8, column=4).value = "='V10.1 Payroll Analysis'!M27"
-		Sheet13.cell(row=9, column=4).value = "='V10.1 Payroll Analysis'!N27"
-		Sheet13.cell(row=10, column=4).value = "='V10.1 Payroll Analysis'!O27"
-		Sheet13.cell(row=11, column=4).value = "='V10.1 Payroll Analysis'!P27"
-		Sheet13.cell(row=12, column=4).value = "='V10.1 Payroll Analysis'!Q27"
-		Sheet13.cell(row=13, column=4).value = "='V10.1 Payroll Analysis'!R27"
-		Sheet13.cell(row=14, column=4).value = "='V10.1 Payroll Analysis'!S27"
-		Sheet13.cell(row=15, column=4).value = "='V10.1 Payroll Analysis'!T27"
+		Sheet13.cell(row=3, column=4).value = "='Payroll Analysis'!H27"
+		Sheet13.cell(row=4, column=4).value = "='Payroll Analysis'!I27"
+		Sheet13.cell(row=5, column=4).value = "='Payroll Analysis'!J27"
+		Sheet13.cell(row=6, column=4).value = "='Payroll Analysis'!K27"
+		Sheet13.cell(row=7, column=4).value = "='Payroll Analysis'!L27"
+		Sheet13.cell(row=8, column=4).value = "='Payroll Analysis'!M27"
+		Sheet13.cell(row=9, column=4).value = "='Payroll Analysis'!N27"
+		Sheet13.cell(row=10, column=4).value = "='Payroll Analysis'!O27"
+		Sheet13.cell(row=11, column=4).value = "='Payroll Analysis'!P27"
+		Sheet13.cell(row=12, column=4).value = "='Payroll Analysis'!Q27"
+		Sheet13.cell(row=13, column=4).value = "='Payroll Analysis'!R27"
+		Sheet13.cell(row=14, column=4).value = "='Payroll Analysis'!S27"
+		Sheet13.cell(row=15, column=4).value = "='Payroll Analysis'!T27"
 
 		# Data for plotting
 		values = Reference(Sheet13,
@@ -15543,14 +16901,14 @@ def payroll_process():
 
 
 		folderpath = "/home/auditappnexia/output/Payroll"
-		file_pathFS = os.path.join(folderpath, "V10 Payroll Analysis " + clientname1 + ".xlsx")
+		file_pathFS = os.path.join(folderpath, "V10 Payroll Analysis " + clientname1 + " "+str(denis)+".xlsx")
 		# messagebox.showinfo("Success!", "Succesful task.")
 
 
 		wb.save(file_pathFS)
 
 	# return clientname1
-		return send_from_directory(folderpath, "V10 Payroll Analysis " + clientname1 + ".xlsx")
+		return send_from_directory(folderpath, "V10 Payroll Analysis " + clientname1 + " "+str(denis)+".xlsx")
 	return render_template("Payroll.html")
 
 @app.route('/Equity/GTRWhSrzitah41yuSieMuQ6KVpn/Instructions', methods=['GET'])
@@ -15576,6 +16934,7 @@ def equity_process():
 	# 	request.form['preparedDate'],
 	# 	'%Y-%m-%d')
 	refference1 = request.form['reff']
+	denis=datetime.datetime.now()
 
 	if request.method == 'POST':
 		file_location_TB = request.files["TB"]
@@ -16379,6 +17738,7 @@ def Split():
 @app.route('/SplitFiles/GTuKs87BZEXuVAXP57qjmBZkwj2', methods=['POST', 'GET'])
 def Split_process():
 	namec = request.form['client']
+	denis=datetime.datetime.now()
 	folderpath="/home/auditappnexia/output/Split"
 	os.mkdir(folderpath+"/"+namec)
 	def make_archive(source, destination):
@@ -18386,9 +19746,9 @@ def JET_process():
         # folderpath = ('D:\\WEBDEV\\Platforma apps web\\Audit\\JET\\output')
         # folderpath = ('D:\\Python Projects\\JET\\JET\\output')
         folderpath = ('/home/auditappnexia/output/jet/')
-        file_pathFS = os.path.join(folderpath, "JET "+clientname1+".xlsx")
+        file_pathFS = os.path.join(folderpath, "JET "+clientname1+" "+str(denis)+".xlsx")
         wb.save(file_pathFS)
-    return send_from_directory(folderpath, "JET "+clientname1+".xlsx", as_attachment=True)
+    return send_from_directory(folderpath, "JET "+clientname1+" "+str(denis)+".xlsx", as_attachment=True)
     # return render_template('JET.html')
 
 # @app.route('/password')
@@ -18499,5 +19859,325 @@ def JET_process():
 
 # 	#     return render_template("password.html")
 # 	return redirect("/")
+
+# @app.route('/SplitFiles/Instructions', methods=['GET'])
+# def downloadFS():
+# 		filepath = "/home/auditappnexia/output/Split"
+ 
+# 		return send_from_directory(filepath,"Instructions - FS Files.docx", as_attachment=True)
+# @app.route('/FinancialStatment/GTRj8mjJ0RTAUQvQdE1USWwDbr')
+# def FS():
+# 	return render_template('FS.html')
+# @app.route('/FinancialStatment/GTRj8mjJ0RTAUQvQdE1USWwDbr', methods=['POST', 'GET'])
+# def FS_process():
+# 	company = request.form['company']
+# 	address = request.form['address']
+# 	vatTaxCode = request.form['code']
+# 	regNr = request.form['registration']
+# 	typeOfCompany = request.form['type']
+# 	mainActivity = request.form['activity']
+# 	year= request.form['year']
+# 	dropdownlimba = request.form.get('limba')
+
+# 	if str(dropdownlimba)=="Romana(RO)":
+# 		option=1
+# 	else:
+# 		option=0
+
+# 	folderpath="C:\\Users\\denis.david\\Downloads\\Mirus\\Web apps-v5-login\\Web apps-v2-login\\Web apps-v2-login\\Output\\JE"
+
+# 	if request.method == 'POST':
+
+# 		workingsblue2= Font(bold=True, italic=True, name='Tahoma', size=8,color='FFFFFF')
+# 		lbluefill = PatternFill(start_color='7030A0',
+# 							end_color='7030A0',
+# 							fill_type='solid')
+# 		grifill=PatternFill(start_color='c4d79b',end_color='c4d79b',fill_type='solid')
+# 		yellow=PatternFill(start_color='ffff00',end_color='ffff00',fill_type='solid')
+# 		blueFill = PatternFill(start_color='00AEAC',
+# 							end_color='00AEAC',
+# 							fill_type='solid')
+# 		doubleborder = Border(bottom=Side(style='double'))
+# 		solidborder = Border(bottom=Side(style='thick'))
+# 		solidborderstanga = Border(left=Side(style='thin'))
+# 		rightborder = Border(right=Side(style='thin'))
+# 		rightdouble = Border (right=Side(style='thin'), bottom=Side(style='double'))
+# 		rightmedium = Border (right=Side(style='thin'), bottom=Side(style='medium'))
+# 		solidborderdreapta = Border(right=Side(style='thin'))
+# 		solidbordersus = Border(top=Side(style='thin'))
+# 		fontitalic = Font(name='Tahoma', size=8, bold=True, italic=True)
+# 		font1 = Font(name='Tahoma', size=8)
+# 		font2 = Font(name='Tahoma', size=8, bold=True)
+# 		fontRed = Font(name='Tahoma', size=8, bold=True, color= 'FF0000')
+# 		fontRedDiff=Font(name="Tahoma", color='FF0000', size=11, )
+# 		fontGT = Font (name='GT Logo', size=8)
+# 		workingsblue = Font(color='2F75B5', bold=True, name='Tahoma', size=8 )
+# 		headers= Font(bold=True, italic=True, name='Tahoma', size=8,color='FFFFFF') 
+# 		headersblue = PatternFill(start_color='7030A0',
+# 						end_color='7030A0',
+# 						fill_type='solid')
+# 		headerspurple= PatternFill(start_color='65CDCC',
+# 							end_color='65CDCC',
+# 							fill_type='solid')
+# 		total=PatternFill(start_color='DDD9C4',
+# 						end_color='DDD9C4',
+# 						fill_type='solid')
+# 		greenbolditalic= Font(bold=True, italic=True,  color='C0504D', name='Tahoma', size=8)
+# 		greenbolditalic= Font(bold=True, italic=True,  color='00af50')
+# 		fontalb = Font(italic=True, color="bfbfbf", size=8, name='Tahoma')
+		
+# 		triald=request.files["TB"]
+			
+
+# 		# PBC_CY=mapping.create_sheet("Trial Balance2")
+# 		# PBC_CY.sheet_view.showGridLines = False
+# 		if(option==0):
+# 			mapping=openpyxl.load_workbook('D:\\Training materials\\Template FS ENG.xlsx')
+# 		else:
+# 			mapping=openpyxl.load_workbook('D:\\Training materials\\Template FS RO.xlsx')
+# 		ws=mapping.active		
+# 		TBCY = openpyxl.load_workbook(triald)
+# 		TBCY1 = TBCY.active
+# 		# PBC_CY=mapping.create_sheet("TB_PBC")
+# 		test=mapping["Trial Balance"]
+# 		test2=mapping["Check if manual ADJE"]
+
+
+# 		for row in TBCY1.iter_rows():
+# 				for cell in row:
+# 					if cell.value=="Account":
+# 						tbCyAcount=cell.column
+# 						tbrow=cell.row
+
+# 		for row in TBCY1.iter_rows():
+# 			for cell in row:
+# 				if cell.value=="Description":
+# 					tbCyDescription=cell.column
+
+# 		for row in TBCY1.iter_rows():
+# 			for cell in row:
+# 				if cell.value=="OB":
+# 					tbCyOB=cell.column
+
+# 		for row in TBCY1.iter_rows():
+
+# 			for cell in row:
+# 				if cell.value=="DM":
+# 					tbCyDM=cell.column
+				
+# 		for row in TBCY1.iter_rows():
+# 			for cell in row:
+# 				if cell.value=="CM":
+# 					tbCyCM=cell.column
+
+# 		for row in TBCY1.iter_rows():
+# 			for cell in row:
+# 				if cell.value=="CB":
+# 					tbCyCB=cell.column
+
+
+
+# 		try:
+# 			luntb=len(TBCY1[tbCyAcount])
+# 		except:
+# 			flash("Please insert the correct header for Account in Trial Balance file")
+# 			return render_template("index.html")
+# 			# messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Account'")
+# 			# sys.exit()
+# 		try:
+# 			Account=[b.value for b in TBCY1[tbCyAcount][tbrow:luntb+1]]
+# 		except:
+# 			flash("Please insert the correct header for Account in Trial Balance file")
+# 			return render_template("index.html")
+# 			# messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Account'")
+# 			# sys.exit()
+
+# 		try:
+# 			Description=[b.value for b in TBCY1[tbCyDescription][tbrow:luntb+1]]
+# 		except:
+# 			flash("Please insert the correct header for Description in Trial Balance file")
+# 			return render_template("index.html")
+# 			# messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Description'")
+# 			# sys.exit()
+# 		try:
+# 			OB=[b.value for b in TBCY1[tbCyOB][tbrow:luntb+1]]
+# 		except:
+# 			flash("Please insert the correct header for OB")
+# 			return render_template("index.html")
+# 			# messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Sold Initial Debit'")
+# 			# sys.exit()
+# 		try:
+# 			DM=[b.value for b in TBCY1[tbCyDM][tbrow:luntb+1]]
+# 		except:
+# 			flash("Please insert the correct header for DM")
+# 			return render_template("index.html")
+# 			# messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Sold Initial Credit'")
+# 			# sys.exit()
+# 		try:
+# 			CM=[b.value for b in TBCY1[tbCyCM][tbrow:luntb+1]]
+# 		except:
+# 			flash("Please insert the correct header for CM")
+# 			return render_template("index.html")
+# 			# messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Rulaj Curent Debit'")
+# 			# sys.exit()
+# 		try:
+# 			CB=[b.value for b in TBCY1[tbCyCB][tbrow:luntb+1]]
+# 		except:
+# 			flash("Please insert the correct header for CB")
+# 			return render_template("index.html")
+
+
+# 	# PBC_CY.cell(row=14, column=1).value="Type"
+# 	# PBC_CY.cell(row=14, column=2).value="Class"
+# 	# PBC_CY.cell(row=14, column=3).value="Syntetic 2"
+# 	# PBC_CY.cell(row=14, column=4).value="Syn 3"
+# 	# PBC_CY.cell(row=14, column=5).value="Syntetic 4"
+# 	# PBC_CY.cell(row=14, column=6).value="Account"
+# 	# PBC_CY.cell(row=14, column=7).value="Description"
+# 	# PBC_CY.cell(row=14, column=8).value="OB"
+# 	# PBC_CY.cell(row=14, column=9).value="DM"
+# 	# PBC_CY.cell(row=14, column=10).value="CM"
+# 	# PBC_CY.cell(row=14, column=11).value="CB"
+# 	# PBC_CY.cell(row=14, column=12).value="Variation ABS"
+# 	# PBC_CY.cell(row=14, column=13).value="Variation %"
+# 	# PBC_CY.cell(row=14, column=14).value="OMF Line"
+# 	# PBC_CY.cell(row=14, column=15).value="F30 mapping 1"
+# 	# PBC_CY.cell(row=14, column=16).value="Opening"
+# 	# PBC_CY.cell(row=14, column=17).value="Increases"
+# 	# PBC_CY.cell(row=14, column=18).value="Decreases"
+# 	# PBC_CY.cell(row=14, column=19).value="Notes mapping 1"
+# 	# PBC_CY.cell(row=14, column=20).value="Notes mapping 2"
+# 	# PBC_CY.cell(row=14, column=21).value="Comments"
+# 	# PBC_CY.cell(row=14, column=22).value="Manual ADJE"
+# 	# PBC_CY.cell(row=14, column=23).value="F30 mapping 2"
+
+# 	# for i in range (1,24):
+# 	# 	PBC_CY.cell (row=14, column=i).border=doubleborder
+# 	# 	PBC_CY.cell (row=14, column=i).font=font2
+
+
+# 	for i in range(1, len(Account)+1):
+# 		test.cell(row=i+14, column=6).value=Account[i-1]
+
+# 	for i in range (1, len(Description)+1):
+# 		test.cell(row=i+14, column=7).value= Description[i-1]
+
+# 	for i in range (1, len(OB)+1):
+# 		test.cell(row=i+14, column=8).value=OB[i-1]
+
+# 	for i in range (1, len(DM)+1):
+# 		test.cell (row=i+14, column =9).value=DM[i-1]
+
+# 	for i in range (1,len(CM)+1):
+# 		test.cell (row=i+14, column=10).value=CM[i-1]
+
+# 	for i in range (1,len(CB)+1):
+# 		test.cell (row=i+14, column=11).value=CB[i-1]
+
+
+
+# 	# for i in range (1,24):
+# 	# 	test.cell(row=14, column=i).font=font2
+# 	# 	test.cell(row=14, column=i).border=doubleborder
+# 	# 	test.cell(row=14, column=i).fill=blueFill
+
+# 	# for i in range (1, len(SFD)+1):
+# 	# 	for j in range (6, 12):
+# 	# 		test.cell(row=i+1, column=j).number_format='#,##0_);(#,##0)'
+
+
+# 	for i in range(1, len(Account)+1):
+# 		test.cell(row=i+14,column=2).value='=_xlfn.NUMBERVALUE(LEFT(F{0},1))'.format(i+14)	
+# 	for i in range(1, len(Account)+1):
+# 		test.cell(row=i+14,column=1).value='=IF(B'+str(14+i)+'<6,"BS",IF(B'+str(14+i)+'=6,"Exp","Rev"))'
+# 	for i in range(1,len(Account)+1):
+# 		test.cell(row=i+14,column=3).value='=Left(F'+str(14+i)+',2)'
+# 	for i in range(1,len(Account)+1):
+# 		test.cell(row=i+14,column=4).value='=Left(F'+str(14+i)+',3)'
+# 	for i in range(1,len(Account)+1):
+# 		test.cell(row=i+14,column=5).value='=Left(F'+str(14+i)+',4)'
+# 	for i in range(1,len(Account)+1):
+# 		test.cell(row=i+14,column=12).value='=K'+str(14+i)+'-H'+str(14+i)+''
+# 	for i in range(1,len(Account)+1):
+# 		test.cell(row=i+14,column=13).value='=IFERROR(L'+str(14+i)+'/H'+str(14+i)+'," ")'
+# 	for i in range(1,len(Account)+1):
+# 		# test.cell(row=i+14,column=14).value='''=_xlfn.IF(A'''+str(14+i)+'''="BS"'''+''',IFERROR(VLOOKUP(TRIM($E'''+str(14+i)+'),'+"'BS Mapping std'"+'!$A:$D,4,0),VLOOKUP(TRIM($D'+str(14+i)+'),'+"'BS Mapping std'"+'!$A:$D,4,0)),IFNA(VLOOKUP(TRIM($E'+str(14+i)+'),'+"'PL mapping Std'"+'!$A:$D,4,0),VLOOKUP(TRIM($D'+str(14+i)+'),'+"'PL mapping Std'"+'!$A:$D,4,0)))'
+# 		test.cell(row=i+14,column=14).value='''=IF(A{0}="BS",IFERROR(VLOOKUP(TRIM($E{0}),'BS Mapping std'!$A:$D,4,0),VLOOKUP(TRIM($D{0}),'BS Mapping std'!$A:$D,4,0)),IFERROR(VLOOKUP(TRIM($E{0}),'PL mapping Std'!$A:$D,4,0),VLOOKUP(TRIM($D{0}),'PL mapping Std'!$A:$D,4,0)))'''.format(i+14)
+# 	for i in range(1,len(Account)+1):
+# 		test.cell(row=i+14,column=15).value="=_xlfn.IFERROR(VLOOKUP(E"+str(14+i)+",'F30 mapping'!A:C,3,0),VLOOKUP(D"+str(14+i)+",'F30 mapping'!A:C,3,0))"
+# 	for i in range(1,len(Account)+1):
+# 		test.cell(row=i+14,column=16).value="=_xlfn.IFERROR(IFERROR(VLOOKUP(E"+str(14+i)+",'F40 mapping'!A:C,3,0),VLOOKUP(D"+str(14+i)+",'F40 mapping'!A:C,3,0)),0)"
+# 	for i in range(1,len(Account)+1):
+# 		test.cell(row=i+14,column=17).value="=_xlfn.IFERROR(IFERROR(VLOOKUP(E"+str(14+i)+",'F40 mapping'!A:D,4,0),VLOOKUP(D"+str(14+i)+",'F40 mapping'!A:D,4,0)),0)"
+# 	for i in range(1,len(Account)+1):
+# 		test.cell(row=i+14,column=18).value="=_xlfn.IFERROR(IFERROR(VLOOKUP(E"+str(14+i)+",'F40 mapping'!A:E,5,0),VLOOKUP(D"+str(14+i)+",'F40 mapping'!A:E,5,0)),0)"
+# 	for i in range(1,len(Account)+1):
+# 		test.cell(row=i+14,column=19).value="=_xlfn.IF(B"+str(14+i)+"<6,IFERROR(VLOOKUP(E"+str(14+i)+",'BS Mapping std'!A:E,5,0),VLOOKUP(D"+str(14+i)+",'BS Mapping std'!A:E,5,0)),IFERROR(VLOOKUP(E"+str(14+i)+",'PL mapping Std'!A:F,6,0),VLOOKUP(D"+str(14+i)+",'PL mapping Std'!A:F,6,0)))"
+# 	for i in range(1,len(Account)+1):
+# 		test.cell(row=i+14,column=20).value="=_xlfn.IF(B"+str(14+i)+"<6,IFERROR(VLOOKUP(E"+str(14+i)+",'BS Mapping std'!A:F,6,0),VLOOKUP(D"+str(14+i)+",'BS Mapping std'!A:F,6,0)),IFERROR(VLOOKUP(E"+str(14+i)+",'PL mapping Std'!A:G,7,0),VLOOKUP(D"+str(14+i)+",'PL mapping Std'!A:G,7,0)))"
+# 	for i in range(1,len(Account)+1):
+# 		test.cell(row=i+14,column=22).value='''=IF(IF(A{0}="BS",IFERROR(VLOOKUP(TRIM($E{0}),'BS Mapping std'!$A:$H,8,0),VLOOKUP(TRIM($D{0}),'BS Mapping std'!$A:$H,8,0)),IFERROR(VLOOKUP(TRIM($E{0}),'PL mapping Std'!$A:$H,8,0),VLOOKUP(TRIM($D{0}),'PL mapping Std'!$A:$H,8,0)))=0,"",IF(A{0}="BS",IFERROR(VLOOKUP(TRIM($E{0}),'BS Mapping std'!$A:$H,8,0),VLOOKUP(TRIM($D{0}),'BS Mapping std'!$A:$H,8,0)),IFERROR(VLOOKUP(TRIM($E{0}),'PL mapping Std'!$A:$H,8,0),VLOOKUP(TRIM($D{0}),'PL mapping Std'!$A:$H,8,0))))'''.format(i+14)
+# 	for i in range(1,len(Account)+1):
+# 		test.cell(row=i+14,column=23).value="=_xlfn.IFERROR(VLOOKUP(E"+str(14+i)+",'F30 mapping'!A:D,4,0),VLOOKUP(D"+str(14+i)+",'F30 mapping'!A:D,4,0))"
+
+# 	# for i in range(len(Account)+1,800):
+# 	# 	test.cell(row=i+14,column=14).value=""
+# 	# 	test.cell(row=i+14,column=15).value=""
+# 	# 	test.cell(row=i+14,column=16).value=""
+# 	# 	test.cell(row=i+14,column=17).value=""
+# 	# 	test.cell(row=i+14,column=18).value=""
+# 	# 	test.cell(row=i+14,column=19).value=""
+# 	# 	test.cell(row=i+14,column=20).value=""
+# 	# 	test.cell(row=i+14,column=21).value=""
+# 	# 	test.cell(row=i+14,column=22).value=""
+# 	# 	test.cell(row=i+14,column=23).value=""
+
+
+
+# 	test.cell(row=1,column=2).value=company
+# 	test.cell(row=2,column=2).value=address
+# 	test.cell(row=3,column=2).value=vatTaxCode
+# 	test.cell(row=4,column=2).value=regNr
+# 	test.cell(row=5,column=2).value=typeOfCompany
+# 	test.cell(row=6,column=2).value=mainActivity
+# 	test.cell(row=7,column=2).value=year
+
+# 	listaMapare=['2678','308','348E','348','368','378','388','4428','4511','4518','4531','4538','456','473','481','482','581']
+# 	listaBalanta=list(set(Account))
+# 	listasetmapare=list(set(listaMapare))
+# 	print(listaBalanta)
+# 	print(listaMapare)
+# 	val=[]
+# 	for i in range(0,len(listaBalanta)):
+# 		for j in range(0,len(listasetmapare)):
+# 			if(str(listaBalanta[i])[0:3]==str(listasetmapare[j]) or str(listaBalanta[i])[0:4]==str(listasetmapare[j])):
+# 				val.append(listaBalanta[i])
+
+# 	for j  in range(0,len(val)):
+# 		test2.cell(row=14+j,column=6).value=val[j]
+# 	for x in range(0,len(val)):
+# 		test2.cell(row=14+x,column=5).value='=Left(F'+str(14+x)+',4)'
+# 		test2.cell(row=14+x,column=4).value='=Left(F'+str(14+x)+',3)'
+# 		test2.cell(row=14+x,column=3).value='=Left(F'+str(14+x)+',2)'
+# 		test2.cell(row=14+x,column=2).value='=Left(F'+str(14+x)+',1)'
+# 		test2.cell(row=14+x,column=1).value='BS'
+# 		test2.cell(row=14+x,column=7).value="=VLOOKUP(F{0},'Trial Balance'!F:G,2,0)".format(x+14)
+# 		test2.cell(row=14+x,column=8).value="=VLOOKUP(F{0},'Trial Balance'!F:H,3,0)".format(x+14)
+# 		test2.cell(row=14+x,column=9).value="=VLOOKUP(F{0},'Trial Balance'!F:I,4,0)".format(x+14)
+# 		test2.cell(row=14+x,column=10).value="=VLOOKUP(F{0},'Trial Balance'!F:J,5,0)".format(x+14)
+# 		test2.cell(row=14+x,column=11).value="=VLOOKUP(F{0},'Trial Balance'!F:K,6,0)".format(x+14)
+# 		test2.cell(row=x+14,column=12).value='=K'+str(14+x)+'-H'+str(14+x)+''
+# 		test2.cell(row=x+14,column=13).value='=IFERROR(L'+str(14+x)+'/H'+str(14+x)+'," ")'
+# 		test2.cell(row=x+14,column=14).value="=VLOOKUP(F{0},'Trial Balance'!F:N,9,0)".format(x+14)
+# 		test2.cell(row=14+x,column=15).value='Bifunctional - Please asses'
+# 			# else:
+# 			# 	print("nu sunt la fel")
+
+# 	print(len(listaBalanta))
+# 	print(len(listaMapare))
+
+# 	mapping.save(folderpath+"/Trial Balance.xlsx")
+# 	return send_from_directory(folderpath,"Trial Balance.xlsx",as_attachment=True)
+
 if __name__ == '__main__':
    app.run()
