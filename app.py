@@ -10144,7 +10144,7 @@ def JE_process():
 	
 	if(isChecked4==""):
 		folderpath="/home/auditappnexia/output/je"
-		os.mkdir(folderpath+"\\"+namec)
+		os.mkdir(folderpath+"/"+namec)
 		def make_archive(source, destination):
 			base = os.path.basename(destination)
 			name = base.split('.')[0]
