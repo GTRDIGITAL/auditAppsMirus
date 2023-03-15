@@ -11489,10 +11489,10 @@ def JE_process():
 						folderpath="/home/auditappnexia/output/je"
 						excel._sheets =[excel._sheets[i] for i in myorder]
 						excel.save(folderpath+"/"+str(namec)+"/"+str(listaunica[i])+"db.xlsx")
-			make_archive("/home/auditappnexia/output/je"+str(namec),"/home/auditappnexia/output/je"+str(namec)+"/JE "+namec+".zip")                
-					# shutil.make_archive(name, format, archive_from, archive_to)
-			file_pathFS = os.path.join(folderpath, namec)    
-			return send_from_directory(file_pathFS,"JE "+ namec+".zip",as_attachment=True)    
+				make_archive("/home/auditappnexia/output/je/"+str(namec),"/home/auditappnexia/output/je/"+str(namec)+"/JE "+namec+".zip")                
+						# shutil.make_archive(name, format, archive_from, archive_to)
+				file_pathFS = os.path.join(folderpath, namec)    
+				return send_from_directory(file_pathFS,"JE "+ namec+".zip",as_attachment=True)  
 	else:
 			folderpath="/home/auditappnexia/output/je"
 			os.mkdir(folderpath+"/"+namec)
@@ -12840,11 +12840,11 @@ def JE_process():
 							folderpath="/home/auditappnexia/output/je"
 							excel._sheets =[excel._sheets[i] for i in myorder]
 							excel.save(folderpath+"/"+str(namec)+"/"+str(listaunica[i])+"db.xlsx")
-				make_archive("/home/auditappnexia/output/je"+str(namec),"/home/auditappnexia/output/je"+str(namec)+"/JE "+namec+".zip")                
+				make_archive("/home/auditappnexia/output/je/"+str(namec),"/home/auditappnexia/output/je/"+str(namec)+"/JE "+namec+".zip")                
 						# shutil.make_archive(name, format, archive_from, archive_to)
 				file_pathFS = os.path.join(folderpath, namec)    
 				return send_from_directory(file_pathFS,"JE "+ namec+".zip",as_attachment=True)  		
-			
+					
 	return render_template('JE.html')
 @app.route('/Payroll/Instructions', methods=['GET'])
 def downloadPayroll():
