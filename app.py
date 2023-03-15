@@ -10918,7 +10918,7 @@ def JE_process():
 				mpl.auto_filter.ref = "A13:S"+str(mpl.max_row)
 				
 				
-				outputmpl.save(folderpath+"\\"+str(namec)+"\\MonthlyPL JE" + " " + namec + ".xlsx")
+				outputmpl.save(folderpath+"/"+str(namec)+"/MonthlyPL JE" + " " + namec + ".xlsx")
 				
 
 			if isChecked3=="":
@@ -11488,8 +11488,8 @@ def JE_process():
 						myorder=[2,0,1,3]
 						folderpath="/home/auditappnexia/output/je"
 						excel._sheets =[excel._sheets[i] for i in myorder]
-						excel.save(folderpath+"\\"+str(namec)+"\\"+str(listaunica[i])+"db.xlsx")
-			make_archive("/home/auditappnexia/output/je"+str(namec),"/home/auditappnexia/output/je"+str(namec)+"\\JE "+namec+".zip")                
+						excel.save(folderpath+"/"+str(namec)+"/"+str(listaunica[i])+"db.xlsx")
+			make_archive("/home/auditappnexia/output/je"+str(namec),"/home/auditappnexia/output/je"+str(namec)+"/JE "+namec+".zip")                
 					# shutil.make_archive(name, format, archive_from, archive_to)
 			file_pathFS = os.path.join(folderpath, namec)    
 			return send_from_directory(file_pathFS,"JE "+ namec+".zip",as_attachment=True)    
@@ -12269,7 +12269,7 @@ def JE_process():
 					mpl.auto_filter.ref = "A13:S"+str(mpl.max_row)
 					
 					
-					outputmpl.save(folderpath+"\\"+str(namec)+"\\MonthlyPL JE" + " " + namec + ".xlsx")
+					outputmpl.save(folderpath+"/"+str(namec)+"/MonthlyPL JE" + " " + namec + ".xlsx")
 					
 
 				if isChecked3=="":
@@ -12839,8 +12839,8 @@ def JE_process():
 							myorder=[2,0,1,3]
 							folderpath="/home/auditappnexia/output/je"
 							excel._sheets =[excel._sheets[i] for i in myorder]
-							excel.save(folderpath+"\\"+str(namec)+"\\"+str(listaunica[i])+"db.xlsx")
-				make_archive("/home/auditappnexia/output/je"+str(namec),"/home/auditappnexia/output/je"+str(namec)+"\\JE "+namec+".zip")                
+							excel.save(folderpath+"/"+str(namec)+"/"+str(listaunica[i])+"db.xlsx")
+				make_archive("/home/auditappnexia/output/je"+str(namec),"/home/auditappnexia/output/je"+str(namec)+"/JE "+namec+".zip")                
 						# shutil.make_archive(name, format, archive_from, archive_to)
 				file_pathFS = os.path.join(folderpath, namec)    
 				return send_from_directory(file_pathFS,"JE "+ namec+".zip",as_attachment=True)  		
