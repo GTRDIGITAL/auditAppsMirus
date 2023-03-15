@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Payroll Application</title>
+    <title>Nexia App</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
@@ -242,7 +242,7 @@ img {
 }
     </style>
 <a href="/"id="logo">
-    <img src="/static/logo3.png" Style="position:left;width:150px; height: 45px;"><a href="/"></a>
+    <img src="/static/logo3.png" Style="position:left" width="180" height="50"><a href="/"></a>
     
     
 </a>
@@ -252,10 +252,10 @@ img {
         <img src="D:\WEBDEV\Platforma apps web\1186766353337358335_1186766353337358335.png">
         <div cStyle="width: 100px; margin-bottom:10px;"></div>
     </div> -->
-    <div class="col-lg-3">
+  <div class="col-lg-3">
         <div style="font-size:14px;font-family: serif; color: rgba(72,25,122,0.8578781854538691); width:400px; position: left">
             <p>
-                
+
             </p>
             </div>
                        
@@ -269,7 +269,7 @@ img {
                          <li class="curve">
                             <a href="/Ageing/GTv51bfdGKkuaKo9ggrm7plxbjn">Ageing</a>
                          </li>
-                        <li class="curve">
+                         <li class="curve">
                             <a href="/GTv51bfdGKkuaKo9ggrm7plxaaa">Financial Statements</a>
                          </li>
                          <li class="curve">
@@ -301,6 +301,8 @@ img {
                          </li>
                       </ul>
                        </div>
+
+                       
                     <!-- </div> -->
  <!--    <nav class="sidebar">
         <ul class="nav flex-column">
@@ -343,7 +345,7 @@ img {
         <div class="container" style="float:center">
             <div class="row">
                 <div class="col">
-                    <button type="button"  onclick="location.href = '/Payroll/Instructions';" class="btn btn-primary btn-lg" value="all" Style="width: 300px; margin-bottom:10px; background-color: #005961;"> Instructions</button>
+                    <button type="button"  onclick="location.href = '/Instructions';" class="btn btn-primary btn-lg" value="all" Style="width: 300px; margin-bottom:10px; background-color: #005961;"> Instructions</button>
                     <!-- <label class="form-label" for="customFile">Default file input example</label> -->
                     <!-- <input type="file" class="btn btn-primary btn-lg" id="customFile" Style="width: 300px; margin-bottom:10px; background-color: #742D9B;"> Instructions </input> -->
                     <!-- <input id="uploadFile" placeholder="File Name here" disabled="disabled" /> -->
@@ -357,7 +359,49 @@ img {
             </div>
                 
     
-               
+            <div class="row">
+                <div class="col">
+                    <label>
+                        Please select your preferred language:
+                    </label>
+                </div>
+            </div>
+
+            <div class="row">
+                <select name="limba">
+                        <option value="Romana(RO)">Romana(RO)</option>
+                        <option value="English(EN)">English(EN)</option>
+                </select>
+            </div>
+
+            <div> 
+                <p>
+                    
+                </p>
+            </div>   
+
+            <div class="row">
+                <div class="col">
+                    <label>
+                        Type of financial Statements:
+                    </label>
+                </div>
+            </div>
+
+            <div class="row">
+                <select name="forma">
+                        <option value="Romana(RO)">Financial Statements "Forma Lunga"</option>
+                        <option value="English(EN)">Financial Statements "Forma scurta"</option>
+                </select>
+            </div>
+
+
+
+            <div> 
+                <p>
+                    
+                </p>
+            </div>               
     
             
     
@@ -372,55 +416,10 @@ img {
                                    
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
-                    <!-- <button type="file" class="btn btn-primary btn-lg" value="3" Style="width: 300px;margin-bottom:10px; background-color: #742D9B;"> Import TB</button> -->
-                    <div class="fileUpload btn btn-primary btn-lg" Style="width: 300px; margin-bottom:10px; background-color: #005961;">
-                        <span>Import D112 XML</span>
-                        <input id="uploadBtn" type="file" class="upload" name="D112XML"  />
-                    </div>
-                    
-                </div>
-            </div>
-            <!-- <div class="row">
-                <div class="col">
-                    <input  type="checkbox" name="tbSubtotals" value="" id="tbSubtotals">
-                    <label for="tbSubtotals" >
-                        Trial balances have subtotals
-                    </label>
-                </div>
-                    
-                              
-                    
-                
-            </div> -->
-            <div class="row">
-                <div class="col">
-                    <!-- <button type="button" class="btn btn-primary btn-lg" value="1" Style="width: 300px;margin-bottom:10px; background-color: #742D9B;" input type="file"> Import monthly trial balances</button> -->
-                     <div class="fileUpload btn btn-primary btn-lg"  Style="width: 300px; margin-bottom:10px; background-color: #005961;">
-                        <span>Import PBC</span>
-                        <input id="uploadBtn" name="PBC" type="file" class="upload" />
-                     </div>
-                    
-                                   
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    <!-- <button type="button" class="btn btn-primary btn-lg" value="1" Style="width: 300px;margin-bottom:10px; background-color: #742D9B;" input type="file"> Import monthly trial balances</button> -->
-                     <div class="fileUpload btn btn-primary btn-lg"  Style="width: 300px; margin-bottom:10px; background-color: #005961;">
-                        <span>Import Monthly P&L</span>
-                        <input id="uploadBtn" name="MPL" type="file" class="upload" />
-                     </div>
-                    
-                                   
-                </div>
-            </div>
-
+            
             <div class="row" >
                 <div class="col">
-                    <input type="text" name="client" placeholder="Client name" aria-label="Client name" Style="margin-bottom:10px; width:300px;" >
+                    <input type="text" name="company" placeholder="Company" aria-label="Client name" Style="margin-bottom:10px; width:300px;" >
                 </div>
                     
                 
@@ -428,27 +427,27 @@ img {
 
             <div class="row">
                 <div class="col">
-                    <input class="textbox-n"  name="yearEnd" placeholder="Year End" onfocus="(this.type='date')" aria-label="Year End" Style="margin-bottom:10px; width:300px;">
+                    <input class="text"  name="address" placeholder="Address"  aria-label="Year End" Style="margin-bottom:10px; width:300px;">
                 </div>
             </div> 
             
             <div class="row" >
                 <div class="col">
-                    <input type="text" name="CY" placeholder="Current Year" aria-label="Current Year" Style="margin-bottom:10px; width:300px;" >
+                    <input type="text" name="code" placeholder="VAT tax code" aria-label="Current Year" Style="margin-bottom:10px; width:300px;" >
                 </div>    
                 
             </div>
 
             <div class="row" >
                 <div class="col">
-                    <input type="text" name="PY" placeholder="Previous Year" aria-label="Previous Year" Style="margin-bottom:10px; width:300px;" >
+                    <input type="text" name="registration" placeholder="Registration no" aria-label="Previous Year" Style="margin-bottom:10px; width:300px;" >
                 </div>    
                 
             </div>
 
             <div class="row">
                 <div class="col">
-                    <input type="text" name="preparedBy" placeholder="Preparer name"  aria-label="Preparer name" Style="margin-bottom:10px; width:300px;" >
+                    <input type="text" name="type" placeholder="Type of Company"  aria-label="Preparer name" Style="margin-bottom:10px; width:300px;" >
                 </div>
                     
                     
@@ -456,7 +455,7 @@ img {
             </div>
             <div class="row">
                 <div class="col">
-                    <input class="textbox-n" name="preparedDate" placeholder="Prepared date" onfocus="(this.type='date')" aria-label="Prepared date" Style="margin-bottom:10px; width:300px;">
+                    <input class="text" name="activity" placeholder="Main activity"  aria-label="Prepared date" Style="margin-bottom:10px; width:300px;">
                 </div>
                     
                     
@@ -464,7 +463,7 @@ img {
             </div>  
             <div class="row">
                 <div class="col">
-                    <input type="text" name="reff" placeholder="Reference" aria-label="Refference" Style="margin-bottom:10px; width:300px;" >
+                    <input type="text" name="year" placeholder="Financial Year" aria-label="Refference" Style="margin-bottom:10px; width:300px;" >
                 </div>
                     
                     
