@@ -20188,7 +20188,7 @@ def FS():
 def downloadPMG():
 	# filepath = "D:\Projects\8. Python web apps\Test web flask\Instructions"
 	return send_from_directory("/home/nexiaaudir/storage","Instructions - FS.docx", as_attachment=True)
-@app.route('/', methods=['POST', 'GET'])
+@app.route('/GTv51bfdGKkuaKo9ggrm7plxaaa', methods=['POST', 'GET'])
 def FS_process():
 	company = request.form['company']
 	address = request.form['address']
@@ -20739,9 +20739,10 @@ def FS_process():
 			n15pers.print_area="A10:C27"
 			n16opex.print_area="A10:C30"
 			mapping.save(str(folderpath)+"/Financial Statements-"+str(company)+".xlsx")
+			print("aaa")
 	return send_from_directory(folderpath,"Financial Statements-"+str(company)+".xlsx",as_attachment=True)
 
 
 
-if __name__ == '__main__':
-   app.run()
+# if __name__ == '__main__':
+app.run(debug="True",host="0.0.0.0",port=5000)
