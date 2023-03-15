@@ -20187,7 +20187,7 @@ def FS():
 @app.route('/Instructions', methods=['GET'])
 def downloadPMG():
 	# filepath = "D:\Projects\8. Python web apps\Test web flask\Instructions"
-	return send_from_directory("/home/fsbot/storage","Instructions - FS.docx", as_attachment=True)
+	return send_from_directory("/home/nexiaaudir/storage","Instructions - FS.docx", as_attachment=True)
 @app.route('/', methods=['POST', 'GET'])
 def FS_process():
 	company = request.form['company']
@@ -20211,7 +20211,7 @@ def FS_process():
 		option2=0
 
 
-	folderpath="/home/fsbot/storage"
+	folderpath="/home/auditappnexia/output/FS"
 	# folderpath="D:\\FSFinal\\FSBotMirus"
 
 	if request.method == 'POST':
@@ -20261,11 +20261,11 @@ def FS_process():
 		# PBC_CY.sheet_view.showGridLines = False
 		if(option2==0):
 			if(option==0):
-				mapping=openpyxl.load_workbook('/home/fsbot/exceltemp/SF Entitati mici_EN.xlsx')
+				mapping=openpyxl.load_workbook('/home/auditappnexia/exceltemp/SF Entitati mici_EN.xlsx')
 				# mapping=openpyxl.load_workbook('C:\\Users\\denis.david\\Training materials\\SF Entitati mici_EN.xlsx')			
 
 			else:
-				mapping=openpyxl.load_workbook('/home/fsbot/exceltemp/SF Entitati mici_RO.xlsx')
+				mapping=openpyxl.load_workbook('/home/auditappnexia/exceltemp/SF Entitati mici_RO.xlsx')
 				# mapping=openpyxl.load_workbook('C:\\Users\\denis.david\\Training materials\\SF Entitati mici_RO.xlsx')
 			ws=mapping.active		
 			TBCY = openpyxl.load_workbook(triald,data_only=True)
@@ -20502,11 +20502,11 @@ def FS_process():
 
 		else:
 			if(option==0):
-				mapping=openpyxl.load_workbook('/home/fsbot/exceltemp/Template FS ENG.xlsx')
+				mapping=openpyxl.load_workbook('/home/auditappnexia/exceltemp/Template FS ENG.xlsx')
 				# mapping=openpyxl.load_workbook('C:\\Users\\denis.david\\Training materials\\Template FS ENG.xlsx')			
 
 			else:
-				mapping=openpyxl.load_workbook('/home/fsbot/exceltemp/Template FS RO.xlsx')
+				mapping=openpyxl.load_workbook('/home/auditappnexia/exceltemp/Template FS RO.xlsx')
 				# mapping=openpyxl.load_workbook('C:\\Users\\denis.david\\Training materials\\Template FS RO.xlsx')
 			ws=mapping.active		
 			TBCY = openpyxl.load_workbook(triald)
