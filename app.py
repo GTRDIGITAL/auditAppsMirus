@@ -10632,7 +10632,7 @@ def JE_process():
 
 				out.auto_filter.ref = "B10:J"+str(out.max_row)
 				
-				output.save(folderpath+"\\"+str(namec)+"\\Reco JE "+namec+".xlsx")
+				output.save(folderpath+"/"+str(namec)+"/Reco JE "+namec+".xlsx")
 				
 			if isChecked2=="":
 				
@@ -11495,7 +11495,7 @@ def JE_process():
 			return send_from_directory(file_pathFS,"JE "+ namec+".zip",as_attachment=True)    
 	else:
 			folderpath="/home/auditappnexia/output/je"
-			os.mkdir(folderpath+"\\"+namec)
+			os.mkdir(folderpath+"/"+namec)
 			def make_archive(source, destination):
 				base = os.path.basename(destination)
 				name = base.split('.')[0]
@@ -11983,7 +11983,7 @@ def JE_process():
 
 					out.auto_filter.ref = "B10:J"+str(out.max_row)
 					
-					output.save(folderpath+"\\"+str(namec)+"\\Reco JE "+namec+".xlsx")
+					output.save(folderpath+"/"+str(namec)+"/Reco JE "+namec+".xlsx")
 					
 				if isChecked2=="":
 					
