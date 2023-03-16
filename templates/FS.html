@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>TB</title>
+    <title>Nexia App</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
@@ -36,6 +36,47 @@
 @import 'https://fonts.googleapis.com/css?family=Raleway:300,400';
 
 
+body {
+    font-family: 'Raleway:300', sans-serif
+}
+    
+.admin-sidenav {
+    width: auto;
+    height: auto;
+    margin-left: 0px; 
+}
+.admin-sidenav a {
+    text-decoration: none; 
+}
+.admin-sidenav li {
+    text-align: justify;
+    padding: .5rem;
+    padding-left: 1rem;
+    -webkit-transition: all .2s linear;
+    transition: all .2s linear;
+    background-color: #000;
+    border: 1px solid #333; 
+}
+.admin-sidenav li a {
+    color: #fff; 
+}
+
+.admin-sidenav li a:active {
+    border-color: #02d3f5; 
+}
+
+.admin-sidenav li:hover {
+    border-radius: 0 .5rem .5rem 0;
+    border-color: #02d3f5;
+    -webkit-transform: translate(30px, 0px);
+    transform: translate(30px, 0px);
+    background: -webkit-linear-gradient(left, #006a7b, #002340);
+    background: linear-gradient(to right, #006a7b, #002340); 
+}
+
+.admin-sidenav li:active {
+    border-color: #02d3f5; 
+}
 body {
     font-family: 'Raleway:300', sans-serif;
     min-height: 100%;
@@ -184,7 +225,7 @@ body {
 #logo{ 
     position:fixed; 
     top:0; 
-    left:80px;
+    left:80px; 
     /* left:10px;  */
     /*left:12;*/
 } 
@@ -200,52 +241,21 @@ img {
     padding-right: 2px;
 }
     </style>
- <div id="logo">
-    <img src="/static/logo3.png" Style="position:left;width:150px; height: 45px;"><a href="/"></a>
-</div>
+<a href="/"id="logo">
+    <img src="/static/logo3.png" Style="position:left" width="180" height="50"><a href="/"></a>
+    
+    
+</a>
  </head>
 <body>
-    
- <!--    <nav class="sidebar">
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link" href="#"> Link name </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"> About page </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"> Category name </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"> Another page </a>
-            </li>
-        </ul>
-    </nav> -->
-   <!--  <div class="container-fluid">
-        <div class="row">    
-            <div id="admin-sidebar" class="col-md-2 p-x-0 p-y-3">
-                <ul class="sidenav admin-sidenav list-unstyled">
-                    <li><a href="#">NavLink 1</a></li>
-                    <li><a href="#">NavLink 2</a></li>
-                    <li><a href="#">NavLink 3</a></li>
-                    <li><a href="#">NavLink 4</a></li>
-                    <li><a href="#">NavLink 5</a></li>
-                    <li><a href="#">NavLink 6</a></li>                  
-                </ul>
- -->          <!--   </div> --> <!-- /#admin-sidebar -->
-            <!-- <div id="admin-main-control" class="col-md-10 p-x-3 p-y-1">
-                <div class="content-title m-x-auto">
-                    <i class="fa fa-dashboard"></i> GT Dashboard
-                </div>
-                 </div>  --><!-- /#admin-main-control -->
-       <!--  </div> --> <!-- /.row -->
-    <!-- </div> --> <!-- /.container-fluid -->
-    <!-- <div class="container"> -->
-    <div class="col-lg-3">
+    <!-- <div>
+        <img src="D:\WEBDEV\Platforma apps web\1186766353337358335_1186766353337358335.png">
+        <div cStyle="width: 100px; margin-bottom:10px;"></div>
+    </div> -->
+  <div class="col-lg-3">
         <div style="font-size:14px;font-family: serif; color: rgba(72,25,122,0.8578781854538691); width:400px; position: left">
             <p>
-                
+
             </p>
             </div>
                        
@@ -292,16 +302,53 @@ img {
                          <li class="curve">
                             <a href="/VAT/GTbJY47MKf1oajfEqntaRFSt8fw">VAT</a>
                         </li>
-                       </ul>
+                      </ul>
                        </div>
-                    <!-- </div> -->
+
                        
+                    <!-- </div> -->
+ <!--    <nav class="sidebar">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="#"> Link name </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"> About page </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"> Category name </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"> Another page </a>
+            </li>
+        </ul>
+    </nav> -->
+   <!--  <div class="container-fluid">
+        <div class="row">    
+            <div id="admin-sidebar" class="col-md-2 p-x-0 p-y-3">
+                <ul class="sidenav admin-sidenav list-unstyled">
+                    <li><a href="#">NavLink 1</a></li>
+                    <li><a href="#">NavLink 2</a></li>
+                    <li><a href="#">NavLink 3</a></li>
+                    <li><a href="#">NavLink 4</a></li>
+                    <li><a href="#">NavLink 5</a></li>
+                    <li><a href="#">NavLink 6</a></li>                  
+                </ul>
+ -->          <!--   </div> --> <!-- /#admin-sidebar -->
+            <!-- <div id="admin-main-control" class="col-md-10 p-x-3 p-y-1">
+                <div class="content-title m-x-auto">
+                    <i class="fa fa-dashboard"></i> GT Dashboard
+                </div>
+                 </div>  --><!-- /#admin-main-control -->
+       <!--  </div> --> <!-- /.row -->
+    <!-- </div> --> <!-- /.container-fluid -->
+   
 
     <form method="POST" enctype = "multipart/form-data" style="padding-left:60px;">
         <div class="container" style="float:center">
             <div class="row">
                 <div class="col">
-                    <button type="button" onclick="location.href = '/TrialBalances/Instructions';" class="btn btn-primary btn-lg" onclick="location.href = '/TrialBalances/Instructions';"value="all" Style="width: 300px; margin-bottom:10px; background-color: #005961;"> Instructions</button>
+                    <button type="button"  onclick="location.href = '/Instructions';" class="btn btn-primary btn-lg" value="all" Style="width: 300px; margin-bottom:10px; background-color: #005961;"> Instructions</button>
                     <!-- <label class="form-label" for="customFile">Default file input example</label> -->
                     <!-- <input type="file" class="btn btn-primary btn-lg" id="customFile" Style="width: 300px; margin-bottom:10px; background-color: #742D9B;"> Instructions </input> -->
                     <!-- <input id="uploadFile" placeholder="File Name here" disabled="disabled" /> -->
@@ -315,7 +362,49 @@ img {
             </div>
                 
     
-               
+            <div class="row">
+                <div class="col">
+                    <label>
+                        Please select your preferred language:
+                    </label>
+                </div>
+            </div>
+
+            <div class="row">
+                <select name="limba">
+                        <option value="Romana(RO)">Romana(RO)</option>
+                        <option value="English(EN)">English(EN)</option>
+                </select>
+            </div>
+
+            <div> 
+                <p>
+                    
+                </p>
+            </div>   
+
+            <div class="row">
+                <div class="col">
+                    <label>
+                        Type of financial Statements:
+                    </label>
+                </div>
+            </div>
+
+            <div class="row">
+                <select name="forma">
+                        <option value="Romana(RO)">Financial Statements "Forma Lunga"</option>
+                        <option value="English(EN)">Financial Statements "Forma scurta"</option>
+                </select>
+            </div>
+
+
+
+            <div> 
+                <p>
+                    
+                </p>
+            </div>               
     
             
     
@@ -323,143 +412,87 @@ img {
                 <div class="col">
                     <!-- <button type="button" class="btn btn-primary btn-lg" value="1" Style="width: 300px;margin-bottom:10px; background-color: #742D9B;" input type="file"> Import monthly trial balances</button> -->
                      <div class="fileUpload btn btn-primary btn-lg"  Style="width: 300px; margin-bottom:10px; background-color: #005961;">
-                        <span>Trial Balance CY PBC</span>
-                        <input id="uploadBtn" name="trialBalCYPBC" type="file" class="upload" multiple/>
-                     </div>
-                    
-                                   
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    <input  type="checkbox" name="pyEx" value="" id="pyEx">
-                    <label for="stdmapp" >
-                        Select if Prior Year exists
-                    </label>
-                </div>
-                    
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    <!-- <button type="button" class="btn btn-primary btn-lg" value="1" Style="width: 300px;margin-bottom:10px; background-color: #742D9B;" input type="file"> Import monthly trial balances</button> -->
-                     <div class="fileUpload btn btn-primary btn-lg"  Style="width: 300px; margin-bottom:10px; background-color: #005961;">
-                        <span>Trial Balance PY PBC</span>
-                        <input id="uploadBtn" name="trialBalPYPBC" type="file" class="upload" multiple/>
+                        <span>Import TB</span>
+                        <input id="uploadBtn" name="TB" type="file" class="upload" />
                      </div>
                     
                                    
                 </div>
             </div>
             
-            <div class="row">
-                <div class="col">
-                    <input  type="checkbox" name="forml" value="" id="forml">
-                    <label for="forml" >
-                        Forma lunga
-                    </label>
-                </div>
-                    
-            </div>
-            <div class="row">
-                <div class="col">
-                    <input  type="checkbox" name="forms" value="" id="forms">
-                    <label for="forms" >
-                        Forma scurta
-                    </label>
-                </div>
-                    
-            </div>
-            <div class="row">
-                <div class="col">
-                    <input  type="checkbox" name="Stdmapp" value="" id="Stdmapp">
-                    <label for="stdmapp" >
-                        Select if standard mapping is changed
-                    </label>
-                </div>
-                    
-            </div>
-
-           
-
-            <div class="row">
-                <div class="col">
-                    <!-- <button type="file" class="btn btn-primary btn-lg" value="3" Style="width: 300px;margin-bottom:10px; background-color: #742D9B;"> Import TB</button> -->
-                    <div class="fileUpload btn btn-primary btn-lg" Style="width: 300px; margin-bottom:10px; background-color: #005961;">
-                        <span>Import mapping</span>
-                        <input id="uploadBtn" type="file" class="upload" name="Mapping"  />
-                    </div>
-                    
-                </div>
-            </div>
-
-            
-            
-            
-
             <div class="row" >
                 <div class="col">
-                    <input type="text" name="client" placeholder="Client name" aria-label="Client name" Style="margin-bottom:10px; width:300px;" >
+                    <input type="text" name="company" placeholder="Company" aria-label="Client name" Style="margin-bottom:10px; width:300px;" >
                 </div>
                     
                 
             </div>
+
             <div class="row">
                 <div class="col">
-                    <!-- <input type="date"  name="yearEnd" placeholder="Year End" aria-label="Year End" Style="margin-bottom:10px; width:300px;"> -->
-                    <input placeholder="Year End" name="yearEnd" class="textbox-n" type="text" onfocus="(this.type='date')" id="date" style="margin-bottom:10px; width:300px;" >
+                    <input class="text"  name="address" placeholder="Address"  aria-label="Year End" Style="margin-bottom:10px; width:300px;">
                 </div>
-                    
-                    
+            </div> 
+            
+            <div class="row" >
+                <div class="col">
+                    <input type="text" name="code" placeholder="VAT tax code" aria-label="Current Year" Style="margin-bottom:10px; width:300px;" >
+                </div>    
                 
             </div>
 
             <div class="row" >
                 <div class="col">
-                    <input type="text" name="preparedBy" placeholder="Preparer name" aria-label="Threshold" Style="margin-bottom:10px; width:300px;" >
-                </div>
-                    
-                
-            </div>                 
-
-            
-            <div class="row" >
-                <div class="col">
-                    <input type="text" name="threshold" placeholder="Threshold" aria-label="Threshold" Style="margin-bottom:10px; width:300px;" >
-                </div>
-                    
+                    <input type="text" name="registration" placeholder="Registration no" aria-label="Previous Year" Style="margin-bottom:10px; width:300px;" >
+                </div>    
                 
             </div>
 
-       
-
-
-            <!-- <div class="row">
+            <div class="row">
                 <div class="col">
-                    <input type="text" name="preparedBy" placeholder="Preparer name" aria-label="Preparer name" Style="margin-bottom:10px; width:300px;" >
+                    <input type="text" name="type" placeholder="Type of Company"  aria-label="Preparer name" Style="margin-bottom:10px; width:300px;" >
                 </div>
                     
                     
                 
-            </div> -->
-            <!-- <div class="row">
-                <div class="col"> -->
-                    <!-- <input type="date" name="preparedDate" placeholder="Prepared date" aria-label="Prepared date" Style="margin-bottom:10px; width:300px;"> -->
-                    <!-- <input placeholder="Prepared Date" name="preparedDate" class="textbox-n" type="text" onfocus="(this.type='date')" id="date" style="margin-bottom:10px; width:300px;" >
-                </div> -->
+            </div>
+            <div class="row">
+                <div class="col">
+                    <input class="text" name="activity" placeholder="Main activity"  aria-label="Prepared date" Style="margin-bottom:10px; width:300px;">
+                </div>
                     
                     
                 
+            </div>  
+            <div class="row">
+                <div class="col">
+                    <input type="text" name="year" placeholder="Financial Year" aria-label="Refference" Style="margin-bottom:10px; width:300px;" >
+                </div>
+                    
+                    
+                
+            </div> 
+            
             <!-- </div>  
             <div class="row">
                 <div class="col">
-                    <input type="text" name="reff" placeholder="Refference" aria-label="Refference" Style="margin-bottom:10px; width:300px;" >
+                    <input type="text" name="currentYear" placeholder="Current Year" aria-label="Refference" Style="margin-bottom:10px; width:300px;" >
                 </div>
                     
                     
                 
-            </div>        -->
+            </div> 
+
+            </div>  
+            <div class="row">
+                <div class="col">
+                    <input type="text" name="reff" placeholder="Previous Year" aria-label="Refference" Style="margin-bottom:10px; width:300px;" >
+                </div>
+                    
+                    
+                
+            </div>  -->
+            
             <div class="row">
                 <div class="col">
                     <button type="submit" class="btn btn-primary btn-lg" value="4" Style="width: 300px;margin-bottom:10px; background-color: #005961;"> Run and save</button>
