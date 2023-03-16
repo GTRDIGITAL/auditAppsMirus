@@ -19746,9 +19746,9 @@ def JET_process():
         # folderpath = ('D:\\WEBDEV\\Platforma apps web\\Audit\\JET\\output')
         # folderpath = ('D:\\Python Projects\\JET\\JET\\dasdasdaoutput')
         folderpath = ('/home/auditappnexia/output/jet/')
-        file_pathFS = os.path.join(folderpath, "JET "+clientname1+" "+str(denis)+".xlsx")
+        file_pathFS = os.path.join(folderpath, "JET "+clientname1+" "+".xlsx")
         wb.save(file_pathFS)
-    return send_from_directory(folderpath, "JET "+clientname1+" "+str(denis)+".xlsx", as_attachment=True)
+    return send_from_directory(folderpath, "JET "+clientname1+" "+".xlsx", as_attachment=True)
     # return render_template('JET.html')
 
 # @app.route('/password')
