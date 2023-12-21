@@ -7235,55 +7235,55 @@ def FAR_process():
 		elif(val4==0 and val5==1):
 			template=openpyxl.load_workbook("/home/auditappnexia/output/otherfiles/Rev.xlsx",data_only=True)
 
-			REEV = template["FAR Reevaluation"]
-			# REEV.cell (row=10,column=10).value="aa"
-			for i in range(1, len(AccountFAR)+1):
-				REEV.cell(row=i+16, column=1).value='=LEFT(TRIM(B'+str(16+i)+'),3)'
-			for i in range(1, len(AccountFAR)+1):
-				REEV.cell(row=i+16, column=2).value=AccountFAR[i-1]
-			for i in range(1, len(ItemFAR)+1):
-				REEV.cell(row=i+16, column=3).value=ItemFAR[i-1]
-			for i in range(1, len(DescriptionFAR)+1):
-				REEV.cell(row=i+16, column=4).value=DescriptionFAR[i-1]
-			for i in range(1, len(AccountFAR)+1):
-				FARRR.cell(row=i+16, column=5).value='=YEAR(F'+str(16+i)+')'	
-			for i in range(1, len(PIFDate)+1):
-				REEV.cell(row=i+16, column=6).value=PIFDate[i-1]			
-			for i in range(1, len(UL)+1):
-				REEV.cell(row=i+16, column=8).value=UL[i-1]
-			for i in range(1, len(GBVFAR)+1):
-				REEV.cell(row=i+16, column=9).value=GBVFAR[i-1]
-			for i in range(1, len(AccDeprFAR)+1):
-				REEV.cell(row=i+16, column=10).value='=((YEAR(M'+str(16+i)+')-E'+str(16+i)+')*12+(12-MONTH(F'+str(16+i)+')))*I'+str(16+i)+'/H'+str(16+i)+''
-			for i in range(1, len(AccDeprFAR)+1):
-				REEV.cell(row=i+16, column=11).value='=I'+str(16+i)+'-J'+str(16+i)+''
+			# REEV = template["FAR Reevaluation"]
+			# # REEV.cell (row=10,column=10).value="aa"
+			# for i in range(1, len(AccountFAR)+1):
+			# 	REEV.cell(row=i+16, column=1).value='=LEFT(TRIM(B'+str(16+i)+'),3)'
+			# for i in range(1, len(AccountFAR)+1):
+			# 	REEV.cell(row=i+16, column=2).value=AccountFAR[i-1]
+			# for i in range(1, len(ItemFAR)+1):
+			# 	REEV.cell(row=i+16, column=3).value=ItemFAR[i-1]
+			# for i in range(1, len(DescriptionFAR)+1):
+			# 	REEV.cell(row=i+16, column=4).value=DescriptionFAR[i-1]
+			# for i in range(1, len(AccountFAR)+1):
+			# 	FARRR.cell(row=i+16, column=5).value='=YEAR(F'+str(16+i)+')'	
+			# for i in range(1, len(PIFDate)+1):
+			# 	REEV.cell(row=i+16, column=6).value=PIFDate[i-1]			
+			# for i in range(1, len(UL)+1):
+			# 	REEV.cell(row=i+16, column=8).value=UL[i-1]
+			# for i in range(1, len(GBVFAR)+1):
+			# 	REEV.cell(row=i+16, column=9).value=GBVFAR[i-1]
+			# for i in range(1, len(AccDeprFAR)+1):
+			# 	REEV.cell(row=i+16, column=10).value='=((YEAR(M'+str(16+i)+')-E'+str(16+i)+')*12+(12-MONTH(F'+str(16+i)+')))*I'+str(16+i)+'/H'+str(16+i)+''
+			# for i in range(1, len(AccDeprFAR)+1):
+			# 	REEV.cell(row=i+16, column=11).value='=I'+str(16+i)+'-J'+str(16+i)+''
 
 
 
-			for i in range(1, len(AccountFAR)+1):
-				REEV.cell(row=i+16, column=13).value=DateRevaluation[i-1]
-			for i in range(1, len(AccountFAR)+1):
-				REEV.cell(row=i+16, column=14).value=Method[i-1]
-			for i in range(1, len(AccountFAR)+1):
-				REEV.cell(row=i+16, column=15).value=ValueRevaluation[i-1]
-			for i in range(1, len(AccountFAR)+1):
-				REEV.cell(row=i+16, column=16).value='=O'+str(16+i)+'-K'+str(16+i)+''
-			for i in range(1, len(AccountFAR)+1):
-				REEV.cell(row=i+16, column=17).value='=H'+str(16+i)+'-DATEDIF(F'+str(16+i)+',M'+str(16+i)+',"m")'
-			for i in range(1, len(AccountFAR)+1):
-				REEV.cell(row=i+16, column=18).value='=Q'+str(16+i)+'-DATEDIF(M'+str(16+i)+',$M$14,"m")'
-			for i in range(1, len(AccountFAR)+1):
-				REEV.cell(row=i+16, column=19).value='=IF(YEAR($M$14)=YEAR(M'+str(16+i)+'),DATEDIF(M'+str(16+i)+',$M$14,"m"),12)'
-			for i in range(1, len(AccountFAR)+1):
-				REEV.cell(row=i+16, column=20).value='=(Q'+str(16+i)+'-R'+str(16+i)+')*O'+str(16+i)+'/Q'+str(16+i)+''	
-			for i in range(1, len(AccountFAR)+1):
-				REEV.cell(row=i+16, column=21).value='=O'+str(16+i)+'-T'+str(16+i)+''	
-			for i in range(1, len(AccountFAR)+1):
-				REEV.cell(row=i+16, column=22).value='=P'+str(16+i)+'/Q'+str(16+i)+''	
-			for i in range(1, len(AccountFAR)+1):
-				REEV.cell(row=i+16, column=23).value='=V'+str(16+i)+'*S'+str(16+i)+''	
-			for i in range(1, len(AccountFAR)+1):
-				REEV.cell(row=i+16, column=24).value='=V'+str(16+i)+'*(Q'+str(16+i)+'-R'+str(16+i)+')'							
+			# for i in range(1, len(AccountFAR)+1):
+			# 	REEV.cell(row=i+16, column=13).value=DateRevaluation[i-1]
+			# for i in range(1, len(AccountFAR)+1):
+			# 	REEV.cell(row=i+16, column=14).value=Method[i-1]
+			# for i in range(1, len(AccountFAR)+1):
+			# 	REEV.cell(row=i+16, column=15).value=ValueRevaluation[i-1]
+			# for i in range(1, len(AccountFAR)+1):
+			# 	REEV.cell(row=i+16, column=16).value='=O'+str(16+i)+'-K'+str(16+i)+''
+			# for i in range(1, len(AccountFAR)+1):
+			# 	REEV.cell(row=i+16, column=17).value='=H'+str(16+i)+'-DATEDIF(F'+str(16+i)+',M'+str(16+i)+',"m")'
+			# for i in range(1, len(AccountFAR)+1):
+			# 	REEV.cell(row=i+16, column=18).value='=Q'+str(16+i)+'-DATEDIF(M'+str(16+i)+',$M$14,"m")'
+			# for i in range(1, len(AccountFAR)+1):
+			# 	REEV.cell(row=i+16, column=19).value='=IF(YEAR($M$14)=YEAR(M'+str(16+i)+'),DATEDIF(M'+str(16+i)+',$M$14,"m"),12)'
+			# for i in range(1, len(AccountFAR)+1):
+			# 	REEV.cell(row=i+16, column=20).value='=(Q'+str(16+i)+'-R'+str(16+i)+')*O'+str(16+i)+'/Q'+str(16+i)+''	
+			# for i in range(1, len(AccountFAR)+1):
+			# 	REEV.cell(row=i+16, column=21).value='=O'+str(16+i)+'-T'+str(16+i)+''	
+			# for i in range(1, len(AccountFAR)+1):
+			# 	REEV.cell(row=i+16, column=22).value='=P'+str(16+i)+'/Q'+str(16+i)+''	
+			# for i in range(1, len(AccountFAR)+1):
+			# 	REEV.cell(row=i+16, column=23).value='=V'+str(16+i)+'*S'+str(16+i)+''	
+			# for i in range(1, len(AccountFAR)+1):
+			# 	REEV.cell(row=i+16, column=24).value='=V'+str(16+i)+'*(Q'+str(16+i)+'-R'+str(16+i)+')'							
 		elif(val4==1 and val5==1):
 			template=openpyxl.load_workbook("/home/auditappnexia/output/otherfiles/Template FA cap&reev.xlsx",data_only=True)
 			FARRR = template["FAR Capitalization"]
