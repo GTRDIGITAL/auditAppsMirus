@@ -7253,7 +7253,7 @@ def FAR_process():
 			for i in range(1, len(DescriptionFAR)+1):
 				REEV.cell(row=i+16, column=4).value=DescriptionFAR[i-1]
 			for i in range(1, len(AccountFAR)+1):
-				FARRR.cell(row=i+16, column=5).value='=YEAR(F'+str(16+i)+')'	
+				REEV.cell(row=i+16, column=5).value='=YEAR(F'+str(16+i)+')'	
 			for i in range(1, len(PIFDate)+1):
 				REEV.cell(row=i+16, column=6).value=PIFDate[i-1]			
 			for i in range(1, len(UL)+1):
@@ -7397,7 +7397,7 @@ def FAR_process():
 			for i in range(1, len(DescriptionFAR)+1):
 				REEV.cell(row=i+16, column=4).value=DescriptionFAR[i-1]
 			for i in range(1, len(AccountFAR)+1):
-				FARRR.cell(row=i+16, column=5).value='=YEAR(F'+str(16+i)+')'	
+				REEV.cell(row=i+16, column=5).value='=YEAR(F'+str(16+i)+')'	
 			for i in range(1, len(PIFDate)+1):
 				REEV.cell(row=i+16, column=6).value=PIFDate[i-1]			
 			for i in range(1, len(UL)+1):
