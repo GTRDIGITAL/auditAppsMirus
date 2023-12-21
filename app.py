@@ -7157,48 +7157,54 @@ def FAR_process():
 
 			# FARRR.cell (row=10,column=10).value="aa"
 			for i in range(1, len(AccountFAR)+1):
+				FARRR.cell(row=i+16, column=1).value='=LEFT(TRIM(B'+str(16+i)+'),3)'	
+			for i in range(1, len(AccountFAR)+1):
 				FARRR.cell(row=i+16, column=2).value=AccountFAR[i-1]
 			for i in range(1, len(ItemFAR)+1):
 				FARRR.cell(row=i+16, column=3).value=ItemFAR[i-1]
 			for i in range(1, len(DescriptionFAR)+1):
 				FARRR.cell(row=i+16, column=4).value=DescriptionFAR[i-1]
+			for i in range(1, len(AccountFAR)+1):
+				FARRR.cell(row=i+16, column=5).value='=YEAR(F'+str(16+i)+')'	
+			for i in range(1, len(PIFDate)+1):
+				FARRR.cell(row=i+16, column=6).value=PIFDate[i-1]		
 			for i in range(1, len(UL)+1):
 				FARRR.cell(row=i+16, column=8).value=UL[i-1]
-			for i in range(1, len(PIFDate)+1):
-				FARRR.cell(row=i+16, column=6).value=PIFDate[i-1]
 			for i in range(1, len(GBVFAR)+1):
 				FARRR.cell(row=i+16, column=9).value=GBVFAR[i-1]
-			for i in range(1, len(AccDeprFAR)+1):
-				FARRR.cell(row=i+16, column=11).value=AccDeprFAR[i-1]
 			for i in range(1, len(ChargeFAR)+1):
 				FARRR.cell(row=i+16, column=10).value=ChargeFAR[i-1]
-			for i in range(1, len(AccountFAR)+1):
-				FARRR.cell(row=i+16, column=1).value='=LEFT(TRIM(B'+str(16+i)+'),3)'
-			for i in range(1, len(AccountFAR)+1):
-				FARRR.cell(row=i+16, column=5).value='=YEAR(F'+str(16+i)+')'
-			for i in range(1, len(Costcap)+1):
-				FARRR.cell(row=i+16, column=13).value=Costcap[i-1]
+			for i in range(1, len(AccDeprFAR)+1):
+				FARRR.cell(row=i+16, column=11).value=AccDeprFAR[i-1]
+
+			for i in range(1, len(CostCap)+1):
+				FARRR.cell(row=i+16, column=13).value=CostCap[i-1]
 
 
 
-			for i in range(1, len(AccountFAR)+1):
-				FARRR.cell(row=i+16, column=16).value='=H'+str(16+i)+''
-			for i in range(1, len(DateCapitalization)+1):
-				FARRR.cell(row=i+16, column=15).value=DateCapitalization[i-1]
+
+
 			for i in range(1, len(ValueCapitalization)+1):
-				FARRR.cell(row=i+16, column=14).value=ValueCapitalization[i-1]
+				FARRR.cell(row=i+16, column=14).value=ValueCapitalization[i-1]		
+			for i in range(1, len(DateCapitalization)+1):
+				FARRR.cell(row=i+16, column=15).value=DateCapitalization[i-1]	
 			for i in range(1, len(AccountFAR)+1):
-				FARRR.cell(row=i+16, column=22).value='=IF(YEAR(O'+str(16+i)+')=YEAR($M$'+str(16+i)+'),DATEDIF(O'+str(16+i)+',$M$'+str(16+i)+',"m"),12)'
+				FARRR.cell(row=i+16, column=16).value='=H'+str(16+i)+''		
 			for i in range(1, len(AccountFAR)+1):
-				FARRR.cell(row=i+16, column=21).value='=DATEDIF(F'+str(16+i)+',$M$'+str(16+i)+',"m")'
+				FARRR.cell(row=i+16, column=17).value='=P'+str(16+i)+'-W'+str(16+i)+''		
 			for i in range(1, len(AccountFAR)+1):
-				FARRR.cell(row=i+16, column=20).value='=DATEDIF(IF(MAX(R'+str(16+i)+',$M$'+str(16+i)+')>$M$'+str(16+i)+'+1,$M$'+str(16+i)+'+1,MAX(R'+str(16+i)+',$M$'+str(16+i)+')),MAX($M$'+str(16+i)+',MIN($M$'+str(16+i)+'+1,S'+str(16+i)+')),"m")'
+				FARRR.cell(row=i+16, column=18).value='=DATE(YEAR(F'+str(16+i)+'),MONTH(F'+str(16+i)+')+1,1)'	
 			for i in range(1, len(AccountFAR)+1):
 				FARRR.cell(row=i+16, column=19).value='=IF(MID(A'+str(16+i)+',4,1)="D",MIN(G'+str(16+i)+',DATE(YEAR(R'+str(16+i)+'),MONTH(R'+str(16+i)+')+P'+str(16+i)+',DAY(R'+str(16+i)+'))),(DATE(YEAR(R'+str(16+i)+'),MONTH(R'+str(16+i)+')+P'+str(16+i)+',1)))'
 			for i in range(1, len(AccountFAR)+1):
-				FARRR.cell(row=i+16, column=18).value='=DATE(YEAR(F'+str(16+i)+'),MONTH(F'+str(16+i)+')+1,1)'
+				FARRR.cell(row=i+16, column=20).value='=DATEDIF(IF(MAX(R'+str(16+i)+',$M$'+str(16+i)+')>$M$'+str(16+i)+'+1,$M$'+str(16+i)+'+1,MAX(R'+str(16+i)+',$M$'+str(16+i)+')),MAX($M$'+str(16+i)+',MIN($M$'+str(16+i)+'+1,S'+str(16+i)+')),"m")'
 			for i in range(1, len(AccountFAR)+1):
-				FARRR.cell(row=i+16, column=17).value='=P'+str(16+i)+'-W'+str(16+i)+''
+				FARRR.cell(row=i+16, column=21).value='=DATEDIF(F'+str(16+i)+',$M$'+str(16+i)+',"m")'
+			for i in range(1, len(AccountFAR)+1):
+				FARRR.cell(row=i+16, column=22).value='=IF(YEAR(O'+str(16+i)+')=YEAR($M$'+str(16+i)+'),DATEDIF(O'+str(16+i)+',$M$'+str(16+i)+',"m"),12)'
+
+
+
 			for i in range(1, len(AccountFAR)+1):
 				FARRR.cell(row=i+16, column=23).value='=DATEDIF(F'+str(16+i)+',O'+str(16+i)+',"m")'
 			for i in range(1, len(AccountFAR)+1):
