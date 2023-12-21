@@ -7240,7 +7240,9 @@ def FAR_process():
 			REEV.cell(row=15, column=13).number_format='mm/dd/yyyy'
 			REEV.cell(row=14, column=13).value=yearentry
 			REEV.cell(row=14, column=13).number_format='mm/dd/yyyy'
-
+			REEV.cell(row=14, column=9).value='=SUM(I17:I1000)'
+			REEV.cell(row=14, column=10).value='=SUM(J17:J1000)'
+			REEV.cell(row=14, column=11).value='=SUM(K17:K1000)'
 			# REEV.cell (row=10,column=10).value="aa"
 			for i in range(1, len(AccountFAR)+1):
 				REEV.cell(row=i+16, column=1).value='=LEFT(TRIM(B'+str(16+i)+'),3)'
@@ -7377,7 +7379,10 @@ def FAR_process():
 			
 			
 			
-			REEV = template["FAR Reevaluation"]			
+			REEV = template["FAR Reevaluation"]		
+			REEV.cell(row=14, column=9).value='=SUM(I17:I1000)'
+			REEV.cell(row=14, column=10).value='=SUM(J17:J1000)'
+			REEV.cell(row=14, column=11).value='=SUM(K17:K1000)'	
 			REEV.cell(row=15, column=13).value=postdate
 			REEV.cell(row=15, column=13).number_format='mm/dd/yyyy'
 			REEV.cell(row=14, column=13).value=yearentry
