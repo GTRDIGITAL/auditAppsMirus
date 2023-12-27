@@ -20654,6 +20654,14 @@ def FS_process():
 	year= request.form['year']
 	dropdownlimba = request.form.get('limba')
 	dropdownfroma = request.form.get('forma')
+	val1 = request.form.get('XMLADD')
+	filez = request.files.getlist('xml')
+	print(filez,"askdjhaghcasaqbwduhajisdoucygaudscj")
+
+	if val1=="":
+		val1=1
+	else:
+		val1=0
 
 	if str(dropdownlimba)=="Romana(RO)":
 		option=1
@@ -20667,7 +20675,7 @@ def FS_process():
 
 
 	folderpath="/home/auditappnexia/output/FS"
-	# folderpath="D:\\FSFinal\\FSBotMirus"
+	# folderpath="D:/MirusFSRO/FSBotMirus"
 
 	if request.method == 'POST':
 
@@ -20677,6 +20685,7 @@ def FS_process():
 							fill_type='solid')
 		grifill=PatternFill(start_color='c4d79b',end_color='c4d79b',fill_type='solid')
 		yellow=PatternFill(start_color='ffff00',end_color='ffff00',fill_type='solid')
+		red=PatternFill(start_color='ff0000',end_color='ff0000',fill_type='solid')
 		blueFill = PatternFill(start_color='00AEAC',
 							end_color='00AEAC',
 							fill_type='solid')
@@ -20728,7 +20737,156 @@ def FS_process():
 			# PBC_CY=mapping.create_sheet("TB_PBC")
 			test=mapping["Trial Balance"]
 			test2=mapping["Check if manual ADJE"]
-
+			if(val1==1):
+ 
+				fisiere=list(filez)
+	 
+				y=0
+				start="/"
+				print("==================================================aiiiiiciiiiii se lucreazaaaaaa============================")
+	 
+				for z in range(0, len(fisiere)):
+					xmlx=fisiere[z]
+					tree=ET.parse(xmlx)
+					root=tree.getroot()
+	 
+					output=mapping["1. F10"]
+					for row in output.iter_rows():
+					    for cell in row:
+					        if cell.value=="Code OB":
+					            codOB=cell.column
+					            codrOB=cell.row
+	 
+					for row in output.iter_rows():
+					    for cell in row:
+					        if cell.value=="Code CB":
+					            codCB=cell.column
+	 
+					for row in output.iter_rows():
+					    for cell in row:
+					        if cell.value=="Signed FS PY":
+					            colOB=cell.column
+	 
+					for row in output.iter_rows():
+	 
+					    for cell in row:
+					        if cell.value=="Amount CB":
+					            colCB=cell.column
+	 
+	 
+					# try:
+					luntb=len(output[codOB])
+					# except:
+					#     messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Code OB'")
+					#     sys.exit()
+					# try:
+					lcodob=[b.value for b in output[codOB][codrOB:luntb]]
+					# except:
+					#     messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Account'")
+					#     sys.exit()
+	 
+					# try:
+					lcodcb=[b.value for b in output[codCB][codrOB:luntb]]
+					# except:
+					#     messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Description'")
+					#     sys.exit()
+					# try:
+					lamob=[b.value for b in output[colOB][codrOB:luntb]]
+					# except:
+					#     messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Sold Initial Debit'")
+					#     sys.exit()
+	 
+					# try:
+					lamcb=[b.value for b in output[colCB][codrOB:luntb]]
+					# except:
+					#     messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Sold Initial Debit'")
+					#     sys.exit()
+	 
+					for i in range(0,len(lcodob)):
+						for child in root:
+							if("F10" in child.tag):
+								try:
+									output.cell(row=i+12,column=12).value=int(child.attrib[str(lcodob[i])])
+								except:
+									print("None")
+	 
+	 
+					for i in range(0,len(lcodcb)):
+						for child in root:
+							if("F10" in child.tag):
+								try:
+									output.cell(row=i+12,column=13).value=int(child.attrib[str(lcodcb[i])])
+								except:
+									print("None")
+	 
+					output2=mapping["2. F20"]
+					for row in output2.iter_rows():
+					    for cell in row:
+					        if cell.value=="Code OB":
+					            codOB=cell.column
+					            codrOB=cell.row
+	 
+					for row in output2.iter_rows():
+					    for cell in row:
+					        if cell.value=="Code CB":
+					            codCB=cell.column
+	 
+					for row in output2.iter_rows():
+					    for cell in row:
+					        if cell.value=="Signed FS PY":
+					            colOB=cell.column
+	 
+					for row in output2.iter_rows():
+	 
+					    for cell in row:
+					        if cell.value=="Amount CB":
+					            colCB=cell.column
+	 
+	 
+					# try:
+					luntb=len(output2[codOB])
+					# except:
+					#     messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Code OB'")
+					#     sys.exit()
+					# try:
+					plcodob=[b.value for b in output2[codOB][codrOB:luntb]]
+					# except:
+					#     messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Account'")
+					#     sys.exit()
+	 
+					# try:
+					plcodcb=[b.value for b in output2[codCB][codrOB:luntb]]
+					# except:
+					#     messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Description'")
+					#     sys.exit()
+					# try:
+					plamob=[b.value for b in output2[colOB][codrOB:luntb]]
+					# except:
+					#     messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Sold Initial Debit'")
+					#     sys.exit()
+	 
+					# try:
+					plamcb=[b.value for b in output2[colCB][codrOB:luntb]]
+					# except:
+					#     messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Sold Initial Debit'")
+					#     sys.exit()
+	 
+					for i in range(0,len(plcodob)):
+						for child in root:
+							if("F20" in child.tag):
+								try:
+									output2.cell(row=i+12,column=13).value=int(child.attrib[str(plcodob[i])])
+								except:
+									print("None")
+	 
+	 
+					for i in range(0,len(plcodcb)):
+						for child in root:
+							if("F20" in child.tag):
+								try:
+									output2.cell(row=i+12,column=14).value=int(child.attrib[str(plcodcb[i])])
+								except:
+									print("None")
 
 			for row in TBCY1.iter_rows():
 					for cell in row:
@@ -20862,9 +21020,13 @@ def FS_process():
 			for i in range(1,len(Account)+1):
 				test.cell(row=i+14,column=20).value="=_xlfn.IF(B"+str(14+i)+"<6,IFERROR(VLOOKUP(E"+str(14+i)+",'BS Mapping std'!A:G,7,0),VLOOKUP(D"+str(14+i)+",'BS Mapping std'!A:G,7,0)),IFERROR(VLOOKUP(E"+str(14+i)+",'PL mapping Std'!A:E,5,0),VLOOKUP(D"+str(14+i)+",'PL mapping Std'!A:E,5,0)))"
 			for i in range(1,len(Account)+1):
-				test.cell(row=i+14,column=22).value='''=IF(IF(A{0}="BS",IFERROR(VLOOKUP(TRIM($E{0}),'BS Mapping std'!$A:$H,4,0),VLOOKUP(TRIM($D{0}),'BS Mapping std'!$A:$H,4,0)),IFERROR(VLOOKUP(TRIM($E{0}),'PL mapping Std'!$A:$H,8,0),VLOOKUP(TRIM($D{0}),'PL mapping Std'!$A:$H,8,0)))=0,"",IF(A{0}="BS",IFERROR(VLOOKUP(TRIM($E{0}),'BS Mapping std'!$A:$H,4,0),VLOOKUP(TRIM($D{0}),'BS Mapping std'!$A:$H,4,0)),IFERROR(VLOOKUP(TRIM($E{0}),'PL mapping Std'!$A:$H,8,0),VLOOKUP(TRIM($D{0}),'PL mapping Std'!$A:$H,8,0))))'''.format(i+14)
+				test.cell(row=i+14,column=22).value='''=IF(IF(A{0}="BS",IFERROR(VLOOKUP(TRIM($E{0}),'BS Mapping std'!$A:$J,10,0),VLOOKUP(TRIM($D{0}),'BS Mapping std'!$A:$J,10,0)),IFERROR(VLOOKUP(TRIM($E{0}),'PL mapping Std'!$A:$F,6,0),VLOOKUP(TRIM($D{0}),'PL mapping Std'!$A:$F,6,0)))=0,"",IF(A{0}="BS",IFERROR(VLOOKUP(TRIM($E{0}),'BS Mapping std'!$A:$J,10,0),VLOOKUP(TRIM($D{0}),'BS Mapping std'!$A:$J,10,0)),IFERROR(VLOOKUP(TRIM($E{0}),'PL mapping Std'!$A:$F,6,0),VLOOKUP(TRIM($D{0}),'PL mapping Std'!$A:$F,6,0))))'''.format(i+14)
 			for i in range(1,len(Account)+1):
 				test.cell(row=i+14,column=23).value="=_xlfn.IFERROR(VLOOKUP(E"+str(14+i)+",'F30 mapping'!A:D,4,0),VLOOKUP(D"+str(14+i)+",'F30 mapping'!A:D,4,0))"
+			for i in range(1,len(Account)+1):
+				test.cell(row=i+14,column=24).value="=IF(B"+str(14+i)+"<6,IFERROR(VLOOKUP(E"+str(14+i)+",'BS Mapping std'!A:M,13,0),VLOOKUP(D"+str(14+i)+",'BS Mapping std'!A:M,13,0)),0)"
+			for i in range(1,len(Account)+1):
+				test.cell(row=i+14,column=25).value="=IF(B"+str(14+i)+"<6,IFERROR(VLOOKUP(E"+str(14+i)+",'BS Mapping std'!A:N,14,0),VLOOKUP(D"+str(14+i)+",'BS Mapping std'!A:N,14,0)),0)"
 
 			# for i in range(len(Account)+1,800):
 			# 	test.cell(row=i+14,column=14).value=""
@@ -20887,6 +21049,11 @@ def FS_process():
 			test.cell(row=5,column=2).value=typeOfCompany
 			test.cell(row=6,column=2).value=mainActivity
 			test.cell(row=7,column=2).value=year
+
+			# test2.cell(row=10,column=7).value="Check Acc 641 with number of employees"
+			# test2.cell(row=10,column=7).font=fontRed
+			# test2.cell(row=10,column=8).value='''=IF(SUMIF(D:D,641,J:J)>0,IF(OR('3. F30'!F44,'3. F30'!F45=""),"Please, fill F30 ",0),"OK")'''
+			# test2.cell(row=10,column=8).font=fontRed
 
 			listaMapare=['161','1614','1615','1617','1618','1621','1622','1624','1625','1627','1623','1626','1661','1663','2671','2672','2673','2674','2675','2676','2677','2678','2679','308','348E','348','368','378','388','4428','445','4451','4452','4458','446','4482','4481','4511','4518','4531','4538','456','456','471','472','473','4751','4752','4753','4754','4758','481','482','581']
 			listaBalanta=list(set(Account))
@@ -20963,6 +21130,159 @@ def FS_process():
 			else:
 				mapping=openpyxl.load_workbook('/home/auditappnexia/exceltemp/Template FS RO.xlsx')
 				# mapping=openpyxl.load_workbook('C:\\Users\\denis.david\\Training materials\\Template FS RO.xlsx')
+
+
+
+			if(val1==1):
+ 
+				fisiere=list(filez)
+	 
+				y=0
+				start="/"
+				print("==================================================aiiiiiciiiiii se lucreazaaaaaa============================")
+	 
+				for z in range(0, len(fisiere)):
+					xmlx=fisiere[z]
+					tree=ET.parse(xmlx)
+					root=tree.getroot()
+	 
+					output=mapping["1. F10"]
+					for row in output.iter_rows():
+					    for cell in row:
+					        if cell.value=="Code OB":
+					            codOB=cell.column
+					            codrOB=cell.row
+	 
+					for row in output.iter_rows():
+					    for cell in row:
+					        if cell.value=="Code CB":
+					            codCB=cell.column
+	 
+					for row in output.iter_rows():
+					    for cell in row:
+					        if cell.value=="Amount OB":
+					            colOB=cell.column
+	 
+					for row in output.iter_rows():
+	 
+					    for cell in row:
+					        if cell.value=="Amount CB":
+					            colCB=cell.column
+	 
+	 
+					# try:
+					luntb=len(output[codOB])
+					# except:
+					#     messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Code OB'")
+					#     sys.exit()
+					# try:
+					lcodob=[b.value for b in output[codOB][codrOB:luntb]]
+					# except:
+					#     messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Account'")
+					#     sys.exit()
+	 
+					# try:
+					lcodcb=[b.value for b in output[codCB][codrOB:luntb]]
+					# except:
+					#     messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Description'")
+					#     sys.exit()
+					# try:
+					lamob=[b.value for b in output[colOB][codrOB:luntb]]
+					# except:
+					#     messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Sold Initial Debit'")
+					#     sys.exit()
+	 
+					# try:
+					lamcb=[b.value for b in output[colCB][codrOB:luntb]]
+					# except:
+					#     messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Sold Initial Debit'")
+					#     sys.exit()
+	 
+					for i in range(0,len(lcodob)):
+						for child in root:
+							if("F10" in child.tag):
+								try:
+									output.cell(row=i+12,column=13).value=int(child.attrib[str(lcodob[i])])
+								except:
+									print("None")
+	 
+	 
+					for i in range(0,len(lcodcb)):
+						for child in root:
+							if("F10" in child.tag):
+								try:
+									output.cell(row=i+12,column=14).value=int(child.attrib[str(lcodcb[i])])
+								except:
+									print("None")
+	 
+					output2=mapping["2. F20"]
+					for row in output2.iter_rows():
+					    for cell in row:
+					        if cell.value=="Code OB":
+					            codOB=cell.column
+					            codrOB=cell.row
+	 
+					for row in output2.iter_rows():
+					    for cell in row:
+					        if cell.value=="Code CB":
+					            codCB=cell.column
+	 
+					for row in output2.iter_rows():
+					    for cell in row:
+					        if cell.value=="Amount OB":
+					            colOB=cell.column
+	 
+					for row in output2.iter_rows():
+	 
+					    for cell in row:
+					        if cell.value=="Amount CB":
+					            colCB=cell.column
+	 
+	 
+					# try:
+					luntb=len(output2[codOB])
+					# except:
+					#     messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Code OB'")
+					#     sys.exit()
+					# try:
+					plcodob=[b.value for b in output2[codOB][codrOB:luntb]]
+					# except:
+					#     messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Account'")
+					#     sys.exit()
+	 
+					# try:
+					plcodcb=[b.value for b in output2[codCB][codrOB:luntb]]
+					# except:
+					#     messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Description'")
+					#     sys.exit()
+					# try:
+					plamob=[b.value for b in output2[colOB][codrOB:luntb]]
+					# except:
+					#     messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Sold Initial Debit'")
+					#     sys.exit()
+	 
+					# try:
+					plamcb=[b.value for b in output2[colCB][codrOB:luntb]]
+					# except:
+					#     messagebox.showerror("Error", "File: Trial Balance. Please insert the correct header for 'Sold Initial Debit'")
+					#     sys.exit()
+	 
+					for i in range(0,len(plcodob)):
+						for child in root:
+							if("F20" in child.tag):
+								try:
+									output2.cell(row=i+12,column=11).value=int(child.attrib[str(plcodob[i])])
+								except:
+									print("None")
+	 
+	 
+					for i in range(0,len(plcodcb)):
+						for child in root:
+							if("F20" in child.tag):
+								try:
+									output2.cell(row=i+12,column=12).value=int(child.attrib[str(plcodcb[i])])
+								except:
+									print("None")
 			ws=mapping.active		
 			TBCY = openpyxl.load_workbook(triald)
 			TBCY1 = TBCY.active
@@ -21055,7 +21375,7 @@ def FS_process():
 				return render_template("index.html")
 
 			for i in range(1, len(Account)+1):
-				test.cell(row=i+14, column=6).value=str(Account[i-1])
+				test.cell(row=i+14, column=6).value=Account[i-1]
 
 			for i in range (1, len(Description)+1):
 				test.cell(row=i+14, column=7).value= Description[i-1]
@@ -21103,9 +21423,13 @@ def FS_process():
 			for i in range(1,len(Account)+1):
 				test.cell(row=i+14,column=20).value="=_xlfn.IF(B"+str(14+i)+"<6,IFERROR(VLOOKUP(E"+str(14+i)+",'BS Mapping std'!A:F,6,0),VLOOKUP(D"+str(14+i)+",'BS Mapping std'!A:F,6,0)),IFERROR(VLOOKUP(E"+str(14+i)+",'PL mapping Std'!A:G,7,0),VLOOKUP(D"+str(14+i)+",'PL mapping Std'!A:G,7,0)))"
 			for i in range(1,len(Account)+1):
-				test.cell(row=i+14,column=22).value='''=IF(IF(A{0}="BS",IFERROR(VLOOKUP(TRIM($E{0}),'BS Mapping std'!$A:$H,4,0),VLOOKUP(TRIM($D{0}),'BS Mapping std'!$A:$H,4,0)),IFERROR(VLOOKUP(TRIM($E{0}),'PL mapping Std'!$A:$H,8,0),VLOOKUP(TRIM($D{0}),'PL mapping Std'!$A:$H,8,0)))=0,"",IF(A{0}="BS",IFERROR(VLOOKUP(TRIM($E{0}),'BS Mapping std'!$A:$H,4,0),VLOOKUP(TRIM($D{0}),'BS Mapping std'!$A:$H,4,0)),IFERROR(VLOOKUP(TRIM($E{0}),'PL mapping Std'!$A:$H,8,0),VLOOKUP(TRIM($D{0}),'PL mapping Std'!$A:$H,8,0))))'''.format(i+14)
+				test.cell(row=i+14,column=22).value='''=IF(IF(A{0}="BS",IFERROR(VLOOKUP(TRIM($E{0}),'BS Mapping std'!$A:$H,8,0),VLOOKUP(TRIM($D{0}),'BS Mapping std'!$A:$H,8,0)),IFERROR(VLOOKUP(TRIM($E{0}),'PL mapping Std'!$A:$E,5,0),VLOOKUP(TRIM($D{0}),'PL mapping Std'!$A:$E,5,0)))=0,"",IF(A{0}="BS",IFERROR(VLOOKUP(TRIM($E{0}),'BS Mapping std'!$A:$H,8,0),VLOOKUP(TRIM($D{0}),'BS Mapping std'!$A:$H,8,0)),IFERROR(VLOOKUP(TRIM($E{0}),'PL mapping Std'!$A:$E,5,0),VLOOKUP(TRIM($D{0}),'PL mapping Std'!$A:$E,5,0))))'''.format(i+14)
 			for i in range(1,len(Account)+1):
 				test.cell(row=i+14,column=23).value="=_xlfn.IFERROR(VLOOKUP(E"+str(14+i)+",'F30 mapping'!A:D,4,0),VLOOKUP(D"+str(14+i)+",'F30 mapping'!A:D,4,0))"
+			for i in range(1,len(Account)+1):
+				test.cell(row=i+14,column=24).value="=IF(B"+str(14+i)+"<6,IFERROR(VLOOKUP(E"+str(14+i)+",'BS Mapping std'!A:M,13,0),VLOOKUP(D"+str(14+i)+",'BS Mapping std'!A:M,13,0)),0)"
+			for i in range(1,len(Account)+1):
+				test.cell(row=i+14,column=25).value="=IF(B"+str(14+i)+"<6,IFERROR(VLOOKUP(E"+str(14+i)+",'BS Mapping std'!A:N,14,0),VLOOKUP(D"+str(14+i)+",'BS Mapping std'!A:N,14,0)),0)"
 
 			# for i in range(len(Account)+1,800):
 			# 	test.cell(row=i+14,column=14).value=""
@@ -21128,6 +21452,11 @@ def FS_process():
 			test.cell(row=5,column=2).value=typeOfCompany
 			test.cell(row=6,column=2).value=mainActivity
 			test.cell(row=7,column=2).value=year
+
+			# test2.cell(row=10,column=7).value="Check Acc 641 with number of employees"
+			# test2.cell(row=10,column=7).font=fontRed
+			# test2.cell(row=10,column=8).value='''=IF(SUMIF(D:D,641,J:J)>0,IF(OR('3. F30'!D47,'3. F30'!D48=""),"Please, fill F30 ",0),"OK")'''
+			# test2.cell(row=10,column=8).font=fontRed
 
 			listaMapare=['161','1614','1615','1617','1618','1621','1622','1624','1625','1627','1623','1626','1661','1663','2671','2672','2673','2674','2675','2676','2677','2678','2679','308','348E','348','368','378','388','4428','445','4451','4452','4458','446','4482','4481','4511','4518','4531','4538','456','456','471','472','473','4751','4752','4753','4754','4758','481','482','581']
 			listaBalanta=list(set(Account))
@@ -21194,7 +21523,6 @@ def FS_process():
 			n15pers.print_area="A10:C27"
 			n16opex.print_area="A10:C30"
 			mapping.save(str(folderpath)+"/Financial Statements-"+str(company)+".xlsx")
-			print("aaa")
 	return send_from_directory(folderpath,"Financial Statements-"+str(company)+".xlsx",as_attachment=True)
 
 
