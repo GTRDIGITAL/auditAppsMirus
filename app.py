@@ -7149,9 +7149,9 @@ def FAR_process():
 		if( val4==1 and val5==0):
 			template=openpyxl.load_workbook("/home/auditappnexia/output/otherfiles/FAR cu capitalizari - updated GT.xlsx",data_only=True)
 			FARRR = template["FAR Capitalization"]
-			FARRR.cell(row=15, column=13).value=postdate
+			FARRR.cell(row=15, column=13).value=yearentry
 			FARRR.cell(row=15, column=13).number_format='mm/dd/yyyy'
-			FARRR.cell(row=14, column=13).value=yearentry
+			FARRR.cell(row=14, column=13).value=postdate
 			FARRR.cell(row=14, column=13).number_format='mm/dd/yyyy'
 			FARRR.cell(row=14, column=9).value='=SUM(I17:I1000)'
 			FARRR.cell(row=14, column=10).value='=SUM(J17:J1000)'
@@ -7236,9 +7236,9 @@ def FAR_process():
 			template=openpyxl.load_workbook("/home/auditappnexia/output/otherfiles/FAR cu reevaluari - updated GT.xlsx",data_only=True)
 
 			REEV = template["FAR Reevaluation"]
-			REEV.cell(row=15, column=13).value=postdate
+			REEV.cell(row=15, column=13).value=yearentry
 			REEV.cell(row=15, column=13).number_format='mm/dd/yyyy'
-			REEV.cell(row=14, column=13).value=yearentry
+			REEV.cell(row=14, column=13).value=postdate
 			REEV.cell(row=14, column=13).number_format='mm/dd/yyyy'
 			REEV.cell(row=13, column=9).value='=SUM(I17:I1000)'
 			REEV.cell(row=13, column=10).value='=SUM(J17:J1000)'
@@ -7297,9 +7297,9 @@ def FAR_process():
 		elif(val4==1 and val5==1):
 			template=openpyxl.load_workbook("/home/auditappnexia/output/otherfiles/Cap+rev.xlsx",data_only=True)
 			FARRR = template["FAR Capitalization"]
-			FARRR.cell(row=15, column=13).value=postdate
+			FARRR.cell(row=15, column=13).value=yearentry
 			FARRR.cell(row=15, column=13).number_format='mm/dd/yyyy'
-			FARRR.cell(row=14, column=13).value=yearentry
+			FARRR.cell(row=14, column=13).value=postdate
 			FARRR.cell(row=14, column=13).number_format='mm/dd/yyyy'
 			FARRR.cell(row=14, column=9).value='=SUM(I17:I1000)'
 			FARRR.cell(row=14, column=10).value='=SUM(J17:J1000)'
@@ -7380,9 +7380,9 @@ def FAR_process():
 
 
 			REEV = template["FAR Reevaluation"]
-			REEV.cell(row=15, column=13).value=postdate
+			REEV.cell(row=15, column=13).value=yearentry
 			REEV.cell(row=15, column=13).number_format='mm/dd/yyyy'
-			REEV.cell(row=14, column=13).value=yearentry
+			REEV.cell(row=14, column=13).value=postdate
 			REEV.cell(row=14, column=13).number_format='mm/dd/yyyy'
 			REEV.cell(row=13, column=9).value='=SUM(I17:I1000)'
 			REEV.cell(row=13, column=10).value='=SUM(J17:J1000)'
