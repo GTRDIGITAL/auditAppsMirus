@@ -8462,8 +8462,9 @@ def FAR_process():
 
 			G100FAR.sheet_view.showGridLines = False
 
-		if(val2==1):
+		if(val2==1 and val4==0):
 			  G20=template.create_sheet("Depr Recomp")
+
 
 
 			  G20.column_dimensions['A'].width=15
